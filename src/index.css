@@ -1,0 +1,117 @@
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.animation-from-right {
+  animation: moveFromRight 1s ease-in-out;
+}
+
+@keyframes moveFromRight {
+  0% {
+    transform: translateX(300px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+.animation-from-left {
+  animation: moveFromLeft 1s ease-in-out;
+
+}
+
+.container {
+  padding: 0 2rem;
+}
+
+@keyframes moveFromLeft {
+  0% {
+    transform: translateX(-300px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.flex-3 {
+  flex: 3;
+}
+
+.flex-4 {
+  flex: 4;
+}
+
+.f-5 {
+  flex: 5;
+}
+
+.f-6 {
+  flex: 6;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.hover-link:hover {
+  opacity: .6;
+}
+
+.bg-message-customer {
+  background: #48b0f7;
+}
+
+.bg-message-admin {
+  background: #e5e7e9;
+}
+
+.font-size-14px {
+  font-size: 14px;
+}
+
+.font-size-16px {
+  font-size: 16px;
+}
+
+.warning-message {
+  color: #ff0000b5;
+}
+
+.icon-warning {
+  color: #ff0000b5;
+}
+
+.active-category {
+  color: rgb(224, 177, 90);
+}
+
+.break-word {
+  word-break: break-word;
+}
