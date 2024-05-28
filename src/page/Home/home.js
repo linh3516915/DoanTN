@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Banner from "../../component/Banner/Banner";
 import OtherInfo from "../../component/Otherinfo/OtherInfo";
 import ProductHomePage from "../../component/Product/producthomepage";
