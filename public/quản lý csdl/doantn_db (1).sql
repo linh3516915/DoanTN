@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 28, 2024 lúc 11:07 AM
+-- Thời gian đã tạo: Th5 28, 2024 lúc 12:11 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -91,6 +91,7 @@ CREATE TABLE `chi_tiet_san_pham` (
   `san_pham_id` int(11) NOT NULL,
   `dung_luong_id` int(11) NOT NULL,
   `mau_sac_id` int(11) NOT NULL,
+  `ram_id` int(11) NOT NULL,
   `so_luong` int(11) NOT NULL,
   `gia` int(11) NOT NULL,
   `created_at` date NOT NULL,
@@ -640,7 +641,7 @@ ALTER TABLE `hinh_anh`
 -- Các ràng buộc cho bảng `ram`
 --
 ALTER TABLE `ram`
-  ADD CONSTRAINT `fk_sp` FOREIGN KEY (`san_pham_id`) REFERENCES `san_pham` (`id`);
+  ADD CONSTRAINT `ram_ibfk_1` FOREIGN KEY (`id`) REFERENCES `chi_tiet_san_pham` (`mau_sac_id`);
 
 --
 -- Các ràng buộc cho bảng `san_pham`
