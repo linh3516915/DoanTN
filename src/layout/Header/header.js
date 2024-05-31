@@ -2,6 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './Navbar.css';
 import { Logout } from "../../redux/slice/authSlice";
+import { useEffect, useRef } from 'react';
 export default function Header() {
     const auth = useSelector(state => state.auth.authentication);
     console.log('auth',auth);
@@ -9,9 +10,12 @@ export default function Header() {
     const logout= () => {
         dispatch(Logout());
     }
+    
+
+  
     return (
         <>
-            <header class="py-3">
+            <header  class="py-3">
                 <div class="container d-flex flex-wrap justify-content-center" style={{ textAlign: 'center' }}>
                     <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 text-dark text-decoration-none">
                         <div className='' style={{ fontSize: '3rem' }}>

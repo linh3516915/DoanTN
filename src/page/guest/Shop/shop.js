@@ -4,9 +4,11 @@ import TopTrendingProduct from "../../../component/TopTrendingProduct/toptrendin
 import styles from './shop.module.css'
 import { faAngleDoubleLeft, faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
 import BannerOfPage from "../../../component/BannerOfPage/BannerOfPage";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import CardProductDetail from "../../../component/CardProductdetail/cardproductdetail";
+import Header from "../../../layout/Header/header";
+import Footer from "../../../layout/Footer/Footer";
 
 export default function Shop() {
     const listproductdetail = useSelector(state => state.productdetail.productdetail);
@@ -19,10 +21,17 @@ export default function Shop() {
     for (let i = 1; i <= Math.ceil(listproductdetail.data.length / trangDau); i++) {
         pageNumbers.push(i);
     }
+    const shoppageSectionRef = useRef(null);
+    useEffect(() => {
+        if (shoppageSectionRef.current) {
+            shoppageSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, []);
     console.log(hientaiTrang);
     return (
         <>
-            <div className="container d-flex flex-column gap-5">
+            <Header />
+            <div ref={shoppageSectionRef} className="container d-flex flex-column gap-5">
                 <BannerOfPage
                     bigTitle="Shop"
                     subtitle="shop"
@@ -108,7 +117,7 @@ export default function Shop() {
                 </div>
                 <TopTrendingProduct />
             </div>
-
+            <Footer />
         </>
     );
 }

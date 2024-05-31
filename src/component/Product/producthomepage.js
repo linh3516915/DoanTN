@@ -14,11 +14,9 @@ export default function ProductHomePage() {
     const navigate = useNavigate();
     console.log('test', listproductdetail.data[0]);
     const producthomepage = listproductdetail.data.map((item, index) => {
-        if (index > 0 && index <= 12) {
+        if (index > 0 && index <= 8) {
             return (
-
                 <CardProductDetail data={item} />
-
             );
         }
     })

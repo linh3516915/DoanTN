@@ -3,10 +3,12 @@
     height: 100%;
     width: 23%;
 }
-
-.product:hover {
+.product-content:hover {
     opacity: .5;
 }
+/* .product:hover {
+    opacity: .5;
+} */
 
 .product-popup {
     height: 90%;

@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from './ProductDetail.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import Banner from "../Banner/Banner";
 export default function ProductDetail() {
+    const productSectionRef = useRef(null);
+    useEffect(() => {
+        if (productSectionRef.current) {
+            productSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, []);
     return (
         <>
-            <section className="py-5">
+            <section ref={productSectionRef} className="py-5">
                 <div className="container">
                     <div className="row gx-5">
                         <aside className="col-lg-6">

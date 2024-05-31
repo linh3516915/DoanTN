@@ -7,9 +7,11 @@ import Header from "../../../layout/Header/header";
 export default function SignUp() {
     return (
         <>
+        <Header/>
             <div className="container d-flex flex-column gap-5">
                 <FormSignUp/>
             </div>
+            <Footer/>
         </>
     );
 }

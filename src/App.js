@@ -15,16 +15,16 @@ function App() {
   const auth = useSelector(state => state.auth.authentication);
   return (
     <>
-      <Header />
+      
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={auth ? <Navigate to ='/' />:<Login/>} />
         <Route path='/signup' element={auth ?  <Navigate to ='/' />:<SignUp/>} />
         <Route path='/shop' element={<Shop />} />
-        <Route path='/cart' element={auth ? <CartPage />: <Navigate to ='/login' />} />
+        <Route path='/cart' element={ <CartPage />} />
         <Route path='/productdetail' element={<ProductDetailPage />} />
       </Routes>
-      <Footer />
+      
     </>
   );
 }

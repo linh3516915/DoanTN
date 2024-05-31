@@ -1,35 +1,77 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    authentication : false,
-    token : '',        
-    refresh_token : '',      
-    user : {},  
+  items: [],
+  totalQuantity: 0, // Đảm bảo đây là 'totalQuantity' thay vì 'totalquality'
+
 }
 
 export const cartSlice = createSlice({
-    
-  name: 'auth',
-  initialState,
+
+  name: 'cart',
+  initialState: {
+    items: [],
+    totalPrice: 0,
+    totalQuantity: 0,
+  },
   reducers: {
-    gettoken : (state, action) => {
-      state.token = action.payload.access_token;
-      state.authentication = true;
-      state.refresh_token= action.payload.refresh_token;
+    setCart(state, payload) {
+      const cart = payload.payload;
+      state.items = cart.items;
+      state.totalQuantity = cart.totalQuantity;
     },
-    Logout : (state) => {
-        state.token = '';
-        state.authentication = false;
-        state.refresh_token= '';
-        state.user = {};
-      },
-    getuser : (state, action) =>{
-      state.user = action.payload;
-    } 
+    // addCart: (state, action) => {
+    //   state.items.push(action.payload);
+    // },
+    addCart: (state, action) => {
+
+      const newItem = action.payload;
+      const existingItem = state.items.find(item => item.product.id === newItem.id);
+
+      state.totalQuantity++;
+      state.totalPrice = state.totalPrice + newItem.gia;
+      if (!existingItem) {
+        state.items.push({
+          product: newItem,
+          quantity: 1,
+        });
+      } else {
+        existingItem.quantity++;
+      }
+    },
+    deleteItemInCart: (state, action) => {
+      const item = state.items.find(item => item.product.id === action.payload);
+      if (item) {
+        state.totalQuantity = state.totalQuantity - item.quantity;
+        state.totalPrice = state.totalPrice - item.quantity * item.product.gia;
+      }
+      else {
+        alert('k co');
+      }
+      state.items = state.items.filter(item => item.product.id !== action.payload);
+    },
+    increase: (state, action) => {
+      const item = state.items.find(item => item.product.id === action.payload);
+      item.quantity++;
+      state.totalQuantity++;
+      state.totalPrice = state.totalPrice + item.product.gia;
+    },
+    decrease: (state, action) => {
+      const item = state.items.find(item => item.product.id === action.payload);
+      if (item.quantity <= 1) {
+        state.items = state.items.filter(item => item.product.id !== action.payload);
+        state.totalQuantity--;
+        state.totalPrice = state.totalPrice - item.product.gia;
+      }
+      else {
+        item.quantity--;
+        state.totalQuantity--;
+        state.totalPrice = state.totalPrice - item.product.gia;
+      }
+    }
   },
 })
 
-// Action creators are generated for each case reducer function
-export const { gettoken,Logout,getuser } = cartSlice.actions
+export const { addCart, setCart, deleteItemInCart,increase,decrease } = cartSlice.actions
 
 export default cartSlice.reducer
