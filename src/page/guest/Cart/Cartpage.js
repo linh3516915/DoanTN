@@ -1,5 +1,5 @@
 import styles from './CartPage.module.css'
-import BannerOfPage from "../../component/BannerOfPage/BannerOfPage";
+import BannerOfPage from "../../../component/BannerOfPage/BannerOfPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight, faGift, faLongArrowAltLeft, faLongArrowAltRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";

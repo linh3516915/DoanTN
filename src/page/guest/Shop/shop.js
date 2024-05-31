@@ -1,17 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Filtersuppliers from "../../component/Filtersuppliers/filtersuppliers";
-import TopTrendingProduct from "../../component/TopTrendingProduct/toptrendingproduct";
+import Filtersuppliers from "../../../component/Filtersuppliers/filtersuppliers";
+import TopTrendingProduct from "../../../component/TopTrendingProduct/toptrendingproduct";
 import styles from './shop.module.css'
 import { faAngleDoubleLeft, faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
-import BannerOfPage from "../../component/BannerOfPage/BannerOfPage";
+import BannerOfPage from "../../../component/BannerOfPage/BannerOfPage";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import CardProductDetail from "../../component/CardProductdetail/cardproductdetail";
+import CardProductDetail from "../../../component/CardProductdetail/cardproductdetail";
 
 export default function Shop() {
     const listproductdetail = useSelector(state => state.productdetail.productdetail);
-    console.log('test', listproductdetail);
-
     const [trangDau, setTrangDau] = useState(20);
     const [trangCuoi, setTrangCuoi] = useState(1);
     const dauTrang = trangCuoi * trangDau;

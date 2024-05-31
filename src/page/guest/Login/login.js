@@ -1,4 +1,4 @@
-import FormLogin from "../../component/Formlogin/Formlogin";
+import FormLogin from "../../../component/Formlogin/Formlogin";
 
 
 

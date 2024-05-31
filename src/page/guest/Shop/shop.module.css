@@ -26,9 +26,16 @@
     border: 1px solid #908e8e75;
 }
 
-.product-list {
+/* .product-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 1rem;
+    column-gap: 1rem;
+} */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     row-gap: 1rem;
     column-gap: 1rem;
 }

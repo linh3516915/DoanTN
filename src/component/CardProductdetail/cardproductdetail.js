@@ -21,10 +21,10 @@ export default function CardProductDetail(props) {
     function currencyFormat(num) {
         return '$' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
      }
-    console.log(props.data);
+    console.log("checkdataa",props.dat);
     return (
         <>
-            <div ref={refTopTrendingProduct} id={props.id} className={`mb-5 ${styles['product']}  ${inViewTopTrendingProduct ? 'animation-zoom-in' : ''}`} >
+            <div ref={refTopTrendingProduct} id={props.id} className={`mb-5 ${styles['product']}  ${inViewTopTrendingProduct ? 'animation-zoom-in' : ''}` } >
                 <div className={`${styles['image-warrper']} h-75`}>
                     <img
                         className="w-100 mb-3 h-100"
@@ -33,7 +33,7 @@ export default function CardProductDetail(props) {
                             ''
                         } />
                 </div>
-                <p className={`name text-center font-italic font-weight-900 font-family-Ubuntu mb-1`} style={{fontSize : '11px'}}>{props.data.ten}sss</p>
+                <p className={`name text-center font-italic font-weight-900 font-family-Ubuntu mb-1`} style={{fontSize : '11px'}}>{props.data.ten}</p>
                 <p className={`price text-center opacity-50 font-weight-light font-monospace`}>{props.data.gia} VND</p>
                 
             </div>

@@ -1,14 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 import { Routes, Route, Link, NavLink, Navigate } from 'react-router-dom'
-import Home from './page/Home/home';
+import Home from './page/guest/Home/home';
 import Header from './layout/Header/header';
 import Footer from './layout/Footer/Footer';
-import Login from './page/Login/login';
-import SignUp from './page/Signup/signup';
-import Shop from './page/Shop/shop';
-import CartPage from './page/Cart/Cartpage';
-import ProductDetailPage from './page/ProductdetailPage/Productdetailpage';
+import Login from './page/guest/Login/login';
+import SignUp from './page/guest/Signup/signup';
+import Shop from './page/guest/Shop/shop';
+import CartPage from './page/guest/Cart/Cartpage';
+import ProductDetailPage from './page/guest/ProductdetailPage/Productdetailpage';
 import { useSelector } from 'react-redux';
 
 function App() {
