@@ -30,11 +30,13 @@ export default function Header() {
                     <ul class="nav me-auto">
                         <li class="nav-item"><a href="/" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
                         <li class="nav-item"><a href="/shop" class="nav-link link-dark px-2">Shop</a></li>
+                        <li class="nav-item"><a href="/cart" class="nav-link link-dark px-2">Cart</a></li>
                     </ul>
+                    
                     {auth && (
                         <>
                             <ul class="nav">
-                                <li class="nav-item"><a href="/cart" class="nav-link link-dark px-2">Cart</a></li>
+                                
                                 <li class="nav-item"><button class="nav-link link-dark px-2" onClick={()=>{logout()}}>logout</button></li>
                             </ul>
                         </>

@@ -4,18 +4,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight, faGift, faLongArrowAltLeft, faLongArrowAltRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteItemInCart, decrease, increase } from '../../../redux/slice/cartSlice';
+import { deleteItemInCart, decrease, increase, setCart } from '../../../redux/slice/cartSlice';
 import FormBuyCart from '../../../component/Form/formbuycart';
 import Header from '../../../layout/Header/header';
 import Footer from '../../../layout/Footer/Footer';
 import { useState } from 'react';
+import axios from 'axios';
 export default function CartPage() {
+    const [name,setName] = useState('');
+    const [phone,setPhone] = useState('');
+    const [date,setDate] = useState('');
+    const [address,setAdress] = useState('');
     const items = useSelector(state => state.cart.items);
     const totalprice = useSelector(state => state.cart.totalPrice);
-    const dispatch = useDispatch();
+    
     const [buttonformBuycart, setButtonformBuycart] = useState(true);
     const totalQuantity = useSelector(state => state.cart.totalQuantity);
-
+    const dispatch = useDispatch();
+    
     console.log(items);
     console.log(totalprice);
     console.log(totalQuantity);
@@ -43,9 +49,9 @@ export default function CartPage() {
                 </button>
                 <span className={`${styles['quantity-number']} user-select-none`}>{item.quantity}</span>
                 <button className="px-2 border-0 bg-white"
-                //  onClick={() => {
-                //     addToCart(item.product._id, 1);
-                // }}
+                 onClick={() => {
+                    dispatch(increase(item.product.id));
+                }}
                 >
                     <FontAwesomeIcon icon={faCaretRight} className={`${styles['caret-right-icon']}`} />
                 </button>
@@ -61,6 +67,26 @@ export default function CartPage() {
             </div>
         </div>
     })
+    const dathang = () =>{
+        const getAPI = async ()=>{
+            try {
+                const response = await axios.post('http://127.0.0.1:8000/api/donhang/addnew',{
+                    sdt : phone ,
+                    ho_ten : name,
+                    ngay_sinh : date,
+                    dia_chi : address,
+                    tong_tien : totalprice
+                })
+                alert('dat hang thanh cong');
+                dispatch(setCart());
+                window.location.reload();
+            } catch (error) {
+                alert('lỗi');
+            }
+           
+        }
+        getAPI();
+    }
     return (
         <>
             <div className={`${styles['parents']}`}>
@@ -71,7 +97,7 @@ export default function CartPage() {
                         }} style={{ width: '40px', textAlign: 'center', cursor: 'pointer', backgroundColor: 'white', color: 'black', fontSize: '20px' }}>X</div>
                         <div className={`${styles['formbuycart']}`}>
                             <h1>Please,Add Your Infomation </h1>
-                            <form className={`${styles['cf']}`}>
+                            <div className={`${styles['cf']}`} >
                                 <div className="half left cf">
                                     <div className='' style={{ display: 'flex' }}>
                                         <div style={{ fontSize: '20px', marginRight: '20px' }}><label style={{ color: 'white' }}>Nam</label>
@@ -80,18 +106,18 @@ export default function CartPage() {
                                             <input type="radio" className={`${styles['input-name']}`} placeholder="Name" /></div>
 
                                     </div>
-                                    <input type="text" className={`${styles['input-name']}`} placeholder="Name" />
+                                    <input type="email"value={name} onChange={(e)=>{setName(e.target.value)}} className={`${styles['input-name']}`} placeholder="Name"  required/>
 
 
 
-                                    <input type="email" className={`${styles['input-email']}`} placeholder="Email address" />
-                                    <input type="text" className={`${styles['input-subject']}`} placeholder="Phone" />
+                                    <input type="text" value={date} onChange={(e)=>{setDate(e.target.value)}} className={`${styles['input-email']}`} placeholder="Date" required/>
+                                    <input type="text" onChange={(e)=>{setPhone(e.target.value)}} className={`${styles['input-subject']}`} placeholder="Phone"  required/>
                                 </div>
                                 <div className={`${styles['half right cf']}`}>
-                                    <textarea name="message" type="text" className={`${styles['input-message']}`} placeholder="Address"></textarea>
+                                    <textarea  onChange={(e)=>{setAdress(e.target.value)}} type="text" className={`${styles['input-message']}`} placeholder="Address" required></textarea>
                                 </div>
-                                <input type="submit" value="Submit" className={`${styles['input-submit']}`} />
-                            </form>
+                                <button onClick={()=>{dathang()}} value="Submit" className={`${styles['input-submit']}`} >buy</button>
+                            </div>
                         </div>
                     </div>
 
