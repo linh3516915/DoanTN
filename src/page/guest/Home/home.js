@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+
 import Banner from "../../../component/Banner/Banner";
 import OtherInfo from "../../../component/Otherinfo/OtherInfo";
 import ProductHomePage from "../../../component/Product/producthomepage";
@@ -13,7 +13,7 @@ import Footer from "../../../layout/Footer/Footer";
 export default function Home() {
     return (
         <>
-        <Header/>
+            <Header />
             <div className="container d-flex flex-column gap-5">
                 <Banner />
                 <Category />
@@ -21,7 +21,7 @@ export default function Home() {
                 <ProductHomePage />
                 <OtherInfo />
             </div>
-<Footer/>
+            <Footer />
         </>
     );
 }

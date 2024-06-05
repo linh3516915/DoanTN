@@ -31,7 +31,7 @@ export default function CardProductDetail(props) {
     return (
         <>
 
-            <div ref={refTopTrendingProduct} id={props.id} className={`mb-5 ${styles['product']}  ${inViewTopTrendingProduct ? 'animation-zoom-in' : ''}`} >
+            <div ref={refTopTrendingProduct} id={props.id}  className={`mb-5 ${styles['product']} ${props.animation ? 'animation-from-right' : 'animation-from-left'}  ${inViewTopTrendingProduct ? 'animation-zoom-in' : ''}`} >
                 <div onClick={() => { test() }} className={`mb-5 ${styles['product-content']}`}>
                     <div className={`${styles['image-warrper']} h-75`}>
                         <img

@@ -1,0 +1,22 @@
+.item {
+    height: 200px;
+    border: solid;
+    width: 20%;
+    font-size: 11px;
+}
+.list-item {
+    animation: fadeInFromLeft 1.5s ease;
+}
+.move-left{
+    height: 25%;
+    position: absolute;
+    /* left: 0; */
+    left: 13%;
+    width: 3%;
+}
+.move-right{
+    position: absolute;
+    right: 12.5%;
+    height: 25%;
+    width: 3%;
+}

@@ -5,7 +5,21 @@
 .active {
     color: rgb(224, 177, 90);
 }
-
+.avatar {
+    width: 42px;
+    height: 100%;
+    background-color: red;
+    border-radius: 21px;
+    margin-right: 1rem;
+}
+.menu-avatar{
+    background-color: aqua;
+    position: absolute;
+}
+.menu-item{
+    height: 40px;
+    width: 100px;
+}
 .logo {
     font-size: 1.4rem;
     font-style: italic;

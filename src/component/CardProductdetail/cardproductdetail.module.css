@@ -2,6 +2,8 @@
     cursor: pointer;
     height: 100%;
     width: 23%;
+    height: 250px;
+    border: solid;
 }
 .product-content:hover {
     opacity: .5;

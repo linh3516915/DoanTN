@@ -11,16 +11,28 @@ import Header from "../../../layout/Header/header";
 import Footer from "../../../layout/Footer/Footer";
 
 export default function Shop() {
-    const listproductdetail = useSelector(state => state.productdetail.productdetail);
+    const listproductdetail = useSelector(state => state.productdetail.productdetails);
     const [trangDau, setTrangDau] = useState(20);
     const [trangCuoi, setTrangCuoi] = useState(1);
+    const [btnshowlist,setBtnshowlist] = useState(false);
     const dauTrang = trangCuoi * trangDau;
     const cuoiTrang = dauTrang - trangDau;
-    const hientaiTrang = listproductdetail.data.slice(cuoiTrang, dauTrang);
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(listproductdetail.data.length / trangDau); i++) {
-        pageNumbers.push(i);
+    console.log(listproductdetail);
+    let hientaiTrang = null;
+    let showlistproduct = null;
+    if (listproductdetail !== null) {
+        hientaiTrang = listproductdetail.slice(cuoiTrang, dauTrang);
+        const pageNumbers = [];
+        for (let i = 1; i <= Math.ceil(listproductdetail.length / trangDau); i++) {
+            pageNumbers.push(i);
+        }
+         showlistproduct = hientaiTrang.map((item, index) => (
+           <CardProductDetail key={index} animation={btnshowlist} data={item} />
+           
+        ))
     }
+
+
     const shoppageSectionRef = useRef(null);
     useEffect(() => {
         if (shoppageSectionRef.current) {
@@ -91,18 +103,18 @@ export default function Shop() {
 
                             <div>
                                 <div className={`${styles['product-list']}  mt-3 mb-5`}>
-                                    {hientaiTrang.map((item, index) => (
-                                        <CardProductDetail key={index} data={item} />
-                                    ))}
+                                    {
+                                        showlistproduct}
                                 </div>
                             </div>
                             <div className="w-100 d-flex flex-column align-items-end">
                                 <div className="d-flex">
-                                    <button onClick={() => setTrangCuoi(trangCuoi - 1)} disabled={trangCuoi === 1} className={`p-3 ${styles['pre-btn']}`}>
+                                    <button onClick={() => {setTrangCuoi(trangCuoi - 1);setBtnshowlist(false);}} disabled={trangCuoi === 1} className={`p-3 ${styles['pre-btn']}`}>
                                         <FontAwesomeIcon icon={faAngleDoubleLeft} />
                                     </button>
                                     <span className={`bg-dark p-3 ${styles['number-page']}`}></span>
-                                    <button onClick={() => setTrangCuoi(trangCuoi + 1)} disabled={trangCuoi === Math.ceil(listproductdetail.data.length / trangDau)} className={`p-3 ${styles['next-btn']}`} >
+                                    <button onClick={() => {setTrangCuoi(trangCuoi + 1);setBtnshowlist(true);}}  className={`p-3 ${styles['next-btn']}`} >
+                                    {/* disabled={trangCuoi === Math.ceil(listproductdetail.length / trangDau)} */}
                                         <FontAwesomeIcon icon={faAngleDoubleRight} />
                                     </button>
 

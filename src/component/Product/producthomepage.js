@@ -9,21 +9,40 @@ import { useNavigate } from "react-router-dom";
 export default function ProductHomePage() {
     const [slicectsp, setSlicectsp] = useState({});
     const test = useSelector(state => state.productdetail.sliceproductdetail);
+    const listproductdetail = useSelector(state => state.productdetail.productdetails);
     const dispatch = useDispatch();
-    const listproductdetail = useSelector(state => state.productdetail.productdetail);
     const navigate = useNavigate();
-    console.log('test', listproductdetail.data[0]);
-    const producthomepage = listproductdetail.data.map((item, index) => {
-        if (index > 0 && index <= 8) {
-            return (
-                <CardProductDetail data={item} />
-            );
+     useEffect(() => {
+        const getAPI = async () => {
+            try {
+
+                const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                );
+                console.log('check data: ', data);
+                dispatch(listProductdetail(data));
+
+            } catch (error) {
+                console.error('Error fetching API:', error);
+            }
         }
-    })
-    const movePage = ()=>{
+        getAPI();
+     }, [dispatch])
+    console.log('testss', listproductdetail);
+     let producthomepage = null;
+     if(listproductdetail !== null)
+        {
+             producthomepage = listproductdetail.map((item, index) => {
+                if (index > 0 && index <= 8) {
+                    return (
+                        <CardProductDetail data={item} />
+                    );
+                }
+            })
+        }
+    const movePage = () => {
         navigate('/shop');
     }
-    console.log("sản pham : ", producthomepage);
+     console.log("sản pham : ", producthomepage);
     return (
         <>
             <div style={{ position: 'relative' }}>
@@ -33,9 +52,9 @@ export default function ProductHomePage() {
                 </div>
                 <div className={`${style['product-list']}`}>
                     {producthomepage}
-                    <button onClick={()=>{movePage()}} className="btn btn-primary" >Xem Thêm sản phẩm </button>
+                    <button onClick={() => { movePage() }} className="btn btn-primary" >Xem Thêm sản phẩm </button>
                 </div>
-                
+
             </div>
         </>
     );

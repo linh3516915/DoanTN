@@ -1,21 +1,21 @@
-
 import { useDispatch, useSelector } from 'react-redux';
 import './Navbar.css';
 import { Logout } from "../../redux/slice/authSlice";
 import { useEffect, useRef } from 'react';
+import styles from './NavBar.module.css';
 export default function Header() {
     const auth = useSelector(state => state.auth.authentication);
-    console.log('auth',auth);
+    console.log('auth', auth);
     const dispatch = useDispatch();
-    const logout= () => {
+    const logout = () => {
         dispatch(Logout());
     }
-    
 
-  
+
+
     return (
         <>
-            <header  class="py-3">
+            <header class="py-3">
                 <div class="container d-flex flex-wrap justify-content-center" style={{ textAlign: 'center' }}>
                     <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 text-dark text-decoration-none">
                         <div className='' style={{ fontSize: '3rem' }}>
@@ -32,12 +32,22 @@ export default function Header() {
                         <li class="nav-item"><a href="/shop" class="nav-link link-dark px-2">Shop</a></li>
                         <li class="nav-item"><a href="/cart" class="nav-link link-dark px-2">Cart</a></li>
                     </ul>
-                    
+
                     {auth && (
                         <>
                             <ul class="nav">
-                                
-                                <li class="nav-item"><button class="nav-link link-dark px-2" onClick={()=>{logout()}}>logout</button></li>
+                                <div class="dropdown text-end" style={{    lineHeight: '40px'}}>
+                                    <a style={{marginRight:'25px'}} href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle" />
+                                    </a>
+                                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                                        <li><a class="dropdown-item" href="/thong-tin">Profile</a></li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li class="dropdown-item"><button class="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
+                                    </ul>
+                                </div>
+                               
                             </ul>
                         </>
                     )}

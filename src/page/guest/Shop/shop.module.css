@@ -18,6 +18,7 @@
 
 .product-filter {
     flex: 4;
+    overflow: hidden;
 }
 
 .search-input {
