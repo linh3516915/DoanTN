@@ -29,6 +29,14 @@ class APIOTPController extends Controller
 
         return response()->json(['success' => true, 'message' => 'OTP has been sent successfully']);
     }
+    public function delOTP(Request $request)
+    {
+        $checkemail = OTP::where('email_verify',$request->input('email'))->first();
+        if(!empty($checkemail)){
+            $checkemail->delete();
+            return response()->json(['success' => true, 'message' => 'delete successfully']);
+        }
+    }
     public function sendOTPAgain(Request $request)
     {
 

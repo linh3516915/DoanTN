@@ -67,6 +67,7 @@ Route::group([
 ], function ($router) {
 
     Route::post('sendotp', [APIOTPController::class,'sendOTP']);
+    Route::post('delotp', [APIOTPController::class,'delOTP']);
     Route::post('sendotpagain', [APIOTPController::class,'sendOTPAgain']);
     Route::post('checkotp', [APIOTPController::class,'checkOTP']);
 });
