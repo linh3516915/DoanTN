@@ -13,11 +13,11 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const auth = useSelector(state => state.auth.authentication);
+  const a = 1;
   return (
     <>
-      
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Home data={a}/>} />
         <Route path='/login' element={auth ? <Navigate to ='/' />:<Login/>} />
         <Route path='/signup' element={auth ?  <Navigate to ='/' />:<SignUp/>} />
         <Route path='/shop' element={<Shop />} />

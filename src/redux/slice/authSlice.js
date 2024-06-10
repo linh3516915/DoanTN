@@ -4,7 +4,7 @@ const initialState = {
     authentication : false,
     token : '',        
     refresh_token : '',      
-    user : {},  
+    user : {},
 }
 
 export const authSlice = createSlice({

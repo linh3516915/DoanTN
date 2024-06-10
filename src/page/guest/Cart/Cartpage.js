@@ -8,29 +8,38 @@ import { deleteItemInCart, decrease, increase, setCart } from '../../../redux/sl
 import FormBuyCart from '../../../component/Form/formbuycart';
 import Header from '../../../layout/Header/header';
 import Footer from '../../../layout/Footer/Footer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useInView } from 'react-intersection-observer';
+import OTP from '../../../component/OTP/otp';
+import Address from '../../../component/Address/address';
+import { match } from '../../../redux/slice/addressSlice';
+import PhoneInput from 'react-phone-number-input/input';
 export default function CartPage() {
-    const [name,setName] = useState('');
-    const [phone,setPhone] = useState('');
-    const [date,setDate] = useState('');
-    const [address,setAdress] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
+    const [buttonformBuycart, setButtonformBuycart] = useState(true);
+    const [buttonVerifyOTP, setButtonVerifyOTP] = useState(true);
+    const [formdata, setFormdata] = useState([]);
+    const { ref: refPopupForm, inView: inViewPopupForm } = useInView({
+        threshold: 0
+    });
     const items = useSelector(state => state.cart.items);
     const totalprice = useSelector(state => state.cart.totalPrice);
-    
-    const [buttonformBuycart, setButtonformBuycart] = useState(true);
     const totalQuantity = useSelector(state => state.cart.totalQuantity);
+    const address = useSelector(state => state.address.Address);
+    const auth = useSelector(state => state.auth.authentication);
+    const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
-    
     console.log(items);
     console.log(totalprice);
     console.log(totalQuantity);
-    const openFormbuycart = () =>{
-        if(totalprice != 0)
-            {
-                setButtonformBuycart(false);
-            }
-        else{alert('phải có ít nhất 1 sản phẩm để Đặt hàng ')}
+    const openFormbuycart = () => {
+        if (totalprice != 0) {
+            setButtonformBuycart(false);
+        }
+        else { alert('phải có ít nhất 1 sản phẩm để Đặt hàng ') }
     }
     const renderItems = items.map((item) => {
         return <div key={item.id} className="d-flex align-items-center">
@@ -49,9 +58,9 @@ export default function CartPage() {
                 </button>
                 <span className={`${styles['quantity-number']} user-select-none`}>{item.quantity}</span>
                 <button className="px-2 border-0 bg-white"
-                 onClick={() => {
-                    dispatch(increase(item.product.id));
-                }}
+                    onClick={() => {
+                        dispatch(increase(item.product.id));
+                    }}
                 >
                     <FontAwesomeIcon icon={faCaretRight} className={`${styles['caret-right-icon']}`} />
                 </button>
@@ -67,62 +76,152 @@ export default function CartPage() {
             </div>
         </div>
     })
-    const dathang = () =>{
-        const getAPI = async ()=>{
+    useEffect(() => {
+        if (auth === true) {
+            setFormdata({
+                email: user.email
+            }
+            );
+            setEmail(user.email);
+        }
+    }, [auth])
+    const verifyOTP = () => {
+        dispatch(match());
+        console.log(address);
+        const getAPI = async () => {
             try {
-                const response = await axios.post('http://127.0.0.1:8000/api/donhang/addnew',{
-                    sdt : phone ,
-                    ho_ten : name,
-                    ngay_sinh : date,
-                    dia_chi : address,
-                    tong_tien : totalprice
-                })
-                alert('dat hang thanh cong');
-                dispatch(setCart());
-                window.location.reload();
+                if (phone !== '' && name !== '' && email !== '') {
+
+                    
+                    setButtonVerifyOTP(false);
+                    setButtonformBuycart(true);
+
+                    setFormdata(
+                        {
+                            name, phone, email, address
+                        }
+                    );
+                    const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                        email
+                    })
+
+                }
+                else {
+                    alert('something has wrong');
+                }
+
             } catch (error) {
                 alert('lỗi');
             }
-           
+
         }
         getAPI();
     }
+    const exitOTP = (email) => {
+        setButtonformBuycart(false);
+        setButtonVerifyOTP(true);
+        const getAPI = async () => {
+            const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+                email
+            })
+        }
+        getAPI();
+    }
+    const openotpverify = async () => {
+        setButtonVerifyOTP(false);
+        try {
+            console.log('check email:', email);
+            const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                email
+            })
+
+            console.log(response.data);
+        } catch (error) {
+            alert('looix');
+        }
+    }
+    console.log(formdata.email);
+    console.log(user);
     return (
         <>
             <div className={`${styles['parents']}`}>
                 {!buttonformBuycart && (
-                    <div className={`${styles['chilren-model']}`}>
-                        <div onClick={() => {
-                            setButtonformBuycart(true);
-                        }} style={{ width: '40px', textAlign: 'center', cursor: 'pointer', backgroundColor: 'white', color: 'black', fontSize: '20px' }}>X</div>
-                        <div className={`${styles['formbuycart']}`}>
-                            <h1>Please,Add Your Infomation </h1>
-                            <div className={`${styles['cf']}`} >
-                                <div className="half left cf">
-                                    <div className='' style={{ display: 'flex' }}>
-                                        <div style={{ fontSize: '20px', marginRight: '20px' }}><label style={{ color: 'white' }}>Nam</label>
-                                            <input type="radio" className={`${styles['input-name']}`} placeholder="Name" /></div>
-                                        <div style={{ fontSize: '20px' }}><label style={{ color: 'white' }}>Nữ</label>
-                                            <input type="radio" className={`${styles['input-name']}`} placeholder="Name" /></div>
+                    <div className={`${styles['chilren-model']} `}>
+                        <div ref={refPopupForm} className={`${styles['formbuycart']} ${inViewPopupForm ? 'animation-from-left' : ""}`} style={{ backgroundColor: 'blanchedalmond', borderRadius: '22px' }}>
+                            <div onClick={() => {
+                                setButtonformBuycart(true);
+                            }} className={`${styles['close']}`} >X</div>
+                            <form style={{ padding: '20px' }} onSubmit={() => {
+                                verifyOTP();
+                            }}>
+                                <h1>Please,Add Your Infomation </h1>
+                                <div className={`${styles['cf']}`} style={{ backgroundColor: 'burlywood', borderRadius: '22px', padding: '22px' }}>
+                                    <div className="half left cf">
+                                        <div className='' style={{ display: 'flex' }}>
+                                            <div style={{ fontSize: '20px', marginRight: '20px' }}><label style={{ color: 'white' }}>Nam</label>
+                                                <input name='sex' type="radio" className={`${styles['input-name']}`} placeholder="Name" required /></div>
+                                            <div style={{ fontSize: '20px' }}><label style={{ color: 'white' }}>Nữ</label>
+                                                <input name='sex' type="radio" className={`${styles['input-name']}`} placeholder="Name" required /></div>
 
+                                        </div>
+                                        <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className={`${styles['input-name']}`} placeholder="Name" pattern="^[a-zA-Z]+$" required />
+
+
+
+                                        <input type="email" value={email} onChange={(e) => { setEmail(e.target.value) }} className={`${styles['input-email']}`} placeholder="email" required />
+
+                                        <PhoneInput
+                                            placeholder="Enter phone number"
+                                            value={phone}
+                                            onChange={setPhone} required />
                                     </div>
-                                    <input type="email"value={name} onChange={(e)=>{setName(e.target.value)}} className={`${styles['input-name']}`} placeholder="Name"  required/>
-
-
-
-                                    <input type="text" value={date} onChange={(e)=>{setDate(e.target.value)}} className={`${styles['input-email']}`} placeholder="Date" required/>
-                                    <input type="text" onChange={(e)=>{setPhone(e.target.value)}} className={`${styles['input-subject']}`} placeholder="Phone"  required/>
+                                    <div className={`${styles['half right cf']}`}>
+                                        <Address />
+                                    </div>
+                                    <button value="Submit" className={`${styles['input-submit']}`} >buy</button>
                                 </div>
-                                <div className={`${styles['half right cf']}`}>
-                                    <textarea  onChange={(e)=>{setAdress(e.target.value)}} type="text" className={`${styles['input-message']}`} placeholder="Address" required></textarea>
-                                </div>
-                                <button onClick={()=>{dathang()}} value="Submit" className={`${styles['input-submit']}`} >buy</button>
-                            </div>
+                            </form>
+
                         </div>
                     </div>
 
                 )}
+                {!buttonVerifyOTP && (
 
+                    <div className={`${styles['chilren-model']} `}>
+
+                        <div ref={refPopupForm} className={`${styles['formbuycart']} ${inViewPopupForm ? 'animation-from-left' : ""}`} style={{ backgroundColor: 'blanchedalmond', borderRadius: '22px' }}>
+                            {!auth && (
+                                <div onClick={() => {
+                                    exitOTP(email);
+                                }} className={`${styles['close']}`} >X</div>
+                            )}
+                            {auth && (
+                                <div onClick={() => {
+                                    setButtonVerifyOTP(true);
+                                    const getAPI = async () => {
+                                        const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+                                            email: user.email
+                                        })
+                                    }
+                                    getAPI();
+                                }} className={`${styles['close']}`} >X</div>
+                            )}
+
+                            <div style={{ padding: '20px' }}>
+                                <h1>Please,verify OTP </h1>
+                                <div className={`${styles['cf']}`} style={{ backgroundColor: 'burlywood', borderRadius: '22px', padding: '22px' }}>
+                                    <div className="half left cf">
+                                        <OTP formdata={formdata} />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                )}
 
                 <Header />
                 <div className="container pb-3">
@@ -158,7 +257,7 @@ export default function CartPage() {
                             </div>
                         </div>
                         <div className={`${styles['provisional-bill']} h-fit-content`}>
-                            <h4 className="w-100 text-uppercase  font-italic opacity-75 mb-4">cart total</h4>
+                            <h4 className="w-100 text-uppercase  font-italic mb-4">cart total</h4>
                             <div className={`d-flex font-italic justify-content-between pb-2 ${styles['sub-total']}`}>
                                 <h6 className="text-uppercase mb-0">subtotal</h6>
                                 <span className={`${styles['provisional-bill__sub-price']}`}>{totalprice} VND</span>
@@ -174,9 +273,14 @@ export default function CartPage() {
                                     Apply coupon
                                 </div>
                                 <div>
-                                    <button onClick={()=>{
-                                        openFormbuycart();
-                                    }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                    {!auth && (
+                                        <button onClick={() => {
+                                            openFormbuycart();
+                                        }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                    )}
+                                    {auth && (
+                                        <button onClick={() => { openotpverify() }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                    )}
                                 </div>
                             </div>
                         </div>

@@ -44,6 +44,7 @@
     padding: 5rem 2rem;
     flex: 1;
     background-color: #c1c5c936;
+    border-radius: 15px;
 }
 
 .sub-total {
@@ -63,7 +64,7 @@
 
 .total .provisional-bill__total-price {
     font-size: 1.3rem;
-    opacity: .75;
+
 }
 
 .coupon input {
@@ -114,10 +115,15 @@
     form:focus {
       box-shadow:(0 0px 2px rgba(e74c3c, 1));
    }
+   
     .input-submit {
        color: white; 
        background:  #e74c3c;
        cursor: pointer;
+       border-radius: 10px ;
+       width: 30%;
+       height: 50px;
+       margin-top: 19px;
     }
     .input-submit:hover {
       box-shadow : (0 1px 1px 1px rgba(#aaa, 0.6)); 
@@ -128,7 +134,16 @@
     }
   }
   
-  
+  .input-submit {
+    color: white; 
+    background:  #e74c3c;
+    cursor: pointer;
+    border-radius: 10px ;
+    width: 30%;
+    height: 50px;
+    margin-top: 19px;
+    margin-left: 11rem;
+ }
   .half {
     float: left;
     width: 48%;
@@ -156,7 +171,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    opacity: 0.85;
+    opacity: 0.90;
     background: black;  
   }
   /* Clearfix */
@@ -169,3 +184,14 @@
   .cf:after {
       clear: both;
   }
+  .close {
+    width: 20%;
+    text-align: center;
+    cursor: pointer;
+    background-color: chocolate;
+    color: black;
+    font-size: 20px;
+    border-radius: 14px;
+    height: 39px;
+    line-height: 39px;
+   }
