@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
 import { getuser } from "../../../redux/slice/authSlice";
+import Supplier from "../../../component/Supplier/supplier";
 export default function Home(props) {
     console.log("check auth:",props.data);
     const dispatch = useDispatch();
@@ -40,11 +41,14 @@ export default function Home(props) {
     return (
         <>
             <Header />
+            <Banner />
+            
             <div className="container d-flex flex-column gap-5">
-                <Banner />
+
                 <Category />
                 <TopTrendingProduct />
                 <ProductHomePage />
+                <Supplier/>
                 <OtherInfo />
             </div>
             <Footer />

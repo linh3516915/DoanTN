@@ -43,6 +43,91 @@ export default function Banner() {
     console.log('inViewBanner', inViewBanner);
     return (
         <>
+            <div className="slider-area">
+                <div className="zigzag-bottom"></div>
+                <div id="slide-list" className="carousel carousel-fade slide" data-ride="carousel">
+
+                    <div className="slide-bulletz">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <ol className="carousel-indicators slide-indicators">
+                                        <li data-target="#slide-list" data-slide-to="0" className="active"></li>
+                                        <li data-target="#slide-list" data-slide-to="1"></li>
+                                        <li data-target="#slide-list" data-slide-to="2"></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="carousel-inner" role="listbox">
+                        <div className="item active">
+                            <div className="single-slide">
+                                <div className="slide-bg slide-one"></div>
+                                <div className="slide-text-wrapper">
+                                    <div className="slide-text">
+                                        <div className="container">
+                                            <div className="row">
+                                                <div className="col-md-6 col-md-offset-6">
+                                                    <div className="slide-content">
+                                                        <h2>We are awesome</h2>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, dolorem, excepturi. Dolore aliquam quibusdam ut quae iure vero exercitationem ratione!</p>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi ab molestiae minus reiciendis! Pariatur ab rerum, sapiente ex nostrum laudantium.</p>
+                                                        <a href="" className="readmore">Learn more</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="item">
+                            <div className="single-slide">
+                                <div className="slide-bg slide-two"></div>
+                                <div className="slide-text-wrapper">
+                                    <div className="slide-text">
+                                        <div className="container">
+                                            <div className="row">
+                                                <div className="col-md-6 col-md-offset-6">
+                                                    <div className="slide-content">
+                                                        <h2>We are great</h2>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe aspernatur, dolorum harum molestias tempora deserunt voluptas possimus quos eveniet, vitae voluptatem accusantium atque deleniti inventore. Enim quam placeat expedita! Quibusdam!</p>
+                                                        <a href="" className="readmore">Learn more</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="item">
+                            <div className="single-slide">
+                                <div className="slide-bg slide-three"></div>
+                                <div className="slide-text-wrapper">
+                                    <div className="slide-text">
+                                        <div className="container">
+                                            <div className="row">
+                                                <div className="col-md-6 col-md-offset-6">
+                                                    <div className="slide-content">
+                                                        <h2>We are superb</h2>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, eius?</p>
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptates necessitatibus dicta recusandae quae amet nobis sapiente explicabo voluptatibus rerum nihil quas saepe, tempore error odio quam obcaecati suscipit sequi.</p>
+                                                        <a href="" className="readmore">Learn more</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <div>
                 <div className="banner">
                     <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
@@ -51,7 +136,7 @@ export default function Banner() {
                                 <img src="thum_800x450.png" className="card-img-top  " alt="..." />
                             </div>
                             <div className="carousel-item">
-                                <img src="bannertest2.jpg" className=" card-img-top " alt="..." />
+                                <img src="bannertest2.j pg" className=" card-img-top " alt="..." />
                             </div>
                             <div className="carousel-item">
                                 <img src="bannertest1.png" className=" card-img-top" alt="..." />
@@ -67,7 +152,7 @@ export default function Banner() {
                                 </div>
                             </div>
                         </div>
-                        <button className="carousel-control-prev "  type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <button className="carousel-control-prev " type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span className="visually-hidden" >Previous</span>
                         </button>
