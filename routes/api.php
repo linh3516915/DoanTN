@@ -8,6 +8,7 @@ use App\Http\Controllers\APIChiTietSanPhamController;
 use App\Http\Controllers\APIDonHangController;
 use App\Http\Controllers\APIOTPController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\APIHinhAnhController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,6 +42,9 @@ Route::group([
 ], function ($router) {
 
     Route::get('showList', [APISanPhamController::class,'Listproduct']);
+    Route::post('themmoi', [APISanPhamController::class,'themmoi']);
+    Route::post('capnhat', [APISanPhamController::class,'capnhat']);
+    Route::get('capnhattatca', [APISanPhamController::class,'capnhattatca']);
 
 });
 Route::group([
@@ -48,8 +52,13 @@ Route::group([
 ], function ($router) {
 
     Route::get('showLists', [APIChiTietSanPhamController::class,'Listproductdetails']);
+    Route::post('productdetail', [APIChiTietSanPhamController::class,'productdetail']);
     Route::get('showList', [APIChiTietSanPhamController::class,'Listproductdetail']);
+    Route::post('listdungluong', [APIChiTietSanPhamController::class,'listdungluong']);
+    Route::post('listmausac', [APIChiTietSanPhamController::class,'listmausac']);
     Route::get('top8hottrending', [APIChiTietSanPhamController::class,'top8hottrending']);
+    Route::get('latesproduct', [APIChiTietSanPhamController::class,'latesproduct']);
+    Route::get('topseller', [APIChiTietSanPhamController::class,'topseller']);
 });
 
 Route::group([
@@ -79,4 +88,9 @@ Route::group([
     Route::post('district', [AddressController::class,'district']);
     Route::post('ward', [AddressController::class,'ward']);
 });
+Route::group([
+    'prefix' => 'hinhanh'
+], function ($router) {
 
+    Route::post('anhsanpham', [APIHinhAnhController::class,'laydanhsach']);
+});
