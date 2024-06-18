@@ -15,47 +15,6 @@ export default function Header() {
 
     return (
         <>
-            <div className="header-area">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-8">
-                            <div className="user-menu">
-                                <ul>
-                                    <li><a href="#"><i className="fa fa-user"></i> My Account</a></li>
-                                    <li><a href="#"><i className="fa fa-heart"></i> Wishlist</a></li>
-                                    <li><a href="cart.html"><i className="fa fa-user"></i> My Cart</a></li>
-                                    <li><a href="checkout.html"><i className="fa fa-user"></i> Checkout</a></li>
-                                    <li><a href="#"><i className="fa fa-user"></i> Login</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div className="col-md-4">
-                            <div className="header-right">
-                                <ul className="list-unstyled list-inline">
-                                    <li className="dropdown dropdown-small">
-                                        <a data-toggle="dropdown" data-hover="dropdown" className="dropdown-toggle" href="#"><span className="key">currency :</span><span className="value">USD </span><b className="caret"></b></a>
-                                        <ul className="dropdown-menu">
-                                            <li><a href="#">USD</a></li>
-                                            <li><a href="#">INR</a></li>
-                                            <li><a href="#">GBP</a></li>
-                                        </ul>
-                                    </li>
-
-                                    <li className="dropdown dropdown-small">
-                                        <a data-toggle="dropdown" data-hover="dropdown" className="dropdown-toggle" href="#"><span className="key">language :</span><span className="value">English </span><b className="caret"></b></a>
-                                        <ul className="dropdown-menu">
-                                            <li><a href="#">English</a></li>
-                                            <li><a href="#">French</a></li>
-                                            <li><a href="#">German</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div className="site-branding-area">
                 <div className="container">
                     <div className="row">
@@ -76,60 +35,86 @@ export default function Header() {
             <div className="mainmenu-area">
                 <div className="container">
                     <div className="row">
-                        <div className="navbar-header">
-                            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span className="sr-only">Toggle navigation</span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            <div className="navbar-collapse collapse">
-                                <ul className="nav navbar-nav" style={{display : 'block'}}>
-                                    <li className="active"><a href="index.html">Home</a></li>
-                                    <li><a href="shop.html">Shop page</a></li>
-                                    <li><a href="single-product.html">Single product</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="#">Category</a></li>
-                                    <li><a href="#">Others</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul>
-                            </div>
-                                {auth && (
-                                    <>
-                                        <ul className="nav">
-                                            <div className="dropdown text-end" style={{ lineHeight: '40px' }}>
-                                                <a style={{ marginRight: '25px' }} href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
-                                                </a>
-                                                <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                                                    <li><a className="dropdown-item" href="#">Settings</a></li>
-                                                    <li><a className="dropdown-item" href="/thong-tin">Profile</a></li>
-                                                    <li><hr className="dropdown-divider" /></li>
-                                                    <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
-                                                </ul>
-                                            </div>
-
+                        <div className="col">
+                            <nav className="navbar navbar-expand-lg navbar-light">
+                                <div className="container-fluid">
+                                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span className="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div className="collapse navbar-collapse" id="navbarNav" style={{justifyContent:'space-around'}}>
+                                        <ul className="navbar-nav">
+                                            <li className="nav-item">
+                                                <a className="nav-link active" href="/">Home</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" href="/shop">Shop page</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" href="cart.html">Cart</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" href="#">Category</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" href="#">Others</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" href="#">Contact</a>
+                                            </li>
                                         </ul>
-                                    </>
-                                )}
-                                {!auth && (
-                                    <>
-                                        <ul className="nav" style={{flexWrap:'nowrap'}}>
-                                            <li className="nav-item"><a href="/login" className="nav-link link-dark px-2" style={{    lineHeight: '4rem'}}>Login</a></li>
-                                            <li className="nav-item" style={{    width:'55px'}}><a href="/signup" className="nav-link link-dark px-2" style={{    lineHeight: '4rem'}}>Sign in</a></li>
-                                        </ul>
-                                    </>
-                                )}
+                                        <div className="text-end">
+                                            <button type="button" className="btn btn-outline-light me-2">Login</button>
+                                            <button type="button" className="btn btn-outline-light ">Sign-up</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
                         </div>
-
-
                     </div>
                 </div>
             </div>
 
+            {/* <header className="p-3 text-white" style={{backgroundColor : '#1abc9c'}}>
+                <div className="container">
+                    <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                        <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                            <li><a href="/home" className="nav-link px-2 text-secondary">Home</a></li>
+                            <li><a href="/shop" className="nav-link px-2 text-white">Shop</a></li>
+                            <li><a href="/cart" className="nav-link px-2 text-white">Cart</a></li>
+                            <li><a href="#" className="nav-link px-2 text-white">FAQs</a></li>
+                            <li><a href="#" className="nav-link px-2 text-white">About</a></li>
+                        </ul>
+                        <div className="text-end">
+                            {auth && (
+                                <>
+                                    <ul className="nav">
+                                        <div className="dropdown text-end" style={{ lineHeight: '40px' }}>
+                                            <a style={{ marginRight: '25px' }} href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
+                                            </a>
+                                            <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                                                <li><a className="dropdown-item" href="#">Settings</a></li>
+                                                <li><a className="dropdown-item" href="/thong-tin">Profile</a></li>
+                                                <li><hr className="dropdown-divider" /></li>
+                                                <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
+                                            </ul>
+                                        </div>
+
+                                    </ul>
+                                </>
+                            )}
+                            {!auth && (
+                                <>
+                                    <div className="text-end">
+                                        <button type="button" className="btn btn-outline-light me-2">Login</button>
+                                        <button type="button" className="btn btn-outline-light ">Sign-up</button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </header> */}
 
         </>
     );

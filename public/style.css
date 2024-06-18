@@ -1,4 +1,4 @@
-.floatleft { float: left }
+/* .floatleft { float: left }
 .floatright { float: right }
 .alignleft {
     float: left;
@@ -377,8 +377,9 @@ z-index: 9;
   font-size: 30px;
   font-weight: 100;
   margin-bottom: 40px;
-}
+  color: whitesmoke;
 
+}
 
 .single-wid-product {
     margin-bottom: 31px;
@@ -399,16 +400,16 @@ z-index: 9;
     margin-bottom: 10px;
 }
 .product-wid-price ins {
-    color: #1abc9c;
+    color:  whitesmoke;
     font-weight: 700;
     margin-right: 10px;
     text-decoration: none;
 }
 .single-wid-product h2 a {
-    color: #222;
+    color: whitesmoke;
 }
 .single-wid-product h2 a:hover, .single-product h2 a:hover {
-    color: #1ABC9C;
+    color: #222;
 }
 .wid-view-more {
     background: none repeat scroll 0 0 #1abc9c;
@@ -425,6 +426,7 @@ z-index: 9;
 .product-widget-area {
   padding-bottom: 150px;
   padding-top: 30px;
+  background: #1ABC9C;
 }
 .product-widget-area .zigzag-bottom{background: #333}
 .footer-top-area .zigzag-bottom{background: #000}
@@ -1002,4 +1004,4 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 .pagination > li > a, .pagination > li > span {
   color: #1abc9c;
-}
+} */

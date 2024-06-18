@@ -25,6 +25,8 @@
     opacity: .9;
     outline: none;
     border: 1px solid #908e8e75;
+    width: 50%;
+    margin: 0 auto;
 }
 
 /* .product-list {
@@ -36,7 +38,7 @@
 .product-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     row-gap: 1rem;
     column-gap: 1rem;
 }

@@ -15,6 +15,7 @@ import OTP from '../../../component/OTP/otp';
 import Address from '../../../component/Address/address';
 import { match } from '../../../redux/slice/addressSlice';
 import PhoneInput from 'react-phone-number-input/input';
+import img from "../../../assets/ảnh/12tim.jpg";
 export default function CartPage() {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -37,16 +38,16 @@ export default function CartPage() {
     console.log(totalQuantity);
     const openFormbuycart = () => {
         if (totalprice != 0) {
-            setButtonformBuycart(false);
+            //setButtonformBuycart(false);
         }
         else { alert('phải có ít nhất 1 sản phẩm để Đặt hàng ') }
     }
     const renderItems = items.map((item) => {
         return <div key={item.id} className="d-flex align-items-center">
             <div className="flex-1">
-                <img className="w-100" alt={''} src={``} />
+                <img className="" style={{height : "100px" ,marginBottom :'20px' , width:"100px"}} alt={''} src={img} /> 
             </div>
-            <h5 className="flex-2 text-center font-italic " style={{ fontSize: '13px', marginBottom: '0px' }}>{item.product.ten}</h5>
+            <h5 className="flex-2 text-center font-italic " style={{ fontSize: '1rem', marginBottom: '0px' }}>{item.product.ten}</h5>
             <span className={`flex-1 text-center mx-1 ${styles['price']} user-select-none`}>{item.product.gia}VND</span>
             <div className="d-flex flex-1 mx-1 justify-content-center">
                 <button className="px-2 border-0 bg-white"
@@ -92,7 +93,7 @@ export default function CartPage() {
             try {
                 if (phone !== '' && name !== '' && email !== '') {
 
-                    
+
                     setButtonVerifyOTP(false);
                     setButtonformBuycart(true);
 
@@ -144,52 +145,15 @@ export default function CartPage() {
     console.log(user);
     return (
         <>
+
+
             <div className={`${styles['parents']}`}>
-                {!buttonformBuycart && (
-                    <div className={`${styles['chilren-model']} `}>
-                        <div ref={refPopupForm} className={`${styles['formbuycart']} ${inViewPopupForm ? 'animation-from-left' : ""}`} style={{ backgroundColor: 'blanchedalmond', borderRadius: '22px' }}>
-                            <div onClick={() => {
-                                setButtonformBuycart(true);
-                            }} className={`${styles['close']}`} >X</div>
-                            <form style={{ padding: '20px' }} onSubmit={() => {
-                                verifyOTP();
-                            }}>
-                                <h1>Please,Add Your Infomation </h1>
-                                <div className={`${styles['cf']}`} style={{ backgroundColor: 'burlywood', borderRadius: '22px', padding: '22px' }}>
-                                    <div className="half left cf">
-                                        <div className='' style={{ display: 'flex' }}>
-                                            <div style={{ fontSize: '20px', marginRight: '20px' }}><label style={{ color: 'white' }}>Nam</label>
-                                                <input name='sex' type="radio" className={`${styles['input-name']}`} placeholder="Name" required /></div>
-                                            <div style={{ fontSize: '20px' }}><label style={{ color: 'white' }}>Nữ</label>
-                                                <input name='sex' type="radio" className={`${styles['input-name']}`} placeholder="Name" required /></div>
-
-                                        </div>
-                                        <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} className={`${styles['input-name']}`} placeholder="Name" pattern="^[a-zA-Z]+$" required />
+                {/* {!buttonformBuycart && ( */}
 
 
-
-                                        <input type="email" value={email} onChange={(e) => { setEmail(e.target.value) }} className={`${styles['input-email']}`} placeholder="email" required />
-
-                                        <PhoneInput
-                                            placeholder="Enter phone number"
-                                            value={phone}
-                                            onChange={setPhone} required />
-                                    </div>
-                                    <div className={`${styles['half right cf']}`}>
-                                        <Address />
-                                    </div>
-                                    <button value="Submit" className={`${styles['input-submit']}`} >buy</button>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-
-                )}
+                {/* )} */}
                 {!buttonVerifyOTP && (
-
                     <div className={`${styles['chilren-model']} `}>
-
                         <div ref={refPopupForm} className={`${styles['formbuycart']} ${inViewPopupForm ? 'animation-from-left' : ""}`} style={{ backgroundColor: 'blanchedalmond', borderRadius: '22px' }}>
                             {!auth && (
                                 <div onClick={() => {
@@ -224,12 +188,11 @@ export default function CartPage() {
                 )}
 
                 <Header />
+                <BannerOfPage
+                    bigTitle="CART"
+                    subtitle="CART"
+                />
                 <div className="container pb-3">
-                    <BannerOfPage
-                        bigTitle="CART"
-                        subtitle="CART"
-                    />
-                    <h3 className="text-uppercase font-italic mb-4">shopping cart</h3>
                     <div className="d-flex">
                         <div className={`${styles['list-item']} me-4`}>
                             <div className={`${styles['title']} d-flex text-center text-uppercase font-italic py-2`}>
@@ -242,49 +205,57 @@ export default function CartPage() {
                             </div>
                             <div className="d-flex flex-column row-gap-3 mb-3">
                                 {renderItems}
+
+                            </div>
+                            <div style={{display:'flex',marginBottom:'10px'}}>
+                                <div className={`${styles['provisional-checkout']} h-fit-content`}>
+                                    <h2>nội dung check out</h2>
+                                </div>
+                                <div className={`${styles['provisional-bill']} h-fit-content`}>
+                                    <h4 className="w-100 text-uppercase  font-italic mb-4">cart total</h4>
+                                    <div className={`d-flex font-italic justify-content-between pb-2 ${styles['sub-total']}`}>
+                                        <h6 className="text-uppercase mb-0">subtotal</h6>
+                                        <span className={`${styles['provisional-bill__sub-price']}`}>{totalprice} VND</span>
+                                    </div>
+                                    <div className={`d-flex font-italic justify-content-between mt-2 ${styles['total']}`}>
+                                        <h6 className="text-uppercase mb-0">total</h6>
+                                        <span className={`${styles['provisional-bill__total-price']}`}>VND</span>
+                                    </div>
+                                    <div className={`${styles['coupon']} mt-3`}>
+                                        <input className="w-100 p-2 " placeholder="Enter your coupon" />
+                                        <div className="bg-dark text-light text-center py-2 ">
+                                            <FontAwesomeIcon icon={faGift} />
+                                            Apply coupon
+                                        </div>
+                                        <div>
+                                            {!auth && (
+                                                // <button onClick={() => {
+                                                //     openFormbuycart();
+                                                // }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                                // <button onClick={() => {
+                                                //     openFormbuycart();
+                                                // }} type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop2">Buy</button>
+                                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop2">
+                                                    Launch modal register form
+                                                </button>
+                                            )}
+                                            {auth && (
+                                                <button onClick={() => { openotpverify() }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className={`d-flex ps-3 pe-5 py-3 justify-content-between ${styles['shopping-checkout']}`}>
                                 <Link to="/shop" className={`${styles['continue-shopping']} font-italic`}>
                                     <FontAwesomeIcon icon={faLongArrowAltLeft} className="me-3 text-black" />
                                     Continue shopping
                                 </Link>
-                                {/* {
-                                cart.items.length !== 0 ? <Link to="/checkout" className={`${styles['proceed-checkout']} font-italic`}>
-                                    Proceed to checkout
-                                    <FontAwesomeIcon icon={faLongArrowAltRight} className="ms-3 text-black" />
-                                </Link> : <></>
-                            } */}
                             </div>
                         </div>
-                        <div className={`${styles['provisional-bill']} h-fit-content`}>
-                            <h4 className="w-100 text-uppercase  font-italic mb-4">cart total</h4>
-                            <div className={`d-flex font-italic justify-content-between pb-2 ${styles['sub-total']}`}>
-                                <h6 className="text-uppercase mb-0">subtotal</h6>
-                                <span className={`${styles['provisional-bill__sub-price']}`}>{totalprice} VND</span>
-                            </div>
-                            <div className={`d-flex font-italic justify-content-between mt-2 ${styles['total']}`}>
-                                <h6 className="text-uppercase mb-0">total</h6>
-                                <span className={`${styles['provisional-bill__total-price']}`}>VND</span>
-                            </div>
-                            <div className={`${styles['coupon']} mt-3`}>
-                                <input className="w-100 p-2 " placeholder="Enter your coupon" />
-                                <div className="bg-dark text-light text-center py-2 ">
-                                    <FontAwesomeIcon icon={faGift} />
-                                    Apply coupon
-                                </div>
-                                <div>
-                                    {!auth && (
-                                        <button onClick={() => {
-                                            openFormbuycart();
-                                        }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
-                                    )}
-                                    {auth && (
-                                        <button onClick={() => { openotpverify() }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
+
                 </div>
                 <Footer />
             </div>

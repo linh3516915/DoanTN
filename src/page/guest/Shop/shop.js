@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import CardProductDetail from "../../../component/CardProductdetail/cardproductdetail";
 import Header from "../../../layout/Header/header";
 import Footer from "../../../layout/Footer/Footer";
+import OtherInfo from "../../../component/Otherinfo/OtherInfo";
 
 export default function Shop() {
     const listproductdetail = useSelector(state => state.productdetail.productdetails);
@@ -43,38 +44,25 @@ export default function Shop() {
     return (
         <>
             <Header />
-            <div ref={shoppageSectionRef} className="container d-flex flex-column gap-5">
-                <BannerOfPage
+            <BannerOfPage
                     bigTitle="Shop"
                     subtitle="shop"
                 />
+            <div ref={shoppageSectionRef} className="container d-flex flex-column gap-5">
+                
                 <div className="d-flex justify-content-between">
                     <Filtersuppliers />
+                    
                 </div>
-                <div className="container">
+                <input placeholder="Enter Search Here!"
+                                    className={`${styles['search-input']} px-3 py-2`}
+                />
+                <div className="">
                     <div className="d-flex">
-                        <div className={`${styles['navbar-product']}  me-2`}>
-                            <h3 className="text-uppercase font-italic mb-4">categories</h3>
-                            <h5 className={`${styles['brand-title']} text-uppercase bg-dark px-3 py-2 font-weight-400 font-italic`}>apple</h5>
-                            <div className="px-3 py-3 font-family-Ubuntu">
-                                <div
-                                    className={`font-family-Ubuntu font-italic text-decoration-none ${styles['product-title-name']}`}
-                                // onClick={() => {
-                                //     setCategoryId('')
-                                // }}
-                                >All</div>
-                            </div>
-                            {/* {isLoadingCategories ? <LoadingSpinner /> : renderProductTitleName(categories)} */}
-                        </div>
+                        
                         <div className={`${styles['product-filter']}`}>
                             <div className={`${styles['filter']} d-flex justify-content-between`}>
-                                <input placeholder="Enter Search Here!"
-                                    className={`${styles['search-input']} px-3 py-2`}
-                                // value={name}
-                                // onChange={(e) => {
-                                //     setName(e.target.value)
-                                // }}
-                                />
+                                <div style={{lineHeight : '35px'}}>kết quả tìm kiếm : 0</div>
                                 {/* <select className="pe-4 h-fit-content" onChange={(e) => {
                                 console.log(e.target.value)
                             }}>
@@ -103,8 +91,7 @@ export default function Shop() {
 
                             <div>
                                 <div className={`${styles['product-list']}  mt-3 mb-5`}>
-                                    {
-                                        showlistproduct}
+                                    {showlistproduct}
                                 </div>
                             </div>
                             <div className="w-100 d-flex flex-column align-items-end">
@@ -112,7 +99,7 @@ export default function Shop() {
                                     <button onClick={() => {setTrangCuoi(trangCuoi - 1);setBtnshowlist(false);}} disabled={trangCuoi === 1} className={`p-3 ${styles['pre-btn']}`}>
                                         <FontAwesomeIcon icon={faAngleDoubleLeft} />
                                     </button>
-                                    <span className={`bg-dark p-3 ${styles['number-page']}`}></span>
+                                    <span className={`bg-dark p-3 ${styles['number-page']}`}>   </span>
                                     <button onClick={() => {setTrangCuoi(trangCuoi + 1);setBtnshowlist(true);}}  className={`p-3 ${styles['next-btn']}`} >
                                     {/* disabled={trangCuoi === Math.ceil(listproductdetail.length / trangDau)} */}
                                         <FontAwesomeIcon icon={faAngleDoubleRight} />
@@ -127,8 +114,9 @@ export default function Shop() {
                         </div>
                     </div>
                 </div>
-                <TopTrendingProduct />
+                
             </div>
+            <OtherInfo/>   
             <Footer />
         </>
     );

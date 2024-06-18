@@ -16,13 +16,14 @@ function App() {
   const a = 1;
   return (
     <>
+    
       <Routes>
         <Route path='/' element={<Home data={a}/>} />
         <Route path='/login' element={auth ? <Navigate to ='/' />:<Login/>} />
         <Route path='/signup' element={auth ?  <Navigate to ='/' />:<SignUp/>} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/cart' element={ <CartPage />} />
-        <Route path='/productdetail' element={<ProductDetailPage />} />
+        <Route path='/productdetail/:id' element={<ProductDetailPage />} />
       </Routes>
       
     </>

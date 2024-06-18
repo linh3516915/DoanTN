@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { getuser } from "../../../redux/slice/authSlice";
 import Supplier from "../../../component/Supplier/supplier";
 export default function Home(props) {
-    console.log("check auth:",props.data);
+    console.log("check auth:", props.data);
     const dispatch = useDispatch();
     const token = useSelector(state => state.auth.token);
     const user = useSelector(state => state.auth.user)
@@ -36,21 +36,17 @@ export default function Home(props) {
             alert('loi');
         }
 
-    }, [token,dispatch])
+    }, [token, dispatch])
 
     return (
         <>
             <Header />
             <Banner />
-            
-            <div className="container d-flex flex-column gap-5">
-
-                <Category />
-                <TopTrendingProduct />
-                <ProductHomePage />
-                <Supplier/>
-                <OtherInfo />
-            </div>
+            <Category />
+            <Supplier />
+            <TopTrendingProduct />
+            <ProductHomePage />
+            <OtherInfo />
             <Footer />
         </>
     );

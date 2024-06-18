@@ -24,7 +24,7 @@
 .total-price,
 .price {
     font-style: italic;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #959595;
 }
 
@@ -39,12 +39,20 @@
 .shopping-checkout {
     background-color: #c1c5c936;
 }
-
+.provisional-checkout{
+    width: 67%;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 3rem 2rem;
+    background-color: #c1c5c936;
+    border-radius: 15px;
+}
 .provisional-bill {
     padding: 5rem 2rem;
     flex: 1;
     background-color: #c1c5c936;
     border-radius: 15px;
+    width: 30%;
 }
 
 .sub-total {

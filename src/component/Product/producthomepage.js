@@ -12,7 +12,7 @@ export default function ProductHomePage() {
     const listproductdetail = useSelector(state => state.productdetail.productdetails);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-     useEffect(() => {
+    useEffect(() => {
         const getAPI = async () => {
             try {
 
@@ -26,35 +26,45 @@ export default function ProductHomePage() {
             }
         }
         getAPI();
-     }, [dispatch])
+    }, [dispatch])
     console.log('testss', listproductdetail);
-     let producthomepage = null;
-     if(listproductdetail !== null)
-        {
-             producthomepage = listproductdetail.map((item, index) => {
-                if (index > 0 && index <= 8) {
-                    return (
-                        <CardProductDetail data={item} />
-                    );
-                }
-            })
-        }
+    let producthomepage = null;
+    if (listproductdetail !== null) {
+        producthomepage = listproductdetail.map((item, index) => {
+            if (index > 0 && index <= 8) {
+                return (
+                    <CardProductDetail data={item} />
+                );
+            }
+        })
+    }
     const movePage = () => {
         navigate('/shop');
     }
-     console.log("sản pham : ", producthomepage);
+    console.log("sản pham : ", producthomepage);
     return (
         <>
-            <div style={{ position: 'relative' }}>
-                <div className="mb-4" style={{ textAlign: 'center' }}>
-                    <p className="text-uppercase opacity-50 font-italic m-0">made the hard way</p>
-                    <h4 className="text-uppercase font-italic m-0">new products</h4>
-                </div>
-                <div className={`${style['product-list']}`}>
-                    {producthomepage}
-                    <button onClick={() => { movePage() }} className="btn btn-primary" >Xem Thêm sản phẩm </button>
-                </div>
 
+            <div class="maincontent-area">
+                <div class="zigzag-bottom"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="latest-product">
+                                <h2 class="section-title">Latest Product</h2>
+                                <div className={`${style['product-list']}`}>
+                                    {producthomepage}
+                                   
+                                </div>
+                                <div style={{width:'max-content',margin:'0 auto'}}>
+                                <button onClick={() => { movePage() }} className="btn btn-primary" >Xem Thêm sản phẩm </button>
+                                </div>
+                               
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );

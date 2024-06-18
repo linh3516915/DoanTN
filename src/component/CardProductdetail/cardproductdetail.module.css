@@ -1,3 +1,37 @@
+.item {
+    /* width: 20%; */
+    font-size: 11px;
+    cursor: pointer;
+    background-color: white;
+    text-align: center;
+    /* opacity: 0.8; */
+}
+.item img {
+    height: 200px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.item-name{
+    font-weight: 700;
+    text-decoration: none;
+    color: #222;
+}
+.item-price{
+    color: #1abc9c;
+    font-weight: 700;
+
+    text-decoration: none;
+}
+.item:hover{
+    opacity: 0.5;
+    background-color: white;
+}
+.list-item {
+    animation: fadeInFromLeft 1.5s ease;
+    margin-bottom: 5rem;
+}
+
+
 .product {
     cursor: pointer;
     height: 100%;
@@ -7,6 +41,11 @@
 }
 .product-content:hover {
     opacity: .5;
+}
+.image-warrper img{
+    height: 200px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 /* .product:hover {
     opacity: .5;

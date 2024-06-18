@@ -1,11 +1,16 @@
 .category-img:hover {
     opacity: .5;
 }
-
+.category-img img{
+    border-radius: 20px;
+}
 .category-images_browse {
     grid-template-columns: 1fr 1fr 1fr;
-}
 
+}
+.category-img{
+    margin-bottom: 10px;
+}
 .first-row {}
 
 .category-1 {}

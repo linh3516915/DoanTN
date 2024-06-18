@@ -7,6 +7,7 @@ import { faClose, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { addCart } from '../../redux/slice/cartSlice';
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
+import img from "../../assets/ảnh/12tim.jpg";
 export default function CardProductDetail(props) {
     const [isDisplayPopup, setIsDisplayPopup] = useState(false)
     const { ref: refTopTrendingProduct, inView: inViewTopTrendingProduct } = useInView({
@@ -14,7 +15,7 @@ export default function CardProductDetail(props) {
     });
     const listcart = useSelector(state => state.cart.items);
     const totalQuantity = useSelector(state => state.cart.totalQuantity);
-    const totalPrice = useSelector(state=>state.cart.totalPrice);
+    const totalPrice = useSelector(state => state.cart.totalPrice);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const test = () => {
@@ -30,24 +31,32 @@ export default function CardProductDetail(props) {
     console.log("check totalPrice", totalPrice);
     return (
         <>
+            <div style={{ width: '20%' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
+                <div onClick={() => {
+                    navigate(`/productdetail/${ (props.data.id)}`);
+                }} className={`${styles['item']}  `}>
 
-            <div ref={refTopTrendingProduct} id={props.id}  className={`mb-5 ${styles['product']} ${props.animation ? 'animation-from-right' : 'animation-from-left'}  ${inViewTopTrendingProduct ? 'animation-zoom-in' : ''}`} >
-                <div onClick={() => { test() }} className={`mb-5 ${styles['product-content']}`}>
-                    <div className={`${styles['image-warrper']} h-75`}>
-                        <img
-                            className="w-100 mb-3 h-100"
-                            src={''}
-                            alt={
-                                ''
-                            } />
+                    <img src={img} />
+                    <div style={{ padding: "10px" }}>
+                        <div class="product-wid-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <div style={{ marginBottom: '15px', height: "2rem" }}>
+                            <h6 className={`${styles['item-name']}`} >{props.data.ten}</h6>
+                        </div>
+
+                        <div className={`${styles['item-price']}`}>{props.data.gia} VNĐ</div>
                     </div>
-                    <p className={`name text-center font-italic font-weight-900 font-family-Ubuntu mb-1`} style={{ fontSize: '11px' }}>{props.data.ten}</p>
-                    <p className={`price text-center opacity-50 font-weight-light font-monospace`}>{props.data.gia} VND</p>
+
+
                 </div>
-                <>
-                    <button onClick={() => { addcart(props.data) }} className='btn btn-secondary w-50 ' style={{ marginLeft: '25%', fontSize: '10px' }}>Add cart</button>
-                </>
+                <button onClick={() => { addcart(props.data) }} style={{ width: '100%', marginTop: '10px', marginBottom: '20px', backgroundColor: '#1abc9c' }} className="btn btn-success">Add to cart</button>
             </div>
+
         </>
     );
 }
