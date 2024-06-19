@@ -9,6 +9,8 @@ use App\Http\Controllers\APIDonHangController;
 use App\Http\Controllers\APIOTPController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\APIHinhAnhController;
+use App\Http\Controllers\APIAccountController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,12 +32,18 @@ Route::group([
     'prefix' => 'auth'
 
 ], function ($router) {
-
     Route::post('login', [AuthController::class,'login']);
+    Route::post('signup', [AuthController::class,'signup']);
     Route::post('logout', [AuthController::class,'logout']);
     Route::post('refresh', [AuthController::class,'refresh']);
     Route::get('profile', [AuthController::class,'profile']);
 
+});
+Route::group([
+    'prefix' => 'account'
+], function ($router) {
+    Route::post('signup', [APIAccountController::class,'signup']);
+    Route::post('checkemail', [APIAccountController::class,'checkemail']);
 });
 Route::group([
     'prefix' => 'product'
@@ -47,6 +55,7 @@ Route::group([
     Route::get('capnhattatca', [APISanPhamController::class,'capnhattatca']);
 
 });
+
 Route::group([
     'prefix' => 'productdetail'
 ], function ($router) {
@@ -56,6 +65,7 @@ Route::group([
     Route::get('showList', [APIChiTietSanPhamController::class,'Listproductdetail']);
     Route::post('listdungluong', [APIChiTietSanPhamController::class,'listdungluong']);
     Route::post('listmausac', [APIChiTietSanPhamController::class,'listmausac']);
+    Route::post('findproductdetail', [APIChiTietSanPhamController::class,'findproductdetail']);
     Route::get('top8hottrending', [APIChiTietSanPhamController::class,'top8hottrending']);
     Route::get('latesproduct', [APIChiTietSanPhamController::class,'latesproduct']);
     Route::get('topseller', [APIChiTietSanPhamController::class,'topseller']);

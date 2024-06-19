@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\ChiTietSanPham;
 use App\Models\ChiTietDonHang;
 use App\Models\SanPham;
+use App\Models\DungLuong;
+use App\Models\MauSac;
 class APIChiTietSanPhamController extends Controller
 {
     public function Listproductdetails(){
@@ -58,8 +60,13 @@ class APIChiTietSanPhamController extends Controller
             
         }
         sort($data2);
+        $data3= [];
+        for($i=0;$i<count($data2);$i++){
+            $dl = DungLuong::find($data2[$i]);
+            array_push($data3,$dl);
+        }
         return response()->json([
-            'data' => $data2,
+            'data' => $data3,
         ]);
     }
     public function listmausac(Request $rq){
@@ -93,8 +100,19 @@ class APIChiTietSanPhamController extends Controller
             
         }
         sort($data2);
+        $data3 = [];
+        for($i=0;$i<count($data2);$i++){
+            $dl = MauSac::find($data2[$i]);
+            array_push($data3,$dl);
+        }
         return response()->json([
-            'data' => $data2,
+            'data' => $data3,
+        ]);
+    }
+    public function findproductdetail(Request $rq){
+        $ctsp = ChiTietSanPham::where('mau_sac_id',$rq->mau_sac_id)->where('dung_luong_id',$rq->dung_luong_id)->first();
+        return response()->json([
+            'data' => $ctsp,
         ]);
     }
     public function top8hottrending(){
