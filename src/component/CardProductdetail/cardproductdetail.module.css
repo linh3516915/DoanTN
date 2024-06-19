@@ -7,7 +7,7 @@
     /* opacity: 0.8; */
 }
 .item img {
-    height: 200px;
+    
     margin-bottom: 20px;
     width: 100%;
 }
@@ -15,6 +15,7 @@
     font-weight: 700;
     text-decoration: none;
     color: #222;
+    font-size: 70%;
 }
 .item-price{
     color: #1abc9c;

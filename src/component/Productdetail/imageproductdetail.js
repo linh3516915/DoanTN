@@ -20,7 +20,7 @@ function ImageProductDetail() {
 
     return (
         <>
-            <aside className="col-lg-6">
+            <aside className="col-lg-6" style={{height : '30rem'}}>
                 <div className="border rounded-4 mb-3 d-flex justify-content-center" style={{height:'85%'}}>
                     <a data-fslightbox="mygalley" className="rounded-4" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
                         <img className="rounded-4 fit" src={img} style={{height:'100%'}}/>

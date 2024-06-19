@@ -1,8 +1,17 @@
 .sign-up {
     background-color: #fff;
-    width: 30%;
+    width: 28rem;
     box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
     padding: 4rem 4rem 2rem 4rem;
+}
+
+.sign-up_disible {
+    background-color: black;
+    color: #fff;
+    padding: 1rem;
+    text-transform: uppercase;
+    margin-top: 2rem;
+    opacity: 0.5;
 }
 
 .title {
@@ -33,4 +42,25 @@
 
 .sign-in-link {
     font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* reponsive */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .sign-up__k2A\+e {
+        background-color: #fff;
+        /* width: 28rem; */
+        box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+        padding: 1rem 1rem 1rem 1rem;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+.sign-up {
+        background-color: #fff;
+        /* width: 28rem; */
+        box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+        padding: 1rem 1rem 1rem 1rem;
+    }
 }

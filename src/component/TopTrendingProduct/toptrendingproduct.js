@@ -7,7 +7,6 @@ import styles from "./toptrendingproduct.module.css"
 import { useInView } from "react-intersection-observer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import img from "../../assets/ảnh/14ve.jpg";
 import CardProductDetail from "../CardProductdetail/cardproductdetail";
 export default function TopTrendingProduct() {
     const top16hottrends = useSelector(state => state.productdetail.top16hottrend);

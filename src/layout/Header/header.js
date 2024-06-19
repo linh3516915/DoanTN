@@ -1,20 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './Navbar.css';
 import { Logout } from "../../redux/slice/authSlice";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './NavBar.module.css';
+import PopupLogin from '../PopupLogin/popuplogin';
+import { openpopup, openpopuplogin, openpopupsignup } from '../../redux/slice/popupSlice';
+import { useNavigate } from 'react-router-dom';
+import img from '../../assets/ảnh/tải xuống (1).jpg';
+import PopupOTP from '../PopupOTP/popupOTP';
+
 export default function Header() {
     const auth = useSelector(state => state.auth.authentication);
     console.log('auth', auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const logout = () => {
         dispatch(Logout());
     }
-
-
-
     return (
         <>
+                    <PopupOTP/>
+                    <PopupLogin/>
             <div className="site-branding-area">
                 <div className="container">
                     <div className="row">
@@ -41,7 +47,7 @@ export default function Header() {
                                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                         <span className="navbar-toggler-icon"></span>
                                     </button>
-                                    <div className="collapse navbar-collapse" id="navbarNav" style={{justifyContent:'space-around'}}>
+                                    <div className="collapse navbar-collapse" id="navbarNav" style={{ justifyContent: 'space-between' }}>
                                         <ul className="navbar-nav">
                                             <li className="nav-item">
                                                 <a className="nav-link active" href="/">Home</a>
@@ -63,8 +69,32 @@ export default function Header() {
                                             </li>
                                         </ul>
                                         <div className="text-end">
-                                            <button type="button" className="btn btn-outline-light me-2">Login</button>
-                                            <button type="button" className="btn btn-outline-light ">Sign-up</button>
+                                            {auth && (
+                                                <>
+                                                    <ul className="nav">
+                                                        <div className="dropdown text-end" style={{ lineHeight: '40px' }}>
+                                                            <a style={{ marginRight: '25px' }} href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <img src={img} alt="mdo" width="32" height="32" className="rounded-circle" />
+                                                            </a>
+                                                            <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                                                                <li><a className="dropdown-item" href="#">Settings</a></li>
+                                                                <li><a className="dropdown-item" href="/thong-tin">Profile</a></li>
+                                                                <li><hr className="dropdown-divider" /></li>
+                                                                <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
+                                                            </ul>
+                                                        </div>
+
+                                                    </ul>
+                                                </>
+                                            )}
+                                            {!auth && (
+                                                <>
+                                                    <div className="text-end">
+                                                        <button type="button" onClick={()=>{dispatch(openpopuplogin())}} className="btn btn-outline-light me-2">Login</button>
+                                                        <button type="button" onClick={()=>{navigate('/signup')}} className="btn btn-outline-light ">Sign-up</button>
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

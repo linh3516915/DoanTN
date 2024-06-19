@@ -3,31 +3,28 @@ import ProductDetail from "../../../component/Productdetail/productdetail";
 import Footer from "../../../layout/Footer/Footer";
 import Header from "../../../layout/Header/header";
 import ImageProductDetail from "../../../component/Productdetail/imageproductdetail";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 
 
 
 export default function ProductDetailPage() {
-    const [productdetail, setProductDetail] = useState();
-    let { id } = useParams();
+    const productdetailpageSectionRef = useRef(null);
     useEffect(() => {
-        const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/productdetail/productdetail',
-                {id}
-                );
-            setProductDetail(response.data.data);
+        if (productdetailpageSectionRef.current) {
+            productdetailpageSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-        getAPI();
-    }, [])
+    }, []);
+    let { id } = useParams();
+    
     return (
         <>
             <Header />
-            <div className="container d-flex flex-column gap-4" style={{marginBottom : '30px'}}>
+            <div ref={productdetailpageSectionRef}  className="container d-flex flex-column gap-4" style={{marginBottom : '30px'}}>
                 <div style={{ display: "flex", justifyContent: 'center' }}>
                     <ImageProductDetail />
-                    <ProductDetail data={productdetail}/>
+                    <ProductDetail id={id}/>
                 </div>
             </div>
             <Footer />

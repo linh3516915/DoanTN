@@ -11,6 +11,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { getuser } from "../../../redux/slice/authSlice";
 import Supplier from "../../../component/Supplier/supplier";
+import PopupLogin from "../../../layout/PopupLogin/popuplogin";
 export default function Home(props) {
     console.log("check auth:", props.data);
     const dispatch = useDispatch();

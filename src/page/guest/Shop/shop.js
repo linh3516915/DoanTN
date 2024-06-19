@@ -32,15 +32,12 @@ export default function Shop() {
            
         ))
     }
-
-
     const shoppageSectionRef = useRef(null);
     useEffect(() => {
         if (shoppageSectionRef.current) {
             shoppageSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, []);
-    console.log(hientaiTrang);
     return (
         <>
             <Header />

@@ -7,7 +7,6 @@ const initialState = {
   top16hottrend: null,
   none12hottrend: null,
   btnanimation: false,
-
 }
 
 export const productdetailSlice = createSlice({

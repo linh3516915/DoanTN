@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { gettoken, getuser } from "../../redux/slice/authSlice";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { closepopuplogin } from "../../redux/slice/popupSlice";
 export default function FormLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,21 +20,28 @@ export default function FormLogin() {
                 email,
                 password
             });
-            console.log('login', response);
-            dispatch(gettoken(response.data));
+            console.log('login', response.data);
+            if (response.data.success === true) {
+                dispatch(gettoken(response.data));
+                dispatch(closepopuplogin());
+            }
+            else{
+                alert('sai mật khẩu hoặc tài khoản');
+            }
             //lấy dữ liệu ng dùng 
         } catch (error) {
             console.error(error);
             alert('khong them dc');
         }
     };
-    
+
     console.log(token);
     console.log(authen);
     console.log(user);
     return (
         <>
             <div className={`container w-fit-content bg-light ${styles['sign-in']}`}>
+
                 <h3 className={`${styles['title']}`}>Sign In</h3>
                 <form
                     onSubmit={(e) => {

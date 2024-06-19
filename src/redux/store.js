@@ -5,13 +5,15 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import productdetailReducer from './slice/productdetail'
 import addressReducer from './slice/addressSlice'
 import cartReducer from './slice/cartSlice'
+import  itemproductdetailReducer  from './slice/itemproductdetail'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import popupReducer from './slice/popupSlice'
 const persistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel2,
-  whilelist : ['auth','cart'],
-  blacklist : ['address'], 
+  whitelist : ['auth','cart','productdetail'],
+  blacklist : ['address','popup'], 
 }
 
 const rootReducer = combineReducers({
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
     productdetail : productdetailReducer,
     cart : cartReducer, 
     address : addressReducer, 
+    popup : popupReducer, 
+    itemproductdetail : itemproductdetailReducer,
 })
  
 const persistedReducer = persistReducer(persistConfig, rootReducer)

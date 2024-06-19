@@ -113,7 +113,7 @@ export default function Address() {
                 </select>
             </div>
             <div data-mdb-input-init class="form-outline mb-4">
-                <input type="text" onChange={(e) => { dispatch(getstreet(e.target.value)) }} required />
+                <input type="text" placeholder="nhập tên đường" onChange={(e) => { dispatch(getstreet(e.target.value)) }} required />
             </div>
         </>
     )

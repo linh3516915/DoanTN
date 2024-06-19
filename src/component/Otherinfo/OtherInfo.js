@@ -1,6 +1,7 @@
 import { useInView } from 'react-intersection-observer';
 import styles from './OtherInfo.module.css'
 import { useEffect, useState } from 'react';
+import img from "../../assets/ảnh/14ve.jpg";
 import axios from 'axios';
 
 function OtherInfo() {
@@ -20,7 +21,7 @@ function OtherInfo() {
             return (
                 <>
                     <div class="single-wid-product">
-                        <a href="single-product.html"><img src="img/product-thumb-1.jpg" alt="" class="product-thumb" /></a>
+                        <a href="single-product.html"><img src={img} alt="" class="product-thumb" /></a>
                         <p style={{height : "4rem" , textDecoration:'none'}}><a href="single-product.html" style={{color: '#f5f5f5'}}>{item.chi_tiet_san_pham.ten}</a></p>
                         <div class="product-wid-rating">
                             <i class="fa fa-star"></i>
@@ -52,7 +53,7 @@ function OtherInfo() {
             return (
                 <>
                     <div class="single-wid-product">
-                        <a href="single-product.html"><img src="img/product-thumb-1.jpg" alt="" class="product-thumb" /></a>
+                        <a href="single-product.html"><img src={img} alt="" class="product-thumb" /></a>
                         <p style={{height : "4rem" , textDecoration:'none'}}><a href="single-product.html" style={{color: '#f5f5f5'}}>{item.ten}</a></p>
                         <div class="product-wid-rating">
                             <i class="fa fa-star"></i>

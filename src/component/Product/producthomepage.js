@@ -18,7 +18,6 @@ export default function ProductHomePage() {
 
                 const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
                 );
-                console.log('check data: ', data);
                 dispatch(listProductdetail(data));
 
             } catch (error) {
@@ -27,7 +26,6 @@ export default function ProductHomePage() {
         }
         getAPI();
     }, [dispatch])
-    console.log('testss', listproductdetail);
     let producthomepage = null;
     if (listproductdetail !== null) {
         producthomepage = listproductdetail.map((item, index) => {
@@ -41,7 +39,6 @@ export default function ProductHomePage() {
     const movePage = () => {
         navigate('/shop');
     }
-    console.log("sản pham : ", producthomepage);
     return (
         <>
 

@@ -1,6 +1,6 @@
 
 import styles from './cardproductdetail.module.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
@@ -8,8 +8,11 @@ import { addCart } from '../../redux/slice/cartSlice';
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
 import img from "../../assets/ảnh/12tim.jpg";
+import axios from 'axios';
+import { getproductdetail } from '../../redux/slice/itemproductdetail';
 export default function CardProductDetail(props) {
-    const [isDisplayPopup, setIsDisplayPopup] = useState(false)
+    const [idpddetail, setIdpddetail] = useState(0);
+    const productdetail = useSelector(state => state.itemproductdetail.itemproductdetail);
     const { ref: refTopTrendingProduct, inView: inViewTopTrendingProduct } = useInView({
         threshold: 0
     });
@@ -22,19 +25,16 @@ export default function CardProductDetail(props) {
         navigate('/productdetail');
     }
     const addcart = (item) => {
-        console.log("checkdataa", item);
         dispatch(addCart(item));
         alert('add cart successfully');
     }
-    console.log("check item cart", listcart);
-    console.log("check totalQuantity", totalQuantity);
-    console.log("check totalPrice", totalPrice);
+    const movepageproductdetail = (id) => {
+        navigate(`/productdetail/${(id)}`);
+    }
     return (
         <>
             <div style={{ width: '20%' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
-                <div onClick={() => {
-                    navigate(`/productdetail/${ (props.data.id)}`);
-                }} className={`${styles['item']}  `}>
+                <div onClick={() => { movepageproductdetail(props.data.id); }} className={`${styles['item']}  `}>
 
                     <img src={img} />
                     <div style={{ padding: "10px" }}>
