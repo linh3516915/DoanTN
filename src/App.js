@@ -10,6 +10,9 @@ import Shop from './page/guest/Shop/shop';
 import CartPage from './page/guest/Cart/Cartpage';
 import ProductDetailPage from './page/guest/ProductdetailPage/Productdetailpage';
 import { useSelector } from 'react-redux';
+import Trangchu_Admin from './page/Admin/Home/Trangchu/Trangchu';
+import Chinhanh_Admin from './page/Admin/Chinhanh/Chinhanh_Admin';
+import Tongdai_Admin from './page/Admin/Tongdai/Tongdai_Admin';
 
 function App() {
   const auth = useSelector(state => state.auth.authentication);
@@ -24,6 +27,11 @@ function App() {
         <Route path='/shop' element={<Shop />} />
         <Route path='/cart' element={ <CartPage />} />
         <Route path='/productdetail/:id' element={<ProductDetailPage />} />
+        
+        {/* Admin */}
+        <Route path='/admin' element={<Trangchu_Admin/>} />
+        <Route path='/chinhanh-admin' element={<Chinhanh_Admin/>}></Route>
+        <Route path='/tongdai-admin' element={<Tongdai_Admin/>}></Route>
       </Routes>
       
     </>
