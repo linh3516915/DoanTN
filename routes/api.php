@@ -9,6 +9,11 @@ use App\Http\Controllers\APIDonHangController;
 use App\Http\Controllers\APIOTPController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\APIHinhAnhController;
+use App\Http\Controllers\APISoTongDaiController_Admin;
+use App\Http\Controllers\APIChiNhanhController_Admin;
+use App\Http\Controllers\APISanPhamController_Admin;
+use App\Http\Controllers\APINhaCungCapController_Admin;
+use App\Http\Controllers\APIChiTietSanPhamController_Admin;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -93,4 +98,52 @@ Route::group([
 ], function ($router) {
 
     Route::post('anhsanpham', [APIHinhAnhController::class,'laydanhsach']);
+});
+
+
+//Admin
+
+Route::group([
+    'prefix' => 'diachi'
+], function ($router) {
+
+    Route::get('chinhanh-admin', [APIChiNhanhController_Admin::class, 'danhSach']);
+    
+});
+Route::group([
+    'prefix' => 'tongdai'
+], function ($router) {
+
+    Route::get('tongdai-admin', [APISoTongDaiController_Admin::class, 'danhSach']);
+    
+});
+Route::group([
+    'prefix' => 'sanpham'
+], function ($router) {
+
+    Route::get('sanpham-admin', [APISanPhamController_Admin::class, 'danhSach']);
+    Route::post('themmoi-sanpham', [APISanPhamController_Admin::class, 'themSanPham']);
+    Route::post('capnhat-sanpham/{id}', [APISanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-sanpham/{id}', [APISanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'nhacungcap'
+], function ($router) {
+
+    Route::get('nhacungcap-admin', [APINhaCungCapController_Admin::class, 'danhSach']);
+    Route::post('themmoi-nhacungcap', [APINhaCungCapController_Admin::class, 'themNCC']);
+    Route::post('capnhat-nhacungcap/{id}', [APINhaCungCapController_Admin::class, 'capNhat']);
+    Route::get('xoa-nhacungcap/{id}', [APINhaCungCapController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'ctsp'
+], function ($router) {
+
+    Route::get('ctsp-admin/{id}', [APIChiTietSanPhamController_Admin::class, 'danhSach']);
+    Route::post('themmoi-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'themctsp']);
+    Route::post('capnhat-nhacungcap/{id}', [APIChiTietSanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-nhacungcap/{id}', [APIChiTietSanPhamController_Admin::class, 'xoa']);
+    
 });
