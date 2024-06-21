@@ -12,9 +12,18 @@ use App\Models\MauSac;
 class APIChiTietSanPhamController extends Controller
 {
     public function Listproductdetails(){
-        $productdetail = ChiTietSanPham::all();
+        $products = SanPham::all();
+        $data = [];
+        for($i=0; $i<count($products);$i++){
+            $productdetail = ChiTietSanPham::where('san_pham_id',$products[$i]->id)->first();
+            if($productdetail != null){
+                array_push($data,$productdetail);
+            }
+            
+        }
+        
         return response()->json([
-            'data' => $productdetail,
+            'data' => $data,
         ]);
     }
     public function Listproductdetail(Request $rq){
@@ -188,5 +197,58 @@ class APIChiTietSanPhamController extends Controller
         return response()->json([
             'data' => $data,
         ]);
+    }
+    public function search(Request $rq){
+        if($rq->ten !='')
+        {
+            $ctsp = SanPham::where('ten','like','%'.$rq->ten.'%')->get();
+            $data = [];
+            for($i=0; $i<count($ctsp);$i++){
+                $productdetail = ChiTietSanPham::where('san_pham_id',$ctsp[$i]->id)->first();
+                if($productdetail != null){
+                    array_push($data,$productdetail);
+                }
+                
+            }
+            return response()->json([
+                'result' => count($ctsp),
+                 'data' => $data,
+                
+            ]);
+        }
+        return response()->json([
+            'result' => 0,
+            'data' => null,
+       ]);
+    }
+    public function filterprice(Request $rq){
+        if($rq->giatu  < 1000000 ||$rq->giatu  >=  $rq->giaden){
+            return response()->json([
+                'success' => false,
+                'message'=> 'lỗi'
+            ]);
+        }
+        if( $rq->giaden < 1000000 &&  $rq->giaden < $rq->giatu)
+            {
+                return response()->json([
+                    'success' => false,
+                    'message'=> 'lỗi'
+                ]);
+            }
+            if($rq->giatu < $rq->giaden){
+                $productdetail = ChiTietSanPham::where('gia','>',$rq->giatu)->where('gia','<=',$rq->giaden)->get();
+                return response()->json([
+                    'result' => count($productdetail),
+                    'data' => $productdetail,
+                    'success' => true,
+                ]);
+            }
+            else{
+                return response()->json([
+                    'success' => false,
+                    'message'=> 'lỗi'
+                ]);
+            }
+            
     }
 }

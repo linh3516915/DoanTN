@@ -69,6 +69,9 @@ Route::group([
     Route::get('top8hottrending', [APIChiTietSanPhamController::class,'top8hottrending']);
     Route::get('latesproduct', [APIChiTietSanPhamController::class,'latesproduct']);
     Route::get('topseller', [APIChiTietSanPhamController::class,'topseller']);
+    Route::post('search', [APIChiTietSanPhamController::class,'search']);
+    Route::post('filterprice', [APIChiTietSanPhamController::class,'filterprice']);
+    
 });
 
 Route::group([
