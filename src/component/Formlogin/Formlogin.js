@@ -5,6 +5,9 @@ import { gettoken, getuser } from "../../redux/slice/authSlice";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { closepopuplogin } from "../../redux/slice/popupSlice";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useInView } from "react-intersection-observer";
 export default function FormLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,6 +15,9 @@ export default function FormLogin() {
     const token = useSelector(state => state.auth.token);
     const authen = useSelector(state => state.auth.authentication);
     const user = useSelector(state => state.auth.user)
+    const { ref: refTopTrendingProduct, inView: inViewPopupLogin } = useInView({
+        threshold: 0
+    });
     const HandleLogin = async () => {
 
         try {
@@ -25,7 +31,7 @@ export default function FormLogin() {
                 dispatch(gettoken(response.data));
                 dispatch(closepopuplogin());
             }
-            else{
+            else {
                 alert('sai mật khẩu hoặc tài khoản');
             }
             //lấy dữ liệu ng dùng 
@@ -40,8 +46,8 @@ export default function FormLogin() {
     console.log(user);
     return (
         <>
-            <div className={`container w-fit-content bg-light ${styles['sign-in']}`}>
-
+            <div ref={refTopTrendingProduct} className={`container w-fit-content bg-light ${styles['sign-in']} ${inViewPopupLogin ? 'animation-from-top' : ''}`}>
+                <button className='btn btn-outline-danger' style={{ marginBottom: '1rem' }} onClick={() => { dispatch(closepopuplogin()) }}><FontAwesomeIcon icon={faCircleXmark} /></button>
                 <h3 className={`${styles['title']}`}>Sign In</h3>
                 <form
                     onSubmit={(e) => {
@@ -65,7 +71,7 @@ export default function FormLogin() {
                 </form>
                 <div className={`${styles['sign-up-link']} text-center mt-5 opacity-75  font-italic`}>
                     <span className='opacity-50'>Create an account?</span>
-                    <Link to="/signup" className='text-decoration-none ms-1'>
+                    <Link to="/signup" className='text-decoration-none ms-1' onClick={()=>{dispatch(closepopuplogin())}}>
                         Sign up
                     </Link>
                 </div>

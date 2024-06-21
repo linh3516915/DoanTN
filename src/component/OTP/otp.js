@@ -6,12 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closepopupotp, openpopuplogin } from '../../redux/slice/popupSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useInView } from 'react-intersection-observer';
 export default function OTP(props) {
   const [otp, setOtp] = useState('');
   const [isloading,setIsloading] = useState(false);
   const auth = useSelector(state => state.auth.authentication);
   const user = useSelector(state => state.auth.user);
   const formdata = useSelector(state=>state.popup.datacheckotp);
+  const { ref: refPopupOTP, inView: inViewPopupOTP } = useInView({
+    threshold: 0
+});
   useEffect(() => {
     const getAPI = async () => {
       const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
@@ -65,7 +69,7 @@ export default function OTP(props) {
   const HandleResend = () => {
     const getAPI = async () => {
       const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotpagain', {
-        email: props.formdata.email
+        email: formdata.email
       })
       alert(response.data.success);
     }
@@ -82,7 +86,7 @@ export default function OTP(props) {
   }
   const dispatch = useDispatch();
   return (
-    <div className={`${styles['otp-input']}`}>
+    <div ref={refPopupOTP} className={`${styles['otp-input']}  ${inViewPopupOTP ? 'animation-from-top' : ''}`} >
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
         <h2>check OTP email</h2>
         <button className='btn btn-outline-danger' onClick={() => { exitOTP(formdata.email) }}><FontAwesomeIcon icon={faCircleXmark} /></button>

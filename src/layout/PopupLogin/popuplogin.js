@@ -15,7 +15,6 @@ export default function PopupLogin() {
             {popuplogin && (
                 <div className={`${styles['popup-parents']}`}>
                     <div className={`${styles['popup-chilren']}`}>
-                        <button onClick={()=>{dispatch(closepopuplogin())}}>x</button>
                         <FormLogin />
                     </div>
 

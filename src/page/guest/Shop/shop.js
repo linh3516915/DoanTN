@@ -2,64 +2,418 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Filtersuppliers from "../../../component/Filtersuppliers/filtersuppliers";
 import TopTrendingProduct from "../../../component/TopTrendingProduct/toptrendingproduct";
 import styles from './shop.module.css'
-import { faAngleDoubleLeft, faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleLeft, faAngleDoubleRight, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import BannerOfPage from "../../../component/BannerOfPage/BannerOfPage";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CardProductDetail from "../../../component/CardProductdetail/cardproductdetail";
 import Header from "../../../layout/Header/header";
 import Footer from "../../../layout/Footer/Footer";
 import OtherInfo from "../../../component/Otherinfo/OtherInfo";
+import axios from "axios";
+import { filterpriceProductdetail, searchProductdetail, settrang } from "../../../redux/slice/filterSlice";
+import Search from "../../../component/SearchProduct/search";
+import { Redirect, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { listProductdetail } from "../../../redux/slice/productdetail";
+import LoadingSpinner from "../../../component/loading/loadingspinner";
+import FilterPrice from "../../../component/Filterprice/filterprice";
 
 export default function Shop() {
     const listproductdetail = useSelector(state => state.productdetail.productdetails);
-    const [trangDau, setTrangDau] = useState(20);
-    const [trangCuoi, setTrangCuoi] = useState(1);
-    const [btnshowlist,setBtnshowlist] = useState(false);
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const q = searchParams.get('q');
+    const giatu = searchParams.get('giatu');
+    const giaden = searchParams.get('giaden');
+    console.log('check q:', q);
+    console.log('check giatu:', giatu);
+    console.log('check giaden:', giaden);
+    const [isloading, setIsloading] = useState(false);
+    //const [trangDau, setTrangDau] = useState(16);
+    const trangDau = useSelector(state => state.filter.trangdau);
+    //const [trangCuoi, setTrangCuoi] = useState(1);
+    const trangCuoi = useSelector(state => state.filter.trangcuoi)
+    const [search, setSearch] = useState('');
+    const [btnshowlist, setBtnshowlist] = useState(false);
+    const [redirect, setRedirect] = useState(false);
+    const [query, setQuery] = useState('');
+    const [popupsearch, setPopupSearch] = useState(true);
+    //const history = useHistory();
+    const navigate = useNavigate();
+    const result = useSelector(state => state.filter.result);
+    const searchs = useSelector(state => state.filter.search);
+    const dispatch = useDispatch();
     const dauTrang = trangCuoi * trangDau;
     const cuoiTrang = dauTrang - trangDau;
     console.log(listproductdetail);
     let hientaiTrang = null;
     let showlistproduct = null;
+    let pageNumbers = [];
     if (listproductdetail !== null) {
         hientaiTrang = listproductdetail.slice(cuoiTrang, dauTrang);
-        const pageNumbers = [];
+
         for (let i = 1; i <= Math.ceil(listproductdetail.length / trangDau); i++) {
             pageNumbers.push(i);
         }
-         showlistproduct = hientaiTrang.map((item, index) => (
-           <CardProductDetail key={index} animation={btnshowlist} data={item} />
-           
+        showlistproduct = hientaiTrang.map((item, index) => (
+            <CardProductDetail key={index} animation={btnshowlist} data={item} />
+
         ))
     }
+    useEffect(() => {
+        if (giatu != null && giaden != null) {
+            dispatch(listProductdetail(null));
+            setIsloading(true);
+            const getAPI = async () => {
+                const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
+                    giatu: giatu,
+                    giaden: giaden
+                })
+
+                console.log(response.data)
+                if (giatu < 1000000) {
+                    //setGiatu(1000000);
+                    dispatch(filterpriceProductdetail(0));
+                    alert('giá từ không được nhỏ hơn 1000000');
+                }
+                else if (giatu >= giaden) {
+                    dispatch(filterpriceProductdetail(0));
+                    alert('giá bắt đầu không được lớn hơn giá kết thúc');
+                }
+                else if (giaden < giatu) {
+                    //setGiaden(50000000);
+                    dispatch(filterpriceProductdetail(0));
+                    alert('giá kết thúc không được nhỏ hơn giá bắt đầu');
+                }
+                else if (giaden > 50000000) {
+                    dispatch(filterpriceProductdetail(0));
+                    //setGiaden(50000000);
+                    alert('giá đến không được lớn hơn 50000000');
+                }
+
+                else {
+                    if (response.data.success === true) {
+                        setIsloading(false);
+                        dispatch(settrang(1));
+                        dispatch(filterpriceProductdetail(response.data.result));
+                        dispatch(listProductdetail(response));
+                    }
+                    else {
+                        alert('giá bắt đầu không được lớn hơn giá kết thúc');
+                    }
+                }
+            }
+            getAPI();
+        }
+
+    }, [giatu, giaden])
+    // useEffect(() => {
+    //     const getAPI = async () => {
+    //         try {
+    //             if (giatu == null && giaden == null ) {
+    //                 if (listproductdetail === null) {
+    //                     setIsloading(true);
+    //                     const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+    //                     );
+    //                     dispatch(listProductdetail(data));
+    //                     dispatch(settrang(1));
+    //                     setIsloading(false);
+    //                 }
+    //             }
+    //             else{
+    //                 const getAPI = async () => {
+    //                     const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
+    //                         giatu: giatu,
+    //                         giaden: giaden
+    //                     })
+
+    //                     console.log(response.data)
+    //                     if (giatu < 1000000) {
+    //                         //setGiatu(1000000);
+    //                         alert('giá từ không được nhỏ hơn 1000000');
+    //                     }
+    //                     else if (giatu >= giaden) {
+    //                         alert('giá bắt đầu không được lớn hơn giá kết thúc');
+    //                     }
+    //                     else if (giaden < giatu) {
+    //                         //setGiaden(50000000);
+    //                         alert('giá kết thúc không được nhỏ hơn giá bắt đầu');
+    //                     }
+    //                     else if (giaden > 50000000) {
+    //                         //setGiaden(50000000);
+    //                         alert('giá đến không được lớn hơn 50000000');
+    //                     }
+
+    //                     else {
+    //                         if (response.data.success === true) {
+    //                             dispatch(settrang(1));
+    //                             dispatch(filterpriceProductdetail(response.data.result));
+    //                             dispatch(listProductdetail(response));
+    //                         }
+    //                         else {
+    //                             alert('giá bắt đầu không được lớn hơn giá kết thúc');
+    //                         }
+    //                     }
+    //                 }
+    //                 getAPI();
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching API:', error);
+    //         }
+    //     }
+    //     getAPI();
+    // }, [dispatch])
+    useEffect(() => {
+        dispatch(listProductdetail(null));
+        if (q === null) {
+
+            if (giatu == null && giaden == null) {
+                setIsloading(true);
+            }
+            const getAPI = async () => {
+                try {
+                    if (listproductdetail === null) {
+
+                        const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                        );
+                        setIsloading(false);
+                        dispatch(listProductdetail(data));
+                        dispatch(settrang(1));
+
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching API:', error);
+                }
+            }
+            getAPI();
+        }
+        else {
+            const getAPI = async () => {
+                setIsloading(true);
+                const response = await axios.post('http://127.0.0.1:8000/api/productdetail/search', {
+                    ten: q
+                });
+                setIsloading(false);
+                dispatch(filterpriceProductdetail(response.data.result));
+                dispatch(listProductdetail(response));
+
+            }
+            getAPI();
+        }
+    }, [q])
+    // useEffect(() => {
+    //     const getAPI = async () => {
+    //         try {
+    //             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/search', {
+    //                 ten: search
+    //             });
+    //             console.log(response.data);
+
+    //             dispatch(searchProductdetail(response.data));
+    //             // Kiểm tra điều kiện search và xử lý tương ứng
+    //             if (search !== '') {
+    //                 //dispatch(searchProductdetail(response.data));
+    //                 //dispatch(listProductdetail(response.data));
+    //                 dispatch(settrang(1)); // Đặt trang về 1 sau khi tìm kiếm
+    //                 setPopupSearch(true); // Mở popup khi có kết quả tìm kiếm
+
+    //                 // Kiểm tra kết quả từ API, nếu không có kết quả, lấy danh sách sản phẩm
+    //                 if (response.data.result === 0) {
+    //                     if (giatu == null && giaden == null) {
+    //                         const listResponse = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists');
+    //                         dispatch(listProductdetail(listResponse.data));
+    //                     }
+    //                     else {
+    //                         const getAPI = async () => {
+    //                             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
+    //                                 giatu: giatu,
+    //                                 giaden: giaden
+    //                             })
+
+    //                             console.log(response.data)
+    //                             if (giatu < 1000000) {
+    //                                 //setGiatu(1000000);
+    //                                 alert('giá từ không được nhỏ hơn 1000000');
+    //                             }
+    //                             else if (giatu >= giaden) {
+    //                                 alert('giá bắt đầu không được lớn hơn giá kết thúc');
+    //                             }
+    //                             else if (giaden < giatu) {
+    //                                 //setGiaden(50000000);
+    //                                 alert('giá kết thúc không được nhỏ hơn giá bắt đầu');
+    //                             }
+    //                             else if (giaden > 50000000) {
+    //                                 //setGiaden(50000000);
+    //                                 alert('giá đến không được lớn hơn 50000000');
+    //                             }
+
+    //                             else {
+    //                                 if (response.data.success === true) {
+    //                                     dispatch(settrang(1));
+    //                                     dispatch(filterpriceProductdetail(response.data.result));
+    //                                     dispatch(listProductdetail(response));
+    //                                 }
+    //                                 else {
+    //                                     alert('giá bắt đầu không được lớn hơn giá kết thúc');
+    //                                 }
+    //                             }
+    //                         }
+    //                         getAPI();
+    //                     }
+    //                 }
+    //                 // else{
+    //                 //     dispatch(searchProductdetail(response.data));
+    //                 // }
+    //             } else {
+    //                 // Xử lý khi search rỗng
+    //                 dispatch(settrang(1)); // Đặt trang về 1
+    //                 setPopupSearch(true); // Mở popup
+    //             }
+    //         } catch (error) {
+    //             console.error('Error fetching API:', error);
+    //             // Xử lý lỗi, ví dụ như hiển thị thông báo cho người dùng
+    //         }
+    //     };
+
+    //     getAPI(); // Gọi hàm getAPI để thực thi các thao tác trên
+
+    // }, [search])
+    console.log(listproductdetail);
     const shoppageSectionRef = useRef(null);
     useEffect(() => {
         if (shoppageSectionRef.current) {
             shoppageSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, []);
+    const timkiem = (search, result) => {
+        dispatch(listProductdetail(null));
+        setIsloading(true);
+        if (search === '') {
+            const getAPI = async () => {
+                try {
+                    if (giatu == null && giaden == null) {
+                        const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                        );
+
+                        dispatch(listProductdetail(data));
+                        setIsloading(false);
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching API:', error);
+                }
+            }
+            getAPI();
+        }
+        else {
+            const getAPI = async () => {
+                setIsloading(true);
+                const response = await axios.post(`http://127.0.0.1:8000/api/productdetail/search`, {
+                    ten: search
+                })
+                dispatch(settrang(1));
+                console.log(response.data);
+                //dispatch(searchProductdetail(response.data));
+                if (result !== 0) {
+                    dispatch(searchProductdetail(response.data));
+                    dispatch(listProductdetail(response));
+                    setIsloading(false);
+                }
+                else {
+                    const getAPI = async () => {
+
+                        try {
+                            if (giatu == null && giaden == 0) {
+                                const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                                );
+
+                                dispatch(listProductdetail(data));
+                                setIsloading(false);
+                            }
+                            else {
+                                const getAPI = async () => {
+                                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
+                                        giatu: giatu,
+                                        giaden: giaden
+                                    })
+                                    console.log(response.data)
+                                    if (giatu < 1000000) {
+                                        //setGiatu(1000000);
+                                        alert('giá từ không được nhỏ hơn 1000000');
+                                    }
+                                    else if (giatu >= giaden) {
+                                        alert('giá bắt đầu không được lớn hơn giá kết thúc');
+                                    }
+                                    else if (giaden < giatu) {
+                                        //setGiaden(50000000);
+                                        alert('giá kết thúc không được nhỏ hơn giá bắt đầu');
+                                    }
+                                    else if (giaden > 50000000) {
+                                        //setGiaden(50000000);
+                                        alert('giá đến không được lớn hơn 50000000');
+                                    }
+
+                                    else {
+                                        if (response.data.success === true) {
+                                            dispatch(settrang(1));
+                                            dispatch(filterpriceProductdetail(response.data.result));
+                                            dispatch(listProductdetail(response));
+                                        }
+                                        else {
+                                            alert('giá bắt đầu không được lớn hơn giá kết thúc');
+                                        }
+                                    }
+                                }
+                                getAPI();
+                            }
+
+                        } catch (error) {
+                            console.error('Error fetching API:', error);
+                        }
+                    }
+                    getAPI();
+                }
+            }
+            getAPI();
+            setPopupSearch(false);
+        }
+    }
     return (
         <>
             <Header />
             <BannerOfPage
-                    bigTitle="Shop"
-                    subtitle="shop"
-                />
-            <div ref={shoppageSectionRef} className="container d-flex flex-column gap-5">
-                
+                bigTitle="Shop"
+                subtitle="shop"
+            />
+            <div ref={shoppageSectionRef} style={{ position: 'relative' }} className="container d-flex flex-column gap-5">
                 <div className="d-flex justify-content-between">
                     <Filtersuppliers />
-                    
+
                 </div>
-                <input placeholder="Enter Search Here!"
-                                    className={`${styles['search-input']} px-3 py-2`}
-                />
+                <div className={`${styles['search-input']} px-3 py-2`}>
+                    <form style={{ margin: '0' }} onSubmit={(e) => { e.preventDefault() }}>
+                        <div style={{ display: 'flex' }}>
+                            <button onClick={() => { timkiem(search, result); }} className="btn btn-secondary" style={{ borderRadius: '22px', marginRight: '3%' }}>
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </button>
+                            <input name="query" style={{ width: '100%', margin: '0', border: 'solid 1px' }} placeholder="Enter Search Here!"
+                                className={` px-3 py-2`} onChange={(e) => { setSearch(e.target.value) }}
+                            />
+                        </div>
+                    </form>
+
+                    {popupsearch && (
+                        <div style={{ width: '100%', position: 'relative' }}>
+                            <Search />
+                        </div>
+                    )}
+                </div>
                 <div className="">
                     <div className="d-flex">
-                        
                         <div className={`${styles['product-filter']}`}>
                             <div className={`${styles['filter']} d-flex justify-content-between`}>
-                                <div style={{lineHeight : '35px'}}>kết quả tìm kiếm : 0</div>
+                                <div style={{ lineHeight: '35px' }}>kết quả tìm kiếm : {result}</div>
                                 {/* <select className="pe-4 h-fit-content" onChange={(e) => {
                                 console.log(e.target.value)
                             }}>
@@ -67,41 +421,44 @@ export default function Shop() {
                                 <option>Des sorting</option>
                                 <option>dssa sorting</option>
                             </select> */}
-                                <div className="bo-loc-gia">
-                                    <div className="dropdown">
-                                        <button className="btn btn-outline-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" >Name of manufacturer</button>
-                                        <ul className="dropdown-menu">
-                                            {/* {listNCC} */}
-                                        </ul>
-                                        <button className="btn btn-outline-secondary dropdown-toggle custom-margin" type="button" data-bs-toggle="dropdown" >Filter by price</button>
-                                        <ul className="dropdown-menu">
-                                            <div className="d-flex  justify-content-between">
-                                                <li><button className="btn btn-outline-success">dưới 12,000,000</button></li>
-                                                <li style={{ width: "max-content" }}><button className="btn btn-outline-success" >12000000 đến 15,000,000</button></li>
-                                                <li><button className="btn btn-outline-success mb-4" >trên 15,000,000</button></li>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <FilterPrice />
                             </div>
-
-
                             <div>
                                 <div className={`${styles['product-list']}  mt-3 mb-5`}>
+                                    {(isloading) && (
+                                        <div style={{ margin: '0 auto' }}>
+                                            <LoadingSpinner />
+                                        </div>
+                                    )}
                                     {showlistproduct}
                                 </div>
                             </div>
                             <div className="w-100 d-flex flex-column align-items-end">
                                 <div className="d-flex">
-                                    <button onClick={() => {setTrangCuoi(trangCuoi - 1);setBtnshowlist(false);}} disabled={trangCuoi === 1} className={`p-3 ${styles['pre-btn']}`}>
+                                    <button onClick={() => {
+                                        dispatch(settrang(trangCuoi - 1)); setBtnshowlist(false);
+                                        if (shoppageSectionRef.current) {
+                                            shoppageSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+                                        }
+                                    }} disabled={trangCuoi === 1} className={`p-3 ${styles['pre-btn']}`}>
                                         <FontAwesomeIcon icon={faAngleDoubleLeft} />
                                     </button>
-                                    <span className={`bg-dark p-3 ${styles['number-page']}`}>   </span>
-                                    <button onClick={() => {setTrangCuoi(trangCuoi + 1);setBtnshowlist(true);}}  className={`p-3 ${styles['next-btn']}`} >
-                                    {/* disabled={trangCuoi === Math.ceil(listproductdetail.length / trangDau)} */}
-                                        <FontAwesomeIcon icon={faAngleDoubleRight} />
-                                    </button>
+                                    {/* {pageNumbers.map((item) => {
+                                        return (
+                                            <span className={`bg-dark p-3 ${styles['number-page']}`}> {item} </span>
+                                        )
+                                    })} */}
 
+                                    {(listproductdetail !== null) && (
+                                        <button disabled={trangCuoi === Math.ceil(listproductdetail.length / trangDau)} onClick={() => {
+                                            dispatch(settrang(trangCuoi + 1)); setBtnshowlist(true);
+                                            if (shoppageSectionRef.current) {
+                                                shoppageSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+                                            }
+                                        }} className={`p-3 ${styles['next-btn']}`} >
+                                            <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                        </button>
+                                    )}
                                 </div>
                                 <div>
                                     Page
@@ -111,9 +468,8 @@ export default function Shop() {
                         </div>
                     </div>
                 </div>
-                
             </div>
-            <OtherInfo/>   
+            <OtherInfo />
             <Footer />
         </>
     );

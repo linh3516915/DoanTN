@@ -15,7 +15,12 @@ export const productdetailSlice = createSlice({
   initialState,
   reducers: {
     listProductdetail: (state, action) => {
-      state.productdetails = action.payload.data.data;
+      if(action.payload != null){
+        state.productdetails = action.payload.data.data;
+      }
+      else{
+        state.productdetails = action.payload;
+      }
     },
     listtop16hottrend: (state, action) => {
 
@@ -50,7 +55,7 @@ export const productdetailSlice = createSlice({
       state.none12hottrend.push(...enditemofshow4hottrend,... state.none12hottrend);
       state.btnanimation = false;
     }
-
+    
   },
 })
 

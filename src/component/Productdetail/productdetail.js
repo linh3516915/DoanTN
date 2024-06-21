@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import styles from './ProductDetail.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { faCaretLeft, faCaretRight, faCartPlus,faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import Banner from "../Banner/Banner";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getcolor, getproductdetail, getdungluong } from "../../redux/slice/itemproductdetail";
 import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "./loading/loadingspinner";
+import LoadingSpinner from "../loading/loadingspinner";
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons/faBagShopping";
 export default function ProductDetail(props) {
     const [mausac, setMauSac] = useState([]);
     const productSectionRef = useRef(null);
@@ -189,16 +190,22 @@ export default function ProductDetail(props) {
                         <div className="row mb-4">
                             <div className="col-md-4 col-6 mb-3">
                                 <label className="mb-2 d-block">Quantity:</label>
-                                <div className="input-group mb-3" style={{ width: '170px' }}>
-                                    <input type="number" id="quantity" name="quantity" min="1" max="5" />
+                                <div className="input-group mb-3" >
+                                    <input style={{ width: '100%' }} type="number" id="quantity" name="quantity" min="1" max="5" />
                                 </div>
 
                             </div>
 
                         </div>
-                        <button className="btn btn-warning shadow-0">BUY </button>
-                        <button className="btn btn-primary shadow-0"> <i className="me-1 fa fa-shopping-basket"></i>  ADD CART</button>
-                        <button className="btn btn-white text-dark"> <i className="me-1 fa fa-shopping-basket"></i>  LIKE </button>
+                        <div style={{display:'flex' , justifyContent:'space-between', flexWrap:'wrap'}}>
+                            <button className="btn btn-warning shadow-0" style={{width: '45%'}}><FontAwesomeIcon icon={faBagShopping}/> BUY </button>
+                            <button className="btn btn-success shadow-0" style={{width: '45%'}}> <FontAwesomeIcon icon={faCartPlus} />  ADD CART</button>
+                         
+                        </div>
+                        <div style={{width:'100%'}}>
+
+                        </div>
+                        <button className="btn btn-primary text-white" style={{width: '45%', margin : '0 auto'}}> <FontAwesomeIcon icon={faThumbsUp} />  LIKE </button>
                     </div>
                 </main>
             </section>

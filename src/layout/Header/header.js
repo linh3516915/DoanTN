@@ -8,10 +8,17 @@ import { openpopup, openpopuplogin, openpopupsignup } from '../../redux/slice/po
 import { useNavigate } from 'react-router-dom';
 import img from '../../assets/ảnh/tải xuống (1).jpg';
 import PopupOTP from '../PopupOTP/popupOTP';
+import Search from '../../component/SearchProduct/search';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import InputSearch from '../Search/inputsearch';
+import LoadingSpinnerModal from '../../component/LoadingSpinnerModal/LoadingSpinnerModal';
 
 export default function Header() {
     const auth = useSelector(state => state.auth.authentication);
+    const [activeShop, setActiveShop] = useState(false);
     console.log('auth', auth);
+    const isloadingmodal = useSelector(state => state.filter.loading);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const logout = () => {
@@ -19,9 +26,10 @@ export default function Header() {
     }
     return (
         <>
-                    <PopupOTP/>
-                    <PopupLogin/>
-            <div className="site-branding-area">
+            <PopupOTP />
+            <PopupLogin />
+            {isloadingmodal &&(<LoadingSpinnerModal/>)}     
+              <div className="site-branding-area">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6">
@@ -52,11 +60,11 @@ export default function Header() {
                                             <li className="nav-item">
                                                 <a className="nav-link active" href="/">Home</a>
                                             </li>
-                                            <li className="nav-item">
-                                                <a className="nav-link" href="/shop">Shop page</a>
+                                            <li className={`nav-item`}>
+                                                <a className={`nav-link`} href="/shop">Shop page</a>
                                             </li>
                                             <li className="nav-item">
-                                                <a className="nav-link" href="cart.html">Cart</a>
+                                                <a className="nav-link" href="/cart">Cart</a>
                                             </li>
                                             <li className="nav-item">
                                                 <a className="nav-link" href="#">Category</a>
@@ -67,10 +75,15 @@ export default function Header() {
                                             <li className="nav-item">
                                                 <a className="nav-link" href="#">Contact</a>
                                             </li>
+                                            <li className="nav-item">
+                                            <InputSearch/>
+                                            </li>
                                         </ul>
                                         <div className="text-end">
+                                        
                                             {auth && (
                                                 <>
+                                                
                                                     <ul className="nav">
                                                         <div className="dropdown text-end" style={{ lineHeight: '40px' }}>
                                                             <a style={{ marginRight: '25px' }} href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -90,8 +103,8 @@ export default function Header() {
                                             {!auth && (
                                                 <>
                                                     <div className="text-end">
-                                                        <button type="button" onClick={()=>{dispatch(openpopuplogin())}} className="btn btn-outline-light me-2">Login</button>
-                                                        <button type="button" onClick={()=>{navigate('/signup')}} className="btn btn-outline-light ">Sign-up</button>
+                                                        <button type="button" onClick={() => { dispatch(openpopuplogin()) }} className="btn btn-outline-light me-2">Login</button>
+                                                        <button type="button" onClick={() => { navigate('/signup') }} className="btn btn-outline-light ">Sign-up</button>
                                                     </div>
                                                 </>
                                             )}

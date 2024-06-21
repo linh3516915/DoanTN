@@ -20,6 +20,19 @@ code {
     monospace;
 }
 
+
+.animation-from-top{
+    animation: moveFromTop 1s ease-in-out;
+}
+@keyframes moveFromTop {
+  0% {
+    transform: translateY(-300px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
 .animation-from-right {
   animation: moveFromRight 1s ease-in-out;
 }
@@ -502,7 +515,9 @@ z-index: 9;
   color: whitesmoke;
 
 }
-
+.fa-star{
+  z-index: 1;
+}
 .single-wid-product {
     margin-bottom: 31px;
     overflow: hidden;

@@ -20,24 +20,25 @@ function ImageProductDetail() {
 
     return (
         <>
-            <aside className="col-lg-6" style={{height : '30rem'}}>
-                <div className="border rounded-4 mb-3 d-flex justify-content-center" style={{height:'85%'}}>
+            <aside className="col-lg-6" style={{ height: '30rem' }}>
+                <div className="border rounded-4 mb-3 d-flex justify-content-center" style={{ height: '85%' }}>
                     <a data-fslightbox="mygalley" className="rounded-4" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big.webp">
-                        <img className="rounded-4 fit" src={img} style={{height:'100%'}}/>
+                        <img className="rounded-4 fit" src={img} style={{ height: '100%' }} />
                     </a>
                 </div>
                 <div className="d-flex justify-content-center mb-3">
                     <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big1.webp" >
-                        <img width="60" height="" className="rounded-2" src={Img1} />
+                        {/* <img className="rounded-4 fit" src={img} style={{height:'100%'}}/> */}
+                        <img width="60" height="60" className="rounded-2" src={img} />
                     </a>
                     <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp" >
-                        <img width="60" height="60" className="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big2.webp" />
+                        <img width="60" height="60" className="rounded-2" src={img} />
                     </a>
                     <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp" >
-                        <img width="60" height="60" className="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big3.webp" />
+                        <img width="60" height="60" className="rounded-2" src={img} />
                     </a>
                     <a data-fslightbox="mygalley" className="border mx-1 rounded-2" target="_blank" data-type="image" href="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp" >
-                        <img width="60" height="60" className="rounded-2" src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/detail1/big4.webp" />
+                        <img width="60" height="60" className="rounded-2" src={img} />
                     </a>
                 </div>
             </aside>

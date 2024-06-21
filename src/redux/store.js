@@ -8,12 +8,13 @@ import cartReducer from './slice/cartSlice'
 import  itemproductdetailReducer  from './slice/itemproductdetail'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import popupReducer from './slice/popupSlice'
+import filterReducer from './slice/filterSlice'
 const persistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel2,
-  whitelist : ['auth','cart','productdetail'],
-  blacklist : ['address','popup'], 
+  whitelist : ['auth','cart',],
+  blacklist : ['address','popup','filter','productdetail'], 
 }
 
 const rootReducer = combineReducers({
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     address : addressReducer, 
     popup : popupReducer, 
     itemproductdetail : itemproductdetailReducer,
+    filter : filterReducer,
 })
  
 const persistedReducer = persistReducer(persistConfig, rootReducer)

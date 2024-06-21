@@ -1,4 +1,3 @@
-
 import styles from './cardproductdetail.module.css'
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -33,7 +32,7 @@ export default function CardProductDetail(props) {
     }
     return (
         <>
-            <div style={{ width: '20%' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
+            <div style={{ width: '20%' , margin : '0 auto' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
                 <div onClick={() => { movepageproductdetail(props.data.id); }} className={`${styles['item']}  `}>
 
                     <img src={img} />
