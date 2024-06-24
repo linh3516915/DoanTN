@@ -10,9 +10,25 @@ import Shop from './page/guest/Shop/shop';
 import CartPage from './page/guest/Cart/Cartpage';
 import ProductDetailPage from './page/guest/ProductdetailPage/Productdetailpage';
 import { useSelector } from 'react-redux';
-import Trangchu_Admin from './page/Admin/Home/Trangchu/Trangchu';
-import Chinhanh_Admin from './page/Admin/Chinhanh/Chinhanh_Admin';
-import Tongdai_Admin from './page/Admin/Tongdai/Tongdai_Admin';
+//admin
+import TrangchuAdmin from './page/Admin/TrangChu/Trangchu';
+import ChinhanhAdmin from './page/Admin/Chinhanh/ChinhanhAdmin';
+import TongdaiAdmin from './page/Admin/Tongdai/Tongdai_Admin';
+import SanPhamAdmin from './page/Admin/Sanpham/Sanpham_Admin';
+import AddSanPham from './page/Admin/Sanpham/Add_sanpham';
+import UpdateSanPham from './page/Admin/Sanpham/Update_sanpham';
+import NhaCungCapAdmin from './page/Admin/NhaCungCap/NhacungcapAdmin';
+import AddNhaCungCap from './page/Admin/NhaCungCap/Add_nhacungcap';
+import UpdateNhaCungCap from './page/Admin/NhaCungCap/Update_nhacungcap';
+import LoaisanphamAdmin from './page/Admin/LoaiSanPham/LoaisanphamAdmin';
+import AddLoaiSanPham from './page/Admin/LoaiSanPham/Add_loaisanpham';
+import UpdateLoaiSanPham from './page/Admin/LoaiSanPham/Update_loaisanpham';
+import ChiTietSanPhamAdmin from './page/Admin/ChiTietSanPham/ChitietsanphamAdmin';
+import AddChiTietSanPham from './page/Admin/ChiTietSanPham/Add_chitietsanpham';
+import UpdateChiTietSanPham from './page/Admin/ChiTietSanPham/Update_chitietsanpham';
+import ChiTietCauHinhAdmin from './page/Admin/ChiTietCauHinh/ChitietcauhinhAdmin';
+import AddChitietcauhinh from './page/Admin/ChiTietCauHinh/Add_chitietcauhinh';
+import UpdateChitietcauhinh from './page/Admin/ChiTietCauHinh/Update_chitietcauhinh';
 
 function App() {
   const auth = useSelector(state => state.auth.authentication);
@@ -29,9 +45,24 @@ function App() {
         <Route path='/productdetail/:id' element={<ProductDetailPage />} />
         
         {/* Admin */}
-        <Route path='/admin' element={<Trangchu_Admin/>} />
-        <Route path='/chinhanh-admin' element={<Chinhanh_Admin/>}></Route>
-        <Route path='/tongdai-admin' element={<Tongdai_Admin/>}></Route>
+        <Route path='/admin' element={<TrangchuAdmin/>} />
+        <Route path='/chinhanh-admin' element={<ChinhanhAdmin/>}></Route>
+        <Route path='/tongdai-admin' element={<TongdaiAdmin/>}></Route>
+        <Route path='/sanpham-admin' element={<SanPhamAdmin/>}></Route>
+        <Route path='/themmoi-sanpham' element={<AddSanPham/>}></Route>
+        <Route path='/capnhat-sanpham/:id' element={<UpdateSanPham/>}></Route>
+        <Route path='/nhacungcap-admin' element={<NhaCungCapAdmin/>}></Route>
+        <Route path='/themmoi-nhacungcap' element={<AddNhaCungCap/>}></Route>
+        <Route path='/capnhat-nhacungcap/:id' element={<UpdateNhaCungCap/>}></Route>
+        <Route path='/loaisanpham-admin' element={<LoaisanphamAdmin/>}></Route>
+        <Route path='/themmoi-loaisanpham' element={<AddLoaiSanPham/>}></Route>
+        <Route path='/capnhat-loaisanpham/:id' element={<UpdateLoaiSanPham/>}></Route>
+        <Route path='/chitietsanpham-admin/:id' element={<ChiTietSanPhamAdmin/>}></Route>
+        <Route path='/themmoi-chitietsanpham/:id' element={<AddChiTietSanPham/>}></Route>
+        <Route path='/capnhat-chitietsanpham/:id' element={<UpdateChiTietSanPham/>}></Route>
+        <Route path='/chitietcauhinh-admin/:id' element={<ChiTietCauHinhAdmin/>}></Route>
+        <Route path='/themmoi-chitietcauhinh/:id' element={<AddChitietcauhinh/>}></Route>
+        <Route path='/capnhat-chitietcauhinh/:id' element={<UpdateChitietcauhinh/>}></Route>
       </Routes>
       
     </>

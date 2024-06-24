@@ -1,11 +1,12 @@
-import { NavLink } from "react-router-dom";
+
 import { useEffect, useState } from "react";
 import ChiNhanh from "../../../component/Admin/Chinhanh/chinhanh";
 import Header_Admin from "../../../layout/Admin/Header/Header";
+import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 
 
 
-export default function Chinhanh_Admin(){
+export default function ChinhanhAdmin(){
     const [dschinhanh, SetDSCN] = useState([]);
     
     useEffect(()=> {
@@ -28,24 +29,13 @@ export default function Chinhanh_Admin(){
             <Header_Admin/>
             <div className="container-fluid">
                 <div className="row">
-                    <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                        <div className="position-sticky pt-3 sidebar-sticky">
-                            <ul className="nav flex-column">
-                                <li>  <NavLink to="/chinhanh-admin" className="nav-link  text-secondary" >Chi Nhánh</NavLink></li>
-                                <li>  <NavLink to="/tongdai-admin" className="nav-link  text-secondary" >Tổng Đài</NavLink></li>
-                                <li>  <NavLink to="/supplier" className="nav-link  text-secondary" >Suppliers Manager</NavLink></li>
-                                <li>  <NavLink to="/comment" className="nav-link  text-secondary" >Comment Manager</NavLink></li>
-                                <li>  <NavLink to="/don-hang-admin" className="nav-link  text-secondary" >Order Manager</NavLink></li>
-                                
-                            </ul>
-                        </div>
-                    </nav>
+                    <TaskbarAdmin/>
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 className="h2">DANH SÁCH CHI NHÁNH</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group me-2">
-                                <a href="" class="btn btn-sm btn-outline-secondary">Add New</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary">Thêm Mới</a>
                                 </div>
                             
                             </div>
