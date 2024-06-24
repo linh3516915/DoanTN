@@ -9,6 +9,7 @@ use App\Models\ChiTietDonHang;
 use App\Models\SanPham;
 use App\Models\DungLuong;
 use App\Models\MauSac;
+
 class APIChiTietSanPhamController extends Controller
 {
     public function Listproductdetails(){
@@ -117,50 +118,26 @@ class APIChiTietSanPhamController extends Controller
         return response()->json([
             'data' => $data3,
         ]);
-    }
-    public function findproductdetail(Request $rq){
+     }
+   public function findproductdetail(Request $rq){
         $ctsp = ChiTietSanPham::where('mau_sac_id',$rq->mau_sac_id)->where('dung_luong_id',$rq->dung_luong_id)->first();
         return response()->json([
             'data' => $ctsp,
         ]);
     }
+    
     public function top8hottrending(){
-        $productdetail = ChiTietSanPham::all();
-        $count = count($productdetail);
-        $newdata = [];
-        $dem= 0 ;
-        if($count < 16)
+        $productdetail = ChiTietSanPham::orderBy('luot_thich' , 'desc')->get();
+        $data = [];
+        for($i = 0;$i<count($productdetail);$i++){
+            if($i<16 )
             {
-                return response()->json([
-                    'message' => 'không đủ sản phẩm để hiển thị',
-                ]);
+                array_push($data,$productdetail[$i]);
             }
-        for($i = 0 ; $i< $count ; $i++ )
-        {
-            $max =$i;
-            for($j = $i+1 ; $j < $count;$j++ )
-            {
-                if($productdetail[$max]->luot_thich < $productdetail[$j]->luot_thich)
-                {
-                    $max= $j;
-                    
-                }
-            }  
-            if($i <= 3){
-                $tam = $productdetail[$max];
-                $productdetail[$max] = $productdetail[$i];
-                $productdetail[$i] = $tam;
-            }
-        } 
-        for ($i = 0 ; $i< $count ; $i++ )
-        {
-            
-           if($i < 16){
-                array_push($newdata,$productdetail[$i]);
-           }
         }
         return response()->json([
-            'data' => $newdata,
+            'data' => $data,
+            
         ]);
     }
     public function latesproduct(){
@@ -177,6 +154,7 @@ class APIChiTietSanPhamController extends Controller
         }
         return response()->json([
             'data' => $data ,
+            'result' => count($data)
         ]);
     }
     public function topseller(){
@@ -188,14 +166,15 @@ class APIChiTietSanPhamController extends Controller
         for($i = 0; $i<count($products) ;$i++)
         {
             $ctsp = ChiTietSanPham::find($products[$i]->chi_tiet_san_pham_id);
-            $ctdh = [
-                'chi_tiet_san_pham' => $ctsp,
-                'so_luong_mua' => $products[$i]->total_quantity,
-            ];
-            array_push($data,$ctdh);
+            // $ctdh = [
+            //     'chi_tiet_san_pham' => $ctsp,
+            //     'so_luong_mua' => $products[$i]->total_quantity,
+            // ];
+            array_push($data,$ctsp);
         }
         return response()->json([
             'data' => $data,
+            'result' => count($data)
         ]);
     }
     public function search(Request $rq){
@@ -211,7 +190,7 @@ class APIChiTietSanPhamController extends Controller
                 
             }
             return response()->json([
-                'result' => count($ctsp),
+                'result' => count($data),
                  'data' => $data,
                 
             ]);

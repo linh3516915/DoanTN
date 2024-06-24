@@ -10,6 +10,8 @@ use App\Http\Controllers\APIOTPController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\APIHinhAnhController;
 use App\Http\Controllers\APIAccountController;
+use App\Http\Controllers\APINoiDungSanPhamController;
+use App\Http\Controllers\APIBinhLuanDanhGiaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,4 +108,22 @@ Route::group([
 ], function ($router) {
 
     Route::post('anhsanpham', [APIHinhAnhController::class,'laydanhsach']);
+});
+Route::group([
+    'prefix' => 'noidungsanpham'
+], function ($router) {
+
+    Route::post('addinfoproductdetail', [APINoiDungSanPhamController::class,'addinfoproductdetail']);
+    Route::post('listinfoproductdetail', [APINoiDungSanPhamController::class,'listinfoproductdetail']);
+    Route::get('delinfoproduct/{id}', [APINoiDungSanPhamController::class,'delinfoproduct']);
+    Route::get('del/{id}', [APINoiDungSanPhamController::class,'del']);
+    Route::delete('delimginfoproduct/{id}', [APINoiDungSanPhamController::class,'delimginfoproduct']);
+    Route::post('editinfoproductdetail', [APINoiDungSanPhamController::class,'editinfoproductdetail']);
+});
+Route::group([
+    'prefix' => 'binhluandanhgia'
+], function ($router) {
+
+    Route::get('ListVote/{id}', [APIBinhLuanDanhGiaController::class,'ListVote']);
+   
 });
