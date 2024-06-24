@@ -8,6 +8,7 @@ import { closepopuplogin } from "../../redux/slice/popupSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from "react-intersection-observer";
+import { loadingmodal } from "../../redux/slice/filterSlice";
 export default function FormLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,6 +16,7 @@ export default function FormLogin() {
     const token = useSelector(state => state.auth.token);
     const authen = useSelector(state => state.auth.authentication);
     const user = useSelector(state => state.auth.user)
+    const isloadingmodal = useSelector(state => state.filter.loading);
     const { ref: refTopTrendingProduct, inView: inViewPopupLogin } = useInView({
         threshold: 0
     });
@@ -22,6 +24,7 @@ export default function FormLogin() {
 
         try {
             // đăng nhập 
+            dispatch(loadingmodal(true));
             const response = await axios.post('http://127.0.0.1:8000/api/auth/login', {
                 email,
                 password
@@ -29,10 +32,13 @@ export default function FormLogin() {
             console.log('login', response.data);
             if (response.data.success === true) {
                 dispatch(gettoken(response.data));
+                dispatch(loadingmodal(false));
                 dispatch(closepopuplogin());
             }
             else {
+                dispatch(loadingmodal(false));
                 alert('sai mật khẩu hoặc tài khoản');
+               
             }
             //lấy dữ liệu ng dùng 
         } catch (error) {

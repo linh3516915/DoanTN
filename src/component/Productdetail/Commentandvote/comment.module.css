@@ -1,0 +1,57 @@
+.main{
+    width: 70%;
+    height: max-content;
+    border: solid 1px #ccc;
+    padding: 2.5rem 1rem 1rem;
+    border-radius: 15px;
+}
+.vote {
+    padding: 0.75rem;
+    border: solid 1px #ccc;
+    width: max-content;
+    border-radius: 15px;
+}
+.vote-top{
+    display: flex;
+}
+.vote-top p{
+    margin-bottom: 0;
+    line-height: 2.5;
+}
+.vote-bottom p{
+    margin-bottom: 0;
+    font-size: 11px;
+    margin-right: 0.5rem;
+    padding-left: 0;
+}
+.vote-bottom li{
+    display: flex;
+    margin-bottom: 0.75rem;
+}
+.vote-bottom{
+    list-style-type: none ;
+}
+.vote-percent{
+    width: 205px;
+    /* height: 10px; */
+    /* line-height: 9px; */
+    background-color: aliceblue;
+    border: solid 1px #ccc;
+    border-radius: 14px;
+    margin-right: 0.5rem;
+}
+.vote-percent-chilren{
+    background-color: rgb(26, 188, 156);
+    height: 100%;
+    border-radius: 14px;
+    border: solid 1px #ccc;
+
+}
+/* comment */
+.list-comment{
+    padding: 1rem;
+    border-bottom: #ccc solid 1px;
+}
+.comment-name{
+    font-weight: 700;
+}

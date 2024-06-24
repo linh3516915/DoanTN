@@ -1,15 +1,36 @@
 
+.favotrite:hover{
+    background-color: white;
+    color: rgb(46, 166, 221);
+}
+.item-img img{
+    z-index: 1;
+}
 .item {
     /* width: 20%; */
     font-size: 11px;
     cursor: pointer;
     background-color: white;
-    text-align: center;
+    /* text-align: center; */
     /* opacity: 0.8; */
+    padding: 0.9rem;
 }
-
-.item img {
-    
+.item-content{
+    width: 100%;
+}
+.img-sticker{
+    margin: 0;
+    width: 25%;
+    position: absolute;
+    z-index: 1;
+    bottom: -3px;
+}
+.img-product{
+    height: 100%;
+    width: 100%;
+   
+}
+.item-product{
     margin-bottom: 20px;
     width: 100%;
     margin-top: 20px;
@@ -43,12 +64,12 @@
     font-size: 1rem;
     text-decoration: none;
 }
-.item:hover img{
-    opacity: 0.5;
+.item-content:hover img{
+    /* opacity: 0.5; */
     background-color: white;
-    margin-bottom: 20px;
-    width: 100%;
-    margin-top: 20px;
+    /* margin-bottom: 20px; */
+    /* width: 100%; */
+    /* margin-top: 20px; */
   animation: zoom-in-zoom-out 1s ease infinite;
 }
 @keyframes zoom-in-zoom-out {

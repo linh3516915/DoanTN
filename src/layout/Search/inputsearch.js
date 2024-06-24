@@ -5,7 +5,7 @@ import OTP from "../../component/OTP/otp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Search from "../../component/SearchProduct/search";
-import { filterpriceProductdetail, loadingmodal, searchProductdetail, searchProductdetailInHeader, settrang } from "../../redux/slice/filterSlice";
+import { checkedall, checkednew, checkedtopseller, filterpriceProductdetail, loadingmodal, searchProductdetail, searchProductdetailInHeader, settrang } from "../../redux/slice/filterSlice";
 import { listProductdetail } from "../../redux/slice/productdetail";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -25,39 +25,30 @@ export default function InputSearch() {
     console.log(search)
     let popupfiltersearch = [];
     useEffect(() => {
-            const getAPI = async () => {
-                if (search !== '') {
-                    const response = await axios.post(`http://127.0.0.1:8000/api/productdetail/search`, {
-                        ten: search
-                    })
-                    console.log(response.data);
-                    dispatch(searchProductdetailInHeader(response.data));
-                    //dispatch(listProductdetail(response));
-                    dispatch(settrang(1));
-                    setPopupSearch(true);
-                    // if (response.data.result === 0) {
-                    //     dispatch(searchProductdetailInHeader(response.data));
-                    //     const getAPI = async () => {
+        const getAPI = async () => {
+            if (search !== '') {
 
-                    //         try {
-
-                    //             const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
-                    //             );
-                    //             dispatch(listProductdetail(data));
-
-                    //         } catch (error) {
-                    //             console.error('Error fetching API:', error);
-                    //         }
-                    //     }
-                    //     getAPI();
-                    // }
-                }
-                else {
-                    dispatch(searchProductdetailInHeader(null));
-                    setPopupSearch(false);
-                }
+                const response = await axios.post(`http://127.0.0.1:8000/api/productdetail/search`, {
+                    ten: search
+                })
+                console.log(response.data);
+                dispatch(searchProductdetailInHeader(response.data));
+                dispatch(filterpriceProductdetail(response.data.result));
+                dispatch(settrang(1));
+                setPopupSearch(true);
+                dispatch(checkedall(false));
+                dispatch(checkedtopseller(false));
             }
-            getAPI();
+            else {
+                dispatch(searchProductdetailInHeader(null));
+                dispatch(checkedall(true));
+                //dispatch(checkedtopseller(true));
+                setPopupSearch(false);
+            }
+        }
+        getAPI();
+
+
 
 
     }, [search])
@@ -77,7 +68,7 @@ export default function InputSearch() {
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-wid-price">
-                                <ins style={{ color: 'black' }}>$400.00</ins> <del>$425.00</del>
+                                <ins style={{ color: '#1abc9c' }}>{item.gia.toLocaleString('en-us')} VNĐ</ins> <del>$425.00</del>
                             </div>
                         </div>
                     </>
@@ -93,16 +84,49 @@ export default function InputSearch() {
     const timkiem = (e) => {
         e.preventDefault(); // Ngăn chặn reload trang khi submit form
         setTimeout(() => {
-            
+
             if (search.trim()) { // Kiểm tra xem có từ khóa tìm kiếm không trống
-                
+                const getAPI = async () => {
+                    //setIsloading(true);
+                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/search', {
+                        ten: search
+                    });
+                   // setIsloading(false);
+                    dispatch(filterpriceProductdetail(response.data.result));
+                    dispatch(listProductdetail(response));
+                    dispatch(checkedall(false));
+                    dispatch(checkedtopseller(false));
+                    dispatch(checkednew(false));
+                }
+                getAPI();
                 navigate(`/shop?q=${encodeURIComponent(search)}`);
                 dispatch(loadingmodal(false));
-                 // Điều hướng đến trang shop với tham số q
+                // Điều hướng đến trang shop với tham số q
                 setSearch(''); // Xóa nội dung trong ô tìm kiếm sau khi submit
-                
+
             }
-        }, 1500);
+            else {
+                const getAPI = async () => {
+                    try {
+
+                        const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                        );
+
+                        dispatch(listProductdetail(data));
+                        navigate(`/shop`);
+                        dispatch(filterpriceProductdetail(0));
+                        dispatch(checkedall(true));
+                        // dispatch(checkedtopseller(false));
+                        // dispatch(checkednew(false));
+                        dispatch(loadingmodal(false));
+                    } catch (error) {
+                        console.error('Error fetching API:', error);
+                    }
+                }
+                getAPI();
+
+            }
+        }, 3000);
         dispatch(loadingmodal(true));
     }
     return (
@@ -115,9 +139,11 @@ export default function InputSearch() {
                         </button>
                         <input name="query" style={{ width: '100%', margin: '0', border: 'solid 1px' }} placeholder="Enter Search Here!"
                             className={` px-3 py-2`} onChange={(e) => {
-                                setSearch(e.target.value);
-                             }}
-                            
+                                setTimeout(() => {
+                                    setSearch(e.target.value);
+                                }, 50);
+                            }}
+
                         />
                     </div>
                 </form>

@@ -15,7 +15,10 @@
     color: #939393;
     cursor: pointer;
 }
-
+.filter{
+    padding: 0.5rem;
+    border-bottom:solid #ccc 1px ;
+}
 .product-filter {
     flex: 4;
     overflow: hidden;

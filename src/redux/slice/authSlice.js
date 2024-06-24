@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     authentication : false,
+    isAdmin : false,
     token : '',        
     refresh_token : '',      
     user : {},
@@ -25,11 +26,14 @@ export const authSlice = createSlice({
       },
     getuser : (state, action) =>{
       state.user = action.payload;
+    },
+    isadmin : (state, action) =>{
+      state.isAdmin = action.payload;
     } 
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { gettoken,Logout,getuser } = authSlice.actions
+export const { gettoken,Logout,getuser,isadmin } = authSlice.actions
 
 export default authSlice.reducer

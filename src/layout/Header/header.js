@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './Navbar.css';
-import { Logout } from "../../redux/slice/authSlice";
+import { Logout, isadmin } from "../../redux/slice/authSlice";
 import { useEffect, useRef, useState } from 'react';
 import styles from './NavBar.module.css';
 import PopupLogin from '../PopupLogin/popuplogin';
@@ -14,7 +14,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import InputSearch from '../Search/inputsearch';
 import LoadingSpinnerModal from '../../component/LoadingSpinnerModal/LoadingSpinnerModal';
 
-export default function Header() {
+export default function Header(props) {
     const auth = useSelector(state => state.auth.authentication);
     const [activeShop, setActiveShop] = useState(false);
     console.log('auth', auth);
@@ -23,13 +23,15 @@ export default function Header() {
     const navigate = useNavigate();
     const logout = () => {
         dispatch(Logout());
+        dispatch(isadmin(false))
+        navigate('/')
     }
     return (
         <>
             <PopupOTP />
             <PopupLogin />
-            {isloadingmodal &&(<LoadingSpinnerModal/>)}     
-              <div className="site-branding-area">
+            {isloadingmodal && (<LoadingSpinnerModal />)}
+            <div className="site-branding-area">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6">
@@ -75,15 +77,21 @@ export default function Header() {
                                             <li className="nav-item">
                                                 <a className="nav-link" href="#">Contact</a>
                                             </li>
-                                            <li className="nav-item">
-                                            <InputSearch/>
-                                            </li>
+                                            {!props.ishowsearch && (
+                                                <li className="nav-item">
+                                                 <div>
+                                                    <InputSearch />
+                                                </div>
+                                                   
+                                                </li>
+                                            )}
+
                                         </ul>
                                         <div className="text-end">
-                                        
+
                                             {auth && (
                                                 <>
-                                                
+
                                                     <ul className="nav">
                                                         <div className="dropdown text-end" style={{ lineHeight: '40px' }}>
                                                             <a style={{ marginRight: '25px' }} href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

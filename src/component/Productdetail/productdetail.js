@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from './ProductDetail.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight, faCartPlus,faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faCaretLeft, faCaretRight, faCartPlus, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import Banner from "../Banner/Banner";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { getcolor, getproductdetail, getdungluong } from "../../redux/slice/item
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../loading/loadingspinner";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons/faBagShopping";
+import { addRecently } from "../../redux/slice/recentlyviewedSlice";
 export default function ProductDetail(props) {
     const [mausac, setMauSac] = useState([]);
     const productSectionRef = useRef(null);
@@ -24,13 +25,14 @@ export default function ProductDetail(props) {
     }, []);
     useEffect(() => {
         // Fetch product detail if it's not available
-        if (!productdetail) {
+        if (productdetail == null) {
             const getAPI = async () => {
                 try {
                     const response = await axios.post('http://127.0.0.1:8000/api/productdetail/productdetail', {
                         id: props.id // Assuming props.id is used to fetch product detail
                     });
                     dispatch(getproductdetail(response.data.data));
+                    dispatch(addRecently(response.data.data))
                     console.log('API Response:', response.data.data);
                 } catch (error) {
                     console.error('Error fetching product detail:', error);
@@ -140,14 +142,14 @@ export default function ProductDetail(props) {
         if (item.id == productdetail.mau_sac_id) {
             return (
                 <>
-                    <button onClick={() => { movepagecolor(item.id) }} className="btn btn-secondary" style={{ marginRight: '1rem', fontSize: '1rem' }}>{item.ten_mau_sac}</button>
+                    <button onClick={() => { movepagecolor(item.id) }} className="btn btn-secondary" style={{backgroundColor : 'rgb(26, 188, 156)',marginBottom:'1rem', marginRight: '1rem', fontSize: '1rem' }}>{item.ten_mau_sac}</button>
                 </>
             )
         }
         else {
             return (
                 <>
-                    <button onClick={() => { movepagecolor(item.id) }} className="btn  btn-outline-secondary" style={{ marginRight: '1rem' }}>{item.ten_mau_sac}</button>
+                    <button onClick={() => { movepagecolor(item.id) }} className={`btn btn-outline-secondary ${styles['btn-color-dungluong']}`}  style={{marginBottom:'1rem', marginRight: '1rem' }}>{item.ten_mau_sac}</button>
                 </>
             )
         }
@@ -156,14 +158,14 @@ export default function ProductDetail(props) {
         if (item.id == productdetail.dung_luong_id) {
             return (
                 <>
-                    <button onClick={() => { movepagedungluong(item.id) }} className="btn btn-secondary" style={{ marginRight: '1rem' }}>{item.kich_thuoc}</button>
+                    <button onClick={() => { movepagedungluong(item.id) }} className={`btn btn-secondary`} style={{backgroundColor : 'rgb(26, 188, 156)', marginRight: '1rem' }}>{item.kich_thuoc}</button>
                 </>
             )
         }
         else {
             return (
                 <>
-                    <button onClick={() => { movepagedungluong(item.id) }} className="btn btn-outline-secondary" style={{ marginRight: '1rem' }}>{item.kich_thuoc}</button>
+                    <button onClick={() => { movepagedungluong(item.id) }}  className={`btn btn-outline-secondary ${styles['btn-color-dungluong']}`} style={{ marginRight: '1rem' }}>{item.kich_thuoc}</button>
                 </>
             )
         }
@@ -174,12 +176,12 @@ export default function ProductDetail(props) {
     console.log('check: ', props.id);
     return (
         <>
-            <section ref={productSectionRef} style={{ width: '50%', paddingTop: '15px' }} className="">
+            <section ref={productSectionRef} style={{ width: '30%', paddingTop: '15px' }} className="">
                 <main className="col-lg-6" style={{ width: '100%' }}>
                     <div className="ps-lg-3">
                         < h6 className="title text-dark"> {productdetail.ten}</h6>
                         <div className="mb-3">
-                            <span className="h5" style={{ fontSize: '1rem' }}>{productdetail.gia} VNĐ</span>
+                            <span className="h5" style={{ fontSize: '1rem', color: '#1abc9c', fontWeight: '700', fontSize: '1rem', textDecoration: 'none' }}>{productdetail.gia.toLocaleString('en-us')} VNĐ</span>
                         </div>
                         <div style={{ marginBottom: '20px' }}>
                             {listmausac}
@@ -187,25 +189,32 @@ export default function ProductDetail(props) {
                         <div style={{ marginBottom: '20px' }}>
                             {listdungluong}
                         </div>
-                        <div className="row mb-4">
+                        {/* <div className="row mb-4">
                             <div className="col-md-4 col-6 mb-3">
                                 <label className="mb-2 d-block">Quantity:</label>
                                 <div className="input-group mb-3" >
-                                    <input style={{ width: '100%' }} type="number" id="quantity" name="quantity" min="1" max="5" />
+                                    <form action="">
+                                        <div class="quantity">
+                                            <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1" />
+                                        </div>
+                                    </form>
+
+                                    <input style={{ width: '100%' }} type="number" id="quantity" name="quantity" step="1" min="1" max="5" />
                                 </div>
 
                             </div>
 
-                        </div>
-                        <div style={{display:'flex' , justifyContent:'space-between', flexWrap:'wrap'}}>
-                            <button className="btn btn-warning shadow-0" style={{width: '45%'}}><FontAwesomeIcon icon={faBagShopping}/> BUY </button>
-                            <button className="btn btn-success shadow-0" style={{width: '45%'}}> <FontAwesomeIcon icon={faCartPlus} />  ADD CART</button>
-                         
-                        </div>
-                        <div style={{width:'100%'}}>
+                        </div> */}
+                        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap',marginBottom:'0.5rem' }}>
+                            <button className="btn btn-primary text-white" style={{ width: '49%' }}> <FontAwesomeIcon icon={faThumbsUp} />  LIKE </button>
+
+                            <button className="btn btn-success shadow-0" style={{ width: '49%' }}> <FontAwesomeIcon icon={faCartPlus} />  ADD CART</button>
 
                         </div>
-                        <button className="btn btn-primary text-white" style={{width: '45%', margin : '0 auto'}}> <FontAwesomeIcon icon={faThumbsUp} />  LIKE </button>
+                        <div style={{ width: '100%' }}>
+                            <button className="btn btn-warning shadow-0" style={{ width: '100%', margin: '0 auto' }}><FontAwesomeIcon icon={faBagShopping} /> BUY </button>
+                        </div>
+
                     </div>
                 </main>
             </section>

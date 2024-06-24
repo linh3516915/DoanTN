@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { listshow4hottrend, listtop16hottrend, moveright, moveleft } from "../../redux/slice/productdetail";
+import { listshow4hottrend, listtop16hottrend, moveright, moveleft } from "../../redux/slice/hottrendingSlice";
 import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -9,10 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import CardProductDetail from "../CardProductdetail/cardproductdetail";
 export default function TopTrendingProduct() {
-    const top16hottrends = useSelector(state => state.productdetail.top16hottrend);
-    const show4hottrends = useSelector(state => state.productdetail.show4hottrend);
-    const none12hottrend = useSelector(state => state.productdetail.none12hottrend);
-    const btnanimation = useSelector(state => state.productdetail.btnanimation);
+    const top16hottrends = useSelector(state => state.hottrending.top16hottrend);
+    const show4hottrends = useSelector(state => state.hottrending.show4hottrend);
+    const none12hottrend = useSelector(state => state.hottrending.none12hottrend);
+    const btnanimation = useSelector(state => state.hottrending.btnanimation);
     const { ref, inView } = useInView();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,7 +51,7 @@ export default function TopTrendingProduct() {
                 //     </div>
                 //     <button style={{ width: '100%', marginTop: '10px' }} className="btn btn-success">Add to cart</button>
                 // </div>
-                <CardProductDetail data={item} animation = {btnanimation}/>
+                <CardProductDetail ishottrending={true} data={item} animation = {btnanimation}/>
 
 
 

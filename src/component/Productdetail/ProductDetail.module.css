@@ -10,7 +10,10 @@
 .add-to-cart__btn {
     color: #fff9f9d1;
 }
-
+.btn-color-dungluong:hover{
+    background-color: rgb(26, 188, 156);
+    color: white;
+}
 .caret-left-icon:hover,
 .caret-right-icon:hover,
 .trash-icon:hover {

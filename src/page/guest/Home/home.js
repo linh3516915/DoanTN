@@ -9,7 +9,7 @@ import Footer from "../../../layout/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect } from "react";
-import { getuser } from "../../../redux/slice/authSlice";
+import { getuser, isadmin } from "../../../redux/slice/authSlice";
 import Supplier from "../../../component/Supplier/supplier";
 import PopupLogin from "../../../layout/PopupLogin/popuplogin";
 export default function Home(props) {
@@ -27,6 +27,14 @@ export default function Home(props) {
                             Authorization: `bearer ${token}`
                         }
                     })
+                    if(user.data.isAdmin == 0){
+                        dispatch(getuser(user.data));
+                        dispatch(isadmin(false));
+                    }
+                    else{
+                        dispatch(getuser(user.data));
+                        dispatch(isadmin(true))
+                    }
                     dispatch(getuser(user.data));
                     console.log(user.data);
                 }

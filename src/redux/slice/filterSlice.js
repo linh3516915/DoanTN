@@ -6,7 +6,10 @@ const initialState = {
     result: 0,
     trangdau: 16,
     trangcuoi: 1,
-    loading : false,
+    loading: false,
+    checkedAll: false,
+    checkedTopseller: false,
+    checkedNew: false
 }
 
 export const filterSlice = createSlice({
@@ -32,7 +35,32 @@ export const filterSlice = createSlice({
             }
 
         },
-        loadingmodal : (state , actions) =>{
+        checkedall: (state, actions) => {
+            if (actions.payload == true) {
+                state.checkedAll = actions.payload;
+                state.checkedTopseller = !actions.payload;
+                state.checkedNew = !actions.payload;
+            }
+            state.checkedAll = actions.payload;
+        },
+        checkedtopseller: (state, actions) => {
+            if (actions.payload == true) {
+                state.checkedTopseller = actions.payload;
+                state.checkedAll = !actions.payload;
+                state.checkedNew = !actions.payload;
+            }
+            state.checkedTopseller = actions.payload;
+        },
+        checkednew: (state, actions) => {
+            if (actions.payload == true) {
+                state.checkedNew = actions.payload;
+                state.checkedAll = !actions.payload;
+                state.checkedTopseller = !actions.payload;
+            }
+            state.checkedNew = actions.payload;
+
+        },
+        loadingmodal: (state, actions) => {
             state.loading = actions.payload;
         },
         filterpriceProductdetail: (state, actions) => {
@@ -42,6 +70,8 @@ export const filterSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { searchProductdetail, filterpriceProductdetail, settrang, searchProductdetailInHeader,loadingmodal } = filterSlice.actions
+export const { searchProductdetail, filterpriceProductdetail, settrang
+    , searchProductdetailInHeader, loadingmodal, checkedall,
+    checkedtopseller, checkednew } = filterSlice.actions
 
 export default filterSlice.reducer
