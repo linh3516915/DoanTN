@@ -9,11 +9,19 @@ use App\Http\Controllers\APIDonHangController;
 use App\Http\Controllers\APIOTPController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\APIHinhAnhController;
+//Admin
 use App\Http\Controllers\APISoTongDaiController_Admin;
 use App\Http\Controllers\APIChiNhanhController_Admin;
 use App\Http\Controllers\APISanPhamController_Admin;
 use App\Http\Controllers\APINhaCungCapController_Admin;
 use App\Http\Controllers\APIChiTietSanPhamController_Admin;
+use App\Http\Controllers\APIDiaChiThuongHieuController_Admin;
+use App\Http\Controllers\APILoaiSanPhamController_Admin;
+use App\Http\Controllers\APIDungLuongController_Admin;
+use App\Http\Controllers\APIMauSacController_Admin;
+use App\Http\Controllers\APIRamController_Admin;
+use App\Http\Controllers\APIChiTietCauHinhController_Admin;
+use App\Http\Controllers\APIHinhAnhController_Admin;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -143,7 +151,78 @@ Route::group([
 
     Route::get('ctsp-admin/{id}', [APIChiTietSanPhamController_Admin::class, 'danhSach']);
     Route::post('themmoi-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'themctsp']);
-    Route::post('capnhat-nhacungcap/{id}', [APIChiTietSanPhamController_Admin::class, 'capNhat']);
-    Route::get('xoa-nhacungcap/{id}', [APIChiTietSanPhamController_Admin::class, 'xoa']);
+    Route::post('capnhat-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'dcth'
+], function ($router) {
+
+    Route::get('dcth-admin', [APIDiaChiThuongHieuController_Admin::class, 'danhSach']);
+    Route::post('themmoi-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'themctsp']);
+    Route::post('capnhat-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'loaisp'
+], function ($router) {
+
+    Route::get('loaisp-admin', [APILoaiSanPhamController_Admin::class, 'danhSach']);
+    Route::post('themmoi-loaisp', [APILoaiSanPhamController_Admin::class, 'themLoaiSP']);
+    Route::post('capnhat-loaisp/{id}', [APILoaiSanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-loaisp/{id}', [APILoaiSanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'dungluong'
+], function ($router) {
+
+    Route::get('dungluong-admin', [APIDungLuongController_Admin::class, 'danhSach']);
+    Route::post('themmoi-dungluong', [APIDungLuongController_Admin::class, 'themDungLuong']);
+    Route::post('capnhat-dungluong/{id}', [APIDungLuongController_Admin::class, 'capNhat']);
+    Route::get('xoa-dungluong/{id}', [APIDungLuongController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'mausac'
+], function ($router) {
+
+    Route::get('mausac-admin', [APIMauSacController_Admin::class, 'danhSach']);
+    Route::post('themmoi-mausac', [APIMauSacController_Admin::class, 'themMauSac']);
+    Route::post('capnhat-mausac/{id}', [APIMauSacController_Admin::class, 'capNhat']);
+    Route::get('xoa-mausac/{id}', [APIMauSacController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'ram'
+], function ($router) {
+
+    Route::get('ram-admin', [APIRamController_Admin::class, 'danhSach']);
+    Route::post('themmoi-ram', [APIRamController_Admin::class, 'themRam']);
+    Route::post('capnhat-ram/{id}', [APIRamController_Admin::class, 'capNhat']);
+    Route::get('xoa-ram/{id}', [APIRamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'ctch'
+], function ($router) {
+
+    Route::get('ctch-admin/{id}', [APIChiTietCauHinhController_Admin::class, 'danhSach']);
+    Route::get('ctch-chitiet/{id}', [APIChiTietCauHinhController_Admin::class, 'chiTietCH']);
+    Route::post('themmoi-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'themCTCH']);
+    Route::post('capnhat-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'capNhat']);
+    Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'hinhanh'
+], function ($router) {
+
+    Route::get('hinhanh-admin', [APIHinhAnhController_Admin::class, 'danhSach']);
+    Route::post('themmoi-hinhanh', [APIHinhAnhController_Admin::class, 'themHinhAnh']);
+    Route::post('capnhat-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'capNhat']);
+    Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
     
 });

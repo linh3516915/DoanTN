@@ -28,10 +28,10 @@ class APIChiTietSanPhamController_Admin extends Controller
                 $ctsp =new ChiTietSanPham_Admin();
                 $ctsp->id=$dsChiTietSanPham[$i]->id;
                 $ctsp->ten=$dsChiTietSanPham[$i]->ten;
-                $ctsp->san_pham= $sanpham->ten;
-                $ctsp->dung_luong= $dungluong->kich_thuoc;
-                $ctsp->mau_sac= $mausac->ten_mau_sac;
-                $ctsp->ram = $ram -> loai_ram;
+                $ctsp->san_pham_ten = $sanpham->ten;
+                $ctsp->dung_luong_ten = $dungluong->kich_thuoc;
+                $ctsp->mau_sac_ten = $mausac->ten_mau_sac;
+                $ctsp->ram_ten = $ram -> loai_ram;
                 $ctsp->so_luong=$dsChiTietSanPham[$i]->so_luong;
                 $ctsp->gia=$dsChiTietSanPham[$i]->gia;
                 $ctsp->luot_thich=$dsChiTietSanPham[$i]->luot_thich;
@@ -44,8 +44,15 @@ class APIChiTietSanPhamController_Admin extends Controller
             ]);
     }
     // them moi
-    public function themctsp(Request $request, $id){
-    
+    public function themctch(Request $request, $id){
+        
+        if(empty($request->tenctsp)||empty($request->dungluong)||empty($request->mausac)||empty($request->loairam)||empty($request->soluong||empty($request->gia)))
+        {
+            return response()->json([
+                'success' => -1,
+                'message' => "Chưa nhập đầy đủ thông tin!! "
+            ]);
+        }
        
         #kiem tra  san pham da ton tai hay chua?
         $ctsp = ChiTietSanPham_Admin::where('ten',$request->tenctsp)->first();
@@ -65,19 +72,18 @@ class APIChiTietSanPhamController_Admin extends Controller
         $ctsp->ram_id = $request ->loairam;
         $ctsp -> so_luong = $request -> soluong;
         $ctsp -> gia = $request -> gia ;
-        $ctsp -> luot_thich =0;
         $ctsp    ->save();
         //
         return response()->json([
             'success' => 1,
-            'message' => "Them moi chi tiet san pham thanh cong! "
+            'message' => "Thêm mới chi tiết sản phẩm thành công!! "
         ]);
     }
     public function Capnhat(Request $request, $id){
         $ctsp =ChiTietSanPham_Admin::find($id);
         if(empty($ctsp)){
             return response()->json([
-                'success' =>false,
+                'success' =>0,
                 'message' =>"Chi Tiết Sản phẩm ID={$id} không tồn tại"
             ]);
         }
@@ -86,13 +92,14 @@ class APIChiTietSanPhamController_Admin extends Controller
         if($count>0)
         {
             return response()->json([
-                'success' =>false,
-                'message' =>"$tenctsp chi tiết sản phẩm đã tồn tại!! "
+                'success' =>-1,
+                'message' =>" chi tiết sản phẩm $request->tenctsp đã tồn tại!! "
             ]);
         }
         $ctsp->ten       = $request->tenctsp;
         $ctsp->dung_luong_id = $request -> dungluong;
         $ctsp->mau_sac_id = $request -> mausac;
+        $ctsp->ram_id = $request ->loairam;
         $ctsp -> so_luong = $request -> soluong;
         $ctsp -> gia = $request -> gia ;
         $ctsp    ->save();

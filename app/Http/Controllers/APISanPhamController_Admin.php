@@ -21,8 +21,8 @@ class APISanPhamController_Admin extends Controller
                 $SanPham =new SanPham_Admin();
                 $SanPham->id=$dsSanPham[$i]->id;
                 $SanPham->ten=$dsSanPham[$i]->ten;
-                $SanPham->nha_cung_cap= $NhaCungCap->ten;
-                $SanPham->loai_san_pham = $LoaiSanPham->ten_loai;
+                $SanPham->nha_cung_cap_ten = $NhaCungCap->ten;
+                $SanPham->loai_san_pham_ten = $LoaiSanPham->ten_loai;
                 array_push($data,$SanPham);
             }
             return response()->json([
@@ -32,30 +32,30 @@ class APISanPhamController_Admin extends Controller
     // them moi    
     }public function themSanPham(Request $request){
     
-        if(empty($request->tensp)||empty($request->nhacungcap)||empty($request->loaisanpham))
+        if(empty($request->addtensp)||empty($request->addncc)||empty($request->addloaisp))
         {
             return response()->json([
-                'success' => false,
+                'success' => -1,
                 'message' => "Chưa nhập đầy đủ thông tin!! "
             ]);
         }
         #kiem tra  san pham da ton tai hay chua?
-        $sanPham = SanPham_Admin::where('ten',$request->tensp)->first();
+        $sanPham = SanPham_Admin::where('ten',$request->addtensp)->first();
         if(!empty($sanPham->ten)){
             return response()->json([
-                'success'=> false,
-                'message'=> "Sản phẩm ($request->tensp) tồn tại!!"        
+                'success'=> 0,
+                'message'=> "Sản phẩm ($request->addtensp) tồn tại!!"        
             ]);
         }
         #tao moi san pham
         $sanPham = new SanPham_Admin();
-        $sanPham->ten       = $request->tensp;
-        $sanPham->nha_cung_cap_id = $request->nhacungcap;
-        $sanPham->loai_san_pham_id = $request->loaisanpham;
+        $sanPham->ten       = $request->addtensp;
+        $sanPham->nha_cung_cap_id = $request->addncc;
+        $sanPham->loai_san_pham_id = $request->addloaisp;
         $sanPham    ->save();
         //
         return response()->json([
-            'success' => true,
+            'success' => 1,
             'message' => "thêm sản phẩm thành công!! "
         ]);
     }
@@ -65,22 +65,22 @@ class APISanPhamController_Admin extends Controller
          $sanPham =SanPham_Admin::find($id);
          if(empty($sanPham)){
              return response()->json([
-                 'success' =>false,
+                 'success' =>-1,
                  'message' =>"Sản phẩm ID={$id} không tồn tại"
              ]);
          }
  
-         $count =SanPham_Admin::where('id','<>',$id)->where('ten',$request->tensp)->count();
+         $count =SanPham_Admin::where('id','<>',$id)->where('ten',$request->addtensp)->count();
          if($count>0)
          {
              return response()->json([
-                 'success' =>false,
+                 'success' =>0,
                  'message' =>"Tên sản phẩm đã tồn tại"
              ]);
          }
-         $sanPham->ten       = $request->tensp;
-         $sanPham->nha_cung_cap_id = $request->nhacungcap;
-         $sanPham->loai_san_pham_id = $request->loaisanpham;
+         $sanPham->ten       = $request->addtensp;
+         $sanPham->nha_cung_cap_id = $request->addncc;
+         $sanPham->loai_san_pham_id = $request->addloaisp;
          $sanPham->save();
          return response()->json([
              'success' =>true,
@@ -105,8 +105,6 @@ class APISanPhamController_Admin extends Controller
                   'message' =>"Sản phẩm ID={$id} không tồn tại"
               ]);
           }
-         
-  
           $sanPham->delete();
           return response()->json([
               'success' =>true,

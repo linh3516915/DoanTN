@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\NhaCungCap_Admin;
+use App\Models\DiaChiThuongHieu_Admin;
 
 class APINhaCungCapController_Admin extends Controller
 {
@@ -27,10 +28,10 @@ class APINhaCungCapController_Admin extends Controller
     //them moi
     public function themNCC(Request $request){
     
-        if(empty($request->tenncc)||empty($request->diachi))
+        if(empty($request->tenncc))
         {
             return response()->json([
-                'success' => false,
+                'success' => -1,
                 'message' => "Chưa nhập đầy đủ thông tin!! "
             ]);
         }
@@ -38,18 +39,17 @@ class APINhaCungCapController_Admin extends Controller
         $nhacungcap= NhaCungCap_Admin::where('ten',$request->tenncc)->first();
         if(!empty($nhacungcap->ten)){
             return response()->json([
-                'success'=> false,
-                'message'=> "Sản phẩm ($request->tenncc) đã tồn tại!!"        
+                'success'=> 0,
+                'message'=> "Tên nhà cung cấp: ($request->tenncc) đã tồn tại!!"        
             ]);
         }
         #tao moi
         $nhacungcap = new NhaCungCap_Admin();
         $nhacungcap->ten       = $request->tenncc;
-        $nhacungcap->dia_chi = $request->diachi;
         $nhacungcap    ->save();
         //
         return response()->json([
-            'success' => true,
+            'success' => 1,
             'message' => "Thêm nhà cung cấp thành công!! "
         ]);
     }
@@ -69,15 +69,14 @@ class APINhaCungCapController_Admin extends Controller
          {
              return response()->json([
                  'success' =>false,
-                 'message' =>"Tên sản phẩm đã tồn tại"
+                 'message' =>"Tên nhà cung cấp đã tồn tại"
              ]);
          }
          $nhacungcap->ten       = $request->tenncc;
-         $nhacungcap->dia_chi = $request->diachi;
          $nhacungcap->save();
          return response()->json([
              'success' =>true,
-             'message' =>'Cập nhật sản phẩm thành công'
+             'message' =>'Cập nhật nhà cung cấp thành công'
          ]);
      }
       //e. xóa
@@ -87,14 +86,14 @@ class APINhaCungCapController_Admin extends Controller
           if(empty($nhacungcap)){
               return response()->json([
                   'success' =>false,
-                  'message' =>"Sản phẩm ID={$id} không tồn tại"
+                  'message' =>"Nhà cung cấp ID={$id} không tồn tại"
               ]);
           }
   
           $nhacungcap->delete();
           return response()->json([
               'success' =>true,
-              'message' =>'Xóa sản phẩm thành công'
+              'message' =>'Xóa nhà cung cấp thành công'
           ]);
       }
 }
