@@ -22,6 +22,8 @@ use App\Http\Controllers\APIMauSacController_Admin;
 use App\Http\Controllers\APIRamController_Admin;
 use App\Http\Controllers\APIChiTietCauHinhController_Admin;
 use App\Http\Controllers\APIHinhAnhController_Admin;
+use App\Http\Controllers\APISlideshowController_Admin;
+use App\Http\Controllers\APITenshopController_Admin;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -150,6 +152,7 @@ Route::group([
 ], function ($router) {
 
     Route::get('ctsp-admin/{id}', [APIChiTietSanPhamController_Admin::class, 'danhSach']);
+    Route::get('ctsp-admin', [APIChiTietSanPhamController_Admin::class, 'danhsachCTSP']);
     Route::post('themmoi-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'themctsp']);
     Route::post('capnhat-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'capNhat']);
     Route::get('xoa-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'xoa']);
@@ -222,7 +225,26 @@ Route::group([
 
     Route::get('hinhanh-admin', [APIHinhAnhController_Admin::class, 'danhSach']);
     Route::post('themmoi-hinhanh', [APIHinhAnhController_Admin::class, 'themHinhAnh']);
-    Route::post('capnhat-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'capNhat']);
-    Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
+    Route::post('capnhat-hinhanh/{id}', [APIHinhAnhController_Admin::class, 'capNhatHinhAnh']);
+    // Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'slideshow'
+], function ($router) {
+
+    Route::get('slideshow-admin', [APISlideshowController_Admin::class, 'danhSach']);
+    Route::post('themmoi-slideshow', [APISlideshowController_Admin::class, 'themSlideshow']);
+    // Route::post('capnhat-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'capNhat']);
+    // Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'tenshop'
+], function ($router) {
+
+    Route::get('tenshop-admin', [APITenshopController_Admin::class, 'danhSach']);
+    Route::post('capnhat-tenshop/{id}', [APITenshopController_Admin::class, 'CapNhatTen']);
+   
     
 });

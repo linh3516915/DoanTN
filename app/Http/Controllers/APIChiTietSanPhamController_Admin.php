@@ -14,6 +14,14 @@ use App\Models\Ram_Admin;
 class APIChiTietSanPhamController_Admin extends Controller
 {
     //
+    
+    public function danhSachCTSP(){
+        $chitietsanpham = ChiTietSanPham_Admin :: all();
+        return response()-> json([
+            'success' => true,
+            'data'    => $chitietsanpham
+    ]);
+    }
     public function danhSach($id){
         $sanpham=SanPham_Admin::find($id);
         $dsChiTietSanPham= ChiTietSanPham_Admin::where('san_pham_id',$id)->get();
@@ -35,7 +43,6 @@ class APIChiTietSanPhamController_Admin extends Controller
                 $ctsp->so_luong=$dsChiTietSanPham[$i]->so_luong;
                 $ctsp->gia=$dsChiTietSanPham[$i]->gia;
                 $ctsp->luot_thich=$dsChiTietSanPham[$i]->luot_thich;
-            
                 array_push($data,$ctsp);
             }
             return response()->json([
