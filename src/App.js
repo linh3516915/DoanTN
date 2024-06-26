@@ -29,6 +29,14 @@ import UpdateChiTietSanPham from './page/Admin/ChiTietSanPham/Update_chitietsanp
 import ChiTietCauHinhAdmin from './page/Admin/ChiTietCauHinh/ChitietcauhinhAdmin';
 import AddChitietcauhinh from './page/Admin/ChiTietCauHinh/Add_chitietcauhinh';
 import UpdateChitietcauhinh from './page/Admin/ChiTietCauHinh/Update_chitietcauhinh';
+import DungLuongAdmin from './page/Admin/DungLuong/DungLuongAdmin';
+import AddDungLuong from './page/Admin/DungLuong/Add_Dungluong';
+import UpdateDungLuong from './page/Admin/DungLuong/Update_Dungluong';
+import MauSacAdmin from './page/Admin/MauSac/MausacAdmin';
+import HinhAnhAdmin from './page/Admin/HinhAnhCTSP/HinhanhAdmin';
+import AddHinhAnh from './page/Admin/HinhAnhCTSP/Add_hinhanh';
+import UpdateTenShop from './page/Admin/TenShopAdmin/Update_Tenshop';
+import SlideshowAdmin from './page/Admin/SlideshowAdmin/SlideshowAdmin';
 
 function App() {
   const auth = useSelector(state => state.auth.authentication);
@@ -63,6 +71,14 @@ function App() {
         <Route path='/chitietcauhinh-admin/:id' element={<ChiTietCauHinhAdmin/>}></Route>
         <Route path='/themmoi-chitietcauhinh/:id' element={<AddChitietcauhinh/>}></Route>
         <Route path='/capnhat-chitietcauhinh/:id' element={<UpdateChitietcauhinh/>}></Route>
+        <Route path='/dungluong-admin' element={<DungLuongAdmin/>}></Route>
+        <Route path='/themmoi-dungluong' element={<AddDungLuong/>}></Route>
+        <Route path='/capnhat-dungluong/:id' element={<UpdateDungLuong/>}></Route>
+        <Route path='/mausac-admin' element={<MauSacAdmin/>}></Route>
+        <Route path='/hinhanh-admin' element={<HinhAnhAdmin/>}></Route>
+        <Route path='/themmoi-hinhanh' element={<AddHinhAnh/>}></Route>
+        <Route path='/capnhat-tenshop/:id' element={<UpdateTenShop/>}></Route>
+        <Route path='/slideshow-admin' element={<SlideshowAdmin/>}></Route>
       </Routes>
       
     </>

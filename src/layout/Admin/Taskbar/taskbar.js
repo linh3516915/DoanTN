@@ -8,6 +8,8 @@ export default function TaskbarAdmin() {
                         <li>  <NavLink to="/sanpham-admin" className="nav-link  text-secondary" >Sản Phẩm</NavLink></li>
                         <li>  <NavLink to="/nhacungcap-admin" className="nav-link  text-secondary" >Nhà cung cấp</NavLink></li>
                         <li>  <NavLink to="/loaisanpham-admin" className="nav-link  text-secondary" >Loại sản phẩm</NavLink></li>
+                        <li>  <NavLink to="/hinhanh-admin" className="nav-link  text-secondary" >Hình Ảnh</NavLink></li>
+                        <li>  <NavLink to="/slideshow-admin" className="nav-link  text-secondary" >SlideShow</NavLink></li>
                         <li>  <NavLink to="/chinhanh-admin" className="nav-link  text-secondary" >Chi Nhánh</NavLink></li>
                         <li>  <NavLink to="/tongdai-admin" className="nav-link  text-secondary" >Tổng Đài</NavLink></li>
                     </ul>

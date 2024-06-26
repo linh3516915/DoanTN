@@ -3,7 +3,9 @@ import './Navbar.css';
 import { Logout } from "../../redux/slice/authSlice";
 import { useEffect, useRef } from 'react';
 import styles from './NavBar.module.css';
-export default function Header() {
+import React, {  useState } from 'react';
+import { NavLink } from "react-router-dom";
+export default function Header(props) {
     const auth = useSelector(state => state.auth.authentication);
     console.log('auth', auth);
     const dispatch = useDispatch();
@@ -11,6 +13,15 @@ export default function Header() {
         dispatch(Logout());
     }
 
+    const [dstenshop, setDSTenShop] = useState([]);
+    useEffect(() => {
+        async function setdstenshop() {
+            var response = await fetch(`http://127.0.0.1:8000/api/tenshop/tenshop-admin`);
+            var json = await response.json();
+            setDSTenShop(json.data)
+        }
+        setdstenshop();
+    }, [])
 
 
     return (
@@ -20,7 +31,9 @@ export default function Header() {
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="logo">
-                                <h1><a href="index.html">e<span>Electronics</span></a></h1>
+                                <h1>{dstenshop.map(tenshop => (
+                                    <a href="/"  key={tenshop.id}>{tenshop.ten_shop} </a> 
+                                ))} </h1>
                             </div>
                         </div>
 
