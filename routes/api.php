@@ -24,6 +24,8 @@ use App\Http\Controllers\APIChiTietCauHinhController_Admin;
 use App\Http\Controllers\APIHinhAnhController_Admin;
 use App\Http\Controllers\APISlideshowController_Admin;
 use App\Http\Controllers\APITenshopController_Admin;
+use App\Http\Controllers\APINhapHangController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -245,6 +247,9 @@ Route::group([
 
     Route::get('tenshop-admin', [APITenshopController_Admin::class, 'danhSach']);
     Route::post('capnhat-tenshop/{id}', [APITenshopController_Admin::class, 'CapNhatTen']);
-   
-    
+});
+Route::group([
+    'prefix' => 'nhaphang'
+], function ($router) {
+    Route::post('nhaphang', [APINhapHangController::class, 'nhaphang']);
 });
