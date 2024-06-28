@@ -39,7 +39,8 @@ class APIMauSacController_Admin extends Controller
         //
         return response()->json([
             'success' => 1,
-            'message' => "Thêm Màu Sắc thành công!! "
+            'message' => "Thêm Màu Sắc thành công!! ",
+            'data'=>$mausac
         ]);
     }
      //d.cập nhật

@@ -50,7 +50,8 @@ class APINhaCungCapController_Admin extends Controller
         //
         return response()->json([
             'success' => 1,
-            'message' => "Thêm nhà cung cấp thành công!! "
+            'message' => "Thêm nhà cung cấp thành công!! ",
+            'data'=>$nhacungcap   
         ]);
     }
      //d.cập nhật

@@ -28,7 +28,8 @@ class APILoaiSanPhamController_Admin extends Controller
         if(!empty($loaisanpham->ten_loai)){
             return response()->json([
                 'success'=> 0,
-                'message'=> "Tên loại sản phẩm: ($request->loaisp) đã tồn tại!!"        
+                'message'=> "Tên loại sản phẩm: ($request->loaisp) đã tồn tại!!",
+                   
             ]);
         }
         #tao moi
@@ -38,7 +39,8 @@ class APILoaiSanPhamController_Admin extends Controller
         //
         return response()->json([
             'success' => 1,
-            'message' => "Thêm loại sản phẩm thành công!! "
+            'message' => "Thêm loại sản phẩm thành công!! ",
+            'data'=>$loaisanpham     
         ]);
     }
      //d.cập nhật

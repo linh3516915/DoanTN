@@ -40,7 +40,8 @@ class APIDungLuongController_Admin extends Controller
         //
         return response()->json([
             'success' => 1,
-            'message' => "Thêm dung lượng thành công!! "
+            'message' => "Thêm dung lượng thành công!! ",
+            'data'=>$dungluong
         ]);
     }
      //d.cập nhật

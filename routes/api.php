@@ -235,8 +235,8 @@ Route::group([
 
     Route::get('slideshow-admin', [APISlideshowController_Admin::class, 'danhSach']);
     Route::post('themmoi-slideshow', [APISlideshowController_Admin::class, 'themSlideshow']);
-    // Route::post('capnhat-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'capNhat']);
-    // Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
+    Route::post('capnhat-slideshow/{id}', [APISlideshowController_Admin::class, 'capNhatSlideshow']);
+    Route::get('xoa-slideshow/{id}', [APISlideshowController_Admin::class, 'xoaSlideshow']);
     
 });
 Route::group([
