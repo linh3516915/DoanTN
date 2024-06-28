@@ -14,7 +14,7 @@ export default function HinhAnh(props){
             <tr>
                 <th scope="row">{props.data.ID}</th>
                 <td>{props.data.chi_tiet_san_pham_ten}</td>
-                <td> <img style={{width:'200px',height:'auto'}} src={`http://127.0.0.1:8000/ten_hinh_anh/${props.data.ten_hinh_anh}`}/></td>
+                <td> <img style={{width:'200px',height:'auto'}} src={`http://127.0.0.1:8000/${props.data.ten_hinh_anh}`}/></td>
                 <td>{props.data.isAvatarimage}</td>
                 <td>
                     <NavLink className="btn btn-secondary" to={`/capnhat-hinhanh/${props.data.id}`}>Cập nhật</NavLink> ||

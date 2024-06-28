@@ -37,6 +37,12 @@ import HinhAnhAdmin from './page/Admin/HinhAnhCTSP/HinhanhAdmin';
 import AddHinhAnh from './page/Admin/HinhAnhCTSP/Add_hinhanh';
 import UpdateTenShop from './page/Admin/TenShopAdmin/Update_Tenshop';
 import SlideshowAdmin from './page/Admin/SlideshowAdmin/SlideshowAdmin';
+import UpdateHinhAnh from './page/Admin/HinhAnhCTSP/Update_HinhAnh';
+import AddSlideShow from './page/Admin/SlideshowAdmin/Add_Slideshow';
+import UpdateSlideshow from './page/Admin/SlideshowAdmin/Update_Slidwshow';
+import AddMauSac from './page/Admin/MauSac/Add_mausac';
+import UpdateMauSac from './page/Admin/MauSac/Update_mausac';
+import AddNhapHang from './page/Admin/NhapHangAdmin/Add_NhapHang';
 
 function App() {
   const auth = useSelector(state => state.auth.authentication);
@@ -75,10 +81,16 @@ function App() {
         <Route path='/themmoi-dungluong' element={<AddDungLuong/>}></Route>
         <Route path='/capnhat-dungluong/:id' element={<UpdateDungLuong/>}></Route>
         <Route path='/mausac-admin' element={<MauSacAdmin/>}></Route>
+        <Route path='/themmoi-mausac' element={<AddMauSac/>}></Route>
+        <Route path='/capnhat-mausac/:id' element={<UpdateMauSac/>}></Route>
         <Route path='/hinhanh-admin' element={<HinhAnhAdmin/>}></Route>
         <Route path='/themmoi-hinhanh' element={<AddHinhAnh/>}></Route>
+        <Route path='/capnhat-hinhanh' element={<UpdateHinhAnh/>}></Route>
         <Route path='/capnhat-tenshop/:id' element={<UpdateTenShop/>}></Route>
         <Route path='/slideshow-admin' element={<SlideshowAdmin/>}></Route>
+        <Route path='/themmoi-slideshow' element={<AddSlideShow/>}></Route>
+        <Route path='/capnhat-slideshow/:id' element={<UpdateSlideshow/>}></Route>
+        <Route path='/nhaphang' element={<AddNhapHang/>}></Route>
       </Routes>
       
     </>

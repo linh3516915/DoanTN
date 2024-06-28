@@ -22,6 +22,8 @@ export default function Header(props) {
         }
         setdstenshop();
     }, [])
+  
+    
 
 
     return (
@@ -34,6 +36,7 @@ export default function Header(props) {
                                 <h1>{dstenshop.map(tenshop => (
                                     <a href="/"  key={tenshop.id}>{tenshop.ten_shop} </a> 
                                 ))} </h1>
+
                             </div>
                         </div>
 

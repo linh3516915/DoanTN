@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
 
-export default function AddSlideShow() {
+export default function UpdateSlideshow() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [ten_anh, setTenAnh] = useState('');
@@ -26,12 +26,12 @@ export default function AddSlideShow() {
         formData.append('noi_dung', noi_dung);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/slideshow/themmoi-slideshow', formData, {
+            const response = await axios.post(`http://127.0.0.1:8000/api/slideshow/capnhat-slideshow/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            alert('Thêm Slideshow thành công');
+            alert(' Cập nhật Slideshow thành công');
             navigate('/slideshow-admin');
         } catch (error) {
             console.error('Lỗi thêm slideshow:', error);
@@ -46,7 +46,7 @@ export default function AddSlideShow() {
                     <TaskbarAdmin />
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 className="h2">THÊM MỚI SLIDESHOW  </h1>
+                            <h1 className="h2"> CẬP NHẬT SLIDESHOW  </h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group me-2">
                                 </div>
@@ -76,7 +76,7 @@ export default function AddSlideShow() {
                                         </div>
                                         <div className="row pt-3">
                                             <div className="col-md-12">
-                                                <button type="button" className="btn btn-primary" onClick={themmoi}>Thêm</button>
+                                                <button type="button" className="btn btn-primary" onClick={themmoi}>Lưu</button>
                                             </div>
                                         </div>
                                     </div>

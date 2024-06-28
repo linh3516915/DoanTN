@@ -4,15 +4,17 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
-export default function AddLoaiSanPham() {
+import { useParams } from "react-router-dom";
+export default function UpdateMauSac() {
+    const { id } = useParams();
     const navigate = useNavigate();
-   const [loaisp, setLoaiSP] = useState('');
+    const [ten_mau_sac, setTenMauSac] = useState('');
 
-    const  handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/loaisp/themmoi-loaisp', {
-                loaisp
+            const response = await axios.post(`http://127.0.0.1:8000/api/mausac/capnhat-mausac/${id}`, {
+                ten_mau_sac
             });
             if (response.data.success == -1) {
                 alert(response.data.message);
@@ -21,8 +23,8 @@ export default function AddLoaiSanPham() {
                 alert(response.data.message);
             }
             else {
-                alert('Thêm loại sản phẩm thành công')
-                navigate('/loaisanpham-admin');
+                alert('Cập nhật màu sắc thành công')
+                navigate('/mausac-admin');
             }
             console.log("check them moi", response.data);
 
@@ -38,7 +40,7 @@ export default function AddLoaiSanPham() {
                     <TaskbarAdmin />
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 className="h2">THÊM MỚI LOẠI SẢN PHẨM </h1>
+                            <h1 className="h2">CẬP NHẬT MÀU SẮC </h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group me-2">
                                 </div>
@@ -50,13 +52,13 @@ export default function AddLoaiSanPham() {
                                     <div className="add_sp">
                                         <div className="row">
                                             <div class="col-md-12">
-                                                <label for="Ten" className="form-label ">Tên loại sản phẩm</label>
-                                                <input type="text" value={loaisp} onChange={(e) => { setLoaiSP(e.target.value) }} required />
+                                                <label for="Ten" className="form-label ">Tên màu sắc</label>
+                                                <input type="text" value={ten_mau_sac} onChange={(e) => { setTenMauSac(e.target.value) }} required />
                                             </div>
                                         </div>
                                         <div className="row pt-3">
                                             <div className="col-md-12">
-                                                <button type="submit" className="btn btn-primary">Thêm</button>
+                                                <button type="submit" className="btn btn-primary">Lưu</button>
                                             </div>
                                         </div>
                                     </div>
