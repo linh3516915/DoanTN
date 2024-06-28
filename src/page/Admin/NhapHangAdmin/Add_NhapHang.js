@@ -29,16 +29,16 @@ export default function AddNhapHang(props) {
     const [modalIsOpenDL, setModalIsOpenDL] = useState(false);
     const [modalIsOpenMS, setModalIsOpenMS] = useState(false);
 
-    const openModalDL= () => setModalIsOpenDL(true);
+    const openModalDL = () => setModalIsOpenDL(true);
     const closeModalDL = () => setModalIsOpenDL(false);
 
     const openModalNCC = () => setModalIsOpenNCC(true);
     const closeModalNCC = () => setModalIsOpenNCC(false);
-    
+
     const openModalLSP = () => setModalIsOpenLSP(true);
     const closeModalLSP = () => setModalIsOpenLSP(false);
 
-    const openModalMS= () => setModalIsOpenMS(true);
+    const openModalMS = () => setModalIsOpenMS(true);
     const closeModalMS = () => setModalIsOpenMS(false);
 
     useEffect(() => {
@@ -102,7 +102,7 @@ export default function AddNhapHang(props) {
             <option value={item.id}>{item.kich_thuoc}</option>
         );
     });
- 
+
     const listmausac = dsmausac.map(function (item) {
         return (
             <option value={item.id}>{item.ten_mau_sac}</option>
@@ -169,8 +169,8 @@ export default function AddNhapHang(props) {
     }
 
 
-   
-    
+
+
     return (
         <>
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
@@ -186,80 +186,106 @@ export default function AddNhapHang(props) {
                                 </div>
                             </div>
                         </div>
-                        <form className="row g-3" >
+                        <form onSubmit={(e)=>{e.preventDefault();}} className="row" >
                             <div className="col-12">
                                 <div className="add_sp-ctsp">
                                     <div className="add_sp">
-                                    <div className="row">
+                                        <div className="row">
                                             <div class="col-md-12">
                                                 <label for="Ten" className="form-label "> Tên sản phẩm </label>
                                                 <input type="text" value={addtensp} onChange={(e) => { setTenSP(e.target.value) }} required />
                                             </div>
                                         </div>
+                                        <div style={{ marginBottom: '10px' }}>
+                                            <label for="">Nhà cung cấp</label>
+                                            <div style={{ display: 'flex' }}>
+                                                <div className="row" style={{ width: '80%', marginRight: '2%' }}>
+                                                    <div className="col-md-12">
+                                                        <select className="form-select" value={tenncc} onChange={(e) => { setTenNCC(e.target.value) }} required>
+                                                            <option selected="" className="form-control">Nhà Cung Cấp</option>
+                                                            {listnhacungcap}
+                                                        </select>
+                                                    </div>
 
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <label for="">Nhà cung cấp</label>
-                                                <select className="form-select" value={tenncc} onChange={(e) => { setTenNCC(e.target.value) }} required>
-                                                    <option selected="" className="form-control">Nhà Cung Cấp</option>
-                                                    {listnhacungcap}
-                                                </select>
-                                                <div className="container">
-                                                    <button style={{}} onClick={openModalNCC}>Thêm</button>
-                                                    <PopupAddNCC isOpen={modalIsOpenNCC} onthemmoincc={themmoiNCC} onRequestClose={closeModalNCC} />
                                                 </div>
+                                                {/* <div className="container"> */}
+                                                <PopupAddNCC isOpen={modalIsOpenNCC} onthemmoincc={themmoiNCC} onRequestClose={closeModalNCC} />
+                                                <button className='btn btn-outline-danger' style={{}} onClick={openModalNCC}>Thêm nhanh</button>
+                                                {/* </div> */}
                                             </div>
                                         </div>
 
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <label for="">Loại sản phẩm</label>
-                                                <select className="form-select" value={addloaisp} onChange={(e) => { setLoaiSP(e.target.value) }} required>
-                                                    <option selected="" className="form-control">Loại Sản Phẩm</option>
-                                                    {listloaisanpham}
-                                                </select>
-                                                <div className="container">
-                                                    <button style={{}} onClick={openModalLSP}>Thêm</button>
-                                                    <PopupAddLSP isOpen={modalIsOpenLSP} onthemmoi={themmoiLSP} onRequestClose={closeModalLSP} />
+                                        <div style={{ marginBottom: '10px' }}>
+                                            <label for="">Loại sản phẩm</label>
+                                            <div style={{ display: 'flex' }}>
+                                                <div className="row" style={{ width: '80%', marginRight: '2%' }}>
+                                                    <div className="col-md-12">
+
+                                                        <select className="form-select" value={addloaisp} onChange={(e) => { setLoaiSP(e.target.value) }} required>
+                                                            <option selected="" className="form-control">Loại Sản Phẩm</option>
+                                                            {listloaisanpham}
+                                                        </select>
+
+                                                    </div>
                                                 </div>
+
+                                                <button className='btn btn-outline-danger' onClick={openModalLSP}>Thêm nhanh</button>
+                                                <PopupAddLSP isOpen={modalIsOpenLSP} onthemmoi={themmoiLSP} onRequestClose={closeModalLSP} />
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <label for="">Dung Lượng</label>
-                                                <select className="form-select" value={kich_thuoc} onChange={(e) => { setKichThuoc(e.target.value) }} required>
-                                                    <option selected="" className="form-control">Dung Lượng</option>
-                                                    {listdungluong}
-                                                </select>
-                                                <div className="container">
-                                                    <button style={{}} onClick={openModalDL}>Thêm</button>
-                                                    <PopupAddDL isOpen={modalIsOpenDL} onthemmoidl={themmoiDL} onRequestClose={closeModalDL} />
+
+                                        <div style={{ marginBottom: '10px' }}>
+                                            <label for="">Dung Lượng</label>
+                                            <div style={{ display: 'flex' }}>
+                                                <div className="row" style={{ width: '80%', marginRight: '2%' }}>
+                                                    <div className="col-md-12">
+                                                        <select className="form-select" value={kich_thuoc} onChange={(e) => { setKichThuoc(e.target.value) }} required>
+                                                            <option selected="" className="form-control">Dung Lượng</option>
+                                                            {listdungluong}
+                                                        </select>
+                                                    </div>
                                                 </div>
+
+                                                <button className='btn btn-outline-danger' onClick={openModalDL}>Thêm nhanh</button>
+                                                <PopupAddDL isOpen={modalIsOpenDL} onthemmoidl={themmoiDL} onRequestClose={closeModalDL} />
                                             </div>
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-12">
-                                                <label for="">Màu Sắc</label>
-                                                <select className="form-select" value={ten_mau_sac} onChange={(e) => { setTenMauSac(e.target.value) }} required>
-                                                    <option selected="" className="form-control">Màu Sắc</option>
-                                                    {listmausac}
-                                                </select>
-                                                <div className="container">
-                                                    <button style={{}} onClick={openModalMS}>Thêm</button>
-                                                    <PopupAddMauSac isOpen={modalIsOpenMS} onthemmoiMS={themmoiMauSac} onRequestClose={closeModalMS} />
+
+                                        <div style={{ marginBottom: '10px' }}>
+                                            <label for="">Màu Sắc</label>
+                                            <div style={{ display: 'flex' }}>
+                                                <div className="row" style={{ width: '80%', marginRight: '2%' }}>
+                                                    <div className="col-md-12">
+                                                        <select className="form-select" value={ten_mau_sac} onChange={(e) => { setTenMauSac(e.target.value) }} required>
+                                                            <option selected="" className="form-control">Màu Sắc</option>
+                                                            {listmausac}
+                                                        </select>
+                                                    </div>
                                                 </div>
+
+
+                                                <button className='btn btn-outline-danger' style={{}} onClick={openModalMS}>Thêm nhanh</button>
+                                                <PopupAddMauSac isOpen={modalIsOpenMS} onthemmoiMS={themmoiMauSac} onRequestClose={closeModalMS} />
                                             </div>
                                         </div>
-                                        <div className="row">
+
+
+                                        <div className="row" style={{ marginBottom: '10px' }}>
                                             <div class="col-md-12">
                                                 <label for="Ten" className="form-label "> Số lượng </label>
-                                                <input type="text" value={sl} onChange={(e) => { setSL(e.target.value) }} required />
+                                                <input style={{border : 'solid 1px #ccc'}} type="number" min={0} value={sl} onChange={(e) => { setSL(e.target.value) }} required />
                                             </div>
                                         </div>
-                                        <div className="row">
+                                        <div className="row" style={{ marginBottom: '10px' }}>
                                             <div class="col-md-12">
                                                 <label for="Ten" className="form-label "> Giá Tiền </label>
-                                                <input type="text" value={giatien} onChange={(e) => { setGiaTien(e.target.value) }} required />
+                                                <input style={{border : 'solid 1px #ccc'}} min={0} value={giatien} onChange={(e) => { setGiaTien(e.target.value) }} required />
+                                            </div>
+                                        </div>
+                                        <div className="row" style={{ marginBottom: '10px' }}>
+                                            <div class="col-md-12">
+                                                <label for="Ten" className="form-label "> Ghi chú </label>
+                                                <textarea style={{border : 'solid 1px #ccc'}} id="w3review" name="w3review" rows="4" cols="60"></textarea>
                                             </div>
                                         </div>
                                         <div className="row pt-3">
@@ -269,7 +295,8 @@ export default function AddNhapHang(props) {
                                         </div>
                                     </div>
 
-                                </div></div></form>
+                                </div></div>
+                        </form>
                     </main>
                 </div>
             </div>
