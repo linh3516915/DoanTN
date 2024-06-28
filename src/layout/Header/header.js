@@ -10,9 +10,10 @@ import img from '../../assets/ảnh/tải xuống (1).jpg';
 import PopupOTP from '../PopupOTP/popupOTP';
 import Search from '../../component/SearchProduct/search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import InputSearch from '../Search/inputsearch';
 import LoadingSpinnerModal from '../../component/LoadingSpinnerModal/LoadingSpinnerModal';
+import PopupComment from '../../component/Productdetail/Commentandvote/popupcomment/popupcomment';
 
 export default function Header(props) {
     const auth = useSelector(state => state.auth.authentication);
@@ -28,6 +29,7 @@ export default function Header(props) {
     }
     return (
         <>
+            <PopupComment chi_tiet_san_pham_id={props.id} />
             <PopupOTP />
             <PopupLogin />
             {isloadingmodal && (<LoadingSpinnerModal />)}
@@ -35,8 +37,9 @@ export default function Header(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6">
-                            <div className="logo">
-                                <h1><a href="index.html">e<span>Electronics</span></a></h1>
+                            <div className="logo" style={{ display: 'flex' }}>
+
+                                <h1 style={{ marginRight: '1rem' }}> <a href="index.html">e<span>Electronics</span></a></h1>
                             </div>
                         </div>
 
@@ -79,10 +82,10 @@ export default function Header(props) {
                                             </li>
                                             {!props.ishowsearch && (
                                                 <li className="nav-item">
-                                                 <div>
-                                                    <InputSearch />
-                                                </div>
-                                                   
+                                                    <div>
+                                                        <InputSearch />
+                                                    </div>
+
                                                 </li>
                                             )}
 

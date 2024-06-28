@@ -26,9 +26,6 @@ export default function Shop() {
     const q = searchParams.get('q');
     const giatu = searchParams.get('giatu');
     const giaden = searchParams.get('giaden');
-    console.log('check q:', q);
-    console.log('check giatu:', giatu);
-    console.log('check giaden:', giaden);
     const [isloading, setIsloading] = useState(false);
     //const [trangDau, setTrangDau] = useState(16);
     const checkedAll = useSelector(state => state.filter.checkedAll);
@@ -44,6 +41,7 @@ export default function Shop() {
     const [popupsearch, setPopupSearch] = useState(true);
     //const history = useHistory(
     const navigate = useNavigate();
+    const loadingcomponent = useSelector(state => state.filter.loadingcomponent)
     const result = useSelector(state => state.filter.result);
     const searchs = useSelector(state => state.filter.search);
     const top16hottrending = useSelector(state => state.hottrending.top16hottrend);
@@ -238,83 +236,7 @@ export default function Shop() {
             getAPI();
         }
     }, [q])
-    // useEffect(() => {
-    //     const getAPI = async () => {
-    //         try {
-    //             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/search', {
-    //                 ten: search
-    //             });
-    //             console.log(response.data);
-
-    //             dispatch(searchProductdetail(response.data));
-    //             // Kiểm tra điều kiện search và xử lý tương ứng
-    //             if (search !== '') {
-    //                 //dispatch(searchProductdetail(response.data));
-    //                 //dispatch(listProductdetail(response.data));
-    //                 dispatch(settrang(1)); // Đặt trang về 1 sau khi tìm kiếm
-    //                 setPopupSearch(true); // Mở popup khi có kết quả tìm kiếm
-
-    //                 // Kiểm tra kết quả từ API, nếu không có kết quả, lấy danh sách sản phẩm
-    //                 if (response.data.result === 0) {
-    //                     if (giatu == null && giaden == null) {
-    //                         const listResponse = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists');
-    //                         dispatch(listProductdetail(listResponse.data));
-    //                     }
-    //                     else {
-    //                         const getAPI = async () => {
-    //                             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
-    //                                 giatu: giatu,
-    //                                 giaden: giaden
-    //                             })
-
-    //                             console.log(response.data)
-    //                             if (giatu < 1000000) {
-    //                                 //setGiatu(1000000);
-    //                                 alert('giá từ không được nhỏ hơn 1000000');
-    //                             }
-    //                             else if (giatu >= giaden) {
-    //                                 alert('giá bắt đầu không được lớn hơn giá kết thúc');
-    //                             }
-    //                             else if (giaden < giatu) {
-    //                                 //setGiaden(50000000);
-    //                                 alert('giá kết thúc không được nhỏ hơn giá bắt đầu');
-    //                             }
-    //                             else if (giaden > 50000000) {
-    //                                 //setGiaden(50000000);
-    //                                 alert('giá đến không được lớn hơn 50000000');
-    //                             }
-
-    //                             else {
-    //                                 if (response.data.success === true) {
-    //                                     dispatch(settrang(1));
-    //                                     dispatch(filterpriceProductdetail(response.data.result));
-    //                                     dispatch(listProductdetail(response));
-    //                                 }
-    //                                 else {
-    //                                     alert('giá bắt đầu không được lớn hơn giá kết thúc');
-    //                                 }
-    //                             }
-    //                         }
-    //                         getAPI();
-    //                     }
-    //                 }
-    //                 // else{
-    //                 //     dispatch(searchProductdetail(response.data));
-    //                 // }
-    //             } else {
-    //                 // Xử lý khi search rỗng
-    //                 dispatch(settrang(1)); // Đặt trang về 1
-    //                 setPopupSearch(true); // Mở popup
-    //             }
-    //         } catch (error) {
-    //             console.error('Error fetching API:', error);
-    //             // Xử lý lỗi, ví dụ như hiển thị thông báo cho người dùng
-    //         }
-    //     };
-
-    //     getAPI(); // Gọi hàm getAPI để thực thi các thao tác trên
-
-    // }, [search])
+    
     console.log(listproductdetail);
     const shoppageSectionRef = useRef(null);
     
@@ -446,7 +368,7 @@ export default function Shop() {
                         </div>
                     )}
                 </div> */}
-                    <div style={{width : '33%',margin: '0 auto', position : 'relative'}}>
+                    <div className={`${styles['search']}`} >
                     <InputSearch resetsearch={checkedTopseller} />
                     </div>
 
@@ -492,6 +414,11 @@ export default function Shop() {
                                 <div>
                                     <div className={`${styles['product-list']}  mt-3 mb-5`}>
                                         {(isloading) && (
+                                            <div style={{ margin: '0 auto' }}>
+                                                <LoadingSpinner />
+                                            </div>
+                                        )}
+                                        {(loadingcomponent) && (
                                             <div style={{ margin: '0 auto' }}>
                                                 <LoadingSpinner />
                                             </div>

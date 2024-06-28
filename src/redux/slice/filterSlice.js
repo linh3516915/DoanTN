@@ -7,6 +7,7 @@ const initialState = {
     trangdau: 16,
     trangcuoi: 1,
     loading: false,
+    loadingcomponent : false,
     checkedAll: false,
     checkedTopseller: false,
     checkedNew: false
@@ -63,6 +64,9 @@ export const filterSlice = createSlice({
         loadingmodal: (state, actions) => {
             state.loading = actions.payload;
         },
+        loadingComponent: (state, actions) => {
+            state.loadingcomponent = actions.payload;
+        },
         filterpriceProductdetail: (state, actions) => {
             state.result = actions.payload;
         }
@@ -72,6 +76,6 @@ export const filterSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const { searchProductdetail, filterpriceProductdetail, settrang
     , searchProductdetailInHeader, loadingmodal, checkedall,
-    checkedtopseller, checkednew } = filterSlice.actions
+    checkedtopseller, checkednew,loadingComponent } = filterSlice.actions
 
 export default filterSlice.reducer

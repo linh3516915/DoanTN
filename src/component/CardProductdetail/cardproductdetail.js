@@ -2,11 +2,11 @@ import styles from './cardproductdetail.module.css'
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookmark, faClose, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark, faClose, faShoppingCart, faStar, faStarAndCrescent, faStarHalfStroke } from '@fortawesome/free-solid-svg-icons';
 import { addCart } from '../../redux/slice/cartSlice';
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
-import img from "../../assets/ảnh/14tim.jpg";
+import img from "../../assets/ảnh/13den.jpg";
 import imghotrenđing from "../../assets/ảnh/hottrending2.png";
 import axios from 'axios';
 import { getproductdetail } from '../../redux/slice/itemproductdetail';
@@ -24,29 +24,68 @@ export default function CardProductDetail(props) {
     const totalPrice = useSelector(state => state.cart.totalPrice);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const test = () => {
-        navigate('/productdetail');
-    }
     const addcart = (item) => {
         dispatch(addCart(item));
         alert('add cart successfully');
     }
-    const movepageproductdetail = (id,item) => {
-        // dispatch(addRecently(item));
-        // console.log(listrecently);
-        navigate(`/productdetail/${(id)}`);
+    const movepageproductdetail = (id, item) => {
+        navigate(`/productdetail/?name=${encodeURIComponent(id)}`);
     }
     console.log('check ishotrending: ', props.ishottrending);
+    let datastar = [];
+    const liststar = [1, 2, 3, 4, 5].map((number, index) => {
+        if (Math.floor(props.data.so_sao) >= number) {
+            datastar.push(
+                <div
+                   // key={index}
+                    className={` ${styles['icon-star']} `}
+                // onClick={() => { setHoverIndex(index); setDisavled(true); }}
+
+                >
+                    <FontAwesomeIcon icon={faStar} />
+                </div>
+            )
+        }
+
+        return (
+            < FontAwesomeIcon icon={faStarHalfStroke} />
+
+        )
+    })
+    if ((props.data.so_sao - Math.floor(props.data.so_sao)) >= 0.1 && (props.data.so_sao - Math.floor(props.data.so_sao)) <= 0.9) {
+        datastar.push(
+            <div
+                // key={index}
+                className={` ${styles['icon-star']} `}
+            // onClick={() => { setHoverIndex(index); setDisavled(true); }}
+
+            >
+                < FontAwesomeIcon icon={faStarHalfStroke} />
+            </div>
+        )
+    }
+        for (let i = 0; i < 5 - Math.ceil(props.data.so_sao); i++) {
+            datastar.push(
+                <div
+                    // key={i}
+                    className={` ${styles['icon-star']} `}
+                // onClick={() => { setHoverIndex(index); setDisavled(true); }}
+                    style={{color : '#ccc'}}
+                >
+                    <FontAwesomeIcon icon={faStar} />
+                </div>
+            )
+        }
     return (
         <>
-            <div style={{marginBottom:'1rem' , width: '23%', margin: '0 auto',border : 'solid 1px #ccc' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
+            <div style={{ marginBottom: '1rem', width: '23%', margin: '0 auto', border: 'solid 1px #ccc' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
 
                 <div className={`${styles['item']}  `}>
                     {auth && (
                         <button className={`btn btn-primary ${styles['favotrite']}`} style={{ fontSize: '0.75rem', marginBottom: '1rem' }}><FontAwesomeIcon icon={faBookmark} /></button>
                     )}
-                    <div onClick={() => { movepageproductdetail(props.data.id,props.data); }} className={`${styles['item-content']}  `}>
-                        <div className={`${styles['item-img']}`} style={{ position: 'relative', width: '100%',height:"15rem" }}>
+                    <div onClick={() => { movepageproductdetail(props.data.ten, props.data); }} className={`${styles['item-content']}  `}>
+                        <div className={`${styles['item-img']}`} style={{ position: 'relative', width: '100%', height: "12rem" }}>
                             {props.ishottrending && (
                                 <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
                             )}
@@ -54,12 +93,8 @@ export default function CardProductDetail(props) {
                         </div>
 
                         <div style={{ padding: "10px" }}>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
+                            <div class="product-wid-rating" style={{display : 'flex'}}>
+                                {datastar}
                             </div>
                             <div style={{ marginBottom: '15px', height: "2rem" }}>
                                 <h6 className={`${styles['item-name']}`} >{props.data.ten}</h6>

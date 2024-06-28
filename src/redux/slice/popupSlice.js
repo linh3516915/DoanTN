@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     btnPopupLogin : false,
     btnPopupOTP : false,
+    btnPopupCommnent : false,
     datacheckotp : null
 }
 
@@ -27,10 +28,17 @@ export const popupSlice = createSlice({
             state.btnPopupOTP = false;
           
         },
+        openpopupcomment : (state) =>{
+            state.btnPopupCommnent = true;
+        },
+        closepopupcomment : (state) =>{
+            state.btnPopupCommnent = false;
+        },
     },
 })
 
 // Action creators are generated for each case reducer function
-export const {openpopuplogin, closepopuplogin,openpopupotp, closepopupotp} = popupSlice.actions
+export const {openpopuplogin, closepopuplogin,openpopupotp
+    , closepopupotp,openpopupcomment,closepopupcomment} = popupSlice.actions
 
 export default popupSlice.reducer

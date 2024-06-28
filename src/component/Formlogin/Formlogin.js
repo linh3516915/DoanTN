@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './Formlogin.module.css'
 import { useEffect, useState } from "react";
 import { gettoken, getuser } from "../../redux/slice/authSlice";
@@ -13,6 +13,7 @@ export default function FormLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const token = useSelector(state => state.auth.token);
     const authen = useSelector(state => state.auth.authentication);
     const user = useSelector(state => state.auth.user)
@@ -34,6 +35,7 @@ export default function FormLogin() {
                 dispatch(gettoken(response.data));
                 dispatch(loadingmodal(false));
                 dispatch(closepopuplogin());
+                navigate('/');
             }
             else {
                 dispatch(loadingmodal(false));

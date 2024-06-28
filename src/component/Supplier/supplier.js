@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import CardProductDetail from "../CardProductdetail/cardproductdetail";
+import img from "../../assets/ảnh/13den.jpg";
 export default function Supplier() {
     const top16hottrends = useSelector(state => state.hottrending.top16hottrend);
     const show4hottrends = useSelector(state => state.hottrending.show4hottrend);
@@ -23,20 +24,17 @@ export default function Supplier() {
                 );
                 console.log('check data: ', data.data);
                 dispatch(listtop16hottrend(data.data));
-                // dispatch(listshow4hottrend(data.data));
             }
             getAPI();
         } catch (error) {
             alert('loi');
         }
     }, [dispatch])
-    console.log('top16hottrends', top16hottrends);
-    console.log('show:', show4hottrends);
     let show = null;
     if (show4hottrends !== null) {
         show = show4hottrends.map((item, index) => {
             return (
-                <CardProductDetail data={item} animation = {btnanimation}/>
+                <CardProductDetail data={item} animation={btnanimation} />
 
             )
         })
@@ -56,9 +54,9 @@ export default function Supplier() {
                         <div class="col-md-12">
                             <div class="latest-product">
                                 <h2 class="section-title">Thương Hiệu Nổi Tiếng</h2>
-                                <div  className={`${styles['top-trending']}`} style={{ paddingBottom: '15px' }}>
+                                <div className={`${styles['top-trending']}`} style={{ paddingBottom: '15px' }}>
 
-                                    <div  style={{ marginTop: '35px', display: 'flex', justifyContent: 'space-around', overflow: 'hidden' }} className={`${styles['list-item']} ${inView ? 'animation-from-right': ''}`}>
+                                    <div style={{ marginTop: '35px', display: 'flex', justifyContent: 'space-around', overflow: 'hidden' }} className={`${styles['list-item']} ${inView ? 'animation-from-right' : ''}`}>
                                         <button className={`btn ${styles['move-left']}`} onClick={() => { dispatch(moveleft()) }}><p style={{ opacity: 0.25 }}><FontAwesomeIcon icon={faAngleLeft} /></p> </button>
                                         {/* <div style={{overflow: 'hidden'}}> */}
                                         {show}

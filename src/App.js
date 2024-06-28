@@ -23,7 +23,7 @@ function App() {
         <Route path='/signup' element={auth ?  <Navigate to ='/' />:<SignUp/>} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/cart' element={ <CartPage />} />
-        <Route path='/productdetail/:id' element={<ProductDetailPage />} />
+        <Route path='/productdetail' element={<ProductDetailPage />} />
       </Routes>
       
     </>

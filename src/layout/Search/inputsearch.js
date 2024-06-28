@@ -11,6 +11,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import img from "../../assets/ảnh/14ve.jpg";
+import Star from "../../component/Star/star";
 export default function InputSearch() {
     const popupsignup = useSelector(state => state.popup.btnPopupOTP);
     const [search, setSearch] = useState('');
@@ -60,13 +61,7 @@ export default function InputSearch() {
                         <div className={`${styles['item']}`} onClick={() => { navigate(`/productdetail/${item.id}`) }} style={{ border: 'solid 1px #ccc', padding: '0.5rem', marginBottom: '3%', cursor: 'pointer' }}>
                             <img src={img} alt="" class="product-thumb" height='60px' />
                             <p style={{ height: "10%", textDecoration: 'none' }}><p style={{ color: 'black' }}>{item.ten}</p></p>
-                            <div class="product-wid-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
+                            <Star so_sao={item.so_sao}/>
                             <div class="product-wid-price">
                                 <ins style={{ color: '#1abc9c' }}>{item.gia.toLocaleString('en-us')} VNĐ</ins> <del>$425.00</del>
                             </div>

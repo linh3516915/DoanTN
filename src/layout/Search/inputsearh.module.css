@@ -9,3 +9,31 @@
     /* margin: 0 auto; */
     /* margin-left: 16%; */
 }
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .search-input {
+        opacity: .9;
+        outline: none;
+        /* border: 1px solid #908e8e75; */
+        /* width: 50%; */
+        margin: 0 auto;
+        position: static;
+        z-index: 1000;
+        /* margin: 0 auto; */
+        /* margin-left: 16%; */
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .search-input {
+        opacity: .9;
+        outline: none;
+        /* border: 1px solid #908e8e75; */
+        /* width: 50%; */
+        margin: 0 auto;
+        position: static;
+        z-index: 1000;
+        /* margin: 0 auto; */
+        /* margin-left: 16%; */
+    }
+}

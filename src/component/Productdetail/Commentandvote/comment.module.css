@@ -47,6 +47,13 @@
     border: solid 1px #ccc;
 
 }
+.icon-star{
+    color: #ccc;
+}
+
+.active{
+    color: #ffc808;
+}
 /* comment */
 .list-comment{
     padding: 1rem;

@@ -7,24 +7,38 @@ import { closepopupotp, openpopuplogin } from '../../redux/slice/popupSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from 'react-intersection-observer';
+import { getemail } from '../../redux/slice/authSlice';
 export default function OTP(props) {
   const [otp, setOtp] = useState('');
-  const [isloading,setIsloading] = useState(false);
+  const [isloading, setIsloading] = useState(false);
   const auth = useSelector(state => state.auth.authentication);
   const user = useSelector(state => state.auth.user);
-  const formdata = useSelector(state=>state.popup.datacheckotp);
+  const formdata = useSelector(state => state.popup.datacheckotp);
+  const popupsignup = useSelector(state => state.popup.btnPopupOTP);
   const { ref: refPopupOTP, inView: inViewPopupOTP } = useInView({
     threshold: 0
-});
+  });
+//   useEffect(() => {
+//     if(popupsignup == false){
+//       const getAPI = async () => {
+//         const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+//           email: formdata.email
+//         })
+//         //dispatch(closepopupotp());
+//       }
+//       getAPI();  
+//     }
+// }, [popupsignup, formdata.email])
   useEffect(() => {
     const getAPI = async () => {
       const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
-        email : formdata.email
+        email: formdata.email
       })
     }
     getAPI();
-  },[formdata.email])
-  console.log('check formdataOTP',formdata);
+  }, [formdata.email])
+ 
+  console.log('check formdataOTP', formdata);
   const HandleSubmitOTPSignup = (email) => {
     const getAPI = async () => {
       const response = await axios.post('http://127.0.0.1:8000/api/otp/checkotp', {
@@ -33,24 +47,24 @@ export default function OTP(props) {
       })
       alert(response.data.success);
       if (response.data.success) {
-        const getAPI = async() =>{
+        const getAPI = async () => {
           const response = await axios.post('http://127.0.0.1:8000/api/auth/signup', {
             name: formdata.name,
-            email : formdata.email,
-            password :formdata.password,
+            email: formdata.email,
+            password: formdata.password,
             phone: formdata.phone,
             address: formdata.address,
-        },{
-          headers : {
-            'Accept' : 'application/json'
-          }
-        })
-        
-        if(response.data.success === true)
-          {
-            
+          }, {
+            headers: {
+              'Accept': 'application/json'
+            }
+          })
+
+          if (response.data.success === true) {
+
             alert('đăng ký thành công');
-           // dispatch(setCart());
+            // dispatch(setCart());
+            dispatch(getemail(''));
             dispatch(closepopupotp());
             dispatch(openpopuplogin());
           }
@@ -61,7 +75,7 @@ export default function OTP(props) {
         getAPI();
       }
       else {
-          alert('Mã OTP không hợp lệ');
+        alert('Mã OTP không hợp lệ');
       }
     }
     getAPI();
@@ -78,8 +92,9 @@ export default function OTP(props) {
   const exitOTP = (email) => {
     const getAPI = async () => {
       const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
-        email 
+        email
       })
+      dispatch(getemail(''));
       dispatch(closepopupotp());
     }
     getAPI();

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../loading/loadingspinner";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons/faBagShopping";
 import { addRecently } from "../../redux/slice/recentlyviewedSlice";
+import Star from "../Star/star";
 export default function ProductDetail(props) {
     const [mausac, setMauSac] = useState([]);
     const productSectionRef = useRef(null);
@@ -23,104 +24,25 @@ export default function ProductDetail(props) {
             productSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     }, []);
-    useEffect(() => {
-        // Fetch product detail if it's not available
-        if (productdetail == null) {
-            const getAPI = async () => {
-                try {
-                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/productdetail', {
-                        id: props.id // Assuming props.id is used to fetch product detail
-                    });
-                    dispatch(getproductdetail(response.data.data));
-                    dispatch(addRecently(response.data.data))
-                    console.log('API Response:', response.data.data);
-                } catch (error) {
-                    console.error('Error fetching product detail:', error);
-                    // Handle error as needed
-                }
-            };
-            getAPI();
-        }
-    }, [dispatch, props.id]);
 
     console.log('check productdetail: ', productdetail);
-
-
-    // useEffect(() => {
-    //     const getAPI = async () => {
-    //         const response = await axios.post('http://127.0.0.1:8000/api/productdetail/listmausac', {
-    //             san_pham_id: productdetail.san_pham_id
-    //         })
-    //         dispatch(getcolor())
-    //     }
-    //     getAPI();
-    // }, [dispatch,productdetail.san_pham_id])
-
-
-    useEffect(() => {
-        if (productdetail && !color) { // Only fetch color if not already fetched
-            const getAPI = async () => {
-                try {
-                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/listmausac', {
-                        san_pham_id: productdetail.san_pham_id
-                    });
-                    dispatch(getcolor(response.data.data));
-                    console.log('Color API Response:', response.data.data);
-                } catch (error) {
-                    console.error('Error fetching listmausac:', error);
-                    // Handle error if needed
-                }
-            };
-            getAPI();
-        }
-    }, [dispatch, productdetail, color]);
-    useEffect(() => {
-        if (productdetail && !dungluong) { // Only fetch color if not already fetched
-            const getAPI = async () => {
-                try {
-                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/listdungluong', {
-                        san_pham_id: productdetail.san_pham_id
-                    });
-                    dispatch(getdungluong(response.data.data));
-                    console.log('Color API Response:', response.data.data);
-                } catch (error) {
-                    console.error('Error fetching listmausac:', error);
-                    // Handle error if needed
-                }
-            };
-            getAPI();
-        }
-    }, [dispatch, productdetail, dungluong]);
-    if (!productdetail) {
+    if (!productdetail || !color || !dungluong) {
         return (
             <>
                 <LoadingSpinner />
             </>
-        ); // Render null or loading indicator while productdetail is null or being fetched
+        ); 
     }
 
-    if (!color) {
-        return (
-            <>
-                <LoadingSpinner />
-            </>
-        );
-    }
-    if (!dungluong) {
-        return (
-            <>
-                <LoadingSpinner />
-            </>
-        );
-
-    }
+    
     const movepagecolor = (mau_sac_id) => {
         const getAPI = async () => {
             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/findproductdetail', {
                 mau_sac_id: mau_sac_id,
-                dung_luong_id: productdetail.dung_luong_id
+                dung_luong_id: productdetail.dung_luong_id,
+                san_pham_id: productdetail.san_pham_id,
             })
-            navigate(`/productdetail/${response.data.data.id}`);
+            navigate(`/productdetail/?name=${encodeURIComponent(response.data.data.ten)}`);
             window.location.reload();
         }
         getAPI();
@@ -130,9 +52,10 @@ export default function ProductDetail(props) {
         const getAPI = async () => {
             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/findproductdetail', {
                 mau_sac_id: productdetail.mau_sac_id,
-                dung_luong_id: dung_luong_id
+                dung_luong_id: dung_luong_id,
+                san_pham_id: productdetail.san_pham_id,
             })
-            navigate(`/productdetail/${response.data.data.id}`);
+            navigate(`/productdetail/?name=${encodeURIComponent(response.data.data.ten)}`);
             window.location.reload();
         }
         getAPI();
@@ -142,14 +65,14 @@ export default function ProductDetail(props) {
         if (item.id == productdetail.mau_sac_id) {
             return (
                 <>
-                    <button onClick={() => { movepagecolor(item.id) }} className="btn btn-secondary" style={{backgroundColor : 'rgb(26, 188, 156)',marginBottom:'1rem', marginRight: '1rem', fontSize: '1rem' }}>{item.ten_mau_sac}</button>
+                    <button onClick={() => { movepagecolor(item.id) }} className="btn btn-secondary" style={{ backgroundColor: 'rgb(26, 188, 156)', marginBottom: '1rem', marginRight: '1rem', fontSize: '1rem' }}>{item.ten_mau_sac}</button>
                 </>
             )
         }
         else {
             return (
                 <>
-                    <button onClick={() => { movepagecolor(item.id) }} className={`btn btn-outline-secondary ${styles['btn-color-dungluong']}`}  style={{marginBottom:'1rem', marginRight: '1rem' }}>{item.ten_mau_sac}</button>
+                    <button onClick={() => { movepagecolor(item.id) }} className={`btn btn-outline-secondary ${styles['btn-color-dungluong']}`} style={{ marginBottom: '1rem', marginRight: '1rem' }}>{item.ten_mau_sac}</button>
                 </>
             )
         }
@@ -158,22 +81,19 @@ export default function ProductDetail(props) {
         if (item.id == productdetail.dung_luong_id) {
             return (
                 <>
-                    <button onClick={() => { movepagedungluong(item.id) }} className={`btn btn-secondary`} style={{backgroundColor : 'rgb(26, 188, 156)', marginRight: '1rem' }}>{item.kich_thuoc}</button>
+                    <button onClick={() => { movepagedungluong(item.id) }} className={`btn btn-secondary`} style={{ backgroundColor: 'rgb(26, 188, 156)', marginRight: '1rem' }}>{item.kich_thuoc}</button>
                 </>
             )
         }
         else {
             return (
                 <>
-                    <button onClick={() => { movepagedungluong(item.id) }}  className={`btn btn-outline-secondary ${styles['btn-color-dungluong']}`} style={{ marginRight: '1rem' }}>{item.kich_thuoc}</button>
+                    <button onClick={() => { movepagedungluong(item.id) }} className={`btn btn-outline-secondary ${styles['btn-color-dungluong']}`} style={{ marginRight: '1rem' }}>{item.kich_thuoc}</button>
                 </>
             )
         }
 
     })
-
-    console.log('check: ', productdetail);
-    console.log('check: ', props.id);
     return (
         <>
             <section ref={productSectionRef} style={{ width: '30%', paddingTop: '15px' }} className="">
@@ -181,6 +101,7 @@ export default function ProductDetail(props) {
                     <div className="ps-lg-3">
                         < h6 className="title text-dark"> {productdetail.ten}</h6>
                         <div className="mb-3">
+                            <Star so_sao={productdetail.so_sao} />
                             <span className="h5" style={{ fontSize: '1rem', color: '#1abc9c', fontWeight: '700', fontSize: '1rem', textDecoration: 'none' }}>{productdetail.gia.toLocaleString('en-us')} VNĐ</span>
                         </div>
                         <div style={{ marginBottom: '20px' }}>
@@ -205,14 +126,14 @@ export default function ProductDetail(props) {
                             </div>
 
                         </div> */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap',marginBottom:'0.5rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
                             <button className="btn btn-primary text-white" style={{ width: '49%' }}> <FontAwesomeIcon icon={faThumbsUp} />  LIKE </button>
 
                             <button className="btn btn-success shadow-0" style={{ width: '49%' }}> <FontAwesomeIcon icon={faCartPlus} />  ADD CART</button>
 
                         </div>
                         <div style={{ width: '100%' }}>
-                            <button className="btn btn-warning shadow-0" style={{ width: '100%', margin: '0 auto' }}><FontAwesomeIcon icon={faBagShopping} /> BUY </button>
+                            <button className="btn btn-danger shadow-0" style={{ width: '100%', margin: '0 auto' }}><FontAwesomeIcon icon={faBagShopping} /> BUY </button>
                         </div>
 
                     </div>

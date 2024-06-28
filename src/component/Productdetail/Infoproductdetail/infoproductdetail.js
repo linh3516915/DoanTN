@@ -9,6 +9,7 @@ import { faDeleteLeft, faMinus, faPenToSquare, faPlus, faTrash } from "@fortawes
 import axios from "axios";
 import { getinfoproductdetail, getproductdetail } from "../../../redux/slice/itemproductdetail";
 import { addRecently } from "../../../redux/slice/recentlyviewedSlice";
+import LoadingSpinner from "../../loading/loadingspinner";
 function InfoProductDetail(props) {
     const [seemore, setSeemore] = useState(false);
     const [formAdd, setFormadd] = useState(false);
@@ -37,8 +38,6 @@ function InfoProductDetail(props) {
             }
             getAPI();
         }
-
-
     }, [productdetail, infoproductdetail])
     useEffect(() => {
         if (productdetail !== null) {
@@ -52,10 +51,17 @@ function InfoProductDetail(props) {
         }
 
     }, [tieude, noidung, imgnoidung, productdetail, id])
-    if (!infoproductdetail == null) {
-        return null;
+    
+    if(!productdetail){
+        return (
+            <LoadingSpinner/>
+        )
     }
-    console.log('API Response:sssss', productdetail);
+    if (!infoproductdetail ) {
+        return (
+            <LoadingSpinner/>
+        );
+    }
     let listinfoproductdetail = [];
     let imginfoproducdetail = [];
     const delimg = (id) => {

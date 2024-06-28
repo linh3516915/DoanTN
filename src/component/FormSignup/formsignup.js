@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import styles from './formsignup.module.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Address from "../Address/address";
 import { useDispatch, useSelector } from "react-redux";
 import { openpopuplogin, openpopupotp } from "../../redux/slice/popupSlice";
 import OTP from "../OTP/otp";
 import { match } from "../../redux/slice/addressSlice";
 import axios from "axios";
+import { getemail } from "../../redux/slice/authSlice";
 export default function FormSignUp() {
     const [inputFullName, setInputFullName] = useState('');
     const [inputPhoneNumber, setInputPhoneNumber] = useState('');
@@ -16,14 +17,18 @@ export default function FormSignUp() {
     const [formdata, setFormdata] = useState([]);
     const [checkbox, setCheckbox] = useState(false);
     const address = useSelector(state => state.address.Address);
+    const popupsignup = useSelector(state => state.popup.btnPopupOTP);
+    const emailpersit = useSelector(state => state.auth.email);
     const dispatch = useDispatch();
     const SignIn = (event) => {
         event.preventDefault();
+        
         const getAPI = async () => {
             const response = await axios.post('http://127.0.0.1:8000/api/account/checkemail', {
                email : inputEmail
             })
             if (response.data.success === true) {
+                dispatch(getemail(inputEmail));
                 dispatch(openpopupotp(formdata));
             }
             else {
@@ -32,6 +37,17 @@ export default function FormSignUp() {
         }
         getAPI();
     }
+    useEffect(() => {
+        if(popupsignup == false){
+          const getAPI = async () => {
+            const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+              email: emailpersit
+            })
+            dispatch(getemail(''));
+          }
+          getAPI();  
+        }
+    }, [popupsignup])
     console.log(checkbox);
     return (
         <>
@@ -75,7 +91,7 @@ export default function FormSignUp() {
                                     }}
                                 />
                                 {/* {isShowWarning(isValidPassword, isTouchPassword) ? alertMessage("Please enter password at least 8 character!") : <></>} */}
-                                <input type='nuber' placeholder='Phone' required
+                                <input type='number' placeholder='Phone' required
                                     value={inputPhoneNumber}
                                     onChange={(e) => {
                                         setInputPhoneNumber(e.target.value)

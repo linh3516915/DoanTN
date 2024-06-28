@@ -35,7 +35,11 @@
     /* margin: 0 auto; */
     margin-left: 22%;
 }
-
+.search{
+    width: 33%; 
+    margin: 0px auto;
+    position: relative;
+}
 /* .product-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -69,4 +73,20 @@
 
 .active {
     color: rgb(224, 177, 90);
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .search{
+        width: 100%; 
+        margin: 0px auto;
+        position: relative;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .search{
+        width: 100%; 
+        margin: 0px auto;
+        position: relative;
+    }
 }
