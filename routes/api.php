@@ -73,7 +73,7 @@ Route::group([
     Route::get('topseller', [APIChiTietSanPhamController::class,'topseller']);
     Route::post('search', [APIChiTietSanPhamController::class,'search']);
     Route::post('filterprice', [APIChiTietSanPhamController::class,'filterprice']);
-    
+    Route::post('relatedproduct', [APIChiTietSanPhamController::class,'relatedproduct']);
 });
 
 Route::group([
@@ -123,7 +123,8 @@ Route::group([
 Route::group([
     'prefix' => 'binhluandanhgia'
 ], function ($router) {
-
-    Route::get('ListVote/{id}', [APIBinhLuanDanhGiaController::class,'ListVote']);
-   
+    Route::post('writecomment', [APIBinhLuanDanhGiaController::class,'writecomment']);
+    Route::post('ListVote', [APIBinhLuanDanhGiaController::class,'ListVote']);
+    Route::get('likecomment/{id}', [APIBinhLuanDanhGiaController::class,'likecomment']);
+    
 });

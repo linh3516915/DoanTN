@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ChiTietSanPham extends Model
 {
     use HasFactory;
-    protected $table = "chi_tiet_san_pham";
+    protected $table = "chi_tiet_product";
     public function mau_sac(){
-        return $this->belongsTo(MauSac::class,$id);
+        return $this->belongsTo(MauSac::class);
     }
     public function dung_luong(){
         return $this->belongsTo(DungLuong::class,$id);

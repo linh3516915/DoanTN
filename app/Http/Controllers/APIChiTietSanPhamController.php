@@ -20,9 +20,7 @@ class APIChiTietSanPhamController extends Controller
             if($productdetail != null){
                 array_push($data,$productdetail);
             }
-            
         }
-        
         return response()->json([
             'data' => $data,
         ]);
@@ -34,9 +32,25 @@ class APIChiTietSanPhamController extends Controller
         ]);
     }
     public function productdetail(Request $rq){
-        $productdetail = ChiTietSanPham::where('id',$rq->id)->first();
+        $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
+        $ncc = SanPham::find($productdetail->san_pham_id);
+        $mau_sac =   ChiTietSanPham::where('san_pham_id',$productdetail->san_pham_id)->groupBy('mau_sac_id')->select('mau_sac_id')->get();
+        $datamausac =[];
+        for($i=0;$i<count($mau_sac);$i++){
+            $ms = MauSac::find($mau_sac[$i]->mau_sac_id);
+            array_push($datamausac,$ms);
+        }
+        $dung_luong =   ChiTietSanPham::where('san_pham_id',$productdetail->san_pham_id)->groupBy('dung_luong_id')->select('dung_luong_id')->get();
+        $datadungluong =[];
+        for($i=0;$i<count($dung_luong);$i++){
+            $dl = DungLuong::find($dung_luong[$i]->dung_luong_id);
+            array_push($datadungluong,$dl);
+        }
         return response()->json([
             'data' => $productdetail,
+            'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
+            'mau_sac' => $datamausac,
+            'dung_luong' => $datadungluong ,
         ]);
     }
     public function listdungluong(Request $rq){
@@ -120,7 +134,7 @@ class APIChiTietSanPhamController extends Controller
         ]);
      }
    public function findproductdetail(Request $rq){
-        $ctsp = ChiTietSanPham::where('mau_sac_id',$rq->mau_sac_id)->where('dung_luong_id',$rq->dung_luong_id)->first();
+        $ctsp = ChiTietSanPham::where('san_pham_id',$rq->san_pham_id)->where('mau_sac_id',$rq->mau_sac_id)->where('dung_luong_id',$rq->dung_luong_id)->first();
         return response()->json([
             'data' => $ctsp,
         ]);
@@ -158,23 +172,33 @@ class APIChiTietSanPhamController extends Controller
         ]);
     }
     public function topseller(){
-        $products = ChiTietDonHang::groupBy('chi_tiet_san_pham_id')
-        ->select('chi_tiet_san_pham_id', \DB::raw('SUM(so_luong_mua) as total_quantity'))
-        ->orderBy('total_quantity' ,'desc')
-        ->get();
+        $product = ChiTietDonHang::all();
         $data=[];
-        for($i = 0; $i<count($products) ;$i++)
-        {
-            $ctsp = ChiTietSanPham::find($products[$i]->chi_tiet_san_pham_id);
-            // $ctdh = [
-            //     'chi_tiet_san_pham' => $ctsp,
-            //     'so_luong_mua' => $products[$i]->total_quantity,
-            // ];
-            array_push($data,$ctsp);
+        if(count($product)>0){
+            $products = ChiTietDonHang::groupBy('chi_tiet_san_pham_id')
+            ->select('chi_tiet_san_pham_id', \DB::raw('SUM(so_luong_mua) as total_quantity'))
+            ->orderBy('total_quantity' ,'desc')
+            ->get();
+          
+    
+                for($i = 0; $i<count($products) ;$i++)
+                {
+                    $ctsp = ChiTietSanPham::find($products[$i]->chi_tiet_san_pham_id);
+                    // $ctdh = [
+                    //     'chi_tiet_san_pham' => $ctsp,
+                    //     'so_luong_mua' => $products[$i]->total_quantity,
+                    // ];
+                    array_push($data,$ctsp);
+                }
+                return response()->json([
+                    'data' => $data,
+                    'result' => count($data)
+                ]);
         }
+        
+        
         return response()->json([
-            'data' => $data,
-            'result' => count($data)
+            'data' => $data
         ]);
     }
     public function search(Request $rq){
@@ -229,5 +253,24 @@ class APIChiTietSanPhamController extends Controller
                 ]);
             }
             
+    }
+    public function relatedproduct(Request $rq){
+        $sp = SanPham::where('nha_cung_cap_id', $rq->nha_cung_cap_id)->get();
+        $data=[];
+            foreach($sp as $item){
+                $ctsp = ChiTietSanPham::where('san_pham_id', $item->id)->first();
+                if(!empty($ctsp)){
+                    if( $ctsp->id != $rq->id){
+                        array_push($data,$ctsp);
+                    }
+                }
+            }
+            return response() -> json([
+                'data' => $data,   
+            ]);
+        
+        return response() -> json([
+            'data' => $data,   
+        ]);
     }
 }
