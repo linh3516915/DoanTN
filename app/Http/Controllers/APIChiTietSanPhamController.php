@@ -32,7 +32,8 @@ class APIChiTietSanPhamController extends Controller
         ]);
     }
     public function productdetail(Request $rq){
-        $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
+        // $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
+        $productdetail = ChiTietSanPham::whereRaw('LOWER(ten) = LOWER(?)', [$rq->ten])->first();
         $ncc = SanPham::find($productdetail->san_pham_id);
         $mau_sac =   ChiTietSanPham::where('san_pham_id',$productdetail->san_pham_id)->groupBy('mau_sac_id')->select('mau_sac_id')->get();
         $datamausac =[];
@@ -141,7 +142,7 @@ class APIChiTietSanPhamController extends Controller
     }
     
     public function top8hottrending(){
-        $productdetail = ChiTietSanPham::orderBy('luot_thich' , 'desc')->get();
+        $productdetail = ChiTietSanPham::where('luot_thich' ,'>',0)->orderBy('luot_thich' , 'desc')->get();
         $data = [];
         for($i = 0;$i<count($productdetail);$i++){
             if($i<16 )
@@ -204,18 +205,18 @@ class APIChiTietSanPhamController extends Controller
     public function search(Request $rq){
         if($rq->ten !='')
         {
-            $ctsp = SanPham::where('ten','like','%'.$rq->ten.'%')->get();
-            $data = [];
-            for($i=0; $i<count($ctsp);$i++){
-                $productdetail = ChiTietSanPham::where('san_pham_id',$ctsp[$i]->id)->first();
-                if($productdetail != null){
-                    array_push($data,$productdetail);
-                }
+            $ctsp = ChiTietSanPham::where('ten','like','%'.$rq->ten.'%')->get();
+            // $data = [];
+            // for($i=0; $i<count($ctsp);$i++){
+            //     $productdetail = ChiTietSanPham::where('san_pham_id',$ctsp[$i]->id)->first();
+            //     if($productdetail != null){
+            //         array_push($data,$productdetail);
+            //     }
                 
-            }
+            // }
             return response()->json([
-                'result' => count($data),
-                 'data' => $data,
+                'result' => count($ctsp),
+                 'data' => $ctsp,
                 
             ]);
         }

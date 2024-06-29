@@ -12,6 +12,22 @@ use App\Http\Controllers\APIHinhAnhController;
 use App\Http\Controllers\APIAccountController;
 use App\Http\Controllers\APINoiDungSanPhamController;
 use App\Http\Controllers\APIBinhLuanDanhGiaController;
+//Admin
+use App\Http\Controllers\APISoTongDaiController_Admin;
+use App\Http\Controllers\APIChiNhanhController_Admin;
+use App\Http\Controllers\APISanPhamController_Admin;
+use App\Http\Controllers\APINhaCungCapController_Admin;
+use App\Http\Controllers\APIChiTietSanPhamController_Admin;
+use App\Http\Controllers\APIDiaChiThuongHieuController_Admin;
+use App\Http\Controllers\APILoaiSanPhamController_Admin;
+use App\Http\Controllers\APIDungLuongController_Admin;
+use App\Http\Controllers\APIMauSacController_Admin;
+use App\Http\Controllers\APIRamController_Admin;
+use App\Http\Controllers\APIChiTietCauHinhController_Admin;
+use App\Http\Controllers\APIHinhAnhController_Admin;
+use App\Http\Controllers\APISlideshowController_Admin;
+use App\Http\Controllers\APITenshopController_Admin;
+use App\Http\Controllers\APINhapHangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,4 +143,146 @@ Route::group([
     Route::post('ListVote', [APIBinhLuanDanhGiaController::class,'ListVote']);
     Route::get('likecomment/{id}', [APIBinhLuanDanhGiaController::class,'likecomment']);
     
+});
+
+
+//Admin
+
+Route::group([
+    'prefix' => 'diachi'
+], function ($router) {
+
+    Route::get('chinhanh-admin', [APIChiNhanhController_Admin::class, 'danhSach']);
+    
+});
+Route::group([
+    'prefix' => 'tongdai'
+], function ($router) {
+
+    Route::get('tongdai-admin', [APISoTongDaiController_Admin::class, 'danhSach']);
+    
+});
+Route::group([
+    'prefix' => 'sanpham'
+], function ($router) {
+
+    Route::get('sanpham-admin', [APISanPhamController_Admin::class, 'danhSach']);
+    Route::post('themmoi-sanpham', [APISanPhamController_Admin::class, 'themSanPham']);
+    Route::post('capnhat-sanpham/{id}', [APISanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-sanpham/{id}', [APISanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'nhacungcap'
+], function ($router) {
+
+    Route::get('nhacungcap-admin', [APINhaCungCapController_Admin::class, 'danhSach']);
+    Route::post('themmoi-nhacungcap', [APINhaCungCapController_Admin::class, 'themNCC']);
+    Route::post('capnhat-nhacungcap/{id}', [APINhaCungCapController_Admin::class, 'capNhat']);
+    Route::get('xoa-nhacungcap/{id}', [APINhaCungCapController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'ctsp'
+], function ($router) {
+
+    Route::get('ctsp-admin/{id}', [APIChiTietSanPhamController_Admin::class, 'danhSach']);
+    Route::get('ctsp-admin', [APIChiTietSanPhamController_Admin::class, 'danhsachCTSP']);
+    Route::post('themmoi-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'themctsp']);
+    Route::post('capnhat-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'dcth'
+], function ($router) {
+
+    Route::get('dcth-admin', [APIDiaChiThuongHieuController_Admin::class, 'danhSach']);
+    Route::post('themmoi-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'themctsp']);
+    Route::post('capnhat-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-ctsp/{id}', [APIChiTietSanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'loaisp'
+], function ($router) {
+
+    Route::get('loaisp-admin', [APILoaiSanPhamController_Admin::class, 'danhSach']);
+    Route::post('themmoi-loaisp', [APILoaiSanPhamController_Admin::class, 'themLoaiSP']);
+    Route::post('capnhat-loaisp/{id}', [APILoaiSanPhamController_Admin::class, 'capNhat']);
+    Route::get('xoa-loaisp/{id}', [APILoaiSanPhamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'dungluong'
+], function ($router) {
+
+    Route::get('dungluong-admin', [APIDungLuongController_Admin::class, 'danhSach']);
+    Route::post('themmoi-dungluong', [APIDungLuongController_Admin::class, 'themDungLuong']);
+    Route::post('capnhat-dungluong/{id}', [APIDungLuongController_Admin::class, 'capNhat']);
+    Route::get('xoa-dungluong/{id}', [APIDungLuongController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'mausac'
+], function ($router) {
+
+    Route::get('mausac-admin', [APIMauSacController_Admin::class, 'danhSach']);
+    Route::post('themmoi-mausac', [APIMauSacController_Admin::class, 'themMauSac']);
+    Route::post('capnhat-mausac/{id}', [APIMauSacController_Admin::class, 'capNhat']);
+    Route::get('xoa-mausac/{id}', [APIMauSacController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'ram'
+], function ($router) {
+
+    Route::get('ram-admin', [APIRamController_Admin::class, 'danhSach']);
+    Route::post('themmoi-ram', [APIRamController_Admin::class, 'themRam']);
+    Route::post('capnhat-ram/{id}', [APIRamController_Admin::class, 'capNhat']);
+    Route::get('xoa-ram/{id}', [APIRamController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'ctch'
+], function ($router) {
+
+    Route::get('ctch-admin/{id}', [APIChiTietCauHinhController_Admin::class, 'danhSach']);
+    Route::get('ctch-chitiet/{id}', [APIChiTietCauHinhController_Admin::class, 'chiTietCH']);
+    Route::post('themmoi-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'themCTCH']);
+    Route::post('capnhat-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'capNhat']);
+    Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'hinhanh'
+], function ($router) {
+
+    Route::get('hinhanh-admin', [APIHinhAnhController_Admin::class, 'danhSach']);
+    Route::post('themmoi-hinhanh', [APIHinhAnhController_Admin::class, 'themHinhAnh']);
+    Route::post('capnhat-hinhanh/{id}', [APIHinhAnhController_Admin::class, 'capNhatHinhAnh']);
+    // Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
+    
+});
+Route::group([
+    'prefix' => 'slideshow'
+], function ($router) {
+
+    Route::get('slideshow-admin', [APISlideshowController_Admin::class, 'danhSach']);
+    Route::post('themmoi-slideshow', [APISlideshowController_Admin::class, 'themSlideshow']);
+    Route::post('capnhat-slideshow/{id}', [APISlideshowController_Admin::class, 'capNhatSlideshow']);
+    Route::get('xoa-slideshow/{id}', [APISlideshowController_Admin::class, 'xoaSlideshow']);
+    
+});
+Route::group([
+    'prefix' => 'tenshop'
+], function ($router) {
+
+    Route::get('tenshop-admin', [APITenshopController_Admin::class, 'danhSach']);
+    Route::post('capnhat-tenshop/{id}', [APITenshopController_Admin::class, 'CapNhatTen']);
+});
+Route::group([
+    'prefix' => 'nhaphang'
+], function ($router) {
+    Route::post('nhaphang', [APINhapHangController::class, 'nhaphang']);
 });
