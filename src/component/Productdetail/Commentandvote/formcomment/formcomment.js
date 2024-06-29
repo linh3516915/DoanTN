@@ -5,6 +5,8 @@ import { closepopupcomment } from '../../../../redux/slice/popupSlice';
 import { useState } from 'react';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 export default function FormComment(props) {
     const dispatch = useDispatch();
     const [hoverIndex, setHoverIndex] = useState(null);
@@ -97,9 +99,8 @@ export default function FormComment(props) {
                                 onMouseEnter={() => handleMouseEnter(index)}
                                 onMouseLeave={handleMouseLeave}
                                 onClick={() => { setHoverIndex(index); setDisavled(true); }}
-
                             >
-                                <i className="fa fa-star"></i>
+                                <FontAwesomeIcon icon={faStar}/>
                             </div>
                         ))}
 

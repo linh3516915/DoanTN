@@ -78,7 +78,7 @@ export default function CardProductDetail(props) {
         }
     return (
         <>
-            <div style={{ marginBottom: '1rem', width: '23%', margin: '0 auto', border: 'solid 1px #ccc' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
+            <div style={{ marginBottom: '0rem', width: '20%', border: '1px solid rgb(223 223 223)' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
 
                 <div className={`${styles['item']}  `}>
                     {auth && (

@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { getuser, isadmin } from "../../../redux/slice/authSlice";
 import Supplier from "../../../component/Supplier/supplier";
 import PopupLogin from "../../../layout/PopupLogin/popuplogin";
+import { addCartUser } from "../../../redux/slice/cartSlice";
 export default function Home(props) {
     console.log("check auth:", props.data);
     const dispatch = useDispatch();
@@ -27,12 +28,14 @@ export default function Home(props) {
                             Authorization: `bearer ${token}`
                         }
                     })
-                    if(user.data.isAdmin == 0){
-                        dispatch(getuser(user.data));
+                    console.log(user.data);
+                    if(user.data.data_user.isAdmin == 0){
+                        dispatch(getuser(user.data.data_user));
+                        dispatch(addCartUser(user.data.data_gio_hang));
                         dispatch(isadmin(false));
                     }
                     else{
-                        dispatch(getuser(user.data));
+                        dispatch(getuser(user.data.data_user));
                         dispatch(isadmin(true))
                     }
                     dispatch(getuser(user.data));

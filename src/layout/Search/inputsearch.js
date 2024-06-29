@@ -63,7 +63,8 @@ export default function InputSearch() {
                             <p style={{ height: "10%", textDecoration: 'none' }}><p style={{ color: 'black' }}>{item.ten}</p></p>
                             <Star so_sao={item.so_sao}/>
                             <div class="product-wid-price">
-                                <ins style={{ color: '#1abc9c' }}>{item.gia.toLocaleString('en-us')} VNĐ</ins> <del>$425.00</del>
+                                <ins style={{ color: '#1abc9c' }}>{item.gia.toLocaleString('en-us')} VNĐ</ins> 
+                                {/* <del>$425.00</del> */}
                             </div>
                         </div>
                     </>
@@ -136,7 +137,7 @@ export default function InputSearch() {
                             className={` px-3 py-2`} onChange={(e) => {
                                 setTimeout(() => {
                                     setSearch(e.target.value);
-                                }, 50);
+                                }, 1000);
                             }}
 
                         />

@@ -18,6 +18,7 @@ import { listProductdetail } from "../../../redux/slice/productdetail";
 import LoadingSpinner from "../../../component/loading/loadingspinner";
 import FilterPrice from "../../../component/Filterprice/filterprice";
 import InputSearch from "../../../layout/Search/inputsearch";
+import LoadingSpinnerModal from "../../../component/LoadingSpinnerModal/LoadingSpinnerModal";
 
 export default function Shop() {
     const listproductdetail = useSelector(state => state.productdetail.productdetails);
@@ -236,10 +237,10 @@ export default function Shop() {
             getAPI();
         }
     }, [q])
-    
+
     console.log(listproductdetail);
     const shoppageSectionRef = useRef(null);
-    
+
     useEffect(() => {
         if (shoppageSectionRef.current) {
             shoppageSectionRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -340,6 +341,11 @@ export default function Shop() {
     return (
         <>
             <Header ishowsearch={true} />
+            {(isloading) && (
+                <div style={{ margin: '0 auto' }}>
+                    <LoadingSpinnerModal />
+                </div>
+            )}
             <BannerOfPage
                 bigTitle="Shop"
                 subtitle="shop"
@@ -369,7 +375,7 @@ export default function Shop() {
                     )}
                 </div> */}
                     <div className={`${styles['search']}`} >
-                    <InputSearch resetsearch={checkedTopseller} />
+                        <InputSearch resetsearch={checkedTopseller} />
                     </div>
 
                     <div>
@@ -413,17 +419,22 @@ export default function Shop() {
                                 </div>
                                 <div>
                                     <div className={`${styles['product-list']}  mt-3 mb-5`}>
-                                        {(isloading) && (
+                                        {/* {(isloading) && (
                                             <div style={{ margin: '0 auto' }}>
-                                                <LoadingSpinner />
+                                                <LoadingSpinnerModal />
                                             </div>
-                                        )}
+                                        )} */}
                                         {(loadingcomponent) && (
                                             <div style={{ margin: '0 auto' }}>
                                                 <LoadingSpinner />
                                             </div>
                                         )}
                                         {showlistproduct}
+                                        {showlistproduct == [] && (
+                                            <>
+                                                <p>không có sản phẩm</p>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                                 <div className="w-100 d-flex flex-column align-items-end">

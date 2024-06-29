@@ -1,5 +1,27 @@
 import styles from './Footer.module.css'
+import React, { useEffect, useState } from 'react';
+
 function Footer() {
+    const [dschinhanh, setDSChiNhanh] = useState([]);
+    useEffect(() => {
+        async function setchinhanh() {
+            var response = await fetch(`http://127.0.0.1:8000/api/diachi/chinhanh-admin`);
+            var json = await response.json();
+            setDSChiNhanh(json.data)
+        }
+        setchinhanh();
+    }, [])
+
+    const [dstongdai, SetDSTD] = useState([]);
+    useEffect(() => {
+        async function settongdai() {
+            var response = await fetch(`http://127.0.0.1:8000/api/tongdai/tongdai-admin`);
+            var json = await response.json();
+            SetDSTD(json.data)
+        }
+        settongdai();
+
+    }, [])
     return (
         <>
             <div className="footer-top-area" >
@@ -7,32 +29,38 @@ function Footer() {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm py-5">
-                            <div className="text-uppercase h5 font-italic text-white font-weight-light pb-4">Customer service</div>
+                            <div className="text-uppercase h5 font-italic text-white font-weight-light pb-4" >Chi Nhánh</div>
                             <ul>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">help & contact us</li>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">return & refunds</li>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">online stores</li>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">term & condition</li>
+                                {dschinhanh.map(chinhanh => (
+                                    <li className={`${styles['chinhanh']}`} key={chinhanh.id}> <a href="#">Chi nhánh: {chinhanh.ten_chi_nhanh} - {chinhanh.dia_chi}</a>  </li>
+                                ))}
                             </ul>
                         </div>
                         <div className="col-sm py-5">
-                            <div className="text-uppercase h5 font-italic text-white font-weight-light pb-4">company</div>
+                            <div className="text-uppercase h5 font-italic text-white font-weight-light pb-4">Tổng Đài</div>
                             <ul>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">what we do</li>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">available services</li>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">latest post</li>
-                                <li className="font-italic text-light font-weight-light opacity-50">FAQs</li>
+                                {dstongdai.map(tongdai => (
+                                    <li className={`${styles['tongdai']}`} style={{fontSize:'20px'}} key={tongdai.id}> {tongdai.ten_so} : {tongdai.so_dien_thoai}  ({tongdai.gio_bat_dau_hoat_dong} - {tongdai.gio_ket_thuc_hoat_dong}) </li>
+                                ))}
                             </ul>
                         </div>
                         <div className="col-sm py-5">
-                            <div className="text-uppercase h5 font-italic text-white font-weight-light pb-4">social media</div>
+                            <div className="text-uppercase h5 font-italic text-white font-weight-light pb-4">Mạng Xã Hội</div>
                             <ul>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">twitter</li>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">instagram</li>
-                                <li>
-                                    <a href="https://www.facebook.com/profile.php?id=100080592587307" target="_blank" className="text-decoration-none text-capitalize font-italic text-light font-weight-light opacity-50" rel="noreferrer">facebook</a>
-                                </li>
-                                <li className="text-capitalize font-italic text-light font-weight-light opacity-50">pinterest</li>
+                                <a href="https://www.facebook.com/profile.php?id=100080592587307" class="link-fb __web-inspector-hide-shortcut__">
+                                    <i class="fa fa-facebook-official" aria-hidden="true"style={{fontSize:'25px'}} > Facebook</i>
+                                   
+                                </a><br/>
+                                <a href="https://www.youtube.com/">
+                                    <i class="fa fa-youtube-play" aria-hidden="true" style={{fontSize:'25px'}} > Youtube</i>
+                                    
+
+                                </a><br/>
+                                <a href="https://www.instagram.com/">
+                                    <i class="fa fa-youtube-play" aria-hidden="true" style={{fontSize:'25px'}}> Instagram</i>
+                                   
+                                </a>
+
                             </ul>
                         </div>
                     </div>

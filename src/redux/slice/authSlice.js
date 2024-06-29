@@ -26,7 +26,7 @@ export const authSlice = createSlice({
         state.user = {};  
       },
     getuser : (state, action) =>{
-      state.user = action.payload;
+      state.user = action.payload.data_user;
     },
     getemail : (state, action) =>{
       state.email = action.payload;

@@ -15,18 +15,54 @@ import InputSearch from '../Search/inputsearch';
 import LoadingSpinnerModal from '../../component/LoadingSpinnerModal/LoadingSpinnerModal';
 import PopupComment from '../../component/Productdetail/Commentandvote/popupcomment/popupcomment';
 
+import { NavLink } from "react-router-dom";
+import axios from 'axios';
+import { setCart } from '../../redux/slice/cartSlice';
 export default function Header(props) {
     const auth = useSelector(state => state.auth.authentication);
+    const isAdmin = useSelector(state => state.auth.isAdmin);
+    const users_id = useSelector(state => state.auth.user.id);
     const [activeShop, setActiveShop] = useState(false);
     console.log('auth', auth);
     const isloadingmodal = useSelector(state => state.filter.loading);
+    const items = useSelector(state => state.cart.items);
+    const token = useSelector(state => state.auth.token);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const logout = () => {
-        dispatch(Logout());
-        dispatch(isadmin(false))
-        navigate('/')
+        console.log('checkcart',items);
+        
+        const getAPI = async () => {
+            const response = await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+                'data': items,
+                'user_id' : users_id,
+            }, {
+                headers: {
+                    Accept: 'application/json',
+                    Authorization: `bearer ${token}`
+                }
+            });
+            if (response.data.success) {
+                dispatch(Logout());
+                dispatch(setCart());
+                dispatch(isadmin(false));
+                navigate('/');
+            }
+            else {
+                alert('lỗi');
+            }
+        }
+        getAPI();
     }
+    const [dstenshop, setDSTenShop] = useState([]);
+    useEffect(() => {
+        async function setdstenshop() {
+            var response = await fetch(`http://127.0.0.1:8000/api/tenshop/tenshop-admin`);
+            var json = await response.json();
+            setDSTenShop(json.data)
+        }
+        setdstenshop();
+    }, [])
     return (
         <>
             <PopupComment chi_tiet_san_pham_id={props.id} />
@@ -37,9 +73,10 @@ export default function Header(props) {
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-6">
-                            <div className="logo" style={{ display: 'flex' }}>
-
-                                <h1 style={{ marginRight: '1rem' }}> <a href="index.html">e<span>Electronics</span></a></h1>
+                            <div className="logo">
+                                <h1>{dstenshop.map(tenshop => (
+                                    <a href="/" key={tenshop.id}>{tenshop.ten_shop} </a>
+                                ))} </h1>
                             </div>
                         </div>
 
@@ -92,7 +129,7 @@ export default function Header(props) {
                                         </ul>
                                         <div className="text-end">
 
-                                            {auth && (
+                                            {(auth && isAdmin == false) && (
                                                 <>
 
                                                     <ul className="nav">
@@ -117,6 +154,24 @@ export default function Header(props) {
                                                         <button type="button" onClick={() => { dispatch(openpopuplogin()) }} className="btn btn-outline-light me-2">Login</button>
                                                         <button type="button" onClick={() => { navigate('/signup') }} className="btn btn-outline-light ">Sign-up</button>
                                                     </div>
+                                                </>
+                                            )}
+                                            {(auth == true && isAdmin == true) && (
+                                                <>
+                                                    <ul className="nav">
+                                                        <div className="dropdown text-end" style={{ lineHeight: '40px' }}>
+                                                            <a style={{ marginRight: '25px' }} href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <img src={img} alt="mdo" width="32" height="32" className="rounded-circle" />
+                                                            </a>
+                                                            <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                                                                <li><a className="dropdown-item" href="#">Settings</a></li>
+                                                                <li><a className="dropdown-item" href="/admin">Admin Sanager</a></li>
+                                                                <li><hr className="dropdown-divider" /></li>
+                                                                <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
+                                                            </ul>
+                                                        </div>
+
+                                                    </ul>
                                                 </>
                                             )}
                                         </div>

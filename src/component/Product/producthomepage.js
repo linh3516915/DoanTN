@@ -54,7 +54,7 @@ export default function ProductHomePage() {
                                    
                                 </div>
                                 <div style={{width:'max-content',margin:'0 auto'}}>
-                                <button onClick={() => { movePage() }} className="btn btn-primary" >Xem Thêm sản phẩm </button>
+                                <button style={{marginTop : '1rem'}} onClick={() => { movePage() }} className="btn btn-primary" >Xem Thêm sản phẩm </button>
                                 </div>
                                
                             </div>

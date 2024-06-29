@@ -52,7 +52,7 @@ export default function CartPage() {
             <div className="d-flex flex-1 mx-1 justify-content-center">
                 <button className="px-2 border-0 bg-white"
                     onClick={() => {
-                        dispatch(decrease(item.product.id));
+                        dispatch(decrease(item.product));
                     }}
                 >
                     <FontAwesomeIcon icon={faCaretLeft} className={`${styles['caret-left-icon']}`} />
@@ -60,7 +60,7 @@ export default function CartPage() {
                 <span className={`${styles['quantity-number']} user-select-none`}>{item.quantity}</span>
                 <button className="px-2 border-0 bg-white"
                     onClick={() => {
-                        dispatch(increase(item.product.id));
+                        dispatch(increase(item.product));
                     }}
                 >
                     <FontAwesomeIcon icon={faCaretRight} className={`${styles['caret-right-icon']}`} />
@@ -69,7 +69,7 @@ export default function CartPage() {
             <span className={`flex-1 mx-1 text-center ${styles['total-price']} user-select-none`}> {(item.product.gia * item.quantity)}VND</span>
             <div className={`${styles['remove-item']} flex-1 text-center`}
                 onClick={() => {
-                    dispatch(deleteItemInCart(item.product.id));
+                    dispatch(deleteItemInCart(item.product));
                     alert('thành công');
                 }}
             >

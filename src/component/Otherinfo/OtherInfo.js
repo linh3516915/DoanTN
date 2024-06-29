@@ -101,7 +101,7 @@ function OtherInfo() {
                 <div className="zigzag-bottom"></div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-4">
+                        <div className="col-md-4" style={{borderRight : '1px solid #ccc'}}>
                             <div className="single-product-widget">
                                 <h2 className="product-wid-title">Top Seller</h2>
                                 {/* <a href="/shop?ext=topseller" className="wid-view-more"></a> */}
@@ -123,17 +123,23 @@ function OtherInfo() {
                                 {itemtopseller}
                             </div>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-md-4"  style={{borderRight : '1px solid #ccc'}}>
                             <div className="single-product-widget">
                                 <h2 className="product-wid-title">Đã Xem</h2>
-                                <a href="#" className="wid-view-more">View All</a>
+                                <button className="wid-view-more" onClick={()=>{
+                                     
+
+                                    }}>View All</button>
                                 {listrecentlyviewed}
                             </div>
                         </div>
                         <div className="col-md-4">
                             <div className="single-product-widget">
                                 <h2 className="product-wid-title">Top New</h2>
-                                <a href="#" className="wid-view-more">View All</a>
+                                <button className="wid-view-more" onClick={()=>{
+                                     
+
+                                }}>View All</button>
                                 {itemtopnew}
                             </div>
                         </div>
