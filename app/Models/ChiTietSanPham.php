@@ -9,13 +9,13 @@ class ChiTietSanPham extends Model
 {
     use HasFactory;
     protected $table = "chi_tiet_product";
-    public function mau_sac(){
-        return $this->belongsTo(MauSac::class);
+    public function san_pham_ten() {
+        return $this->belongsTo(SanPham_Admin::class,'ten');
     }
-    public function dung_luong(){
-        return $this->belongsTo(DungLuong::class,$id);
+    public function dung_luong_ten() {
+        return $this->belongsTo(DungLuong_Admin::class,'kich_thuoc');
     }
-    public function ram(){
-        return $this->belongsTo(Ram::class,$id);
+    public function mau_sac_ten() {
+        return $this->belongsTo(MauSac_Admin::class,'ten_mau_sac');
     }
 }

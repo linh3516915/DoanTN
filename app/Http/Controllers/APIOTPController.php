@@ -14,10 +14,10 @@ class APIOTPController extends Controller
      public function sendOTP(Request $request)
     {
         $otp = mt_rand(100000, 999999); // Tạo mã OTP gồm 6 số ngẫu nhiên
-        $checkemail = OTP::where('email_verify',$request->input('email'))->first();
-        if(!empty($checkemail)){
-            return response()->json(['success' => false, 'message' => 'OTP was gave you']);
-        }
+        // $checkemail = OTP::where('email_verify',$request->input('email'))->first();
+        // if(!empty($checkemail)){
+        //     return response()->json(['success' => false, 'message' => 'OTP was gave you']);
+        // }
         $otpverify = new OTP();
         $otpverify->OTP_verify = $otp;
         $otpverify->email_verify = $request->input('email');
@@ -27,11 +27,14 @@ class APIOTPController extends Controller
         // Gửi email chứa mã OTP
         Mail::to($email)->send(new OtpMail($otp));
 
-        return response()->json(['success' => true, 'message' => 'OTP has been sent successfully']);
+        return response()->json([
+            'success' => true, 'message' => 'OTP has been sent successfully',  
+            'otptocheck' =>  $otpverify->OTP_verify
+        ]);
     }
     public function delOTP(Request $request)
     {
-        $checkemail = OTP::where('email_verify',$request->input('email'))->first();
+        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->first();
         if(!empty($checkemail)){
             $checkemail->delete();
             return response()->json(['success' => true, 'message' => 'delete successfully']);
@@ -41,7 +44,7 @@ class APIOTPController extends Controller
     {
 
         $otp = mt_rand(100000, 999999); // Tạo mã OTP gồm 6 số ngẫu nhiên
-        $checkemail = OTP::where('email_verify',$request->input('email'))->first();
+        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->first();
         if(!empty($checkemail)){
             $checkemail->delete();
         }
@@ -54,12 +57,17 @@ class APIOTPController extends Controller
         // Gửi email chứa mã OTP
         Mail::to($email)->send(new OtpMail($otp));
 
-        return response()->json(['success' => true, 'message' => 'OTP has been sent again successfully']);
+        return response()->json(
+            ['success' => true, 'message' => 'OTP has been sent again successfully',
+                'otptocheck' =>  $otpverify->OTP_verify
+            ]
+            
+        );
     }
     public function checkOTP(Request $request)
     {
         $otp = $request->otp;
-        $checkemail = OTP::where('email_verify',$request->input('email'))->first();
+        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->first();
         if($otp == $checkemail->OTP_verify)
         {
             $checkemail->delete();

@@ -13,7 +13,9 @@ class APISanPhamController_Admin extends Controller
     public function danhSach(){
         $dsSanPham = SanPham_Admin::all();
         $data=[];
+        $data1=[];
             $length=count($dsSanPham);
+            
             for($i=0;$i<$length;$i++)
             {
                 $NhaCungCap=NhaCungCap_Admin::where('id',$dsSanPham[$i]->nha_cung_cap_id)->first();
@@ -21,16 +23,23 @@ class APISanPhamController_Admin extends Controller
                 $SanPham =new SanPham_Admin();
                 $SanPham->id=$dsSanPham[$i]->id;
                 $SanPham->ten=$dsSanPham[$i]->ten;
+                $SanPham->nha_cung_cap_id = $NhaCungCap->id;
+                $SanPham->loai_san_pham_id = $LoaiSanPham->id;
+                $SanPham->trang_thai_id = $dsSanPham[$i]->trang_thai_id;
+                 $SanPham->mo_ta = $dsSanPham[$i]->mota;
                 $SanPham->nha_cung_cap_ten = $NhaCungCap->ten;
                 $SanPham->loai_san_pham_ten = $LoaiSanPham->ten_loai;
                 array_push($data,$SanPham);
             }
+            
             return response()->json([
                 'success' =>true,
-                'data'    =>$data
+                'data'    =>$data,
             ]);
     // them moi    
-    }public function themSanPham(Request $request){
+    }
+    
+    public function themSanPham(Request $request){
     
         if(empty($request->addtensp)||empty($request->addncc)||empty($request->addloaisp))
         {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\NhaCungCap_Admin;
 use App\Models\DiaChiThuongHieu_Admin;
-
+use App\Providers\HelperServiceProvider;
 class APINhaCungCapController_Admin extends Controller
 {
     //
@@ -45,7 +45,7 @@ class APINhaCungCapController_Admin extends Controller
         }
         #tao moi
         $nhacungcap = new NhaCungCap_Admin();
-        $nhacungcap->ten       = $request->tenncc;
+        $nhacungcap->ten       =  HelperServiceProvider::ucfirstString($request->tenncc);
         $nhacungcap    ->save();
         //
         return response()->json([
