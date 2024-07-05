@@ -1,0 +1,18 @@
+/* Editor.module.css */
+.editorContainer {
+    width: 100%;
+}
+
+/* Example of styling CKEditor elements */
+:global(.ck-editor__editable) {
+    min-height: 100px;
+    border: 1px solid #2cce98;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+}
+
+:global(.ck-editor__toolbar) {
+    background-color: #f0f0f0;
+    border: 1px solid #2cce98;
+    padding: 5px;
+}

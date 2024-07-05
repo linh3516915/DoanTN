@@ -7,7 +7,7 @@ import { openpopuplogin, openpopupotp } from "../../redux/slice/popupSlice";
 import OTP from "../OTP/otp";
 import { match } from "../../redux/slice/addressSlice";
 import axios from "axios";
-import { getemail } from "../../redux/slice/authSlice";
+import { getemail, setOTP } from "../../redux/slice/authSlice";
 export default function FormSignUp() {
     const [inputFullName, setInputFullName] = useState('');
     const [inputPhoneNumber, setInputPhoneNumber] = useState('');
@@ -29,6 +29,15 @@ export default function FormSignUp() {
             })
             if (response.data.success === true) {
                 dispatch(getemail(inputEmail));
+                const getAPI = async () => {
+                    // if(emailcheck !== '' && otpcheck ==null ){
+                      const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                        email: inputEmail
+                      })
+                      dispatch(setOTP(response.data.otptocheck));
+                    // }
+                  }
+                  getAPI();
                 dispatch(openpopupotp(formdata));
             }
             else {
@@ -38,7 +47,7 @@ export default function FormSignUp() {
         getAPI();
     }
     useEffect(() => {
-        if(popupsignup == false){
+        if(popupsignup == false){                                                 
           const getAPI = async () => {
             const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
               email: emailpersit

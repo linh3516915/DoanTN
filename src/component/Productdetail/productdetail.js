@@ -42,27 +42,29 @@ export default function ProductDetail(props) {
                 dung_luong_id: productdetail.dung_luong_id,
                 san_pham_id: productdetail.san_pham_id,
             })
-            navigate(`/productdetail/?name=${encodeURIComponent(response.data.data.ten)}`);
-            window.location.reload();
+            navigate(`/productdetail/?name=${encodeURIComponent(response.data.data[0].data.ten)}`);
+            //window.location.reload();
         }
         getAPI();
 
     }
     const movepagedungluong = (dung_luong_id) => {
+        console.log('check 3 cái :',productdetail.mau_sac_id,dung_luong_id,productdetail.san_pham_id);
         const getAPI = async () => {
             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/findproductdetail', {
                 mau_sac_id: productdetail.mau_sac_id,
                 dung_luong_id: dung_luong_id,
                 san_pham_id: productdetail.san_pham_id,
             })
-            navigate(`/productdetail/?name=${encodeURIComponent(response.data.data.ten)}`);
-            window.location.reload();
+            console.log('ten nè ',response.data.data[0].data.ten )
+            navigate(`/productdetail/?name=${encodeURIComponent(response.data.data[0].data.ten)}`);
+            //window.location.reload();
         }
         getAPI();
 
     }
     const listmausac = color.map((item) => {
-        if (item.id == productdetail.mau_sac_id) {
+        if (item.id === productdetail.mau_sac_id) {
             return (
                 <>
                     <button onClick={() => { movepagecolor(item.id) }} className="btn btn-secondary" style={{ backgroundColor: 'rgb(26, 188, 156)', marginBottom: '1rem', marginRight: '1rem', fontSize: '1rem' }}>{item.ten_mau_sac}</button>

@@ -67,7 +67,7 @@ export default function Shop() {
         // Sử dụng map để tạo danh sách sản phẩm để hiển thị
         showlistproduct = hientaiTrang.map((item, index) => {
             // Kiểm tra xem item có trong danh sách top16hottrending không
-            const isHotTrending = top16hottrending.some(element => element.id === item.id);
+            const isHotTrending = top16hottrending.some(element => element.id === item.data.id);
 
             // Render CardProductDetail dựa trên kết quả kiểm tra isHotTrending
             return (
@@ -75,7 +75,8 @@ export default function Shop() {
                     ishottrending={isHotTrending}
                     key={index}
                     animation={btnshowlist}
-                    data={item}
+                    data={item.data}
+                    img = {item.image}
                 />
             );
         });
@@ -396,7 +397,6 @@ export default function Shop() {
                                                 dispatch(filterpriceProductdetail(response.data.result));
                                             }
                                             getAPI();
-
                                             dispatch(checkedtopseller(!checkedTopseller));
                                             navigate(`/shop?ext=${encodeURIComponent('topseller')}`)
 
@@ -477,7 +477,7 @@ export default function Shop() {
                 </div>
             </div>
 
-            <OtherInfo />
+            {/* <OtherInfo /> */}
             <Footer />
         </>
     );

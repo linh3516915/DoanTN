@@ -27,18 +27,18 @@ function InfoProductDetail(props) {
     const formSectionRef = useRef(null);
     const formeditSectionRef = useRef(null);
 
-    useEffect(() => {
-        if (productdetail !== null && infoproductdetail === null) {
-            const getAPI = async () => {
-                const response = await axios.post('http://127.0.0.1:8000/api/noidungsanpham/listinfoproductdetail', {
-                    san_pham_id: productdetail.san_pham_id
-                })
-                dispatch(getinfoproductdetail(response.data.data));
+    // useEffect(() => {
+    //     if (productdetail !== null && infoproductdetail === null) {
+    //         const getAPI = async () => {
+    //             const response = await axios.post('http://127.0.0.1:8000/api/noidungsanpham/listinfoproductdetail', {
+    //                 san_pham_id: productdetail.san_pham_id
+    //             })
+    //             dispatch(getinfoproductdetail(response.data.data));
 
-            }
-            getAPI();
-        }
-    }, [productdetail, infoproductdetail])
+    //         }
+    //         getAPI();
+    //     }
+    // }, [productdetail, infoproductdetail])
     useEffect(() => {
         if (productdetail !== null) {
             setFormdata({
@@ -52,16 +52,16 @@ function InfoProductDetail(props) {
 
     }, [tieude, noidung, imgnoidung, productdetail, id])
     
-    if(!productdetail){
-        return (
-            <LoadingSpinner/>
-        )
-    }
-    if (!infoproductdetail ) {
-        return (
-            <LoadingSpinner/>
-        );
-    }
+    // if(!productdetail){
+    //     return (
+    //         <LoadingSpinner/>
+    //     )
+    // }
+    // if (!infoproductdetail ) {
+    //     return (
+    //         <LoadingSpinner/>
+    //     );
+    // }
     let listinfoproductdetail = [];
     let imginfoproducdetail = [];
     const delimg = (id) => {

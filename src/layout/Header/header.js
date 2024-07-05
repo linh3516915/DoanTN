@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './Navbar.css';
-import { Logout, isadmin } from "../../redux/slice/authSlice";
+import { Logout, gettokentorun, isadmin } from "../../redux/slice/authSlice";
 import { useEffect, useRef, useState } from 'react';
 import styles from './NavBar.module.css';
 import PopupLogin from '../PopupLogin/popuplogin';
@@ -18,6 +18,8 @@ import PopupComment from '../../component/Productdetail/Commentandvote/popupcomm
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
 import { setCart } from '../../redux/slice/cartSlice';
+import Modal from 'react-modal';
+import PopupPay from '../PopupPay/popuppay';
 export default function Header(props) {
     const auth = useSelector(state => state.auth.authentication);
     const isAdmin = useSelector(state => state.auth.isAdmin);
@@ -30,12 +32,12 @@ export default function Header(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const logout = () => {
-        console.log('checkcart',items);
-        
+        console.log('checkcart', items);
+
         const getAPI = async () => {
             const response = await axios.post('http://127.0.0.1:8000/api/auth/logout', {
                 'data': items,
-                'user_id' : users_id,
+                'user_id': users_id,
             }, {
                 headers: {
                     Accept: 'application/json',
@@ -43,9 +45,10 @@ export default function Header(props) {
                 }
             });
             if (response.data.success) {
-                dispatch(Logout());
                 dispatch(setCart());
+                dispatch(Logout());
                 dispatch(isadmin(false));
+                dispatch(gettokentorun(''));
                 navigate('/');
             }
             else {
@@ -54,12 +57,28 @@ export default function Header(props) {
         }
         getAPI();
     }
+    const [error, setError] = useState(null);
+
+    const [retryCount, setRetryCount] = useState(0);
     const [dstenshop, setDSTenShop] = useState([]);
     useEffect(() => {
         async function setdstenshop() {
-            var response = await fetch(`http://127.0.0.1:8000/api/tenshop/tenshop-admin`);
-            var json = await response.json();
-            setDSTenShop(json.data)
+            try {
+                var response = await fetch(`http://127.0.0.1:8000/api/tenshop/tenshop-admin`);
+                var json = await response.json();
+                setDSTenShop(json.data)
+            } catch (error) {
+                if (error.response.status === 429) {
+                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);
+                        setdstenshop();
+                    }, delay);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
+
         }
         setdstenshop();
     }, [])
@@ -68,6 +87,7 @@ export default function Header(props) {
             <PopupComment chi_tiet_san_pham_id={props.id} />
             <PopupOTP />
             <PopupLogin />
+            <PopupPay/>
             {isloadingmodal && (<LoadingSpinnerModal />)}
             <div className="site-branding-area">
                 <div className="container">
@@ -134,7 +154,7 @@ export default function Header(props) {
 
                                                     <ul className="nav">
                                                         <div className="dropdown text-end" style={{ lineHeight: '40px' }}>
-                                                            <a style={{ marginRight: '25px' }} href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <a style={{ marginRight: '25px' }} href="" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                                                                 <img src={img} alt="mdo" width="32" height="32" className="rounded-circle" />
                                                             </a>
                                                             <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">

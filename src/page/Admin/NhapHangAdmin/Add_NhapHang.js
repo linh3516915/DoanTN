@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
 import PopupAddLSP from '../../../component/Admin/AddTHvaLSP/AddLoaiSP';
@@ -10,6 +10,12 @@ import PopupAddDL from '../../../component/Admin/AddTHvaLSP/AddDungLuong';
 import PopupAddMauSac from '../../../component/Admin/AddTHvaLSP/AddMauSac';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadingmodal } from '../../../redux/slice/filterSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronDown, faDeleteLeft, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, setgiatien, setiddungluong, setidmausac, setname, setoption, setproductdetail, setproductdetails, setsoluong } from '../../../redux/slice/productSlice';
+import ChiTietSanPham from '../../../component/Admin/ChiTietSanPham/Chitietsanpham';
+import EditorComponent from '../../../component/CKeditor/ckeditor';
+import PopupAddtrangthai from '../../../component/Admin/AddTHvaLSP/Addtrangthai';
 
 
 export default function AddNhapHang(props) {
@@ -17,6 +23,7 @@ export default function AddNhapHang(props) {
     const [addtensp, setTenSP] = useState('');
     const [dsSanPham, setDSSanPham] = useState([]);
     const [tenncc, setTenNCC] = useState(0);
+    const [trangthaiid, setTrangthaiid] = useState(0);
     const [addloaisp, setLoaiSP] = useState(0);
     const [dsLoaiSP, setDSLSP] = useState([]);
     const [dsNCC, SetDSNCC] = useState([]);
@@ -27,27 +34,53 @@ export default function AddNhapHang(props) {
     const [giatien, setGiaTien] = useState(0);
     const [sl, setSL] = useState(0);
     const [ghichu, setGhiChu] = useState('');
+    const [btnghichu, setBtnGhiChu] = useState(false);
     const [formdata, setFormData] = useState({});
+    const [image, setImage] = useState([]);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [requestSelectedFiles, setRequestSelectedFiles] = useState([]);
     const user = useSelector(state => state.auth.user);
     const isloadingmodal = useSelector(state => state.filter.loading);
     const dispatch = useDispatch();
     const [modalIsOpenNCC, setModalIsOpenNCC] = useState(false);
+    const [modalIsOpentrangthai, setModalIsOpentrangthai] = useState(false);
     const [modalIsOpenLSP, setModalIsOpenLSP] = useState(false);
     const [modalIsOpenDL, setModalIsOpenDL] = useState(false);
     const [modalIsOpenMS, setModalIsOpenMS] = useState(false);
-
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [showselectedfile, setShowselectedfile] = useState(true);
+    const [showprice, setShowprice] = useState(true);
+    const [requestSelectedFile, setRequestSelectedFile] = useState([]);
+    const [dstrangthai, setDstrangthai] = useState([]);
+    const [phantramgiam, setPhantramgiam] = useState(0);
     const openModalDL = () => setModalIsOpenDL(true);
     const closeModalDL = () => setModalIsOpenDL(false);
 
     const openModalNCC = () => setModalIsOpenNCC(true);
     const closeModalNCC = () => setModalIsOpenNCC(false);
 
+    const openModaltrangthai = () => setModalIsOpentrangthai(true);
+    const closeModaltrangthai = () => setModalIsOpentrangthai(false);
+
     const openModalLSP = () => setModalIsOpenLSP(true);
     const closeModalLSP = () => setModalIsOpenLSP(false);
 
     const openModalMS = () => setModalIsOpenMS(true);
     const closeModalMS = () => setModalIsOpenMS(false);
-
+    // const [options, setOptions] = useState([]);
+    const options = useSelector(state => state.product.option);
+    const idproduct = useSelector(state => state.product.id);
+    const idsupplier = useSelector(state => state.product.idsupplier);
+    const idloaisanpham = useSelector(state => state.product.idloaisanpham);
+    const idtrangthai = useSelector(state => state.product.idtrangthai);
+    const iddungluong = useSelector(state => state.product.iddungluong);
+    const idmausac = useSelector(state => state.product.idmausac);
+    const productdetail = useSelector(state => state.product.productdetail);
+    const nameproduct = useSelector(state => state.product.name);
+    const mota = useSelector(state => state.product.mo_ta);
+    const soluong = useSelector(state => state.product.soluong);
+    const gia = useSelector(state => state.product.giatien);
+    const anhctsp = useSelector(state => state.product.anhctsp);
     useEffect(() => {
         async function setncc() {
             var response = await fetch(`http://127.0.0.1:8000/api/nhacungcap/nhacungcap-admin`);
@@ -56,65 +89,89 @@ export default function AddNhapHang(props) {
 
         }
         setncc();
-    }, []);
-    useEffect(() => {
+        const getAPI = async () => {
+            // dispatch(loadingmodal(true));
+            const response = await axios.get('http://127.0.0.1:8000/api/sanpham/sanpham-admin')
+            //setOptions(response.data.data)
+            dispatch(setoption(response.data.data));
+            // dispatch(loadingmodal(false));
+        }
+        getAPI();
         async function setloaisp() {
             var response = await fetch(`http://127.0.0.1:8000/api/loaisp/loaisp-admin`);
             var json = await response.json();
             setDSLSP(json.data)
         }
         setloaisp();
-
-    }, []);
-
-    useEffect(() => {
         async function setmausac() {
             var response = await fetch(`http://127.0.0.1:8000/api/mausac/mausac-admin`);
             var json = await response.json();
             setDSMauSac(json.data)
         }
         setmausac();
-    }, []);
-    useEffect(() => {
         async function setdungluong() {
             var response = await fetch(`http://127.0.0.1:8000/api/dungluong/dungluong-admin`);
             var json = await response.json();
             setDSDL(json.data)
         }
         setdungluong();
-    }, [])
+        async function settrangthai() {
+            var response = await fetch(`http://127.0.0.1:8000/api/trangthaisanpham/trangthaisanpham`);
+            var json = await response.json();
+            setDstrangthai(json.data)
+        }
+        settrangthai();
+    }, []);
+    let listnhacungcap = [];
+    console.log(requestSelectedFiles);
+    if (dsNCC != []) {
+        listnhacungcap = dsNCC.map(function (item) {
+            return (
+                <option value={item.id} selected={item.id == idsupplier}>{item.ten}</option>
+            );
+        });
+    }
+    let listloaisanpham = [];
+    if (dsLoaiSP != []) {
+        listloaisanpham = dsLoaiSP.map(function (item) {
+            return (
+                <option value={item.id} selected={item.id == idloaisanpham}>{item.ten_loai}</option>
+            );
+        });
 
-    const listnhacungcap = dsNCC.map(function (item) {
-        return (
-            <option value={item.id}>{item.ten}</option>
-        );
-    });
-
-    const listloaisanpham = dsLoaiSP.map(function (item) {
-        return (
-
-            <option value={item.id}>{item.ten_loai}</option>
-        );
-    });
-
-
-    const listsanpham = dsSanPham.map(function (item) {
-        return (
-            <option value={item.id}>{item.ten}</option>
-        );
-    });
-
-    const listdungluong = dsdungluong.map(function (item) {
-        return (
-            <option value={item.id}>{item.kich_thuoc}</option>
-        );
-    });
-
-    const listmausac = dsmausac.map(function (item) {
-        return (
-            <option value={item.id}>{item.ten_mau_sac}</option>
-        );
-    });
+    }
+    let listsanpham = [];
+    if (dsSanPham != []) {
+        listsanpham = dsSanPham.map(function (item) {
+            return (
+                <option value={item.id}>{item.ten}</option>
+            );
+        });
+    }
+    let listdungluong = [];
+    if (dsdungluong != []) {
+        listdungluong = dsdungluong.map(function (item) {
+            return (
+                <option value={item.id} selected={iddungluong == item.id}>{item.kich_thuoc}</option>
+            );
+        });
+    }
+    let listmausac = [];
+    if (dsmausac != []) {
+        listmausac = dsmausac.map(function (item) {
+            return (
+                <option value={item.id} selected={idmausac == item.id}>{item.ten_mau_sac}</option>
+            );
+        });
+    }
+    let listtrangthai = [];
+    if (dstrangthai != []) {
+        listtrangthai = dstrangthai.map(function (item) {
+            return (
+                <option value={item.id} selected={idtrangthai === item.id}>{item.ten_trang_thai}</option>
+            );
+        });
+    }
 
     const themmoiLSP = async (loaisp) => {
         try {
@@ -124,7 +181,7 @@ export default function AddNhapHang(props) {
             });
             setDSLSP(dsLoaiSP => [...dsLoaiSP, response.data.data]);
             //setLoaiSP(response.data.data.id);
-            console.log('Thêm loại sản phẩm thành công:', response.data);
+
         } catch (error) {
             console.error('Lỗi thêm loại sản phẩm:', error);
             throw error; // Ném lỗi để handleSubmit bắt và xử lý
@@ -138,7 +195,7 @@ export default function AddNhapHang(props) {
             });
             setDSDL(dsdungluong => [...dsdungluong, response.data.data]);
             //setLoaiSP(response.data.data.id);
-            console.log('Thêm Dung Luong thành công:', response.data);
+
         } catch (error) {
             console.error('Lỗi Thêm Dung Luong:', error);
             throw error; // Ném lỗi để handleSubmit bắt và xử lý
@@ -153,7 +210,7 @@ export default function AddNhapHang(props) {
             });
             SetDSNCC(dsNCC => [...dsNCC, response.data.data]);
             //setLoaiSP(response.data.data.id);
-            console.log('Thêm nha cung cap thành công:', response.data);
+
         } catch (error) {
             console.error('Lỗi thêm nha cung cap', error);
             throw error; // Ném lỗi để handleSubmit bắt và xử lý
@@ -162,13 +219,24 @@ export default function AddNhapHang(props) {
 
     const themmoiMauSac = async (ten_mau_sac) => {
         try {
-
             const response = await axios.post('http://127.0.0.1:8000/api/mausac/themmoi-mausac', {
                 ten_mau_sac
             });
             setDSMauSac(dsmausac => [...dsmausac, response.data.data]);
             //setLoaiSP(response.data.data.id);
-            console.log('Thêm Màu Sắc thành công:', response.data);
+
+        } catch (error) {
+            console.error('Lỗi thêm Màu Sắc', error);
+            throw error; // Ném lỗi để handleSubmit bắt và xử lý
+        };
+    }
+    const themmoitrangthai = async (tentrangthai) => {
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/trangthaisanpham/themmoi', {
+                tentrangthai
+            });
+            setDstrangthai(dstrangthai => [...dstrangthai, response.data.data]);
+
         } catch (error) {
             console.error('Lỗi thêm Màu Sắc', error);
             throw error; // Ném lỗi để handleSubmit bắt và xử lý
@@ -183,27 +251,160 @@ export default function AddNhapHang(props) {
                 dispatch(loadingmodal(true));
                 const response = await axios.post('http://127.0.0.1:8000/api/nhaphang/nhaphang', {
                     'ten_san_pham': formdata.ten_san_pham,
-                    'mau_sac_id': formdata.mau_sac_id,
-                    'dung_luong_id': formdata.dung_luong_id,
+                    'mau_sac_id': parseInt(formdata.mau_sac_id),
+                    'dung_luong_id': parseInt(formdata.dung_luong_id),
                     'user_id': user.id,
-                    'nha_cung_cap_id': formdata.nha_cung_cap_id,
-                    'loai_san_pham_id': formdata.loai_san_pham_id,
-                    'so_luong': formdata.so_luong,
-                    'gia': formdata.gia,
+                    'nha_cung_cap_id': parseInt(formdata.nha_cung_cap_id),
+                    'loai_san_pham_id': parseInt(formdata.loai_san_pham_id),
+                    'so_luong': parseInt(formdata.so_luong),
+                    'gia': parseInt(formdata.gia),
                     'ghi_chu': formdata.ghi_chu,
-                })
+                    'trang_thai_id': parseInt(formdata.trang_thai_id),
+                    'mo_ta': formdata.mo_ta,
+                    'requestSelectedFiles': formdata.requestSelectedFiles,
+                    'requestSelectedFile': formdata.requestSelectedFile
+                }
+                    , {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+
+                    })
 
                 if (response.data.success) {
-                    dispatch(loadingmodal(false));
+                    console.log('testdataaaa', response.data.data.san_pham_id);
                     alert('done');
+                    dispatch(setproductdetails(response.data));
+                    dispatch(loadingmodal(false));
+                }
+                else {
+                    console.log('check : 3 file', response.data.message);
                 }
                 dispatch(loadingmodal(false));
             } catch (error) {
-
+                dispatch(loadingmodal(false));
             }
         }
         getAPI()
     }
+    const [disabledprice, setDisableprice] = useState(false);
+    const [index, setIndex] = useState(null);
+    console.log('productdetail', productdetail);
+    let listCTSP = [];
+    if (productdetail != null) {
+        listCTSP = productdetail.map(function (item) {
+            console.log('productdetail', productdetail);
+            return (
+                <tr key={item.id}>
+                    <td>{item.ten}</td>
+                    <td >{item.san_pham_ten}</td>
+                    <td >{item.dung_luong_ten}</td>
+                    <td >{item.mau_sac_ten}</td>
+                    <td>{item.so_luong}</td>
+                    <td >{item.gia}</td>
+                    <td>
+                        <button onClick={() => {
+                            setDisableprice(!disabledprice);
+                            console.log(item.dung_luong_id);
+                            dispatch(setiddungluong(item.dung_luong_id));
+                            dispatch(setidmausac(item.mau_sac_id));
+                            dispatch(setsoluong(0));
+                            dispatch(setgiatien(item.gia));
+                            setShowselectedfile(false);
+                            setShowprice(false);
+                            const getAPI = async () => {
+                                try {
+                                    const response = await axios.post(`http://127.0.0.1:8000/api/hinhanh/laydanhsach`, {
+                                        san_pham_id: item.san_pham_id,
+                                        mau_sac_id: item.mau_sac_id
+                                    });
+                                    dispatch(setanhctsp(response.data.ten));
+                                    setSelectedFile('http://127.0.0.1:8000/' + response.data.ten)
+                                    setshowSelectedOption(true);
+                                } catch (error) {
+                                    console.error('Error fetching data:', error);
+                                }
+                            };
+
+                            getAPI();
+                        }} type='button' className='btn btn-success' style={{ marginRight: '2%' }}><FontAwesomeIcon icon={faEdit} /></button>
+                        <button className="btn btn-danger" onClick={() => {
+                            const Delete = async (id) => {
+                                var response = await fetch(`http://127.0.0.1:8000/api/ctsp/xoa-ctsp/${id}`);
+                                var json = await response.json();
+                                alert('Xóa thành công');
+                            };
+                            Delete();
+                        }}><FontAwesomeIcon icon={faDeleteLeft} /></button>
+                    </td>
+                </tr>
+            );
+        });
+    }
+    const [inputValue, setInputValue] = useState('');
+    // const InputDropdown = () => {
+
+
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [showselectedOption, setshowSelectedOption] = useState(false);
+
+    const handleInputChange = (event) => {
+        const value = event.target.value;
+        setInputValue(value);
+        // setSelectedOption('');
+        dispatch(setId(null)); // Example dispatch, ensure these are correctly defined
+        dispatch(setIdsupplier(null));
+        dispatch(setIdloaisanpham(null));
+        dispatch(setIdtrangthai(null));
+        dispatch(setproductdetail(null));
+        dispatch(setiddungluong(null));
+        dispatch(setidmausac(null));
+        dispatch(setanhctsp(null));
+        dispatch(setsoluong(0));
+        dispatch(setgiatien(0));
+        setShowDropdown(true);
+        setSelectedFile(null)
+        // setDisableprice(true);
+        dispatch(setname(''));
+    };
+    const handleOptionClick = (option) => {
+        dispatch(setId(option.id)); // Example dispatch, ensure these are correctly defined
+        dispatch(setIdsupplier(option.nha_cung_cap_id));
+        dispatch(setIdloaisanpham(option.loai_san_pham_id));
+        dispatch(setIdtrangthai(option.trang_thai_id));
+        dispatch(setname(option.ten))
+        // setDisableprice(false);
+        // setSelectedOption(option.id);
+        setInputValue(option.ten);
+        setShowDropdown(false);
+
+        const getAPI = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/ctsp/ctsp-admin/${option.id}`);
+                dispatch(setproductdetail(response.data.data));
+                setshowSelectedOption(true);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        getAPI();
+    };
+    let filteredOptions = [];
+    if (options != []) {
+        filteredOptions = options.filter(option =>
+            option.ten.toLowerCase().includes(inputValue.toLowerCase())
+        );
+    }
+
+
+    const handleRemoveImage = (index) => {
+        const updatedFiles = [...selectedFiles];
+        updatedFiles.splice(index, 1);
+        setSelectedFiles(updatedFiles);
+    };
+    console.log(formdata);
     return (
         <>
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
@@ -211,142 +412,306 @@ export default function AddNhapHang(props) {
             <div className="container-fluid">
                 <div className="row">
                     <TaskbarAdmin />
+
                     <main style={{ width: '80%', height: '45rem', overflow: 'scroll' }} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 className="h2"> NHẬP HÀNG  </h1>
+                            <h1 className="h2">Thêm mới Sản Phẩm</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group me-2">
                                 </div>
                             </div>
                         </div>
+
+
                         <PopupAddMauSac isOpen={modalIsOpenMS} onthemmoiMS={themmoiMauSac} onRequestClose={closeModalMS} />
                         <PopupAddNCC isOpen={modalIsOpenNCC} onthemmoincc={themmoiNCC} onRequestClose={closeModalNCC} />
+                        <PopupAddtrangthai isOpen={modalIsOpentrangthai} onthemmoincc={themmoitrangthai} onRequestClose={closeModaltrangthai} />
                         <PopupAddLSP isOpen={modalIsOpenLSP} onthemmoi={themmoiLSP} onRequestClose={closeModalLSP} />
                         <PopupAddDL isOpen={modalIsOpenDL} onthemmoidl={themmoiDL} onRequestClose={closeModalDL} />
-                        <form onSubmit={themmoinhaphang} className="row" >
+                        <form onSubmit={themmoinhaphang} style={{ width: '100%', maxWidth: '100%' }} className="row" >
                             <div className="col-12">
                                 <div className="add_sp-ctsp">
                                     <div className="add_sp">
                                         <div style={{ border: 'solid 1px #ccc', padding: '1rem', marginBottom: '1rem', borderRadius: '15px', boxShadow: '5px 5px 5px #ccc' }}>
                                             <h3>Thông tin chung</h3>
+
                                             <div className="row">
-                                                <div class="col-md-12">
-                                                    <label for="Ten" className="form-label "> Tên sản phẩm </label>
-                                                    <input type="text" value={addtensp} onChange={(e) => { setTenSP(e.target.value) }} required />
+                                                <div style={{ width: '50%' }}>
+                                                    <div>Tên Sản Phẩm</div>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Nhập hoặc chọn..."
+                                                        value={inputValue}
+                                                        onChange={handleInputChange}
+                                                        style={{ marginTop: '0' }}
+                                                    />
+                                                    {showDropdown && inputValue && (
+                                                        <ul className="dropdown" style={{ border: '1px solid #ccc', listStyleType: 'none', padding: '0' }}>
+                                                            {filteredOptions.map((option, index) => (
+                                                                <li key={index} style={{ borderBottom: '1px solid #ccc', cursor: 'pointer' }} onClick={() => handleOptionClick(option)}>{option.ten}</li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                    {showselectedOption && <p> {nameproduct}</p>}
+                                                </div>
+                                                {/* <InputDropdown /> */}
+                                                {/* <div class="col-md-6">
+                                                    <label for="Ten" className=""> trạng thái sản phẩm</label>
+                                                    <select className="form-select" style={{ marginTop: '1em' }} onChange={(e) => { setTenNCC(e.target.value) }} required>
+                                                        <option selected="" className="form-control">Trạng thái sản phẩm</option>
+                                                        {listtrangthai}
+                                                    </select>
+                                                    <button className='btn btn-outline-danger' type='button' style={{}} onClick={openModaltrangthai}>Thêm nhanh</button>
+
+                                                </div> */}
+                                                <div style={{ marginBottom: '1rem', width: '50%' }}>
+                                                    <label for="">Trạng thái sản phẩm</label>
+                                                    <div style={{ display: 'flex' }}>
+                                                        <div className="row" style={{ width: '75%', marginRight: '2%' }}>
+                                                            <div className="col-md-12">
+                                                                <select className="form-select" style={{}} onChange={(e) => { setTrangthaiid(e.target.value); dispatch(setIdtrangthai(e.target.value)) }} required>
+                                                                    <option selected="" className="form-control">Trạng thái sản phẩm</option>
+                                                                    {listtrangthai}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className="container"> */}
+
+                                                        <button className='btn btn-outline-danger' type='button' style={{}} onClick={openModaltrangthai}><FontAwesomeIcon icon={faPlus} /></button>
+                                                        {/* </div> */}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div style={{ marginBottom: '1rem' }}>
-                                                <label for="">Nhà cung cấp</label>
-                                                <div style={{ display: 'flex' }}>
-                                                    <div className="row" style={{ width: '75%', marginRight: '2%' }}>
-                                                        <div className="col-md-12">
-                                                            <select className="form-select" onChange={(e) => { setTenNCC(e.target.value) }} required>
-                                                                <option selected="" className="form-control">Nhà Cung Cấp</option>
-                                                                {listnhacungcap}
-                                                            </select>
+                                            <div style={{ marginTop: '1em', display: 'flex' }}>
+                                                <div style={{ width: '30%' }}>
+                                                    <div style={{ marginBottom: '1rem' }}>
+                                                        <label for="">Nhà cung cấp</label>
+                                                        <div style={{ display: 'flex' }}>
+                                                            <div className="row" style={{ width: '75%', marginRight: '2%' }}>
+                                                                <div className="col-md-12">
+                                                                    <select className="form-select" onChange={(e) => { setTenNCC(e.target.value); dispatch(setIdsupplier(e.target.value)) }} required>
+                                                                        <option selected="" className="form-control">Nhà Cung Cấp</option>
+                                                                        {listnhacungcap}
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                            {/* <div className="container"> */}
+
+                                                            <button className='btn btn-outline-danger' type='button' style={{}} onClick={openModalNCC}><FontAwesomeIcon icon={faPlus}/></button>
+                                                            {/* </div> */}
                                                         </div>
-
                                                     </div>
-                                                    {/* <div className="container"> */}
 
-                                                    <button className='btn btn-outline-danger' type='button' style={{}} onClick={openModalNCC}>Thêm nhanh</button>
-                                                    {/* </div> */}
+                                                    <div style={{ marginBottom: '1rem' }}>
+                                                        <label for="">Loại sản phẩm</label>
+                                                        <div style={{ display: 'flex' }}>
+                                                            <div className="row" style={{ width: '75%', marginRight: '2%' }}>
+                                                                <div className="col-md-12">
+
+                                                                    <select className="form-select" onChange={(e) => { setLoaiSP(e.target.value); dispatch(setIdloaisanpham(e.target.value)) }} required>
+                                                                        <option selected="" className="form-control">Loại Sản Phẩm</option>
+                                                                        {listloaisanpham}
+                                                                    </select>
+
+                                                                </div>
+                                                            </div>
+                                                            <button className='btn btn-outline-danger' type='button' onClick={openModalLSP}><FontAwesomeIcon icon={faPlus}/></button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style={{ width: '70%' }}>
+                                                    <div>
+                                                        <div className="row" style={{ marginBottom: '10px' }}>
+                                                            <div class="col-md-12">
+                                                                <label for="Ten" className="">Mô Tả Sản Phẩm </label>
+                                                                <EditorComponent />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
+                                            <div>
+                                                <div class="mb-4" style={{ marginBottom: '5rem' }}>
+                                                    {/* <label for="formFile" class="form-label">Chọn ảnh Đại diện của sản phẩm</label> */}
+                                                    <div >
+                                                        <input class="form-control" style={{ width: '50%', height: 'max-content', margin: '0 auto' }} type="file" id="formFile" multiple onChange={(e) => {
+                                                            // const file = e.target.files[0];
+                                                            // if (file) {
+                                                            //     const reader = new FileReader();
+                                                            //     reader.onloadend = () => {
+                                                            //         setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
+                                                            //     };
+                                                            //     reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                            // }
+                                                            const files = Array.from(e.target.files);
+                                                            // setRequestSelectedFiles(Array.from(e.target.files));
+                                                            setRequestSelectedFiles(Array.from(e.target.files, file => ({ file: file })));
+                                                            // Duyệt qua từng file để đọc và lưu vào state
+                                                            files.forEach(file => {
+                                                                const reader = new FileReader();
+                                                                reader.onloadend = () => {
+                                                                    setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, reader.result]);
+                                                                };
+                                                                reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                            });
+                                                        }} />
+                                                        {selectedFiles != null && (
 
-                                            <div style={{ marginBottom: '1rem' }}>
-                                                <label for="">Loại sản phẩm</label>
-                                                <div style={{ display: 'flex' }}>
-                                                    <div className="row" style={{ width: '75%', marginRight: '2%' }}>
-                                                        <div className="col-md-12">
-
-                                                            <select className="form-select" onChange={(e) => { setLoaiSP(e.target.value) }} required>
-                                                                <option selected="" className="form-control">Loại Sản Phẩm</option>
-                                                                {listloaisanpham}
-                                                            </select>
-
-                                                        </div>
+                                                            <div style={{ marginTop: '3%' }}>
+                                                                {selectedFiles.map((file, index) => (
+                                                                    <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                                                                        <img src={file} alt={`Ảnh đã chọn ${index}`} style={{ width: '200px', marginBottom: '10px' }} />
+                                                                        <button className='btn btn-danger' type='button' onClick={() => handleRemoveImage(index)}>Xóa</button>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        )}
                                                     </div>
-
-                                                    <button className='btn btn-outline-danger' type='button' onClick={openModalLSP}>Thêm nhanh</button>
-
                                                 </div>
+                                                {/* <img src={}/> */}
                                             </div>
                                         </div>
 
                                         <div style={{ border: 'solid 1px #ccc', padding: '1rem', borderRadius: '15px', marginBottom: '1rem', boxShadow: '5px 5px 5px #ccc' }}>
                                             <h3>thông tin cấu hình </h3>
-                                            <div style={{ marginBottom: '10px' }}>
-                                                <label for="">Dung Lượng</label>
-                                                <div style={{ display: 'flex' }}>
-                                                    <div className="row" style={{ width: '75%', marginRight: '2%' }}>
-                                                        <div className="col-md-12">
-                                                            <select className="form-select" value={kich_thuoc} onChange={(e) => { setKichThuoc(e.target.value) }} required>
-                                                                <option selected="" className="form-control">Dung Lượng</option>
-                                                                {listdungluong}
-                                                            </select>
+                                            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                                <div style={{ marginBottom: '10px', width: '20%', }}>
+                                                    <label for="">Dung Lượng</label>
+                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                        <div className="row" style={{ width: '75%', marginRight: '2%' }}>
+                                                            <div className="col-md-12">
+                                                                <select className="form-select" value={iddungluong} onChange={(e) => { setKichThuoc(e.target.value); setShowprice(true); dispatch(setiddungluong(e.target.value)) }} required>
+                                                                    <option selected="" className="form-control">Dung Lượng</option>
+                                                                    {listdungluong}
+                                                                </select>
+                                                            </div>
                                                         </div>
+
+                                                        <button className='btn btn-outline-danger' type='button' onClick={openModalDL}>+</button>
+
                                                     </div>
-
-                                                    <button className='btn btn-outline-danger' type='button' onClick={openModalDL}>Thêm nhanh</button>
-
                                                 </div>
-                                            </div>
 
-                                            <div style={{ marginBottom: '1rem' }}>
-                                                <label for="">Màu Sắc</label>
-                                                <div style={{ display: 'flex' }}>
-                                                    <div className="row" style={{ width: '75%', marginRight: '2%' }}>
-                                                        <div className="col-md-12">
-                                                            <select className="form-select" value={ten_mau_sac} onChange={(e) => { setTenMauSac(e.target.value) }} required>
-                                                                <option selected="" className="form-control">Màu Sắc</option>
-                                                                {listmausac}
-                                                            </select>
+                                                <div style={{ marginBottom: '1rem', width: '20%' }}>
+                                                    <label for="">Màu Sắc</label>
+                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                                        <div className="row" style={{ width: '75%', marginRight: '2%' }}>
+                                                            <div className="col-md-12">
+                                                                <select className="form-select" value={idmausac} onChange={(e) => { setTenMauSac(e.target.value); setShowprice(true); setShowselectedfile(true); setSelectedFile(''); dispatch(setidmausac(e.target.value)) }} required>
+                                                                    <option selected="" className="form-control">Màu Sắc</option>
+                                                                    {listmausac}
+                                                                </select>
+                                                            </div>
                                                         </div>
+
+
+                                                        <button className='btn btn-outline-danger ' type='button' style={{}} onClick={openModalMS}>+</button>
+
                                                     </div>
-
-
-                                                    <button className='btn btn-outline-danger ' type='button' style={{}} onClick={openModalMS}>Thêm nhanh</button>
-
                                                 </div>
+
+
+                                                <div className="" style={{ marginBottom: '1rem', width: '20%' }}>
+                                                    {/* <div class="col-md-3" > */}
+                                                    <label for="Ten" className=" "> Số lượng </label>
+                                                    <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} value={soluong} onChange={(e) => { dispatch(setsoluong(e.target.value)) }} required />
+                                                    {/* </div> */}
+                                                </div>
+                                                {showprice && (
+                                                    <>
+                                                        <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
+                                                            {/* <div class="col-md-3"> */}
+                                                            <label for="Ten" className=""> Giá Tiền </label>
+                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} value={gia} onChange={(e) => { dispatch(setgiatien(e.target.value)) }} required />
+                                                            {/* </div> */}
+                                                        </div>
+                                                        <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
+                                                            {/* <div class="col-md-3"> */}
+                                                            <label for="Ten" className=""> nhập phần trăm giảm </label>
+                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} max={100} value={phantramgiam}  onChange={(e) => {setPhantramgiam(e.target.value) }} required />
+                                                            {/* </div> */}
+                                                        </div>
+                                                    </>
+
+
+                                                )}
+
+
+                                                <button type='submit' style={{ marginTop: '18px', height: '3rem' }} onClick={() => {
+                                                    setFormData({
+                                                        'ten_san_pham': inputValue,
+                                                        'mau_sac_id': parseInt(idmausac),
+                                                        'dung_luong_id': parseInt(iddungluong),
+                                                        'trang_thai_id': parseInt(idtrangthai),
+                                                        'user_id': user.id,
+                                                        'nha_cung_cap_id': parseInt(idsupplier),
+                                                        'loai_san_pham_id': parseInt(idloaisanpham),
+                                                        'mo_ta': mota,
+                                                        'so_luong': parseInt(soluong),
+                                                        'gia': parseInt(gia),
+                                                        'ghi_chu': ghichu,
+                                                        'requestSelectedFiles': requestSelectedFiles,
+                                                        'requestSelectedFile': requestSelectedFile
+                                                    })
+                                                }} className="btn btn-primary"><FontAwesomeIcon icon={faPlus} /></button>
                                             </div>
 
+                                            {showselectedfile && (
+                                                <>
+                                                    <p style={{ marginTop: '3%' }}>chọn ảnh đại diện sản phẩm</p>
+                                                    <input class="form-control" style={{ width: '50%', height: 'max-content', margin: '0 auto' }} type="file" id="formFile" onChange={(e) => {
+                                                        const file = e.target.files[0];
+                                                        setRequestSelectedFile(e.target.files[0]);
+                                                        if (file) {
+                                                            const reader = new FileReader();
+                                                            reader.onloadend = () => {
+                                                                setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
+                                                            };
+                                                            reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                        }
+                                                    }} required />
+                                                </>
 
-                                            <div className="row" style={{ marginBottom: '1rem' }}>
-                                                <div class="col-md-12">
-                                                    <label for="Ten" className="form-label "> Số lượng </label>
-                                                    <input style={{ border: 'solid 1px #ccc' }} type="number" min={0} value={sl} onChange={(e) => { setSL(e.target.value) }} required />
+                                            )}
+
+                                            {selectedFile && (
+                                                <div style={{ margin: '3%' }}>
+                                                    <img src={selectedFile} alt="Ảnh đã chọn" style={{ width: '200px' }} />
                                                 </div>
-                                            </div>
+                                            )}
+                                            {/* {!selectedFile && (
+                                                <div style={{ margin: '3%' }}>
+                                                    <img src={anhctsp} alt="Ảnh đã chọn" style={{ width: '200px' }} />
+                                                </div>
+                                            )} */}
+
                                             <div className="row" style={{ marginBottom: '10px' }}>
                                                 <div class="col-md-12">
-                                                    <label for="Ten" className="form-label "> Giá Tiền </label>
-                                                    <input style={{ border: 'solid 1px #ccc' }} type="number" min={0} value={giatien} onChange={(e) => { setGiaTien(e.target.value) }} required />
+                                                    <label for="Ten" className="form-label "> Ghi chú <button onClick={() => { setBtnGhiChu(!btnghichu); }} type='button' className='btn btn-outline-dark'><FontAwesomeIcon icon={faCircleChevronDown} /></button></label>
+                                                    {btnghichu && (
+                                                        <textarea style={{ border: 'solid 1px #ccc' }} id="w3review" name="w3review" rows="4" cols="60" onChange={(e) => { setGhiChu(e.target.value) }}></textarea>
+                                                    )}
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="row" style={{ marginBottom: '10px' }}>
-                                            <div class="col-md-12">
-                                                <label for="Ten" className="form-label "> Ghi chú </label>
-                                                <textarea style={{ border: 'solid 1px #ccc' }} id="w3review" name="w3review" rows="4" cols="60" onChange={(e) => { setGhiChu(e.target.value) }}></textarea>
-                                            </div>
-                                        </div>
-                                        <div className="row pt-3">
-                                            <div className="col-md-12">
-                                                <button type='submit' onClick={() => {
-                                                    setFormData({
-                                                        'ten_san_pham': addtensp,
-                                                        'mau_sac_id': parseInt(ten_mau_sac),
-                                                        'dung_luong_id': parseInt(kich_thuoc),
-                                                        'user_id': user.id,
-                                                        'nha_cung_cap_id': parseInt(tenncc),
-                                                        'loai_san_pham_id': parseInt(addloaisp),
-                                                        'so_luong': parseInt(sl),
-                                                        'gia': parseInt(giatien),
-                                                        'ghi_chu': ghichu,
-                                                    })
-                                                }} className="btn btn-primary">Thêm</button>
-                                            </div>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Tên chi tiết sản phẩm</th>
+                                                        <th scope="col">Tên sản phẩm</th>
+                                                        <th scope="col">Dung lượng</th>
+                                                        <th scope="col">Màu sắc</th>
+                                                        <th scope="col">Số lượng</th>
+                                                        <th scope="col">Giá tiền</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {listCTSP}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
 

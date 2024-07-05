@@ -44,7 +44,7 @@ export const cartSlice = createSlice({
         newItems.forEach(newItem => {
           const existingItem = state.items.find(item => item.product.san_pham_id === newItem.ctsp.san_pham_id && item.product.mau_sac_id === newItem.ctsp.mau_sac_id && item.product.dung_luong_id === newItem.ctsp.dung_luong_id);
 
-          state.totalQuantity++;
+          state.totalQuantity=state.totalQuantity+ newItem.so_luong;
           state.totalPrice = state.totalPrice + newItem.ctsp.gia*newItem.so_luong;
           if (!existingItem) {
             state.items.push({
@@ -69,7 +69,7 @@ export const cartSlice = createSlice({
       else {
         alert('k co');
       }
-      state.items = state.items.filter(item => item.product.san_pham_id !== newItem.san_pham_id && item.product.mau_sac_id !== newItem.mau_sac_id && item.product.dung_luong_id !== newItem.dung_luong_id);
+      state.items = state.items.filter(item => item.product.san_pham_id !== newItem.san_pham_id || item.product.mau_sac_id !== newItem.mau_sac_id || item.product.dung_luong_id !== newItem.dung_luong_id);
     },
     increase: (state, action) => {
       const newItem = action.payload;

@@ -24,7 +24,7 @@ code {
 .animation-from-top{
     animation: moveFromTop 1s ease-in-out;
 }
-@keyframes moveFromTop {
+/* @keyframes moveFromTop {
   0% {
     transform: translateY(-300px);
   }
@@ -32,6 +32,18 @@ code {
   100% {
     transform: translateY(0);
   }
+} */
+.animation-from-bottom{
+  animation: moveFromTop 1s ease-in-out;
+}
+@keyframes moveFromTop {
+0% {
+  transform: translateY(-300px);
+}
+
+100% {
+  transform: translateY(0);
+}
 }
 .animation-from-right {
   animation: moveFromRight 1s ease-in-out;

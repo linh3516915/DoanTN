@@ -84,7 +84,7 @@ export default function FormComment(props) {
                         <button onClick={() => { dispatch(closepopupcomment()) }} className='btn btn-outline-danger' >x</button>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        <img src={img} />
+                        <img src={img} style={{height :'9rem'}}/>
                     </div>
                     <h5>Tên Sản Phâmr</h5>
                     {!disabled && (
@@ -110,7 +110,7 @@ export default function FormComment(props) {
                             <textarea style={{ border: 'solid 1px #ccc', width: '85%' }} value={noidung} onChange={(e) => { setNoiDung(e.target.value) }} placeholder='Nhập Tiêu Đề' rows="4" cols="50" />
                             {id == undefined && (
                                 <>
-                                    <form onSubmit={handlesubmit}>
+                                    <form onSubmit={handlesubmit} style={{ margin: '0 auto'}}>
                                         <div className="row">
                                             <div className="col">
                                                 <input type="text" style={{ margin: '0' }} value={ten} onChange={(e) => { setTen(e.target.value) }} className="form-control" placeholder="Họ tên" required />

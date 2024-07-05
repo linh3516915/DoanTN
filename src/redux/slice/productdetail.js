@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   productdetails: null,
+  image: null,
   sliceproductdetail: {},
 }
 
@@ -13,6 +14,7 @@ export const productdetailSlice = createSlice({
     listProductdetail: (state, action) => {
       if(action.payload != null){
         state.productdetails = action.payload.data.data;
+        state.image = action.payload.data.data.image;
       }
       else{
         state.productdetails = action.payload;

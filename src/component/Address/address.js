@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getstreet, getdistrict, getprovince, getward } from "../../redux/slice/addressSlice";
+import { getstreet, getdistrict, getprovince, getward, match } from "../../redux/slice/addressSlice";
 
 export default function Address() {
     const [province, setProvince] = useState([]);
@@ -12,6 +12,7 @@ export default function Address() {
     const pro = useSelector(state => state.address.province);
     const dic = useSelector(state => state.address.district);
     const wa = useSelector(state => state.address.ward);
+    const street = useSelector(state => state.address.street)
     const dispatch = useDispatch();
     useEffect(() => {
         const getAPI = async () => {
@@ -45,7 +46,7 @@ export default function Address() {
         }
         getAPI();
     }, [district_id])
-
+    
     const provinces = province.map((item) => {
         return (
             <>
@@ -67,6 +68,9 @@ export default function Address() {
             </>
         )
     })
+    // useEffect(() => {
+    //    dispatch(match());
+    // }, [pro,dic,wa,street])
     return (
         <>
             {/* <div class="container" style={{ paddingRight: '0', paddingLeft: '0' }}>
@@ -95,7 +99,7 @@ export default function Address() {
                 </div>
             </div> */}
             {/*  */}
-            <div data-mdb-input-init class="form-outline mb-4" style={{display:"flex", justifyContent:"space-between"}}>
+            <div data-mdb-input-init class="form-outline" style={{display:"flex", justifyContent:"space-between"}}>
                 <select class="form-select form-select-sm mb-3" style={{width : '47%'}} id="city" onChange={(e) => { setProvince_id(e.target.value) }} aria-label=".form-select-sm" required>
                     <option value="" selected>Chọn tỉnh thành</option>
                     {provinces}

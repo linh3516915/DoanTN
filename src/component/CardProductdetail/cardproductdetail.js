@@ -6,7 +6,7 @@ import { faBookmark, faClose, faShoppingCart, faStar, faStarAndCrescent, faStarH
 import { addCart } from '../../redux/slice/cartSlice';
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
-import img from "../../assets/ảnh/13den.jpg";
+import img from "../../assets/ảnh/11trang.jpg";
 import imghotrenđing from "../../assets/ảnh/hottrending2.png";
 import axios from 'axios';
 import { getproductdetail } from '../../redux/slice/itemproductdetail';
@@ -29,9 +29,10 @@ export default function CardProductDetail(props) {
         alert('add cart successfully');
     }
     const movepageproductdetail = (id, item) => {
+        
         navigate(`/productdetail/?name=${encodeURIComponent(id)}`);
     }
-    console.log('check ishotrending: ', props.ishottrending);
+    console.log('check dataaa: ', props.data);
     let datastar = [];
     const liststar = [1, 2, 3, 4, 5].map((number, index) => {
         if (Math.floor(props.data.so_sao) >= number) {
@@ -89,7 +90,7 @@ export default function CardProductDetail(props) {
                             {props.ishottrending && (
                                 <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
                             )}
-                            <img src={img} className={`${styles['img-product']}`} />
+                            <img src={props.img} className={`${styles['img-product']}`} />
                         </div>
 
                         <div style={{ padding: "10px" }}>

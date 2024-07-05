@@ -46,13 +46,16 @@
     padding: 3rem 2rem;
     background-color: #c1c5c936;
     border-radius: 15px;
+    box-shadow: 5px 5px 5px #ccc;
 }
 .provisional-bill {
-    padding: 5rem 2rem;
+    padding: 3rem 2rem;
     flex: 1;
     background-color: #c1c5c936;
     border-radius: 15px;
     width: 30%;
+    height: max-content;
+    box-shadow: 5px 5px 5px #ccc;
 }
 
 .sub-total {
@@ -163,6 +166,36 @@
   .left {
        margin-right: 2%; 
   }
+  .animation-from-top{
+    /* animation: moveFromTop 1s ease-in-out; */
+  }
+  @keyframes moveFromTop {
+    0% {
+      transform: translateY(0);
+    }
+    
+    100% {
+      transform: translateY(300px);
+    }
+  }
+  .order{
+    width: 100%;
+    /* height: 15rem; */
+    background-color: aliceblue;
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    animation: moveFromBottom 1s ease-in-out
+  }
+  @keyframes moveFromBottom {
+  0% {
+    transform: translateY(300px);
+  }
+  
+  100% {
+    transform: translateY(0);
+  }
+}
   
   
   @media (max-width: 480px) {

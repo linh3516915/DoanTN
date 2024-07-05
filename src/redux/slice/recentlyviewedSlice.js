@@ -20,7 +20,7 @@ export const recentlyviewedSlice = createSlice({
     // },
     addRecently: (state, action) => {
       const newItem = action.payload;
-      const existingItem = state.items.find(item => item.product.id === newItem.id);
+      const existingItem = state.items.find(item => item.product.san_pham_id === newItem.san_pham_id && item.product.mau_sac_id === newItem.mau_sac_id &&item.product.dung_luong_id === newItem.dung_luong_id);
       
       state.totalQuantity++;
       if (!existingItem) {
@@ -29,7 +29,7 @@ export const recentlyviewedSlice = createSlice({
           //quantity: 1,
         });
       } else {
-        state.items= state.items.filter(item => item.product.id !== newItem.id);
+        state.items= state.items.filter(item => item.product.san_pham_id !== newItem.san_pham_id && item.product.mau_sac_id !== newItem.mau_sac_id &&item.product.dung_luong_id !== newItem.dung_luong_id);
         state.items.unshift({
           product: newItem,
           //quantity: 1,

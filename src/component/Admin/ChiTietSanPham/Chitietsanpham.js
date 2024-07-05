@@ -19,7 +19,6 @@ export default function ChiTietSanPham(props) {
                 <td>{props.data.san_pham_ten}</td>
                 <td>{props.data.dung_luong_ten}</td>
                 <td>{props.data.mau_sac_ten}</td>
-                <td>{props.data.ram_ten}</td>
                 <td>{props.data.so_luong}</td>
                 <td>{props.data.gia}</td>
                 <td>

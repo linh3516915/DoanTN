@@ -20,7 +20,7 @@ export const itemproductdetailSlice = createSlice({
     reducers: {
         getproductdetail: (state, action) => {
             state.productdetail = action.payload.data;
-            state.supplier = action.payload.nha_cung_cap_id;
+            state.supplier = action.payload.data_relatedproduct;
         },
         getcolor: (state, action) => {
             state.color = action.payload;
@@ -32,7 +32,7 @@ export const itemproductdetailSlice = createSlice({
             state.infoproductdetail = action.payload;
         },
         getlistvote: (state, action) => {
-            state.listvote = action.payload.data;
+            state.listvote = action.payload.data_listvote;
             state.trungbinhsao = action.payload.tong_phan_tram_sao;
             state.tongdanhgia = action.payload.tong_danh_gia;
             state.listcomment = action.payload.data_comment;

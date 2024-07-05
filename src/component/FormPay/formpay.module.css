@@ -1,14 +1,13 @@
 .otp-input{
     width: max-content;
     margin: 0 auto;
-    background-color: #f9f9f9;
-
+    background-color: white;
     height: max-content;
-    padding: 2.5rem;
-    /* border-radius: 5rem; */
+    padding: 2rem;
     text-align: center;
     margin-top: 6rem;
-    
+    position: relative;
+    border-radius: 6px;
 }
 .input-custumize{
     width: 3rem !important;

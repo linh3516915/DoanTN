@@ -8,25 +8,23 @@ import axios from "axios";
 function Relatedproducts() {
     const productdetail = useSelector(state=>state.itemproductdetail.productdetail);
     const supplier = useSelector(state=>state.itemproductdetail.supplier);
-    const [relatedproduct,setRelatedProduct] = useState([]);
-    useEffect(()=>{
-        if(productdetail != null && supplier != null){
-            const getAPI = async()=>{
-                const response = await axios.post('http://127.0.0.1:8000/api/productdetail/relatedproduct',{
-                    id : productdetail.id,
-                    nha_cung_cap_id :supplier
+    // useEffect(()=>{
+    //     if(productdetail != null && supplier != null){
+    //         const getAPI = async()=>{
+    //             const response = await axios.post('http://127.0.0.1:8000/api/productdetail/relatedproduct',{
+    //                 nha_cung_cap_id :supplier
 
-                })
-                console.log('check APIIII',response.data.data);
-                setRelatedProduct(response.data.data);
-            }
-            getAPI();
-        }
+    //             })
+    //             console.log('check APIIII',response.data.data);
+    //             setRelatedProduct(response.data.data);
+    //         }
+    //         getAPI();
+    //     }
         
-    },[supplier, productdetail])
+    // },[supplier, productdetail])
     let itemtopseller = [];
-    if(relatedproduct != null) {
-        itemtopseller = relatedproduct.map((item, index) => {
+    if(supplier != null) {
+        itemtopseller = supplier.map((item, index) => {
             if (index >= 0 && index < 3) {
                 return (
                     <>
@@ -41,7 +39,8 @@ function Relatedproducts() {
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-wid-price">
-                                <ins style={{color : 'rgb(26, 188, 156)'}}>{item.gia.toLocaleString('en-us')} VNĐ</ins> <del>$425.00</del>
+                                <ins style={{color : 'rgb(26, 188, 156)'}}>{item.gia.toLocaleString('en-us')} VNĐ</ins> 
+                                {/* <del>$425.00</del> */}
                             </div>
                         </div>
                     </>
@@ -50,7 +49,6 @@ function Relatedproducts() {
     
         })
     }
-     console.log(relatedproduct);
     return (
         <>
             <div className={`${styles['main']}`}>

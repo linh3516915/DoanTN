@@ -11,12 +11,13 @@ import popupReducer from './slice/popupSlice'
 import filterReducer from './slice/filterSlice'
 import hottrendingReducer from './slice/hottrendingSlice'
 import recentlyviewedReducer from './slice/recentlyviewedSlice'
+import productReducer from './slice/productSlice'
 const persistConfig = {
   key: 'root',
   storage,
   stateReconciler: autoMergeLevel2,
   whitelist : ['auth','cart','hottrending','recentlyviewed'],
-  blacklist : ['address','popup','filter','productdetail','itemproductdetail'], 
+  blacklist : ['address','popup','filter','productdetail','itemproductdetail','product'], 
 }
 
 const rootReducer = combineReducers({
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
     itemproductdetail : itemproductdetailReducer,
     filter : filterReducer,
     recentlyviewed : recentlyviewedReducer,
+    product : productReducer,
 })
  
 const persistedReducer = persistReducer(persistConfig, rootReducer)

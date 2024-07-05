@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from './Formlogin.module.css'
 import { useEffect, useState } from "react";
-import { gettoken, getuser } from "../../redux/slice/authSlice";
+import { gettoken, getuser, isadmin } from "../../redux/slice/authSlice";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { closepopuplogin } from "../../redux/slice/popupSlice";
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from "react-intersection-observer";
 import { loadingmodal } from "../../redux/slice/filterSlice";
+import { addCartUser } from "../../redux/slice/cartSlice";
 export default function FormLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -33,6 +34,28 @@ export default function FormLogin() {
             console.log('login', response.data);
             if (response.data.success === true) {
                 dispatch(gettoken(response.data));
+                const getAPI = async () => {
+                    const user = await axios.get('http://127.0.0.1:8000/api/auth/profile', {
+                        headers: {
+                            Accept: 'application/json',
+                            Authorization: `bearer ${response.data.access_token}`
+                        }
+                    })
+                    console.log(user.data);
+                    if (user.data.data_user.isAdmin == 0) {
+                            dispatch(addCartUser(user.data.data_gio_hang));
+                            dispatch(getuser(user.data.data_user));
+                           // dispatch(gettokentorun(token));
+                            dispatch(isadmin(false));
+                        }
+                    else {
+                        dispatch(getuser(user.data.data_user));
+                        dispatch(isadmin(true))
+                    }
+                    dispatch(getuser(user.data));
+                    console.log(user.data);
+                }
+                getAPI();
                 dispatch(loadingmodal(false));
                 dispatch(closepopuplogin());
                 navigate('/');

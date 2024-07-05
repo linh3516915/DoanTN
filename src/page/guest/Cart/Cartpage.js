@@ -1,7 +1,7 @@
 import styles from './CartPage.module.css'
 import BannerOfPage from "../../../component/BannerOfPage/BannerOfPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight, faGift, faLongArrowAltLeft, faLongArrowAltRight, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCaretLeft, faCaretRight, faGift, faLongArrowAltLeft, faLongArrowAltRight, faTicketSimple, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteItemInCart, decrease, increase, setCart } from '../../../redux/slice/cartSlice';
@@ -16,6 +16,10 @@ import Address from '../../../component/Address/address';
 import { match } from '../../../redux/slice/addressSlice';
 import PhoneInput from 'react-phone-number-input/input';
 import img from "../../../assets/ảnh/12tim.jpg";
+import FormCheckout from '../../../component/Formcheckout/formcheckout';
+import { Button } from 'bootstrap';
+import { openpopupotp, openpopuppay, setcheckbox } from '../../../redux/slice/popupSlice';
+import { getemail, setOTP } from '../../../redux/slice/authSlice';
 export default function CartPage() {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -26,12 +30,15 @@ export default function CartPage() {
     const { ref: refPopupForm, inView: inViewPopupForm } = useInView({
         threshold: 0
     });
+    const datacheckout = useSelector(state => state.popup.datacheckout);
     const items = useSelector(state => state.cart.items);
     const totalprice = useSelector(state => state.cart.totalPrice);
     const totalQuantity = useSelector(state => state.cart.totalQuantity);
     const address = useSelector(state => state.address.Address);
     const auth = useSelector(state => state.auth.authentication);
     const user = useSelector(state => state.auth.user);
+    const checkbox = useSelector(state => state.popup.checkbox);
+    const { ref, inView } = useInView();
     const dispatch = useDispatch();
     console.log(items);
     console.log(totalprice);
@@ -45,7 +52,7 @@ export default function CartPage() {
     const renderItems = items.map((item) => {
         return <div key={item.id} className="d-flex align-items-center">
             <div className="flex-1">
-                <img className="" style={{height : "100px" ,marginBottom :'20px' , width:"100px"}} alt={''} src={img} /> 
+                <img className="" style={{ height: "100px", marginBottom: '20px', width: "100px" }} alt={''} src={img} />
             </div>
             <h5 className="flex-2 text-center font-italic " style={{ fontSize: '1rem', marginBottom: '0px' }}>{item.product.ten}</h5>
             <span className={`flex-1 text-center mx-1 ${styles['price']} user-select-none`}>{item.product.gia}VND</span>
@@ -152,7 +159,7 @@ export default function CartPage() {
 
 
                 {/* )} */}
-                {!buttonVerifyOTP && (
+                {/* {!buttonVerifyOTP && (
                     <div className={`${styles['chilren-model']} `}>
                         <div ref={refPopupForm} className={`${styles['formbuycart']} ${inViewPopupForm ? 'animation-from-left' : ""}`} style={{ backgroundColor: 'blanchedalmond', borderRadius: '22px' }}>
                             {!auth && (
@@ -185,79 +192,184 @@ export default function CartPage() {
                         </div>
                     </div>
 
-                )}
+                )} */}
 
                 <Header />
                 <BannerOfPage
                     bigTitle="CART"
                     subtitle="CART"
                 />
-                <div className="container pb-3">
+                {/* <div className="container pb-3">
                     <div className="d-flex">
-                        <div className={`${styles['list-item']} me-4`}>
-                            <div className={`${styles['title']} d-flex text-center text-uppercase font-italic py-2`}>
-                                <span className="flex-1">image</span>
-                                <span className="flex-2 mx-1"  >product</span>
-                                <span className="flex-1 mx-1" >price</span>
-                                <span className="flex-1 mx-1" >quantity</span>
-                                <span className="flex-1 mx-1" >total</span>
-                                <span className="flex-1" >remove</span>
-                            </div>
-                            <div className="d-flex flex-column row-gap-3 mb-3">
-                                {renderItems}
+                        <div className={`${styles['list-item']} me-4`}> */}
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    dispatch(getemail(datacheckout.email));
+                    const getAPI = async () => {
+                        // if(emailcheck !== '' && otpcheck ==null ){
+                          const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                            email: datacheckout.email
+                          })
+                          dispatch(setOTP(response.data.otptocheck));
+                        // }
+                      }
+                      getAPI();
+                    dispatch(openpopupotp(datacheckout))
+                    // dispatch(openpopuppay());
+                    console.log(datacheckout);
+                }} style={{ width: '100%', maxWidth: '100%' }}>
+                    <div style={{ width: '80%', margin: '0 auto' }} className={`${styles['title']} d-flex text-center text-uppercase font-italic py-2`}>
+                        <span className="flex-1">image</span>
+                        <span className="flex-2 mx-1"  >product</span>
+                        <span className="flex-1 mx-1" >price</span>
+                        <span className="flex-1 mx-1" >quantity</span>
+                        <span className="flex-1 mx-1" >total</span>
+                        <span className="flex-1" >remove</span>
+                    </div>
+                    <div style={{ width: '80%', margin: '0 auto' }} className="d-flex flex-column row-gap-3 mb-3">
+                        {renderItems}
 
+                    </div>
+                    <div style={{ display: 'flex', marginBottom: '10px', width: '80%', margin: '0 auto' }}>
+
+                        <div className={`${styles['provisional-checkout']} h-fit-content`}>
+                            {/* <h2>nội dung check out</h2> */}
+                            <FormCheckout />
+                        </div>
+                        <div ref={ref} className={`${styles['provisional-bill']} h-fit-content`}>
+                            <h4 className="w-100 text-uppercase  font-italic mb-4">cart total</h4>
+                            <div className={`d-flex font-italic justify-content-between pb-2 ${styles['sub-total']}`}>
+                                <h6 className="text-uppercase mb-0">subtotal</h6>
+                                <span className={`${styles['provisional-bill__sub-price']}`}>{totalprice} VND</span>
                             </div>
-                            <div style={{display:'flex',marginBottom:'10px'}}>
-                                <div className={`${styles['provisional-checkout']} h-fit-content`}>
-                                    <h2>nội dung check out</h2>
-                                </div>
-                                <div className={`${styles['provisional-bill']} h-fit-content`}>
-                                    <h4 className="w-100 text-uppercase  font-italic mb-4">cart total</h4>
-                                    <div className={`d-flex font-italic justify-content-between pb-2 ${styles['sub-total']}`}>
-                                        <h6 className="text-uppercase mb-0">subtotal</h6>
-                                        <span className={`${styles['provisional-bill__sub-price']}`}>{totalprice} VND</span>
-                                    </div>
-                                    <div className={`d-flex font-italic justify-content-between mt-2 ${styles['total']}`}>
-                                        <h6 className="text-uppercase mb-0">total</h6>
-                                        <span className={`${styles['provisional-bill__total-price']}`}>VND</span>
-                                    </div>
-                                    <div className={`${styles['coupon']} mt-3`}>
-                                        <input className="w-100 p-2 " placeholder="Enter your coupon" />
-                                        <div className="bg-dark text-light text-center py-2 ">
-                                            <FontAwesomeIcon icon={faGift} />
-                                            Apply coupon
-                                        </div>
-                                        <div>
-                                            {!auth && (
-                                                // <button onClick={() => {
-                                                //     openFormbuycart();
-                                                // }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
-                                                // <button onClick={() => {
-                                                //     openFormbuycart();
-                                                // }} type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop2">Buy</button>
-                                                <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop2">
-                                                    Launch modal register form
-                                                </button>
-                                            )}
-                                            {auth && (
-                                                <button onClick={() => { openotpverify() }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className={`d-flex font-italic justify-content-between mt-2 ${styles['total']}`}>
+                                <h6 className="text-uppercase mb-0">total</h6>
+                                <span className={`${styles['provisional-bill__total-price']}`}>VND</span>
                             </div>
-                            <div className={`d-flex ps-3 pe-5 py-3 justify-content-between ${styles['shopping-checkout']}`}>
-                                <Link to="/shop" className={`${styles['continue-shopping']} font-italic`}>
-                                    <FontAwesomeIcon icon={faLongArrowAltLeft} className="me-3 text-black" />
-                                    Continue shopping
-                                </Link>
+                            <div className={`${styles['coupon']} mt-3`}>
+                                <input className="w-100 p-2 " placeholder="Enter your coupon" />
+                                <div className="bg-dark text-light text-center py-2 ">
+                                    <FontAwesomeIcon icon={faGift} />
+                                    Apply coupon
+                                </div>
+                                <div style={{ display: 'flex', marginTop: '10px' }}>
+                                    <input type='checkbox' checked={checkbox} onChange={() => {
+                                        // 
+                                        dispatch(setcheckbox(!checkbox));
+                                        // if(checkbox == true){
+                                        //     dispatch(match());
+                                        //     setFormdata({
+                                        //         name: inputFullName,
+                                        //         phone: inputPhoneNumber,
+                                        //         email: inputEmail,
+                                        //         address: address,
+                                        //         password: inputPassword,
+                                        //         btnsignup: checkbox
+                                        //     });
+                                        // }
+                                    }} required style={{ cursor: 'pointer', width: '22px', marginTop: '0' }} /><label style={{ fontSize: '10px' }}>tôi đồng ý đến các thông tin này đều chính xác</label>
+                                </div>
+                                <div>
+                                    {!auth && (
+                                        // <button onClick={() => {
+                                        //     openFormbuycart();
+                                        // }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                        // <button onClick={() => {
+                                        //     openFormbuycart();
+                                        // }} type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop2">Buy</button>
+                                        <button onClick={() => { }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+
+                                    )}
+                                    {auth && (
+                                        <button onClick={() => { }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                    )}
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div style={{ width: '80%', margin: '0 auto', backgroundColor: 'white' }} className={`d-flex ps-3 pe-5 py-3 justify-content-between ${styles['shopping-checkout']}`}>
+                        <Link to="/shop" className={`${styles['continue-shopping']} font-italic`}>
+                            <FontAwesomeIcon icon={faLongArrowAltLeft} className="me-3 text-black" />
+                            Continue shopping
+                        </Link>
+                    </div>
+                    {/* </div>
 
                     </div>
 
-                </div>
+                </div> */}
+                    <div className={`${!inView ? styles['order'] : ''}`}>
+                        <div style={{ padding: '0.5rem', backgroundColor: 'white', border: '1px #ccc solid' }}>
+                            <div className="container ">
+                                <div className="d-flex" style={{ display: 'flex' }}>
+                                    {/* <div className={`${styles['list-item']} me-4`}> */}
+                                    <input style={{ marginRight: '2%', width: 'max-content', marginTop: '0' }} type='text' placeholder='Nhập Khuyến mãi' />
+                                    {/* </div> */}
+                                    <button style={{ height: 'max-content', lineHeight: '32px' }} className='btn btn-dark'><FontAwesomeIcon icon={faTicketSimple} /> Apply coupon</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style={{ padding: '0.5rem', backgroundColor: 'white', border: '1px #ccc solid' }}>
+                            <div className="container ">
+                                <div className="d-flex">
+                                    {/* <div className={`${styles['list-item']} me-4`}> */}
+                                    <input checked={checkbox} onChange={() => {
+                                        // 
+                                        dispatch(setcheckbox(!checkbox));
+                                        // if(checkbox == true){
+                                        //     dispatch(match());
+                                        //     setFormdata({
+                                        //         name: inputFullName,
+                                        //         phone: inputPhoneNumber,
+                                        //         email: inputEmail,
+                                        //         address: address,
+                                        //         password: inputPassword,
+                                        //         btnsignup: checkbox
+                                        //     });
+                                        // }
+                                    }} style={{ marginRight: '1.2%', marginTop: '0', width: 'max-content' }} type='checkbox' />
+                                    {/* </div> */}
+                                    <div>Tôi đồng ý với Điều khoản dịch vụ, Chính sách thu thập và xử lý dữ liệu cá nhân của Shop.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style={{ padding: '0.5rem', backgroundColor: '#f3f3f3', border: '1px #ccc solid' }}>
+                            <div className="container " >
+                                <div className="d-flex">
+                                    <div className={`${styles['list-item']} me-4`} style={{ display: 'flex' }}>
+                                        <div style={{ width: '38%', marginRight: '2%', display: 'flex', justifyContent: 'space-between' }}>
+                                            <div>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>Tổng tiền</p>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>Giảm giá VOUCHER</p>
+                                            </div>
+                                            <div>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>{totalprice.toLocaleString('en-us')} </p>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>0 </p>
+                                            </div>
+
+                                        </div>
+                                        <div style={{ width: '60%' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>Cần thanh toán ({totalQuantity} sản phẩm)</p>
+                                                <h5 style={{ color: '#1abc9c', fontWeight: '900', fontSize: '1.5rem' }}>0 VNĐ </h5>
+                                            </div>
+                                            <button onClick={() => {
+                                                dispatch(match());
+
+
+                                            }} type='submit' required style={{ backgroundColor: '#1abc9c', color: 'white', width: '100%', height: '48%', borderRadius: '49px', fontSize: '1.5rem' }} className='btn '>Hoàn Tất Đơn Hàng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+
                 <Footer />
+
             </div>
         </>
     );
