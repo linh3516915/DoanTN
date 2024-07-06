@@ -105,6 +105,8 @@ if ($files && count($files) > 0) {
         $ctsp->mau_sac_id = $rq->mau_sac_id;
         $ctsp->so_luong= intval($rq->so_luong);
         $ctsp->gia = intval($rq->gia);
+        $ctsp->phan_tram_giam= intval($rq->phan_tram_giam);
+        $ctsp->gia_khuyen_mai = intval($rq->gia_khuyen_mai);
         $ctsp->luot_thich= 0;
         $ctsp->so_sao = 0;
         $ctsp->save();
@@ -185,6 +187,8 @@ if ($files && count($files) > 0) {
             $ctsp->mau_sac_id = $rq->mau_sac_id;
             $ctsp->so_luong= intval($rq->so_luong);
             $ctsp->gia = intval($rq->gia);
+            $ctsp->phan_tram_giam= intval($rq->phan_tram_giam);
+            $ctsp->gia_khuyen_mai = intval($rq->gia_khuyen_mai);
             $ctsp->luot_thich= 0;
             $ctsp->so_sao = 0;
             $ctsp->save();
@@ -300,35 +304,78 @@ if ($files && count($files) > 0) {
 
         //$uploadedFiles = [];
       
-        $uploadedFiles = [];
-    foreach ($rq->file('photos') as $index => $file) {
-        // $filename = time() . '_' . $index . '.' . $file->getClientOriginalExtension();
-        // $file->storeAs('photos', $filename, 'public'); // Lưu vào thư mục 'public/photos'
-        $fileName = $file->getClientOriginalName();
-       
-        // $fileType = $file['type'];
-        // $fileSize = $file['file']->size;
-        // $lastModified = $file['file']->lastModifiedDate;
-        
-        // Ví dụ: Lưu trữ tệp tin vào thư mục công khai (public)
-        $file->move(public_path('product'), $fileName);
-        // $uploadedFiles[] = [
-        //     'index' => $index,
-        //     'filename' => $filename,
-        //     'path' => '/storage/photos/' . $filename, // Đường dẫn đến file đã lưu
-        // ];
-        $hinhanhsp = new HinhAnhSanPham();
-        $hinhanhsp->san_pham_id = $rq->id; // Giả sử $sp là đối tượng sản phẩm đã lưu
-        $hinhanhsp->URL_anh = 'product/' . $fileName;
-        $hinhanhsp->save();
+    if($rq->file('photos') != null){
+        foreach ($rq->file('photos') as $index => $file) {
+            // $filename = time() . '_' . $index . '.' . $file->getClientOriginalExtension();
+            // $file->storeAs('photos', $filename, 'public'); // Lưu vào thư mục 'public/photos'
+            $fileName = $file->getClientOriginalName();
+            $file->move(public_path('product'), $fileName);
+            $hinhanhsp = new HinhAnhSanPham();
+            $hinhanhsp->san_pham_id = $rq->id; // Giả sử $sp là đối tượng sản phẩm đã lưu
+            $hinhanhsp->URL_anh = 'product/' . $fileName;
+            $hinhanhsp->save();
+        }
     }
+    
 
     return response()->json([
         'success' => true,
-        'files' => $uploadedFiles,
     ]);
+    }
+    public function capnhatproductdetail(Request $rq){
+        $ctsp = ChiTietSanPham::where('ten',HelperServiceProvider::ucfirstString($rq->ten))->first();
+        // return response()->json([
+        //     'success' => false,
+        //     'message' => $ctsp
+        // ]);
+        // $ctsp -> so_luong = $rq->so_luong ; 
+        // $ctsp ->gia = $rq->gia ; 
+        // $ctsp->phan_tram_giam = $rq-> phan_tram_giam;
+        // $ctsp ->gia_khuyen_mai = $rq->gia_khuyen_mai;
+        // $ctsp->save();
+        $dt = Carbon::now('Asia/Ho_Chi_Minh');
+         $chitiet = ChiTietSanPham::where('san_pham_id', $ctsp->san_pham_id)
+            ->where('dung_luong_id', $ctsp->dung_luong_id)
+            ->where('mau_sac_id', $ctsp->mau_sac_id)
+            ->update([
+                // 'ten' => 
+                //     HelperServiceProvider::ucfirstString($product->ten).' '.$tendungluong->kich_thuoc.' '.HelperServiceProvider::ucfirstString($tenmau->ten_mau_sac)
+                // ,
+                'so_luong' => intval($rq->so_luong),
+                 'gia'=>intval($rq->gia),             
+                 'phan_tram_giam'=>intval($rq->phan_tram_giam),       
+                 'gia_khuyen_mai'=>intval($rq->gia_khuyen_mai),   
+                'updated_at' => $dt->toDateTimeString(),
+            ]);
+            $findanhctsp = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)
+            ->where('isAvatarimage',1)->first();
+            if(!empty($findanhctsp)){
+                
+                if($rq->requestSelectedFile != []){
+                    $findanhctsp = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)
+                    ->where('isAvatarimage',1)->delete();
+                    if($rq->hasFile('requestSelectedFile')){
+                        $hinhanhctsp = new HinhAnh(); 
+                        $imagectsp = $rq->file('requestSelectedFile');
+                        $imageNamectsp = $imagectsp->getClientOriginalName();
+                        $imagectsp->move(public_path('productdetail'), $imageNamectsp);
+                        $hinhanhctsp->san_pham_id = $ctsp->san_pham_id;
+                        $hinhanhctsp->mau_sac_id = $ctsp->mau_sac_id;
+                        $hinhanhctsp->ten_hinh_anh = 'productdetail/'.$imageNamectsp;
+                        $hinhanhctsp->isAvatarimage = 1;
+                        $hinhanhctsp->save();
+                    }
+                    else {
+                        return response()->json(['success' =>false ,'error' => 'Không có tệp hình ảnh nào được chọn.'], 400);
+                    }
+                }
+               
+            }
         return response()->json([
             'success' => true,
+            // 'data' => ChiTietSanPham::where('san_pham_id', $ctsp->san_pham_id)
+            // ->where('dung_luong_id', $ctsp->dung_luong_id)
+            // ->where('mau_sac_id', $ctsp->mau_sac_id)
         ]);
     }
 }

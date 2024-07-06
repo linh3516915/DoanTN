@@ -295,5 +295,5 @@ Route::group([
 ], function ($router) {
     Route::post('nhaphang', [APINhapHangController::class, 'nhaphang']);
     Route::post('capnhatproduct', [APINhapHangController::class, 'capnhatproduct']);
-    
+    Route::post('capnhatproductdetail', [APINhapHangController::class, 'capnhatproductdetail']);
 });

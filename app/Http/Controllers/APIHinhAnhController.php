@@ -11,9 +11,12 @@ class APIHinhAnhController extends Controller
     //
     public function laydanhsach(Request $rq){
         $hinhanh = HinhAnh::where('san_pham_id',$rq->san_pham_id)->where('mau_sac_id',$rq->mau_sac_id)->first();
-        return response()->json([
-            'data' => $hinhanh,
-            'ten' => $hinhanh->ten_hinh_anh
-        ]);
+        if(!empty($hinhanh)){
+            return response()->json([
+                'data' => $hinhanh,
+                'ten' => $hinhanh->ten_hinh_anh
+            ]);
+        }
+       
     }
 }

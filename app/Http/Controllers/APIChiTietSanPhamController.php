@@ -293,15 +293,16 @@ class APIChiTietSanPhamController extends Controller
         $data=[];
         $data2= [];
         if(count($product)>0){
-            $products = ChiTietDonHang::groupBy('chi_tiet_san_pham_id')
-            ->select('chi_tiet_san_pham_id', \DB::raw('SUM(so_luong_mua) as total_quantity'))
+            $products = ChiTietDonHang::groupBy('san_pham_id','mau_sac_id','dung_luong_id')
+            ->select('san_pham_id','mau_sac_id','dung_luong_id', \DB::raw('SUM(so_luong_mua) as total_quantity'))
             ->orderBy('total_quantity' ,'desc')
             ->get();
           
     
                 for($i = 0; $i<count($products) ;$i++)
                 {
-                    $ctsp = ChiTietSanPham::find($products[$i]->chi_tiet_san_pham_id);
+                    // $ctsp = ChiTietSanPham::find($products[$i]->chi_tiet_san_pham_id);
+                    $ctsp = ChiTietSanPham::where('san_pham_id',$products[$i]->san_pham_id)->where('mau_sac_id',$products[$i]->mau_sac_id)->where('dung_luong_id',$products[$i]->dung_luong_id)->first();
                     // $ctdh = [
                     //     'chi_tiet_san_pham' => $ctsp,
                     //     'so_luong_mua' => $products[$i]->total_quantity,
