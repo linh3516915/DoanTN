@@ -9,6 +9,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from 'react-intersection-observer';
 import { getemail, setOTP } from '../../redux/slice/authSlice';
 import { loadingmodal } from '../../redux/slice/filterSlice';
+import { setCart } from '../../redux/slice/cartSlice';
 export default function OTP(props) {
   const [otp, setOtp] = useState('');
   const [isloading, setIsloading] = useState(false);
@@ -17,6 +18,7 @@ export default function OTP(props) {
   const otpcheck = useSelector(state => state.auth.OTP);
   const emailcheck = useSelector(state => state.auth.email);
   const formdata = useSelector(state => state.popup.datacheckotp);
+  const datacheckout = useSelector(state => state.popup.datacheckout);
   const popupsignup = useSelector(state => state.popup.btnPopupOTP);
   const { ref: refPopupOTP, inView: inViewPopupOTP } = useInView({
     threshold: 0
@@ -54,8 +56,19 @@ export default function OTP(props) {
         'otpcheck': otpcheck
       })
       if(response.data.success){
-        alert('hoho');
         dispatch(setOTP(null));
+        const getAPI = async () => {
+          dispatch(loadingmodal(true));
+          const response = await axios.post('http://127.0.0.1:8000/api/donhang/addnew',datacheckout)
+          if(response.data.success){
+            alert('done');
+            dispatch(setCart());
+          }
+          else{
+            alert(response.data.message);
+          }
+        }
+        getAPI();
         dispatch(loadingmodal(false));
         dispatch(closepopupotp());
       }
@@ -64,6 +77,7 @@ export default function OTP(props) {
       }
     }
       getAPI()
+      dispatch(loadingmodal(false));
   }
   const HandleSubmitOTPSignup = () => {
     const getAPI = async () => {
@@ -147,7 +161,7 @@ export default function OTP(props) {
           <button value="Submit" onClick={() => { HandleSubmitOTPSignup() }} className={`${styles['input-submit']}`} >confirm</button>
         )}
         {formdata.btncheckout && (
-          <button value="Submit" onClick={() => { HandleSubmitOTPCheckout() }} className={`${styles['input-submit']}`} >confirm</button>
+          <button value="Submit" onClick={() => { HandleSubmitOTPCheckout() }} className={`${styles['input-submit']}`} >confirm Đơn</button>
         )}
         <button value="Submit" onClick={() => { HandleResend() }} className={`${styles['input-submit']}`} >resend OTP</button>
       </div>

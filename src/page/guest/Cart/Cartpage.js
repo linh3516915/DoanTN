@@ -33,6 +33,7 @@ export default function CartPage() {
     const datacheckout = useSelector(state => state.popup.datacheckout);
     const items = useSelector(state => state.cart.items);
     const totalprice = useSelector(state => state.cart.totalPrice);
+    const totalcoupon = useSelector(state => state.cart.totalCoupon);
     const totalQuantity = useSelector(state => state.cart.totalQuantity);
     const address = useSelector(state => state.address.Address);
     const auth = useSelector(state => state.auth.authentication);
@@ -52,12 +53,12 @@ export default function CartPage() {
     const renderItems = items.map((item) => {
         return <div key={item.id} className="d-flex align-items-center">
             <div className="flex-1">
-                <img className="" style={{ height: "100px", marginBottom: '20px', width: "100px" }} alt={''} src={img} />
+                <img className="" style={{ height: "100px", marginBottom: '20px', width: "100px" }} alt={''} src={item.img} />
             </div>
             <h5 className="flex-2 text-center font-italic " style={{ fontSize: '1rem', marginBottom: '0px' }}>{item.product.ten}</h5>
             <span className={`flex-1 text-center mx-1 ${styles['price']} user-select-none`}>{item.product.gia}VND</span>
             <div className="d-flex flex-1 mx-1 justify-content-center">
-                <button className="px-2 border-0 bg-white"
+                <button className="px-2 border-0 bg-white" type='button'
                     onClick={() => {
                         dispatch(decrease(item.product));
                     }}
@@ -69,6 +70,7 @@ export default function CartPage() {
                     onClick={() => {
                         dispatch(increase(item.product));
                     }}
+                    type='button'
                 >
                     <FontAwesomeIcon icon={faCaretRight} className={`${styles['caret-right-icon']}`} />
                 </button>
@@ -204,31 +206,36 @@ export default function CartPage() {
                         <div className={`${styles['list-item']} me-4`}> */}
                 <form onSubmit={(e) => {
                     e.preventDefault();
-                    dispatch(getemail(datacheckout.email));
-                    const getAPI = async () => {
-                        // if(emailcheck !== '' && otpcheck ==null ){
-                          const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
-                            email: datacheckout.email
-                          })
-                          dispatch(setOTP(response.data.otptocheck));
-                        // }
-                      }
-                      getAPI();
-                    dispatch(openpopupotp(datacheckout))
-                    // dispatch(openpopuppay());
-                    console.log(datacheckout);
+                    if(renderItems.length != 0){
+                        dispatch(getemail(datacheckout.email));
+                        const getAPI = async () => {
+                            // if(emailcheck !== '' && otpcheck ==null ){
+                              const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                                email: datacheckout.email
+                              })
+                              dispatch(setOTP(response.data.otptocheck));
+                            // }
+                          }
+                          getAPI();
+                        dispatch(openpopupotp(datacheckout))
+                        // dispatch(openpopuppay());
+                        console.log(datacheckout);
+                    }
+                    else{
+                        alert('phải có ít nhất 1 sản phẩm trong giỏ')
+                    }
+                    
                 }} style={{ width: '100%', maxWidth: '100%' }}>
                     <div style={{ width: '80%', margin: '0 auto' }} className={`${styles['title']} d-flex text-center text-uppercase font-italic py-2`}>
                         <span className="flex-1">image</span>
-                        <span className="flex-2 mx-1"  >product</span>
-                        <span className="flex-1 mx-1" >price</span>
-                        <span className="flex-1 mx-1" >quantity</span>
-                        <span className="flex-1 mx-1" >total</span>
+                        <span className="flex-2 mx-1"  >tên</span>
+                        <span className="flex-1 mx-1" >giá</span>
+                        <span className="flex-1 mx-1" >số lượng mua</span>
+                        <span className="flex-1 mx-1" >thành tiền</span>
                         <span className="flex-1" >remove</span>
                     </div>
                     <div style={{ width: '80%', margin: '0 auto' }} className="d-flex flex-column row-gap-3 mb-3">
                         {renderItems}
-
                     </div>
                     <div style={{ display: 'flex', marginBottom: '10px', width: '80%', margin: '0 auto' }}>
 
@@ -237,20 +244,24 @@ export default function CartPage() {
                             <FormCheckout />
                         </div>
                         <div ref={ref} className={`${styles['provisional-bill']} h-fit-content`}>
-                            <h4 className="w-100 text-uppercase  font-italic mb-4">cart total</h4>
+                            <h4 className="w-100 text-uppercase  font-italic mb-4">giỏ hàng</h4>
+                            <div className={`d-flex font-italic justify-content-between pb-2 `}>
+                                <h6 className="text-uppercase mb-0">tổng tiền</h6>
+                                <span className={`${styles['provisional-bill__sub-price']}`}>{totalprice.toLocaleString('en-us')}VNĐ</span>
+                            </div>
                             <div className={`d-flex font-italic justify-content-between pb-2 ${styles['sub-total']}`}>
-                                <h6 className="text-uppercase mb-0">subtotal</h6>
-                                <span className={`${styles['provisional-bill__sub-price']}`}>{totalprice} VND</span>
+                                <h6 className="text-uppercase mb-0">giảm giá</h6>
+                                <span className={`${styles['provisional-bill__sub-price']}`}>{(totalprice-totalcoupon).toLocaleString('en-us')}VNĐ</span>
                             </div>
                             <div className={`d-flex font-italic justify-content-between mt-2 ${styles['total']}`}>
-                                <h6 className="text-uppercase mb-0">total</h6>
-                                <span className={`${styles['provisional-bill__total-price']}`}>VND</span>
+                                <h6 className="text-uppercase mb-0" style={{lineHeight: '31px'}}>thành tiền</h6>
+                                <span className={`${styles['provisional-bill__total-price']}`}>{totalcoupon.toLocaleString('en-us')} VNĐ</span>
                             </div>
                             <div className={`${styles['coupon']} mt-3`}>
                                 <input className="w-100 p-2 " placeholder="Enter your coupon" />
-                                <div className="bg-dark text-light text-center py-2 ">
-                                    <FontAwesomeIcon icon={faGift} />
-                                    Apply coupon
+                                <div className="bg-dark text-light text-center py-2 " style={{marginTop:'2%'}}>
+                                    <FontAwesomeIcon icon={faGift} style={{marginBottom:'2%' }}/>
+                                    nhập mã khuyến mãi
                                 </div>
                                 <div style={{ display: 'flex', marginTop: '10px' }}>
                                     <input type='checkbox' checked={checkbox} onChange={() => {
@@ -290,7 +301,7 @@ export default function CartPage() {
                     <div style={{ width: '80%', margin: '0 auto', backgroundColor: 'white' }} className={`d-flex ps-3 pe-5 py-3 justify-content-between ${styles['shopping-checkout']}`}>
                         <Link to="/shop" className={`${styles['continue-shopping']} font-italic`}>
                             <FontAwesomeIcon icon={faLongArrowAltLeft} className="me-3 text-black" />
-                            Continue shopping
+                            Tiếp tục mua hàng
                         </Link>
                     </div>
                     {/* </div>
@@ -312,7 +323,7 @@ export default function CartPage() {
                         <div style={{ padding: '0.5rem', backgroundColor: 'white', border: '1px #ccc solid' }}>
                             <div className="container ">
                                 <div className="d-flex">
-                                    {/* <div className={`${styles['list-item']} me-4`}> */}
+                                    {/* <div className={`${styles['list-item']} me-4`}> */} 
                                     <input checked={checkbox} onChange={() => {
                                         // 
                                         dispatch(setcheckbox(!checkbox));
@@ -340,18 +351,18 @@ export default function CartPage() {
                                         <div style={{ width: '38%', marginRight: '2%', display: 'flex', justifyContent: 'space-between' }}>
                                             <div>
                                                 <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>Tổng tiền</p>
-                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>Giảm giá VOUCHER</p>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>Giảm giá</p>
                                             </div>
                                             <div>
                                                 <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>{totalprice.toLocaleString('en-us')} </p>
-                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>0 </p>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>{(totalprice-totalcoupon).toLocaleString('en-us')}</p>
                                             </div>
 
                                         </div>
                                         <div style={{ width: '60%' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>Cần thanh toán ({totalQuantity} sản phẩm)</p>
-                                                <h5 style={{ color: '#1abc9c', fontWeight: '900', fontSize: '1.5rem' }}>0 VNĐ </h5>
+                                                <h5 style={{ color: '#1abc9c', fontWeight: '900', fontSize: '1.5rem' }}>{totalcoupon.toLocaleString('en-us')} VNĐ </h5>
                                             </div>
                                             <button onClick={() => {
                                                 dispatch(match());

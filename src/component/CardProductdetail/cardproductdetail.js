@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
 import img from "../../assets/ảnh/11trang.jpg";
 import imghotrenđing from "../../assets/ảnh/hottrending2.png";
+import imgsale from "../../assets/ảnh//tải xuống (1).png";
 import axios from 'axios';
 import { getproductdetail } from '../../redux/slice/itemproductdetail';
 import { addRecently } from '../../redux/slice/recentlyviewedSlice';
@@ -18,6 +19,7 @@ export default function CardProductDetail(props) {
         threshold: 0
     });
     const auth = useSelector(state => state.auth.authentication);
+    const isadmin = useSelector(state => state.auth.isAdmin);
     const listrecently = useSelector(state => state.recentlyviewed.items);
     const listcart = useSelector(state => state.cart.items);
     const totalQuantity = useSelector(state => state.cart.totalQuantity);
@@ -29,7 +31,7 @@ export default function CardProductDetail(props) {
         alert('add cart successfully');
     }
     const movepageproductdetail = (id, item) => {
-        
+
         navigate(`/productdetail/?name=${encodeURIComponent(id)}`);
     }
     console.log('check dataaa: ', props.data);
@@ -38,7 +40,7 @@ export default function CardProductDetail(props) {
         if (Math.floor(props.data.so_sao) >= number) {
             datastar.push(
                 <div
-                   // key={index}
+                    // key={index}
                     className={` ${styles['icon-star']} `}
                 // onClick={() => { setHoverIndex(index); setDisavled(true); }}
 
@@ -65,24 +67,24 @@ export default function CardProductDetail(props) {
             </div>
         )
     }
-        for (let i = 0; i < 5 - Math.ceil(props.data.so_sao); i++) {
-            datastar.push(
-                <div
-                    // key={i}
-                    className={` ${styles['icon-star']} `}
+    for (let i = 0; i < 5 - Math.ceil(props.data.so_sao); i++) {
+        datastar.push(
+            <div
+                // key={i}
+                className={` ${styles['icon-star']} `}
                 // onClick={() => { setHoverIndex(index); setDisavled(true); }}
-                    style={{color : '#ccc'}}
-                >
-                    <FontAwesomeIcon icon={faStar} />
-                </div>
-            )
-        }
+                style={{ color: '#ccc' }}
+            >
+                <FontAwesomeIcon icon={faStar} />
+            </div>
+        )
+    }
     return (
         <>
             <div style={{ marginBottom: '0rem', width: '20%', border: '1px solid rgb(223 223 223)' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
 
                 <div className={`${styles['item']}  `}>
-                    {auth && (
+                    {auth && !isadmin&& (
                         <button className={`btn btn-primary ${styles['favotrite']}`} style={{ fontSize: '0.75rem', marginBottom: '1rem' }}><FontAwesomeIcon icon={faBookmark} /></button>
                     )}
                     <div onClick={() => { movepageproductdetail(props.data.ten, props.data); }} className={`${styles['item-content']}  `}>
@@ -90,23 +92,40 @@ export default function CardProductDetail(props) {
                             {props.ishottrending && (
                                 <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
                             )}
+                            {props.data.phan_tram_giam != 0 && (
+                                <img className={`${styles['img-sticker-sale']}`} src={imgsale} />
+                            )}
                             <img src={props.img} className={`${styles['img-product']}`} />
                         </div>
 
                         <div style={{ padding: "10px" }}>
-                            <div class="product-wid-rating" style={{display : 'flex'}}>
+                            <div class="product-wid-rating" style={{ display: 'flex' }}>
                                 {datastar}
                             </div>
                             <div style={{ marginBottom: '15px', height: "2rem" }}>
                                 <h6 className={`${styles['item-name']}`} >{props.data.ten}</h6>
                             </div>
+                            {props.data.phan_tram_giam == 0 && (
+                                <>
+                                    <div className={`${styles['item-price']}`}>{props.data.gia.toLocaleString('en-US')} VNĐ</div>
+                                </>
 
-                            <div className={`${styles['item-price']}`}>{props.data.gia.toLocaleString('en-US')} VNĐ</div>
+                            )}
+                            {props.data.phan_tram_giam != 0 && (
+                                <>
+
+                                    <div className={`${styles['item-price']}`}> <del style={{ color: 'red', marginRight: '1%', fontSize: '11px' }}>{props.data.gia.toLocaleString('en-US')}VNĐ</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
+                                </>
+
+                            )}
+
                         </div>
 
 
                     </div>
-                    <button onClick={() => { addcart(props.data) }} style={{ width: '100%', marginTop: '10px', marginBottom: '10px', backgroundColor: '#1abc9c' }} className="btn btn-success">Add to cart</button>
+                    {isadmin == false && (
+                        <button onClick={() => { addcart(props) }} style={{ width: '100%', marginTop: '10px', marginBottom: '10px', backgroundColor: '#1abc9c' }} className="btn btn-success">Add to cart</button>
+                    )}
                 </div>
 
             </div>

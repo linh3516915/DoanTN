@@ -22,6 +22,7 @@ export default function FormCheckout() {
     const [currentTime, setCurrentTime] = useState(new Date());
 
     const items = useSelector(state => state.cart.items);
+    const user = useSelector(state => state.auth.user);
     const address = useSelector(state => state.address.Address);
     const popupsignup = useSelector(state => state.popup.btnPopupOTP);
     const emailpersit = useSelector(state => state.auth.email);
@@ -29,20 +30,47 @@ export default function FormCheckout() {
     const pro = useSelector(state => state.address.province);
     const dic = useSelector(state => state.address.district);
     const wa = useSelector(state => state.address.ward);
+    const totalprice = useSelector(state => state.cart.totalPrice);
+    const totalcoupon = useSelector(state => state.cart.totalCoupon);
     const street = useSelector(state => state.address.street);
     const [gio, setGio] = useState(currentTime.getHours() + 7);
+    
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(match());
-        dispatch(setdatacheckout({
-            name: inputFullName,
-            phone: inputPhoneNumber,
-            email: inputEmail,
-            password: inputPassword,
-            address: address,
-            time: 'trước ' + gio.toString().padStart(2, '0') + 'h ngày ' + currentTime.toLocaleDateString(),
-            btncheckout: true
-        }));
+        if(user == {}){
+            dispatch(setdatacheckout({
+                users_id : 0,
+                name: inputFullName,
+                phone: inputPhoneNumber,
+                email: inputEmail,
+                password: inputPassword,
+                address: address,
+                data: items,
+                tong_tien : totalprice,
+                giam_gia: totalprice-totalcoupon,
+                gia_khuyen_mai : totalcoupon,
+                time: 'trước ' + gio.toString().padStart(2, '0') + 'h ngày ' + currentTime.toLocaleDateString(),
+                btncheckout: true
+            }));
+        }
+        else{
+            dispatch(setdatacheckout({
+                users_id : user.id,
+                name: inputFullName,
+                phone: inputPhoneNumber,
+                email: inputEmail,
+                password: inputPassword,
+                address: address,
+                data: items,
+                tong_tien : totalprice,
+                giam_gia: totalprice-totalcoupon,
+                gia_khuyen_mai : totalcoupon,
+                time: 'trước ' + gio.toString().padStart(2, '0') + 'h ngày ' + currentTime.toLocaleDateString(),
+                btncheckout: true
+            }));
+        }
+        
     }, [inputFullName, inputPhoneNumber, inputEmail, inputPassword, inputRePassword, pro, wa, dic, street, currentTime, gio])
     // useEffect(() => {
     //         setCurrentTime(new Date());
@@ -54,7 +82,7 @@ export default function FormCheckout() {
                     <h5 style={{ textAlign: 'start', fontStyle: 'italic' }}> giao Lần thứ {index + 1}</h5>
                     <div style={{ display: 'flex' }}>
 
-                        <img style={{ width: '12%', marginRight: '2%' }} src={img} />
+                        <img style={{ width: '12%', marginRight: '2%' }} src={item.img} />
                         <div>
                             <p style={{ fontSize: '84%' }}>{item.product.ten}</p>
                             <p style={{ fontSize: '84%' }}> giá : {item.product.gia}</p>
@@ -144,7 +172,7 @@ export default function FormCheckout() {
                                     SignIn
                                 } */}
             {/* className={` d-flex flex-column ${styles['sign-up-form']}`}> */}
-            <input type='text' placeholder='Full Name' required
+            <input type='text' placeholder='Họ và tên' required
                 // pattern="^[a-zA-Z]+$"
                 value={inputFullName}
                 onChange={(e) => {
@@ -173,7 +201,7 @@ export default function FormCheckout() {
                 }}
             />
             {/* {isShowWarning(isValidPassword, isTouchPassword) ? alertMessage("Please enter password at least 8 character!") : <></>} */}
-            <input style={{ marginBottom: '2%' }} type='number' placeholder='Phone' required
+            <input style={{ marginBottom: '2%' }} type='number' placeholder='Số điện thoại' required
                 value={inputPhoneNumber}
                 onChange={(e) => {
                     setInputPhoneNumber(e.target.value)
@@ -183,9 +211,10 @@ export default function FormCheckout() {
             {/* {isShowWarning(isValidPhoneNumber, isTouchPhoneNumber) ? alertMessage("Please enter your phone number!") : <></>} */}
             <Address />
             <div className={`${styles['shiptime']}`}>
+                <h3>Thông Tin Giao Hàng </h3>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <p style={{ fontWeight: '400', fontSize: '18px', margin: '0' }}>Giao vào trước {gio}h ngày {currentTime.toLocaleDateString()}</p>
-                    <button onClick={() => { setChoosetime(!chooseTime) }} type='button' className="btn btn-outline-primary">chọn giò và ngày <FontAwesomeIcon icon={faList} /></button>
+                    <button onClick={() => { setChoosetime(!chooseTime) }} type='button' className="btn btn-outline-primary">chọn giờ và ngày <FontAwesomeIcon icon={faList} /></button>
                 </div>
                 {chooseTime && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>

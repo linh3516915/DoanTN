@@ -22,6 +22,8 @@ export const productSlice = createSlice({
     idtrangthai: null,
     soluong: 0,
     giatien: 0,
+    phantramgiam: 0,
+    giakhuyenmai: 0,
     anhctsp: ''
   },
   reducers: {
@@ -69,6 +71,7 @@ export const productSlice = createSlice({
 
       // state.productdetail = action.payload
     },
+    
     setiddungluong: (state, action) => {
       state.iddungluong = action.payload
     },
@@ -84,6 +87,12 @@ export const productSlice = createSlice({
     setgiatien: (state, action) => {
       state.giatien = action.payload
     },
+    setphantramgiam: (state, action) => {
+      state.phantramgiam = action.payload
+    },
+    setgiakhuyenmai: (state, action) => {
+      state.giakhuyenmai = action.payload
+    },
     setanhctsp: (state, action) => {
       state.anhctsp = 'http://127.0.0.1:8000/'+ action.payload;
     },
@@ -93,6 +102,6 @@ export const productSlice = createSlice({
 export const { setoption, setmota, setname, setId, setIdsupplier
   , setIdloaisanpham, setIdtrangthai, setproductdetail,
   setiddungluong, setidmausac, setgiatien, setsoluong, setproductdetails,
-  setanhctsp} = productSlice.actions
+  setanhctsp,setphantramgiam,setgiakhuyenmai} = productSlice.actions
 
 export default productSlice.reducer

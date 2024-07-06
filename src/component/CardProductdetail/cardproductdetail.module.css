@@ -27,6 +27,14 @@
     z-index: 1;
     bottom: -3px;
 }
+.img-sticker-sale{
+    margin: 0;
+    width: 25%;
+    position: absolute;
+    z-index: 1;
+    bottom: -3px;
+    right: 0;
+}
 .img-product{
     height: 100%;
     width: 100%;

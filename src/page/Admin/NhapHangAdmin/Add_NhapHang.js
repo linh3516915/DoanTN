@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadingmodal } from '../../../redux/slice/filterSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronDown, faDeleteLeft, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, setgiatien, setiddungluong, setidmausac, setname, setoption, setproductdetail, setproductdetails, setsoluong } from '../../../redux/slice/productSlice';
+import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, setgiakhuyenmai, setgiatien, setiddungluong, setidmausac, setname, setoption, setphantramgiam, setproductdetail, setproductdetails, setsoluong } from '../../../redux/slice/productSlice';
 import ChiTietSanPham from '../../../component/Admin/ChiTietSanPham/Chitietsanpham';
 import EditorComponent from '../../../component/CKeditor/ckeditor';
 import PopupAddtrangthai from '../../../component/Admin/AddTHvaLSP/Addtrangthai';
@@ -52,7 +52,7 @@ export default function AddNhapHang(props) {
     const [showprice, setShowprice] = useState(true);
     const [requestSelectedFile, setRequestSelectedFile] = useState([]);
     const [dstrangthai, setDstrangthai] = useState([]);
-    const [phantramgiam, setPhantramgiam] = useState(0);
+    //const [phantramgiam, setPhantramgiam] = useState(0);
     const openModalDL = () => setModalIsOpenDL(true);
     const closeModalDL = () => setModalIsOpenDL(false);
 
@@ -80,6 +80,8 @@ export default function AddNhapHang(props) {
     const mota = useSelector(state => state.product.mo_ta);
     const soluong = useSelector(state => state.product.soluong);
     const gia = useSelector(state => state.product.giatien);
+    const phantramgiam = useSelector(state => state.product.phantramgiam);
+    const giakhuyenmai = useSelector(state => state.product.giakhuyenmai);
     const anhctsp = useSelector(state => state.product.anhctsp);
     useEffect(() => {
         async function setncc() {
@@ -258,6 +260,8 @@ export default function AddNhapHang(props) {
                     'loai_san_pham_id': parseInt(formdata.loai_san_pham_id),
                     'so_luong': parseInt(formdata.so_luong),
                     'gia': parseInt(formdata.gia),
+                    'phan_tram_giam': parseInt(formdata.phan_tram_giam),
+                    'gia_khuyen_mai': parseInt(formdata.gia_khuyen_mai),
                     'ghi_chu': formdata.ghi_chu,
                     'trang_thai_id': parseInt(formdata.trang_thai_id),
                     'mo_ta': formdata.mo_ta,
@@ -360,10 +364,11 @@ export default function AddNhapHang(props) {
         dispatch(setproductdetail(null));
         dispatch(setiddungluong(null));
         dispatch(setidmausac(null));
+        dispatch(setphantramgiam(null));
         dispatch(setanhctsp(null));
         dispatch(setsoluong(0));
         dispatch(setgiatien(0));
-        setShowDropdown(true);
+        // setShowDropdown(true);
         setSelectedFile(null)
         // setDisableprice(true);
         dispatch(setname(''));
@@ -404,7 +409,12 @@ export default function AddNhapHang(props) {
         updatedFiles.splice(index, 1);
         setSelectedFiles(updatedFiles);
     };
+    useEffect(()=>{
+        dispatch(setgiakhuyenmai(((100-phantramgiam)*gia)/100));
+    },[phantramgiam,gia])
     console.log(formdata);
+    console.log(giakhuyenmai);
+    console.log('alooo',idtrangthai);
     return (
         <>
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
@@ -445,14 +455,14 @@ export default function AddNhapHang(props) {
                                                         onChange={handleInputChange}
                                                         style={{ marginTop: '0' }}
                                                     />
-                                                    {showDropdown && inputValue && (
+                                                    {/* {showDropdown && inputValue && (
                                                         <ul className="dropdown" style={{ border: '1px solid #ccc', listStyleType: 'none', padding: '0' }}>
                                                             {filteredOptions.map((option, index) => (
                                                                 <li key={index} style={{ borderBottom: '1px solid #ccc', cursor: 'pointer' }} onClick={() => handleOptionClick(option)}>{option.ten}</li>
                                                             ))}
                                                         </ul>
                                                     )}
-                                                    {showselectedOption && <p> {nameproduct}</p>}
+                                                    {showselectedOption && <p> {nameproduct}</p>} */}
                                                 </div>
                                                 {/* <InputDropdown /> */}
                                                 {/* <div class="col-md-6">
@@ -631,15 +641,17 @@ export default function AddNhapHang(props) {
                                                         <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
                                                             {/* <div class="col-md-3"> */}
                                                             <label for="Ten" className=""> nhập phần trăm giảm </label>
-                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} max={100} value={phantramgiam}  onChange={(e) => {setPhantramgiam(e.target.value) }} required />
+                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} max={100} value={phantramgiam}  onChange={(e) => {dispatch(setphantramgiam(e.target.value))}} required />
+                                                            {/* </div> */}
+                                                        </div>
+                                                        <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
+                                                            {/* <div class="col-md-3"> */}
+                                                            <label for="Ten" className=""> giá khuyến mãi </label>
+                                                            <input disabled style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} max={100} value={giakhuyenmai}  required />
                                                             {/* </div> */}
                                                         </div>
                                                     </>
-
-
                                                 )}
-
-
                                                 <button type='submit' style={{ marginTop: '18px', height: '3rem' }} onClick={() => {
                                                     setFormData({
                                                         'ten_san_pham': inputValue,
@@ -652,6 +664,8 @@ export default function AddNhapHang(props) {
                                                         'mo_ta': mota,
                                                         'so_luong': parseInt(soluong),
                                                         'gia': parseInt(gia),
+                                                        'phan_tram_giam': parseInt(phantramgiam),
+                                                        'gia_khuyen_mai': parseInt(giakhuyenmai),
                                                         'ghi_chu': ghichu,
                                                         'requestSelectedFiles': requestSelectedFiles,
                                                         'requestSelectedFile': requestSelectedFile
@@ -696,22 +710,22 @@ export default function AddNhapHang(props) {
                                                     )}
                                                 </div>
                                             </div>
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Tên chi tiết sản phẩm</th>
-                                                        <th scope="col">Tên sản phẩm</th>
-                                                        <th scope="col">Dung lượng</th>
-                                                        <th scope="col">Màu sắc</th>
-                                                        <th scope="col">Số lượng</th>
-                                                        <th scope="col">Giá tiền</th>
-                                                        <th scope="col">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {listCTSP}
-                                                </tbody>
-                                            </table>
+                                                {/* <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Tên chi tiết sản phẩm</th>
+                                                            <th scope="col">Tên sản phẩm</th>
+                                                            <th scope="col">Dung lượng</th>
+                                                            <th scope="col">Màu sắc</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Giá tiền</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {listCTSP}
+                                                    </tbody>
+                                                </table> */}
                                         </div>
                                     </div>
 

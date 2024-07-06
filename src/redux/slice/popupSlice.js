@@ -4,6 +4,7 @@ const initialState = {
     btnPopupLogin : false,
     btnPopupOTP : false,
     btnPopupCommnent : false,
+    btnPopupEditproductdetail : false,
     btnPopupPay : false,
     datacheckotp : null,
     datacheckout : null,
@@ -37,6 +38,12 @@ export const popupSlice = createSlice({
         closepopupcomment : (state) =>{
             state.btnPopupCommnent = false;
         },
+        openpopupeditproductdetail : (state) =>{
+            state.btnPopupEditproductdetail = true;
+        },
+        closepopupeditproductdetail : (state) =>{
+            state.btnPopupEditproductdetail = false;
+        },
         openpopuppay : (state,action) =>{
             state.btnPopupPay = true;
         },
@@ -56,6 +63,7 @@ export const popupSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {openpopuplogin, closepopuplogin,openpopupotp
     , closepopupotp,openpopupcomment,closepopupcomment,
-    openpopuppay,closepopuppay,setcheckbox,setdatacheckout} = popupSlice.actions
+    openpopuppay,closepopuppay,setcheckbox,setdatacheckout,
+    openpopupeditproductdetail,closepopupeditproductdetail} = popupSlice.actions
 
 export default popupSlice.reducer

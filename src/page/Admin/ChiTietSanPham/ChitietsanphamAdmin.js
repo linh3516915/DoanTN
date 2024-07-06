@@ -12,10 +12,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadingmodal } from '../../../redux/slice/filterSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronDown, faDeleteLeft, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, setgiatien, setiddungluong, setidmausac, setmota, setname, setoption, setproductdetail, setproductdetails, setsoluong } from '../../../redux/slice/productSlice';
+import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, setgiakhuyenmai, setgiatien, setiddungluong, setidmausac, setmota, setname, setoption, setphantramgiam, setproductdetail, setproductdetails, setsoluong } from '../../../redux/slice/productSlice';
 import ChiTietSanPham from '../../../component/Admin/ChiTietSanPham/Chitietsanpham';
 import EditorComponent from '../../../component/CKeditor/ckeditor';
 import PopupAddtrangthai from '../../../component/Admin/AddTHvaLSP/Addtrangthai';
+import { openpopupeditproductdetail } from '../../../redux/slice/popupSlice';
 export default function ChiTietSanPhamAdmin(props) {
 
     const { id } = useParams();
@@ -101,6 +102,8 @@ export default function ChiTietSanPhamAdmin(props) {
     const mota = useSelector(state => state.product.mo_ta);
     const soluong = useSelector(state => state.product.soluong);
     const gia = useSelector(state => state.product.giatien);
+    const phantramgiam = useSelector(state => state.product.phantramgiam);
+    const giakhuyenmai = useSelector(state => state.product.giakhuyenmai);
     const anhctsp = useSelector(state => state.product.anhctsp);
     useEffect(() => {
         async function setncc() {
@@ -279,6 +282,8 @@ export default function ChiTietSanPhamAdmin(props) {
                     'loai_san_pham_id': parseInt(formdata.loai_san_pham_id),
                     'so_luong': parseInt(formdata.so_luong),
                     'gia': parseInt(formdata.gia),
+                    'phan_tram_giam': parseInt(formdata.phan_tram_giam),
+                    'gia_khuyen_mai': parseInt(formdata.gia_khuyen_mai),
                     'ghi_chu': formdata.ghi_chu,
                     'trang_thai_id': parseInt(formdata.trang_thai_id),
                     'mo_ta': formdata.mo_ta,
@@ -328,6 +333,30 @@ export default function ChiTietSanPhamAdmin(props) {
                     <td >{item.phan_tram_giam}%</td>
                     <td >{item.gia_khuyen_mai}</td>
                     <td>
+                        <button className='btn btn-success ' type='button' style={{}} onClick={() => {
+                            dispatch(setiddungluong(item.dung_luong_id));
+                            dispatch(setidmausac(item.mau_sac_id));
+                            dispatch(setsoluong(item.so_luong));
+                            dispatch(setgiatien(item.gia));
+                            dispatch(setname(item.ten));
+                            dispatch(setphantramgiam(item.phan_tram_giam));
+                            dispatch(setgiakhuyenmai(item.gia_khuyen_mai));
+                            const getAPI = async () => {
+                                try {
+                                    const response = await axios.post(`http://127.0.0.1:8000/api/hinhanh/laydanhsach`, {
+                                        san_pham_id: item.san_pham_id,
+                                        mau_sac_id: item.mau_sac_id
+                                    });
+                                    dispatch(setanhctsp(response.data.ten));
+                                    setSelectedFile('http://127.0.0.1:8000/' + response.data.ten)
+                                    setshowSelectedOption(true);
+                                } catch (error) {
+                                    console.error('Error fetching data:', error);
+                                }
+                            };
+                            getAPI();
+                            dispatch(openpopupeditproductdetail())
+                        }}><FontAwesomeIcon icon={faEdit} /></button>
                         <button onClick={() => {
                             setDisableprice(!disabledprice);
                             console.log(item.dung_luong_id);
@@ -352,7 +381,7 @@ export default function ChiTietSanPhamAdmin(props) {
                             };
 
                             getAPI();
-                        }} type='button' className='btn btn-success' style={{ marginRight: '2%' }}><FontAwesomeIcon icon={faEdit} /></button>
+                        }} type='button' className='btn btn-success' style={{ marginRight: '2%' }}><FontAwesomeIcon icon={faPlus} /></button>
                         <button className="btn btn-danger" onClick={() => {
                             const Delete = async (id) => {
                                 var response = await fetch(`http://127.0.0.1:8000/api/ctsp/xoa-ctsp/${id}`);
@@ -497,13 +526,13 @@ export default function ChiTietSanPhamAdmin(props) {
         const getAPI = async () => {
             try {
                 dispatch(loadingmodal(true));
-                const response = await axios.post(`http://127.0.0.1:8000/api/nhaphang/capnhatproduct`, 
+                const response = await axios.post(`http://127.0.0.1:8000/api/nhaphang/capnhatproduct`,
                     formData
-                , {
-                    headers: {
-                        'Content-Type': 'multipart/form-data', // Set Content-Type là multipart/form-data
-                    },
-                });
+                    , {
+                        headers: {
+                            'Content-Type': 'multipart/form-data', // Set Content-Type là multipart/form-data
+                        },
+                    });
                 if (response.data.success) {
                     console.log('check è', response.data.files);
                     alert('done');
@@ -524,7 +553,9 @@ export default function ChiTietSanPhamAdmin(props) {
         }
         getAPI();
     }
-
+    useEffect(()=>{
+        dispatch(setgiakhuyenmai(((100-phantramgiam)*gia)/100));
+    },[phantramgiam,gia])
     return (
         <>
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
@@ -773,12 +804,26 @@ export default function ChiTietSanPhamAdmin(props) {
                                                     {/* </div> */}
                                                 </div>
                                                 {showprice && (
-                                                    <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
-                                                        {/* <div class="col-md-3"> */}
-                                                        <label for="Ten" className=""> Giá Tiền </label>
-                                                        <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem' }} type="number" min={0} value={gia} onChange={(e) => { dispatch(setgiatien(e.target.value)) }} required />
-                                                        {/* </div> */}
-                                                    </div>
+                                                    <>
+                                                        <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
+                                                            {/* <div class="col-md-3"> */}
+                                                            <label for="Ten" className=""> Giá Tiền </label>
+                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem' }} type="number" min={0} value={gia} onChange={(e) => { dispatch(setgiatien(e.target.value)) }} required />
+                                                            {/* </div> */}
+                                                        </div>
+                                                        <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
+                                                            {/* <div class="col-md-3"> */}
+                                                            <label for="Ten" className=""> nhập phần trăm giảm </label>
+                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem', width: '85%' }} type="number" min={0} max={100} value={phantramgiam} onChange={(e) => { dispatch(setphantramgiam(e.target.value)) }} required />
+                                                            {/* </div> */}
+                                                        </div>
+                                                        <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
+                                                            {/* <div class="col-md-3"> */}
+                                                            <label for="Ten" className=""> giá khuyến mãi </label>
+                                                            <input disabled style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem', width: '85%' }} type="number" min={0} max={100} value={giakhuyenmai} required />
+                                                            {/* </div> */}
+                                                        </div>
+                                                    </>
                                                 )}
 
                                                 <button type='submit' style={{ marginTop: '18px', height: '3rem' }} onClick={() => {
@@ -793,6 +838,8 @@ export default function ChiTietSanPhamAdmin(props) {
                                                         'mo_ta': mota,
                                                         'so_luong': parseInt(soluong),
                                                         'gia': parseInt(gia),
+                                                        'phan_tram_giam': parseInt(phantramgiam),
+                                                        'gia_khuyen_mai': parseInt(giakhuyenmai),
                                                         'ghi_chu': ghichu,
                                                         'requestSelectedFiles': requestSelectedFiles,
                                                         'requestSelectedFile': requestSelectedFile

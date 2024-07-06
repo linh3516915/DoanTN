@@ -12,6 +12,7 @@ export const cartSlice = createSlice({
   initialState: {
     items: [],
     totalPrice: 0,
+    totalCoupon: 0,
     totalQuantity: 0,
   },
   reducers: {
@@ -19,19 +20,22 @@ export const cartSlice = createSlice({
       state.items = [];
       state.totalQuantity = 0;
       state.totalPrice = 0;
+      state.totalCoupon= 0 ;
     },
     // addCart: (state, action) => {
     //   state.items.push(action.payload);
     // },
     addCart: (state, action) => {
-      const newItem = action.payload;
+      const newItem = action.payload.data;
       const existingItem = state.items.find(item => item.product.san_pham_id === newItem.san_pham_id && item.product.mau_sac_id === newItem.mau_sac_id && item.product.dung_luong_id === newItem.dung_luong_id);
 
       state.totalQuantity++;
       state.totalPrice = state.totalPrice + newItem.gia;
+      state.totalCoupon = state.totalCoupon + newItem.gia_khuyen_mai;
       if (!existingItem) {
         state.items.push({
           product: newItem,
+          img : action.payload.img,
           quantity: 1,
         });
       } else {
@@ -46,6 +50,7 @@ export const cartSlice = createSlice({
 
           state.totalQuantity=state.totalQuantity+ newItem.so_luong;
           state.totalPrice = state.totalPrice + newItem.ctsp.gia*newItem.so_luong;
+          state.totalCoupon = state.totalCoupon + newItem.ctsp.gia_khuyen_mai*newItem.so_luong;
           if (!existingItem) {
             state.items.push({
               product: newItem.ctsp,
@@ -65,6 +70,7 @@ export const cartSlice = createSlice({
       if (item) {
         state.totalQuantity = state.totalQuantity - item.quantity;
         state.totalPrice = state.totalPrice - item.quantity * item.product.gia;
+        state.totalCoupon = state.totalCoupon - item.product.gia_khuyen_mai *item.quantity;
       }
       else {
         alert('k co');
@@ -77,6 +83,7 @@ export const cartSlice = createSlice({
       item.quantity++;
       state.totalQuantity++;
       state.totalPrice = state.totalPrice + item.product.gia;
+      state.totalCoupon = state.totalCoupon + item.product.gia_khuyen_mai ;
     },
     decrease: (state, action) => {
       const newItem = action.payload;
@@ -85,11 +92,13 @@ export const cartSlice = createSlice({
         state.items = state.items.filter(item => item.product.san_pham_id !== newItem.san_pham_id && item.product.mau_sac_id !== newItem.mau_sac_id && item.product.dung_luong_id !== newItem.dung_luong_id);
         state.totalQuantity--;
         state.totalPrice = state.totalPrice - item.product.gia;
+        state.totalCoupon = state.totalCoupon - item.product.gia_khuyen_mai ;
       }
       else {
         item.quantity--;
         state.totalQuantity--;
         state.totalPrice = state.totalPrice - item.product.gia;
+        state.totalCoupon = state.totalCoupon - item.product.gia_khuyen_mai ;
       }
     }
   },

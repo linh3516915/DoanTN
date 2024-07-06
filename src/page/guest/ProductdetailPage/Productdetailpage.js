@@ -46,7 +46,6 @@ export default function ProductDetailPage() {
                     dispatch(getdungluong(response.data.dung_luong));
                     dispatch(getlistvote(response.data));
                     dispatch(getinfoproductdetail(response.data.data_noi_dung));
-                    
                     dispatch(addRecently(response.data.data));
                     console.log('API Response:', response.data.data);
                 } catch (error) {

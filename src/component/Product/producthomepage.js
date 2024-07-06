@@ -31,7 +31,8 @@ export default function ProductHomePage() {
         producthomepage = listproductdetail.map((item, index) => {
             if (index > 0 && index <= 8) {
                 return (
-                    <CardProductDetail data={item} />
+                    <CardProductDetail data={item.data}
+                    img = {item.image}/>
                 );
             }
         })

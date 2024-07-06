@@ -10,7 +10,7 @@ import img from '../../assets/ảnh/tải xuống (1).jpg';
 import PopupOTP from '../PopupOTP/popupOTP';
 import Search from '../../component/SearchProduct/search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faCartArrowDown, faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import InputSearch from '../Search/inputsearch';
 import LoadingSpinnerModal from '../../component/LoadingSpinnerModal/LoadingSpinnerModal';
 import PopupComment from '../../component/Productdetail/Commentandvote/popupcomment/popupcomment';
@@ -20,40 +20,67 @@ import axios from 'axios';
 import { setCart } from '../../redux/slice/cartSlice';
 import Modal from 'react-modal';
 import PopupPay from '../PopupPay/popuppay';
+import PopupEditproductdetail from '../Popupeditproductdetail/popupeditproductdetail';
 export default function Header(props) {
     const auth = useSelector(state => state.auth.authentication);
     const isAdmin = useSelector(state => state.auth.isAdmin);
     const users_id = useSelector(state => state.auth.user.id);
     const [activeShop, setActiveShop] = useState(false);
     console.log('auth', auth);
+    const totalcoupon = useSelector(state => state.cart.totalCoupon);
     const isloadingmodal = useSelector(state => state.filter.loading);
     const items = useSelector(state => state.cart.items);
     const token = useSelector(state => state.auth.token);
+    const totalQuantity = useSelector(state => state.cart.totalQuantity);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const logout = () => {
         console.log('checkcart', items);
 
         const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/auth/logout', {
-                'data': items,
-                'user_id': users_id,
-            }, {
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: `bearer ${token}`
+            if (isAdmin) {
+                const response = await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+                    'data': [],
+                    'user_id': users_id,
+                }, {
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `bearer ${token}`
+                    }
+                });
+                if (response.data.success) {
+                    dispatch(setCart());
+                    dispatch(Logout());
+                    dispatch(isadmin(false));
+                    dispatch(gettokentorun(''));
+                    navigate('/');
                 }
-            });
-            if (response.data.success) {
-                dispatch(setCart());
-                dispatch(Logout());
-                dispatch(isadmin(false));
-                dispatch(gettokentorun(''));
-                navigate('/');
+                else {
+                    alert('lỗi');
+                }
             }
             else {
-                alert('lỗi');
+                const response = await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+                    'data': items,
+                    'user_id': users_id,
+                }, {
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `bearer ${token}`
+                    }
+                });
+                if (response.data.success) {
+                    dispatch(setCart());
+                    dispatch(Logout());
+                    dispatch(isadmin(false));
+                    dispatch(gettokentorun(''));
+                    navigate('/');
+                }
+                else {
+                    alert('lỗi');
+                }
             }
+
         }
         getAPI();
     }
@@ -87,7 +114,7 @@ export default function Header(props) {
             <PopupComment chi_tiet_san_pham_id={props.id} />
             <PopupOTP />
             <PopupLogin />
-            <PopupPay/>
+            <PopupPay />
             {isloadingmodal && (<LoadingSpinnerModal />)}
             <div className="site-branding-area">
                 <div className="container">
@@ -102,7 +129,7 @@ export default function Header(props) {
 
                         <div className="col-sm-6">
                             <div className="shopping-item">
-                                <a href="cart.html">Cart - <span className="cart-amunt">$800</span> <i className="fa fa-shopping-cart"></i> <span className="product-count">5</span></a>
+                                <a href="/cart"><FontAwesomeIcon icon={faCartArrowDown} /> - <span className="cart-amunt">{totalcoupon.toLocaleString('en-us')}</span> <i className="fa fa-shopping-cart"></i> <span className="product-count">{totalQuantity}</span></a>
                             </div>
                         </div>
                     </div>

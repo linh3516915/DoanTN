@@ -56,7 +56,7 @@ function App() {
         <Route path='/login' element={auth ? <Navigate to ='/' />:<Login/>} />
         <Route path='/signup' element={auth ?  <Navigate to ='/' />:<SignUp/>} />
         <Route path='/shop' element={<Shop />} />
-        <Route path='/cart' element={ <CartPage />} />
+        <Route path='/cart' element={isadmin ?<Navigate to ='/' />: <CartPage />} />
         <Route path='/productdetail' element={<ProductDetailPage />} />
         {/* <Route path='/productdetail/:id' element={<ProductDetailPage />} /> */}
         

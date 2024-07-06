@@ -31,8 +31,8 @@ function OtherInfo() {
             return (
                 <>
                     <div className="single-wid-product">
-                        <a href={`productdetail/${item.id}`}><img src={img} alt="" className="product-thumb" /></a>
-                        <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.ten}</a></p>
+                        <a href={`productdetail/${item.id}`}><img src={item.image} alt="" className="product-thumb" /></a>
+                        <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.data.ten}</a></p>
                         {/* <div className="product-wid-rating">
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
@@ -40,9 +40,9 @@ function OtherInfo() {
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
                         </div> */}
-                        <Star so_sao={item.so_sao}/>
+                        <Star so_sao={item.data.so_sao}/>
                         <div className="product-wid-price">
-                            <ins>{item.gia.toLocaleString('en-us')} VNĐ</ins> <del>$425.00</del>
+                            <ins>{item.data.gia.toLocaleString('en-us')} VNĐ</ins> <del>$425.00</del>
                         </div>
                     </div>
                 </>
@@ -82,11 +82,11 @@ function OtherInfo() {
             return (
                 <>
                     <div className="single-wid-product">
-                        <a href={`productdetail/${item.id}`}><img src={img} alt="" className="product-thumb" /></a>
-                        <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.ten}</a></p>
-                        <Star so_sao={item.so_sao}/>
+                        <a href={`productdetail/${item.id}`}><img src={item.image} alt="" className="product-thumb" /></a>
+                        <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.data.ten}</a></p>
+                        <Star so_sao={item.data.so_sao}/>
                         <div className="product-wid-price">
-                            <ins>{item.gia.toLocaleString('en-us')} VND</ins> <del>$425.00</del>
+                            <ins>{item.data.gia.toLocaleString('en-us')} VND</ins> <del>$425.00</del>
                         </div>
                     </div>
                 </>

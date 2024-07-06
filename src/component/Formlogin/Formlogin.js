@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from "react-intersection-observer";
 import { loadingmodal } from "../../redux/slice/filterSlice";
-import { addCartUser } from "../../redux/slice/cartSlice";
+import { addCartUser, setCart } from "../../redux/slice/cartSlice";
 export default function FormLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -50,6 +50,7 @@ export default function FormLogin() {
                         }
                     else {
                         dispatch(getuser(user.data.data_user));
+                        dispatch(setCart());
                         dispatch(isadmin(true))
                     }
                     dispatch(getuser(user.data));
