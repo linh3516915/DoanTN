@@ -29,8 +29,9 @@ class APISanPhamController_Admin extends Controller
                 'success' =>true,
                 'data'    =>$data
             ]);
+        }
     // them moi    
-    }public function themSanPham(Request $request){
+    public function themSanPham(Request $request){
     
         if(empty($request->addtensp)||empty($request->addncc)||empty($request->addloaisp))
         {
@@ -59,6 +60,22 @@ class APISanPhamController_Admin extends Controller
             'message' => "thêm sản phẩm thành công!! "
         ]);
     }
+    public function timKiemSanPham($ten)
+{
+    $sanPham = SanPham_Admin::where('ten', 'like', '%' . $ten . '%')->get();
+    
+    if ($sanPham->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'message' => "Không tìm thấy sản phẩm"
+        ], 404);
+    }
+    
+    return response()->json([
+        'success' => true,
+        'data'    => $sanPham
+    ]);
+}
      //d.cập nhật
      public function capNhat(Request $request,$id)
      {

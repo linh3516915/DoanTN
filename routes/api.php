@@ -160,12 +160,14 @@ Route::group([
 ], function ($router) {
 
     Route::get('tongdai-admin', [APISoTongDaiController_Admin::class, 'danhSach']);
-    
+    Route::post('themmoi-tongdai', [APISoTongDaiController_Admin::class, 'themSoTongDai']);
+    Route::post('capnhat-tongdai/{id}', [APISoTongDaiController_Admin::class, 'capNhatTongDai']);
+    Route::get('xoa-tongdai/{id}', [APISoTongDaiController_Admin::class, 'xoaTongDai']);
 });
 Route::group([
     'prefix' => 'sanpham'
 ], function ($router) {
-
+    Route::get('timkiem-sanpham/{ten}', [APISanPhamController_Admin::class, 'timKiemSanPham']);
     Route::get('sanpham-admin', [APISanPhamController_Admin::class, 'danhSach']);
     Route::post('themmoi-sanpham', [APISanPhamController_Admin::class, 'themSanPham']);
     Route::post('capnhat-sanpham/{id}', [APISanPhamController_Admin::class, 'capNhat']);
@@ -258,7 +260,7 @@ Route::group([
     'prefix' => 'hinhanh'
 ], function ($router) {
 
-    Route::get('hinhanh-admin', [APIHinhAnhController_Admin::class, 'danhSach']);
+    Route::get('hinhanh-admin/{id}', [APIHinhAnhController_Admin::class, 'danhSach']);
     Route::post('themmoi-hinhanh', [APIHinhAnhController_Admin::class, 'themHinhAnh']);
     Route::post('capnhat-hinhanh/{id}', [APIHinhAnhController_Admin::class, 'capNhatHinhAnh']);
     // Route::get('xoa-ctch/{id}', [APIChiTietCauHinhController_Admin::class, 'xoa']);
