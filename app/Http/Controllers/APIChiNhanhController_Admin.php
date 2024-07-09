@@ -13,8 +13,8 @@ class APIChiNhanhController_Admin extends Controller
             'data' => $chinhanh,
         ]);
     }
-    public function themMoi(){
-        if(empty($request->ten_chi_nhanh))
+    public function themMoi(Request $request){
+        if(empty($request->tenchinhanh))
         {
             return response()->json([
                 'success' => -1,
@@ -26,7 +26,7 @@ class APIChiNhanhController_Admin extends Controller
         if(!empty($chinhanh->ten_chi_nhanh)){
             return response()->json([
                 'success'=> 0,
-                'message'=> "Màu Sắc: ($request->tenchinhanh) đã tồn tại!!"        
+                'message'=> "Chi nhánh: ($request->tenchinhanh) đã tồn tại!!"        
             ]);
         }
         #tao moi

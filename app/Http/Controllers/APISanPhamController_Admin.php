@@ -9,11 +9,22 @@ use App\Models\LoaiSanPham_Admin;
 use App\Models\ChiTietSanPham_Admin;
 class APISanPhamController_Admin extends Controller
 {
+    public function soluongSP(){
+        try {
+            // Đếm số lượng sản phẩm
+            $sanpham = SanPham_Admin::count();
+            return response()->json(['count' => $sanpham], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
     //laydanhsach
     public function danhSach(){
         $dsSanPham = SanPham_Admin::all();
         $data=[];
+        $data1=[];
             $length=count($dsSanPham);
+            
             for($i=0;$i<$length;$i++)
             {
                 $NhaCungCap=NhaCungCap_Admin::where('id',$dsSanPham[$i]->nha_cung_cap_id)->first();
@@ -21,16 +32,22 @@ class APISanPhamController_Admin extends Controller
                 $SanPham =new SanPham_Admin();
                 $SanPham->id=$dsSanPham[$i]->id;
                 $SanPham->ten=$dsSanPham[$i]->ten;
+                $SanPham->nha_cung_cap_id = $NhaCungCap->id;
+                $SanPham->loai_san_pham_id = $LoaiSanPham->id;
+                $SanPham->trang_thai_id = $dsSanPham[$i]->trang_thai_id;
+                 $SanPham->mo_ta = $dsSanPham[$i]->mota;
                 $SanPham->nha_cung_cap_ten = $NhaCungCap->ten;
                 $SanPham->loai_san_pham_ten = $LoaiSanPham->ten_loai;
                 array_push($data,$SanPham);
             }
+            
             return response()->json([
                 'success' =>true,
-                'data'    =>$data
+                'data'    =>$data,
             ]);
-        }
     // them moi    
+    }
+    
     public function themSanPham(Request $request){
     
         if(empty($request->addtensp)||empty($request->addncc)||empty($request->addloaisp))
@@ -60,22 +77,6 @@ class APISanPhamController_Admin extends Controller
             'message' => "thêm sản phẩm thành công!! "
         ]);
     }
-    public function timKiemSanPham($ten)
-{
-    $sanPham = SanPham_Admin::where('ten', 'like', '%' . $ten . '%')->get();
-    
-    if ($sanPham->isEmpty()) {
-        return response()->json([
-            'success' => false,
-            'message' => "Không tìm thấy sản phẩm"
-        ], 404);
-    }
-    
-    return response()->json([
-        'success' => true,
-        'data'    => $sanPham
-    ]);
-}
      //d.cập nhật
      public function capNhat(Request $request,$id)
      {

@@ -35,6 +35,11 @@ class APIChiTietSanPhamController_Admin extends Controller
                 // $ram=Ram_Admin::where('id',$dsChiTietSanPham[$i]->ram_id)->first();
                 $ctsp =new ChiTietSanPham_Admin();
                 $ctsp->ten=$dsChiTietSanPham[$i]->ten;
+                $ctsp->dung_luong_id=$dsChiTietSanPham[$i]->dung_luong_id;
+                $ctsp->mau_sac_id=$dsChiTietSanPham[$i]->mau_sac_id;
+                $ctsp->san_pham_id=$dsChiTietSanPham[$i]->san_pham_id;
+                $ctsp->gia_khuyen_mai=$dsChiTietSanPham[$i]->gia_khuyen_mai;
+                $ctsp->phan_tram_giam=$dsChiTietSanPham[$i]->phan_tram_giam;
                 $ctsp->san_pham_ten = $sanpham->ten;
                 $ctsp->dung_luong_ten = $dungluong->kich_thuoc;
                 $ctsp->mau_sac_ten = $mausac->ten_mau_sac;

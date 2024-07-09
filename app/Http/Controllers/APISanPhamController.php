@@ -5,12 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SanPham;
+use App\Models\HinhAnhSanPham;
 use Carbon\Carbon;
 class APISanPhamController extends Controller
 {
     public function Listproduct(){
         $product = SanPham::all();
         return response() -> json($product);
+    }
+    public function product($id){
+        $product = SanPham::find($id);
+        $hinhanhsanpham = HinhAnhSanPham::where('san_pham_id',$id)->get();
+        return response() -> json([
+            'data' => $product,
+            'hinhanhsanpham' => $hinhanhsanpham
+        ]);
     }
     public function themmoi(Request $rq){
         $dt = Carbon::now('Asia/Ho_Chi_Minh');

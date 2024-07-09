@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\GioHang;
 use App\Models\ChiTietSanPham;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 class AuthController extends Controller
 {
     public function __construct()
@@ -76,28 +77,43 @@ class AuthController extends Controller
     public function logout(Request $rq)
     {
         
-        if($rq->data != []){
-            $giohang= GioHang::where('users_id',$rq->user_id)->get();
-            if(count($giohang)>0){
-                $giohang->each->delete();
-            }
+            $dt =  Carbon::now('Asia/Ho_Chi_Minh');
+            $giohangs= GioHang::where('users_id',$rq->user_id)->delete();
+            // foreach($giohangs as $giohang)
+            // {
+            //     $giohang2 = GioHang::where('users_id',$rq->user_id)->get();
+            //     foreach($giohang2 as $gio){
+
+            //     }
+                
+            // }
+            // return response()->json([
+            //     'success' => true,  
+            //     'message' => 'Successfully logged out',
+            //     'data' =>$giohangs
+            // ]);
             for ($i = 0 ; $i<count($rq->data);$i++) {
-                $cart= new GioHang();
-                $cart -> users_id = $rq->user_id;
-                $cart->san_pham_id = $rq->data[$i]['product']['san_pham_id'];
-                $cart ->mau_sac_id = $rq->data[$i]['product']['mau_sac_id'];
-                $cart->dung_luong_id = $rq->data[$i]['product']['dung_luong_id'];
-                $cart->so_luong = $rq->data[$i]['quantity'];    
-                $cart->trang_thai = 0 ;
-                $cart->save();
-            }
+                // $checkgio = GioHang::where('users_id',$rq->user_id)
+                // ->where('san_pham_id',$rq->data[$i]['product']['san_pham_id'])
+                // ->where('dung_luong_id',$rq->data[$i]['product']['dung_luong_id'])
+                // ->where('mau_sac_id',$rq->data[$i]['product']['mau_sac_id'])->delete();
+                    $cart= new GioHang();
+                    $cart -> users_id = $rq->user_id;
+                    $cart->san_pham_id = $rq->data[$i]['product']['san_pham_id'];
+                    $cart ->mau_sac_id = $rq->data[$i]['product']['mau_sac_id'];
+                    $cart->dung_luong_id = $rq->data[$i]['product']['dung_luong_id'];
+                    $cart->so_luong = $rq->data[$i]['quantity'];    
+                    $cart->trang_thai = 0 ;
+                    $cart->save();
+                }
+            //    else{
+            //     $checkgio->update([
+            //         'so_luong' => GioHang::raw($rq->data[$i]['quantity']),
+            //         'updated_at' => $dt,
+            //     ]);
+            //    }
+            // }
             auth()->logout();
-        return response()->json([
-            'success' => true,  
-            'message' => 'Successfully logged out'
-        ]);
-        }
-        auth()->logout();
         return response()->json([
             'success' => true,  
             'message' => 'Successfully logged out'

@@ -9,31 +9,49 @@ use App\Models\ChiTietDonHang;
 use App\Models\SanPham;
 use App\Models\DungLuong;
 use App\Models\MauSac;
-
+use App\Models\BinhLuanDanhGia;
+use App\Models\NoiDungSanPham;
+use App\Models\HinhAnhNoiDungSanPham;
+use App\Models\HinhAnh;
 class APIChiTietSanPhamController extends Controller
 {
     public function Listproductdetails(){
         $products = SanPham::all();
         $data = [];
+        $data2 = [];
         for($i=0; $i<count($products);$i++){
             $productdetail = ChiTietSanPham::where('san_pham_id',$products[$i]->id)->first();
             if($productdetail != null){
                 array_push($data,$productdetail);
             }
         }
+        foreach ($data as $ctsp) {
+            $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+            array_push($data2,[
+                'data' => $ctsp,
+                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+            ]);
+        }
+        return response()->json([
+            'data' => $data2,
+        ]);
+    }
+    public function Listproductdetail(Request $rq){
+        $data=[];
+        $productdetail = ChiTietSanPham::where('san_pham_id',$rq->id_product)->get();
+        foreach ($productdetail as $ctsp) {
+            $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+            array_push($data,[
+                'data' => $ctsp,
+                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+            ]);
+        }
         return response()->json([
             'data' => $data,
         ]);
     }
-    public function Listproductdetail(Request $rq){
-        $productdetail = ChiTietSanPham::where('san_pham_id',$rq->id_product)->get();
-        return response()->json([
-            'data' => $productdetail,
-        ]);
-    }
     public function productdetail(Request $rq){
-        // $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
-        $productdetail = ChiTietSanPham::whereRaw('LOWER(ten) = LOWER(?)', [$rq->ten])->first();
+         $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
         $ncc = SanPham::find($productdetail->san_pham_id);
         $mau_sac =   ChiTietSanPham::where('san_pham_id',$productdetail->san_pham_id)->groupBy('mau_sac_id')->select('mau_sac_id')->get();
         $datamausac =[];
@@ -47,12 +65,87 @@ class APIChiTietSanPhamController extends Controller
             $dl = DungLuong::find($dung_luong[$i]->dung_luong_id);
             array_push($datadungluong,$dl);
         }
-        return response()->json([
-            'data' => $productdetail,
-            'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
-            'mau_sac' => $datamausac,
-            'dung_luong' => $datadungluong ,
-        ]);
+        $votes = BinhLuanDanhGia::where('san_pham_id',$productdetail->san_pham_id)->where('mau_sac_id',$productdetail->mau_sac_id)
+        ->where('dung_luong_id',$productdetail->dung_luong_id)->get();
+        $votetest = BinhLuanDanhGia::where('san_pham_id',$productdetail->san_pham_id)->where('mau_sac_id',$productdetail->mau_sac_id)
+        ->where('dung_luong_id',$productdetail->dung_luong_id)->first();
+        $test = BinhLuanDanhGia::where('san_pham_id',$productdetail->san_pham_id)->where('mau_sac_id',$productdetail->mau_sac_id)
+        ->where('dung_luong_id',$productdetail->dung_luong_id)->groupBy('so_sao')
+        ->select('so_sao', \DB::raw('COUNT(so_sao) as so_luong_sao'))->get();
+        $comment = BinhLuanDanhGia::where('san_pham_id',$productdetail->san_pham_id)->where('mau_sac_id',$productdetail->mau_sac_id)
+        ->where('dung_luong_id',$productdetail->dung_luong_id)->get();
+        $star = [5,4,3,2,1];
+        $data = [];
+        $tong = 0;
+        foreach($star as $item){
+            $vote = $test->firstWhere('so_sao', $item);
+            if($vote){
+                $tong = $tong+  $vote->so_luong_sao * $item;
+            }
+          
+            $phantram = ($vote ? ($vote->so_luong_sao*100)/count($votes) : 0);
+            array_push($data,[
+                'so_sao' => $item,
+                'phan_tram_sao' =>number_format(round($phantram)),
+            ]);
+        }
+        $info = NoiDungSanPham::where('san_pham_id',$productdetail->san_pham_id)->get();
+        $datanoidung=[];
+        for($i= 0 ; $i<count($info);$i++){
+            $image = HinhAnhNoiDungSanPham::where('noi_dung_san_pham_id' , $info[$i]->id)->get();
+            array_push($datanoidung,[
+                'noi_dung_san_pham' => $info[$i],
+                'hinh_anh_noi_dung' => $image,
+            ]);
+        }
+        $sp = SanPham::where('nha_cung_cap_id', $ncc->nha_cung_cap_id)->get();
+        $datarelated=[];
+            foreach($sp as $item){
+                $ctsp = ChiTietSanPham::where('san_pham_id', $item->id)->first();
+                if(!empty($ctsp)){
+                    if( $ctsp->dung_luong_id != $productdetail->dung_luong_id && $ctsp->mau_sac_id != $productdetail->mau_sac_id){
+                        array_push($datarelated,$ctsp);
+                    }
+                }
+            }
+            // return response() -> json([
+            //     'data_relatedproduct' => $datarelated,   
+            // ]);
+        
+        if(!empty($votetest)){
+            return response()->json([
+                'data' => $productdetail,
+                'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
+                'mau_sac' => $datamausac,
+                'dung_luong' => $datadungluong ,
+                'data_listvote' => $data,
+                'tong_danh_gia'=>count($votes),
+                 'tong_phan_tram_sao' =>number_format(round(($tong/count($votes)),1),1),
+                 'data_comment' => $comment,
+                 'data_noi_dung' => $datanoidung,
+                 'data_relatedproduct' => $datarelated, 
+            ]);
+        }
+        else{
+            return response()->json([
+                'data' => $productdetail,
+                'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
+                'mau_sac' => $datamausac,
+                'dung_luong' => $datadungluong ,
+                'data_listvote' => $data,
+                'tong_danh_gia'=>count($votes), 
+                'tong_phan_tram_sao' =>$tong,
+                'data_comment' => null,
+                'data_noi_dung' => $datanoidung,
+                'data_relatedproduct' => $datarelated, 
+            ]);
+        }
+        // return response()->json([
+        //     'data' => $productdetail,
+        //     'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
+        //     'mau_sac' => $datamausac,
+        //     'dung_luong' => $datadungluong ,
+        // ]);
     }
     public function listdungluong(Request $rq){
         $dungluong = ChiTietSanPham::where('san_pham_id',$rq->san_pham_id)->get();
@@ -135,29 +228,45 @@ class APIChiTietSanPhamController extends Controller
         ]);
      }
    public function findproductdetail(Request $rq){
+         $data= [];
         $ctsp = ChiTietSanPham::where('san_pham_id',$rq->san_pham_id)->where('mau_sac_id',$rq->mau_sac_id)->where('dung_luong_id',$rq->dung_luong_id)->first();
-        return response()->json([
+        
+        $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+        array_push($data,[
             'data' => $ctsp,
+            'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+        ]);
+        return response()->json([
+            'data' => $data,
         ]);
     }
     
     public function top8hottrending(){
         $productdetail = ChiTietSanPham::where('luot_thich' ,'>',0)->orderBy('luot_thich' , 'desc')->get();
         $data = [];
+        $data2 = [];
         for($i = 0;$i<count($productdetail);$i++){
             if($i<16 )
             {
                 array_push($data,$productdetail[$i]);
             }
         }
+        foreach ($data as $ctsp) {
+            $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+            array_push($data2,[
+                'data' => $ctsp,
+                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+            ]);
+        }
         return response()->json([
-            'data' => $data,
+            'data' => $data2,
             
         ]);
     }
     public function latesproduct(){
         $products = SanPham::orderBy('created_at', 'desc')->get();
         $data = [];
+        $data2 = [];
         for($i = 0 ; $i<count($products); $i++)
         {
             $ctsp = ChiTietSanPham::where('san_pham_id', $products[$i]->id)->first();
@@ -167,45 +276,61 @@ class APIChiTietSanPhamController extends Controller
             }
             
         }
+        foreach ($data as $ctsp) {
+            $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+            array_push($data2,[
+                'data' => $ctsp,
+                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+            ]);
+        }
         return response()->json([
-            'data' => $data ,
+            'data' => $data2 ,
             'result' => count($data)
         ]);
     }
     public function topseller(){
         $product = ChiTietDonHang::all();
         $data=[];
+        $data2= [];
         if(count($product)>0){
-            $products = ChiTietDonHang::groupBy('chi_tiet_san_pham_id')
-            ->select('chi_tiet_san_pham_id', \DB::raw('SUM(so_luong_mua) as total_quantity'))
+            $products = ChiTietDonHang::groupBy('san_pham_id','mau_sac_id','dung_luong_id')
+            ->select('san_pham_id','mau_sac_id','dung_luong_id', \DB::raw('SUM(so_luong_mua) as total_quantity'))
             ->orderBy('total_quantity' ,'desc')
             ->get();
           
     
                 for($i = 0; $i<count($products) ;$i++)
                 {
-                    $ctsp = ChiTietSanPham::find($products[$i]->chi_tiet_san_pham_id);
+                    // $ctsp = ChiTietSanPham::find($products[$i]->chi_tiet_san_pham_id);
+                    $ctsp = ChiTietSanPham::where('san_pham_id',$products[$i]->san_pham_id)->where('mau_sac_id',$products[$i]->mau_sac_id)->where('dung_luong_id',$products[$i]->dung_luong_id)->first();
                     // $ctdh = [
                     //     'chi_tiet_san_pham' => $ctsp,
                     //     'so_luong_mua' => $products[$i]->total_quantity,
                     // ];
                     array_push($data,$ctsp);
+                    
+                    
+                }
+                foreach ($data as $ctsp) {
+                    $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+                    array_push($data2,[
+                        'data' => $ctsp,
+                        'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                    ]);
                 }
                 return response()->json([
-                    'data' => $data,
+                    'data' => $data2,
                     'result' => count($data)
                 ]);
         }
-        
-        
         return response()->json([
-            'data' => $data
+            'data' => $data2
         ]);
     }
     public function search(Request $rq){
         if($rq->ten !='')
         {
-            $ctsp = ChiTietSanPham::where('ten','like','%'.$rq->ten.'%')->get();
+            $ctsps = ChiTietSanPham::where('ten','like','%'.$rq->ten.'%')->get();
             // $data = [];
             // for($i=0; $i<count($ctsp);$i++){
             //     $productdetail = ChiTietSanPham::where('san_pham_id',$ctsp[$i]->id)->first();
@@ -214,9 +339,17 @@ class APIChiTietSanPhamController extends Controller
             //     }
                 
             // }
+            $data= [];
+                foreach ($ctsps as $ctsp) {
+                    $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+                    array_push($data,[
+                        'data' => $ctsp,
+                        'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                    ]);
+                }
             return response()->json([
-                'result' => count($ctsp),
-                 'data' => $ctsp,
+                'result' => count($ctsps),
+                 'data' => $data,
                 
             ]);
         }
@@ -241,10 +374,19 @@ class APIChiTietSanPhamController extends Controller
             }
             if($rq->giatu < $rq->giaden){
                 $productdetail = ChiTietSanPham::where('gia','>',$rq->giatu)->where('gia','<=',$rq->giaden)->get();
+                $data= [];
+                foreach ($productdetail as $ctsp) {
+                    $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+                    array_push($data,[
+                        'data' => $ctsp,
+                        'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                    ]);
+                }
                 return response()->json([
                     'result' => count($productdetail),
-                    'data' => $productdetail,
+                    'data' => $data,
                     'success' => true,
+                    // 'image' => 
                 ]);
             }
             else{
@@ -257,17 +399,17 @@ class APIChiTietSanPhamController extends Controller
     }
     public function relatedproduct(Request $rq){
         $sp = SanPham::where('nha_cung_cap_id', $rq->nha_cung_cap_id)->get();
-        $data=[];
+        $datarelated=[];
             foreach($sp as $item){
                 $ctsp = ChiTietSanPham::where('san_pham_id', $item->id)->first();
                 if(!empty($ctsp)){
-                    if( $ctsp->id != $rq->id){
-                        array_push($data,$ctsp);
+                    if( $ctsp->dung_luong_id != $productdetail->dung_luong_id && $ctsp->mau_sac_id != $productdetail->mau_sac_id){
+                        array_push($datarelated,$ctsp);
                     }
                 }
             }
             return response() -> json([
-                'data' => $data,   
+                'data' => $datarelated,   
             ]);
         
         return response() -> json([
