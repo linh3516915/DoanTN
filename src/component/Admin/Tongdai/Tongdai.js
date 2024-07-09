@@ -1,4 +1,15 @@
+import { useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+
 export default function Tongdai(props) {
+    const { id } = useParams();
+    const DeleteTongDai = async(id) => {
+            var response = await fetch(`http://127.0.0.1:8000/api/tongdai/xoa-tongdai/${id}`);
+            var json = await response.json();
+            alert('Xóa tổng đài thành công');
+            window.location.reload('/tongdai-admin');
+            
+    };
     return (
         <>
             <tr>
@@ -7,6 +18,10 @@ export default function Tongdai(props) {
                 <td>{props.data.so_dien_thoai}</td>
                 <td>{props.data.gio_bat_dau_hoat_dong}</td>
                 <td>{props.data.gio_ket_thuc_hoat_dong}</td>
+                <td>
+                    <NavLink className="btn btn-secondary" to={`/capnhat-tongdai/${props.data.id}`}>Cập nhật</NavLink> ||
+                    <button className="btn btn-secondary"  onClick={() => {DeleteTongDai(props.data.id)}}>Xóa</button>
+                </td>
             </tr>
         </>
     );

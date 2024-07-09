@@ -27,7 +27,7 @@ export default function TaskbarAdmin() {
                 </div>
             </nav> */}
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{ width: '20%', height: '45rem' }} >
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32"></svg>
                     <span class="fs-4">Sidebar</span>
                 </a>
@@ -36,7 +36,6 @@ export default function TaskbarAdmin() {
                     <li>  <NavLink to="/sanpham-admin" className="nav-link  text-white" >Sản Phẩm</NavLink></li>
                     <li>  <NavLink to="/nhacungcap-admin" className="nav-link  text-white" >Nhà cung cấp</NavLink></li>
                     <li>  <NavLink to="/loaisanpham-admin" className="nav-link  text-white" >Loại sản phẩm</NavLink></li>
-                    <li>  <NavLink to="/hinhanh-admin" className="nav-link  text-white" >Hình Ảnh</NavLink></li>
                     <li>  <NavLink to="/slideshow-admin" className="nav-link  text-white" >SlideShow</NavLink></li>
                     <li>  <NavLink to="/chinhanh-admin" className="nav-link  text-white" >Chi Nhánh</NavLink></li>
                     <li>  <NavLink to="/tongdai-admin" className="nav-link  text-white" >Tổng Đài</NavLink></li>

@@ -33,7 +33,7 @@ export default function Tongdai_Admin(props){
                             <h1 className="h2">DANH SÁCH TỔNG ĐÀI</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group me-2">
-                                <a href="" class="btn btn-sm btn-outline-secondary">Thêm Mới</a>
+                                <a href="/themmoi-tongdai" class="btn btn-sm btn-outline-secondary">Thêm Mới</a>
                                 </div>
                             
                             </div>
