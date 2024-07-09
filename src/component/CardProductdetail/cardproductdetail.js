@@ -84,7 +84,7 @@ export default function CardProductDetail(props) {
             <div style={{ marginBottom: '0rem', width: '20%', border: '1px solid rgb(223 223 223)' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
 
                 <div className={`${styles['item']}  `}>
-                    {auth && !isadmin&& (
+                    {auth && !isadmin && (
                         <button className={`btn btn-primary ${styles['favotrite']}`} style={{ fontSize: '0.75rem', marginBottom: '1rem' }}><FontAwesomeIcon icon={faBookmark} /></button>
                     )}
                     <div onClick={() => { movepageproductdetail(props.data.ten, props.data); }} className={`${styles['item-content']}  `}>
@@ -93,7 +93,10 @@ export default function CardProductDetail(props) {
                                 <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
                             )}
                             {props.data.phan_tram_giam != 0 && (
-                                <img className={`${styles['img-sticker-sale']}`} src={imgsale} />
+                                <div className={`${styles['img-sticker-sale']}`}>
+                                    <img  src={imgsale} />
+                                </div>
+
                             )}
                             <img src={props.img} className={`${styles['img-product']}`} />
                         </div>

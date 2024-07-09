@@ -13,22 +13,27 @@ export default function FormPay(props) {
     const { ref: refPopupOTP, inView: inViewPopupOTP } = useInView({
         threshold: 0 
       });
-      const [btnconfirm,setBtnconfirm] = useState(true);
-      const [btnconfirm2,setBtnconfirm2] = useState(true);
       const [btnconfirmcash,setBtnconfirmcash] = useState(false);
       const [btnconfirmmomo,setBtnconfirmomo] = useState(false);
       const btncash = () =>{
-        setBtnconfirm(btnconfirm2);setBtnconfirm2(!btnconfirm2);
         setBtnconfirmcash(true);
         setBtnconfirmomo(false);
       }
       const btnmomo = () =>{
-        setBtnconfirm2(!btnconfirm);setBtnconfirm(btnconfirm);
         setBtnconfirmcash(false);
         setBtnconfirmomo(true);
       }
     const dispatch = useDispatch();
+    const confirm = (btnconfirmcash,btnconfirmmomo)=>{
+        if(btnconfirmcash){
+            
+        }
+        if(btnconfirmmomo){
+
+        }
+    }
     console.log(btnconfirmcash,btnconfirmmomo);
+
     return (
         <div ref={refPopupOTP} className={`${styles['otp-input']}  ${inViewPopupOTP ? 'animation-from-top' : ''}`} >
             <button className='btn btn-outline-danger' style={{ position: 'absolute', right: '1px', top: '1px' }} onClick={() => {
@@ -50,7 +55,7 @@ export default function FormPay(props) {
                 </div>
             </div>
             <button onClick={() => {
-                
+                confirm(btnconfirmcash,btnconfirmmomo);
             }} disabled={(btnconfirmcash== false && btnconfirmmomo ==false)||(btnconfirmcash== true && btnconfirmmomo ==true)} style={{ backgroundColor: '#1abc9c', color: 'white', width: '100%', height: '48%', borderRadius: '12px', fontSize: '1.5rem' }} className='btn '>Xác Nhận</button>
 
             {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}>

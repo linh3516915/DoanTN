@@ -10,7 +10,8 @@ const initialState = {
     loadingcomponent : false,
     checkedAll: false,
     checkedTopseller: false,
-    checkedNew: false
+    checkedNew: false,
+    image : '',
 }
 
 export const filterSlice = createSlice({
@@ -26,9 +27,11 @@ export const filterSlice = createSlice({
             state.result = actions.payload.result;
         },
         searchProductdetailInHeader: (state, actions) => {
+            console.log('serach : ',actions.payload)
             if (actions.payload != null) {
                 state.result = actions.payload.result;
                 state.filterproductinheader = actions.payload.data;
+                // state.image = actions.payload.data.image;
             }
             else {
                 state.result = 0;

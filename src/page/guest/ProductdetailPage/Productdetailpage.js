@@ -8,7 +8,7 @@ import axios from "axios";
 import InfoProductDetail from "../../../component/Productdetail/Infoproductdetail/infoproductdetail";
 import InfoTechnical from "../../../component/Productdetail/Technicalinformation/infotechnical";
 import { useDispatch, useSelector } from "react-redux";
-import { getcolor, getdungluong, getinfoproductdetail, getlistvote, getproductdetail } from "../../../redux/slice/itemproductdetail";
+import { getcolor, getdungluong, getimgproduct, getimgproductdetail, getinfoproductdetail, getlistvote, getproductdetail } from "../../../redux/slice/itemproductdetail";
 import { addRecently } from "../../../redux/slice/recentlyviewedSlice";
 import Commentandvote from "../../../component/Productdetail/Commentandvote/commentandvote";
 import Relatedproducts from "../../../component/Productdetail/Relatedproducts/relatedproducts";
@@ -41,13 +41,16 @@ export default function ProductDetailPage() {
                     const response = await axios.post('http://127.0.0.1:8000/api/productdetail/productdetail', {
                         ten: nameproduct // Assuming props.id is used to fetch product detail
                     });
+                    console.log('API Response:', response.data);
+                    dispatch(getimgproductdetail(response.data.imgctsp));
+                    dispatch(getimgproduct(response.data.imgsp));
                     dispatch(getproductdetail(response.data));
                     dispatch(getcolor(response.data.mau_sac));
                     dispatch(getdungluong(response.data.dung_luong));
                     dispatch(getlistvote(response.data));
                     dispatch(getinfoproductdetail(response.data.data_noi_dung));
-                    dispatch(addRecently(response.data.data));
-                    console.log('API Response:', response.data.data);
+                    // dispatch(addRecently(response.data.data));
+                    
                 } catch (error) {
                     console.error('Error fetching product detail:', error);
                     // Handle error as needed
@@ -70,17 +73,17 @@ export default function ProductDetailPage() {
                 </div>
             )}
             <div ref={productdetailpageSectionRef} className="container d-flex flex-column gap-4" style={{ marginBottom: '30px' }}>
-                <div style={{ display: "flex", justifyContent: 'center' }}>
+                <div style={{ display: "flex", justifyContent: 'center',marginTop:'3%' }}>
                     <ImageProductDetail />
                     <ProductDetail />
                 </div>
                 <div style={{ display: "flex", justifyContent: 'center' }}>
                     <InfoProductDetail />
-                    <InfoTechnical />
+                    <Relatedproducts />
+                    {/* <InfoTechnical /> */}
                 </div>
                 <div style={{ display: "flex", justifyContent: 'center' }}>
                     <Commentandvote />
-                    <Relatedproducts />
                 </div>
 
             </div>

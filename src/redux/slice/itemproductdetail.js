@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     productdetail: null,
+    imgproductdetail : '',
+    imgproduct : null,
     supplier : null,
     color: null,
     dungluong: null,
@@ -18,8 +20,14 @@ export const itemproductdetailSlice = createSlice({
     name: 'itemproductdetail',
     initialState,
     reducers: {
+        getimgproductdetail: (state, action) => {
+            state.imgproductdetail = action.payload;
+        },
+        getimgproduct: (state, action) => {
+            state.imgproduct = action.payload;
+        },
         getproductdetail: (state, action) => {
-            state.productdetail = action.payload.data;
+            state.productdetail = action.payload.data[0];
             state.supplier = action.payload.data_relatedproduct;
         },
         getcolor: (state, action) => {
@@ -44,6 +52,6 @@ export const itemproductdetailSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { getproductdetail,getcolor,getdungluong,getinfoproductdetail,getlistvote,getsocommentnow } = itemproductdetailSlice.actions
+export const {getimgproduct,getimgproductdetail, getproductdetail,getcolor,getdungluong,getinfoproductdetail,getlistvote,getsocommentnow } = itemproductdetailSlice.actions
 
 export default itemproductdetailSlice.reducer

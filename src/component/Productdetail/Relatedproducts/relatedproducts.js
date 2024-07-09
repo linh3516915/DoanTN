@@ -29,8 +29,8 @@ function Relatedproducts() {
                 return (
                     <>
                         <div class="single-wid-product" style={{borderBottom:'1px solid #ccc'}}>
-                            <a  href={`/productdetail/${item.id}`}><img src={img} alt="" class="product-thumb" /></a>
-                            <p style={{ height: "4%", textDecoration: 'none' }}><a href={`/productdetail/${item.id}`} style={{ color: 'black' }}>{item.ten}</a></p>
+                            <a  href={`/productdetail/${item.id}`}><img src={item.image} alt="" class="product-thumb" /></a>
+                            <p style={{ height: "4%", textDecoration: 'none' }}><a href={`/productdetail/${item.id}`} style={{ color: 'black' }}>{item.data.ten}</a></p>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -39,7 +39,7 @@ function Relatedproducts() {
                                 <i class="fa fa-star"></i>
                             </div>
                             <div class="product-wid-price">
-                                <ins style={{color : 'rgb(26, 188, 156)'}}>{item.gia.toLocaleString('en-us')} VNĐ</ins> 
+                                <ins style={{color : 'rgb(26, 188, 156)'}}>{item.data.gia.toLocaleString('en-us')} VNĐ</ins> 
                                 {/* <del>$425.00</del> */}
                             </div>
                         </div>

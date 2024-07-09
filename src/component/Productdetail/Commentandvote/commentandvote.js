@@ -21,22 +21,22 @@ function Commentandvote() {
     const isadmin = useSelector(state => state.auth.isAdmin);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    useEffect(() => {
-        const getAPI = async () => {
-            if (productdetail != null && listvote == null) {
-                dispatch(loadingComponent(true))
-                const response = await axios.post(`http://127.0.0.1:8000/api/binhluandanhgia/ListVote`,{
-                    san_pham_id : productdetail.san_pham_id,
-                    mau_sac_id : productdetail.mau_sac_id,
-                    dung_luong_id : productdetail.dung_luong_id
-                })
-                console.log(response.data.data);
-                dispatch(getlistvote(response.data));
-                dispatch(loadingComponent(false))
-            }
-        }
-        getAPI()
-    }, productdetail)
+    // useEffect(() => {
+    //     const getAPI = async () => {
+    //         if (productdetail != null && listvote == null) {
+    //             dispatch(loadingComponent(true))
+    //             const response = await axios.post(`http://127.0.0.1:8000/api/binhluandanhgia/ListVote`,{
+    //                 san_pham_id : productdetail.san_pham_id,
+    //                 mau_sac_id : productdetail.mau_sac_id,
+    //                 dung_luong_id : productdetail.dung_luong_id
+    //             })
+    //             console.log(response.data.data);
+    //             dispatch(getlistvote(response.data));
+    //             dispatch(loadingComponent(false))
+    //         }
+    //     }
+    //     getAPI()
+    // }, productdetail)
     console.log();
     let vote = [];
     let comment = [];

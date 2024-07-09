@@ -15,13 +15,11 @@ export default function HinhAnhAdmin(){
         }
         sethinhanh();
     },[])
-   
     const listhinhanh = dshinhanh.map(function (item) {
         return (
             < HinhAnh data={item} />
         );
     });
-
     return (
         <>
             <Header_Admin/>
