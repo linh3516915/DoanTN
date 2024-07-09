@@ -1,11 +1,54 @@
+import { useState } from "react";
 import LineChartComponent from "./Charts";
-
+import { useEffect } from "react";
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 export default function Dashboard() {
+        const [soluong, setSoLuong] = useState(0);
+        const [count , setCount] = useState(0);
+        const [soluongdon,setSLDon] = useState(0);
+        useEffect(()=>{
+            const fetchSLKH = async () => {
+                try {
+                  const response = await axios.get('http://127.0.0.1:8000/api/khachhang/khachhang-soluong');
+                  setSoLuong(response.data.soluong);
+                } catch (error) {
+                  console.error('Lỗi!!:', error);
+                }
+              };
+            fetchSLKH();
+        },[]);
+
+        useEffect(()=>{
+            const fetchSLSP = async () => {
+                try {
+                  const response = await axios.get('http://127.0.0.1:8000/api/sanpham/sanpham-soluong');
+                  setCount(response.data.count);
+                } catch (error) {
+                  console.error('Lỗi!!:', error);
+                }
+              };
+              fetchSLSP();
+        },[]);
+        useEffect(()=>{
+            const fetchSoluongdonduyet = async () => {
+                try{
+                    const response = await axios.get('http://127.0.0.1:8000/api/donhangadmin/donduyet-soluong');
+                    setSLDon(response.data.soluongdon);
+                }catch(error){
+                    console.error('Lỗi!!:', error);
+                }
+            };
+            fetchSoluongdonduyet();
+        })
     return (
         <>
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+            <main style={{ height: '59rem', overflow: 'scroll' }} class="col-md-9 ms-sm-auto col-lg-10 px-md-4"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Dashboard</h1>
+                    <h1 class="h2">Bảng điều khiển</h1>
                     <div class="btn-toolbar mb-2 mb-md-0">
                         <div class="btn-group me-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -24,8 +67,8 @@ export default function Dashboard() {
                                 <div class="rotate">
                                     <i class="fa fa-user fa-4x"></i>
                                 </div>
-                                <h6 class="text-uppercase">Users</h6>
-                                <h1 class="display-4">134</h1>
+                                <h5 class="text-uppercase">Người dùng</h5>
+                                <h1 class="display-4"><FontAwesomeIcon icon={faUser} /> {soluong}</h1>
                             </div>
                         </div>
                     </div>
@@ -35,8 +78,9 @@ export default function Dashboard() {
                                 <div class="rotate">
                                     <i class="fa fa-list fa-4x"></i>
                                 </div>
-                                <h6 class="text-uppercase">Posts</h6>
-                                <h1 class="display-4">87</h1>
+                                
+                                <h5 class="text-uppercase">Sản Phẩm</h5>
+                                <h1 class="display-4"><FontAwesomeIcon icon={faProductHunt} /> {count}</h1>
                             </div>
                         </div>
                     </div>
@@ -46,8 +90,8 @@ export default function Dashboard() {
                                 <div class="rotate">
                                     <i class="fa fa-twitter fa-4x"></i>
                                 </div>
-                                <h6 class="text-uppercase">Tweets</h6>
-                                <h1 class="display-4">125</h1>
+                                <h5 class="text-uppercase">Đơn Duyệt</h5>
+                                <h1 class="display-4"><FontAwesomeIcon icon={faShoppingCart} /> {soluongdon}</h1>
                             </div>
                         </div>
                     </div>

@@ -46,6 +46,7 @@ import ChiNhanhAdmin from './page/Admin/Chinhanh/ChinhanhAdmin';
 import TrangchuAdmin from './page/Admin/TrangChu/Trangchu';
 import AddTongDai from './page/Admin/Tongdai/Add_Tongdai';
 import UpdateTongDai from './page/Admin/Tongdai/Update_Tongdai';
+import AddChiNhanh from './page/Admin/Chinhanh/Add_Chinhanh';
 
 function App() {
   const auth = useSelector(state => state.auth.authentication);
@@ -66,6 +67,7 @@ function App() {
         {/* Admin */}
         <Route path='/admin' element={<TrangchuAdmin/>} />
         <Route path='/chinhanh-admin' element={(isadmin && auth) ? <ChiNhanhAdmin/> : <Navigate to='/'/>}></Route>
+        <Route path='/themmoi-chinhanh' element={(isadmin && auth) ? <AddChiNhanh/> : <Navigate to='/'/>}></Route>
         <Route path='/tongdai-admin' element={(isadmin && auth) ?<TongdaiAdmin/>: <Navigate to='/'/>}></Route>
         <Route path='/themmoi-tongdai' element={(isadmin && auth) ?<AddTongDai/>: <Navigate to='/'/>}></Route>
         <Route path='/capnhat-tongdai/:id' element={(isadmin && auth) ?<UpdateTongDai/>: <Navigate to='/'/>}></Route>

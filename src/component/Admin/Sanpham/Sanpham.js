@@ -18,7 +18,6 @@ export default function Sanpham(props){
                 <td>{props.data.loai_san_pham_ten}</td>
                 <td>
                     <NavLink className="btn btn-secondary" to={`/chitietsanpham-admin/${props.data.id}`}>Chi Tiết Sản Phẩm </NavLink> ||
-                    <NavLink className="btn btn-secondary" to={`/chitietcauhinh-admin/${props.data.id}`}>Chi Tiết Cấu Hình </NavLink> ||
                     <NavLink className="btn btn-secondary" to={`/capnhat-sanpham/${props.data.id}`}>Cập nhật</NavLink> ||
                     <button className="btn btn-secondary"  onClick={() => {DeleteSP(props.data.id)}}>Xóa</button>
                 </td>

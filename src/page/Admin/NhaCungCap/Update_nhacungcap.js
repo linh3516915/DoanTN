@@ -40,7 +40,7 @@ export default function UpdateNhaCungCap(){
                                 </div>
                             </div>
                         </div>
-                        <form onSubmit={handleSubmit} className="row g-3" >
+                        <form onSubmit={handleSubmit} style={{margin:'0',maxWidth:'45%',marginLeft:'25%'}} >
                             <div className="col-12">
                                 <div className="add_sp-ctsp">
                                     <div className="add_sp">

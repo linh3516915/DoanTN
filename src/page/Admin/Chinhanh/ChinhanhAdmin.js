@@ -35,7 +35,7 @@ export default function ChinhanhAdmin(){
                             <h1 className="h2">DANH SÁCH CHI NHÁNH</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group me-2">
-                                <a href="" class="btn btn-sm btn-outline-secondary">Thêm Mới</a>
+                                <a href="/themmoi-chinhanh" class="btn btn-sm btn-outline-secondary">Thêm Mới</a>
                                 </div>
                             
                             </div>

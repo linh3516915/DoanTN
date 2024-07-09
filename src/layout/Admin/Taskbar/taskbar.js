@@ -26,19 +26,18 @@ export default function TaskbarAdmin() {
                     </ul>
                 </div>
             </nav> */}
-            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{ width: '20%', height: '45rem' }} >
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{ width: '16%', height: '59rem' }} >
                 <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32"></svg>
-                    <span class="fs-4">Sidebar</span>
+                    <span style={{paddingBottom:'10px', textAlign:'center'}} class="fs-4">Sidebar</span>
                 </a>
                 {/* <hr> */}
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li>  <NavLink to="/sanpham-admin" className="nav-link  text-white" >Sản Phẩm</NavLink></li>
-                    <li>  <NavLink to="/nhacungcap-admin" className="nav-link  text-white" >Nhà cung cấp</NavLink></li>
-                    <li>  <NavLink to="/loaisanpham-admin" className="nav-link  text-white" >Loại sản phẩm</NavLink></li>
-                    <li>  <NavLink to="/slideshow-admin" className="nav-link  text-white" >SlideShow</NavLink></li>
-                    <li>  <NavLink to="/chinhanh-admin" className="nav-link  text-white" >Chi Nhánh</NavLink></li>
-                    <li>  <NavLink to="/tongdai-admin" className="nav-link  text-white" >Tổng Đài</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/sanpham-admin" className="nav-link  text-white" >Sản Phẩm</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/nhacungcap-admin" className="nav-link  text-white" >Nhà cung cấp</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/loaisanpham-admin" className="nav-link  text-white" >Loại sản phẩm</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/chinhanh-admin" className="nav-link  text-white" >Chi Nhánh</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/tongdai-admin" className="nav-link  text-white" >Tổng Đài</NavLink></li>
                 </ul>
                 {/* <hr> */}
                 <div class="dropdown">
