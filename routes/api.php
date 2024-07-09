@@ -30,6 +30,7 @@ use App\Http\Controllers\APITenshopController_Admin;
 use App\Http\Controllers\APINhapHangController;
 use App\Http\Controllers\APITrangThaiSanPhamController;
 use App\Http\Controllers\APIUserAdminController_Admin;
+use App\Http\Controllers\APIDonHangController_Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -304,5 +305,14 @@ Route::group([
 ], function ($router) {
 
     Route::get('khachhang-soluong', [APIUserAdminController_Admin::class, 'SoLuongKH']);
+    
+});
+Route::group([
+    'prefix' => 'donhangadmin'
+], function ($router) {
+
+    Route::get('donduyet-soluong', [APIDonHangController_Admin::class, 'SoLuongDonDuyet']);
+    Route::get('donduyet-doanhthu', [APIDonHangController_Admin::class, 'doanhThuHangThang']);
+    Route::get('donduyet-doanhthungay', [APIDonHangController_Admin::class, 'doanhThuHangNgay']);
     
 });

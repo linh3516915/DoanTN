@@ -44,5 +44,32 @@ class APIChiNhanhController_Admin extends Controller
             'data'=>$chinhanh
         ]);
     }
+    public function capNhat(Request $request,$id){
+        $chinhanh = ChiNhanh_Admin::find($id){
+            if(empty($chinhanh)){
+                return response()->json([
+                    'success' => -1;
+                    'message'=>"Chi nhanh ID = {$id} không tồn tại!! ";
+                ]);
+            }
+        }
+        $count = ChiNhanh_Admin::where('id','<>',$id)->where('ten_chi_nhanh',$request->tenchinhanh)->count();
+        if($count>0){
+            return response()->json([
+                'success' => 0;
+                'message' => "Chi nhánh $reqest->tenchinhanh đã tồn tại !! ";
+            ]);
+        }
+            $chinhanh->ten_chi_nhanh      = $request->tenchinhanh;
+            $chinhanh->dia_chi            = $request->address;
+            $chinhanh->sdt_tong_dai       = $request->sdttongdai;
+            $chinhanh->gio_mo_cua         = $request->giomocua;
+            $chinhanh->ngay_khai_truong      = $request->ngaykhaitruong;
+            $chinhanh    ->save();
+            return response()->json([
+                'success' =>true,
+                'message' =>'Cập nhật chi nhánh thành công'
+            ]);
+    }
 
 }
