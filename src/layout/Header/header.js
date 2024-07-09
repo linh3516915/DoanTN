@@ -108,7 +108,7 @@ export default function Header(props) {
 
         }
         setdstenshop();
-    }, [])
+    }, [retryCount])
     return (
         <>
             <PopupComment chi_tiet_san_pham_id={props.id} />
@@ -186,7 +186,7 @@ export default function Header(props) {
                                                             </a>
                                                             <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                                                                 <li><a className="dropdown-item" href="#">Settings</a></li>
-                                                                <li><a className="dropdown-item" href="/thong-tin">Profile</a></li>
+                                                                <li><a className="dropdown-item" href="/profile">Profile</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
                                                             </ul>

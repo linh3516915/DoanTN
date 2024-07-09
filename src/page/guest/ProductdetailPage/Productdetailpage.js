@@ -42,14 +42,14 @@ export default function ProductDetailPage() {
                         ten: nameproduct // Assuming props.id is used to fetch product detail
                     });
                     console.log('API Response:', response.data);
-                    dispatch(getimgproductdetail(response.data.imgctsp));
+                    dispatch(getimgproductdetail(response.data.img));
                     dispatch(getimgproduct(response.data.imgsp));
                     dispatch(getproductdetail(response.data));
                     dispatch(getcolor(response.data.mau_sac));
                     dispatch(getdungluong(response.data.dung_luong));
                     dispatch(getlistvote(response.data));
                     dispatch(getinfoproductdetail(response.data.data_noi_dung));
-                    // dispatch(addRecently(response.data.data));
+                    dispatch(addRecently(response.data));
                     
                 } catch (error) {
                     console.error('Error fetching product detail:', error);

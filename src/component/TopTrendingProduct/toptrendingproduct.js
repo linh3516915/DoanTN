@@ -16,20 +16,37 @@ export default function TopTrendingProduct() {
     const { ref, inView } = useInView();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [error, setError] = useState(null);
+    const [retryCount, setRetryCount] = useState(0);
     useEffect(() => {
         try {
             const getAPI = async () => {
-                const data = await axios.get('http://127.0.0.1:8000/api/productdetail/top8hottrending',
-                );
-                console.log('check data: ', data.data);
-                dispatch(listtop16hottrend(data.data));
+                try {
+                    const data = await axios.get('http://127.0.0.1:8000/api/productdetail/top8hottrending',
+                    );
+                    console.log('check data: ', data.data);
+                    dispatch(listtop16hottrend(data.data));
+                } catch (error) {
+                    if (error.response.status === 429) {
+                        const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                        setTimeout(() => {
+                            setRetryCount(retryCount + 1);
+                            getAPI();
+                        }, delay);
+                    } else {
+                        setError('An error occurred. Please try again later.');
+                    }
+                    alert('loi');
+                }
+                
                 // dispatch(listshow4hottrend(data.data));
             }
             getAPI();
         } catch (error) {
-            alert('loi');
+           
         }
-    }, [dispatch])
+    }, [dispatch,retryCount])
     console.log('top16hottrends', top16hottrends);
     console.log('show:', show4hottrends);
     let show = null;
@@ -51,7 +68,7 @@ export default function TopTrendingProduct() {
                 //     </div>
                 //     <button style={{ width: '100%', marginTop: '10px' }} className="btn btn-success">Add to cart</button>
                 // </div>
-                <CardProductDetail ishottrending={true} data={item} animation = {btnanimation}/>
+                <CardProductDetail ishottrending={true} data={item} animation={btnanimation} />
 
 
 
@@ -69,7 +86,7 @@ export default function TopTrendingProduct() {
                             <div class="brand-wrapper">
                                 <h2 class="section-title">Top Trending</h2>
                                 <div className={`${styles['top-trending']}`} mb-5 style={{ paddingBottom: '15px' }}>
-                                    <div ref={ref} style={{ marginTop: '35px', display: 'flex', justifyContent: 'space-around', overflow: 'hidden' }} className={`${styles['list-item']} ${inView ? 'animation-from-right': ''}`}>
+                                    <div ref={ref} style={{ marginTop: '35px', display: 'flex', justifyContent: 'space-around', overflow: 'hidden' }} className={`${styles['list-item']} ${inView ? 'animation-from-right' : ''}`}>
                                         <button className={`btn ${styles['move-left']}`} onClick={() => { dispatch(moveleft()) }}><p style={{ opacity: 0.25 }}><FontAwesomeIcon icon={faAngleLeft} /></p> </button>
                                         {/* <div style={{overflow: 'hidden'}}> */}
                                         {show}

@@ -36,6 +36,7 @@ export default function ProductDetail(props) {
         console.log(item);
         dispatch(addCart(item))
         alert('add cart successfully');
+
     }
     
     const movepagecolor = (mau_sac_id) => {
@@ -148,7 +149,7 @@ export default function ProductDetail(props) {
 
                         </div>
                         <div style={{ width: '100%' }}>
-                            <button className="btn btn-danger shadow-0" style={{ width: '100%', margin: '0 auto' }}><FontAwesomeIcon icon={faBagShopping} /> BUY </button>
+                            <button onClick={()=>{addcart(productdetail);navigate('/cart'); }} className="btn btn-danger shadow-0" style={{ width: '100%', margin: '0 auto' }}><FontAwesomeIcon icon={faBagShopping} /> BUY </button>
                         </div>
                     </div>
                 </main>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import img from "../../assets/ảnh/11trang.jpg";
 import imghotrenđing from "../../assets/ảnh/hottrending2.png";
 import imgsale from "../../assets/ảnh//tải xuống (1).png";
+import imgsoldout from "../../assets/ảnh/sold out.png";
 import axios from 'axios';
 import { getproductdetail } from '../../redux/slice/itemproductdetail';
 import { addRecently } from '../../redux/slice/recentlyviewedSlice';
@@ -92,9 +93,12 @@ export default function CardProductDetail(props) {
                             {props.ishottrending && (
                                 <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
                             )}
+                            {props.ishottrending && (
+                                <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
+                            )}
                             {props.data.phan_tram_giam != 0 && (
                                 <div className={`${styles['img-sticker-sale']}`}>
-                                    <img  src={imgsale} />
+                                    <img src={imgsale} />
                                 </div>
 
                             )}
@@ -117,7 +121,7 @@ export default function CardProductDetail(props) {
                             {props.data.phan_tram_giam != 0 && (
                                 <>
 
-                                    <div className={`${styles['item-price']}`}> <del style={{ color: 'red', marginRight: '1%', fontSize: '11px' }}>{props.data.gia.toLocaleString('en-US')}VNĐ</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
+                                    <div className={`${styles['item-price']}`}> <del style={{ color: 'red', marginRight: '1%', fontSize: '11px' }}>{props.data.gia.toLocaleString('en-US')}</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
                                 </>
 
                             )}
@@ -127,7 +131,16 @@ export default function CardProductDetail(props) {
 
                     </div>
                     {isadmin == false && (
-                        <button onClick={() => { addcart(props) }} style={{ width: '100%', marginTop: '10px', marginBottom: '10px', backgroundColor: '#1abc9c' }} className="btn btn-success">Add to cart</button>
+                        <>
+                            {props.data.so_luong == 0 && (
+                                <><img src={imgsoldout} style={{width:'100%',height:'5rem'}}/></>
+                            )}
+                            
+                            {props.data.so_luong != 0 && (
+                                <>  <button onClick={() => { addcart(props) }} style={{ width: '100%', marginTop: '10px', marginBottom: '10px', backgroundColor: '#1abc9c' }} className="btn btn-success">Add to cart</button></>
+                            )}
+                           
+                        </>
                     )}
                 </div>
 

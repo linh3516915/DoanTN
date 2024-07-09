@@ -40,6 +40,7 @@ export default function TaskbarAdmin() {
                     <li>  <NavLink to="/slideshow-admin" className="nav-link  text-white" >SlideShow</NavLink></li>
                     <li>  <NavLink to="/chinhanh-admin" className="nav-link  text-white" >Chi Nhánh</NavLink></li>
                     <li>  <NavLink to="/tongdai-admin" className="nav-link  text-white" >Tổng Đài</NavLink></li>
+                    <li>  <NavLink to="/quanlydonhangadmin" className="nav-link  text-white" >Quản lý đơn hàng </NavLink></li>
                 </ul>
                 {/* <hr> */}
                 <div class="dropdown">

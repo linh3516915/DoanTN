@@ -27,7 +27,7 @@ function Footer() {
 
         }
         setchinhanh();
-    }, [])
+    }, [retryCount])
 
     const [dstongdai, SetDSTD] = useState([]);
     useEffect(() => {
@@ -51,7 +51,7 @@ function Footer() {
         }
         settongdai();
 
-    }, [])
+    }, [retryCount])
     return (
         <>
             {error && <p>{error}</p>}

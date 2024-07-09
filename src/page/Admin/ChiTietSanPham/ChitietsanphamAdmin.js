@@ -105,44 +105,125 @@ export default function ChiTietSanPhamAdmin(props) {
     const phantramgiam = useSelector(state => state.product.phantramgiam);
     const giakhuyenmai = useSelector(state => state.product.giakhuyenmai);
     const anhctsp = useSelector(state => state.product.anhctsp);
+    const [retryCount, setRetryCount] = useState(0);
+    const [error, setError] = useState(null);
     useEffect(() => {
         async function setncc() {
-            var response = await fetch(`http://127.0.0.1:8000/api/nhacungcap/nhacungcap-admin`);
-            var json = await response.json();
-            SetDSNCC(json.data)
+            try {
+                var response = await fetch(`http://127.0.0.1:8000/api/nhacungcap/nhacungcap-admin`);
+                var json = await response.json();
+                SetDSNCC(json.data)
+            } catch (error) {
+
+                if (error.response.status === 429) {
+                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);
+                        setncc();
+                    }, delay);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
+
 
         }
         setncc();
         const getAPI = async () => {
-            // dispatch(loadingmodal(true));
-            const response = await axios.get('http://127.0.0.1:8000/api/sanpham/sanpham-admin')
-            //setOptions(response.data.data)
-            dispatch(setoption(response.data.data));
-            // dispatch(loadingmodal(false));
+            try {
+                // dispatch(loadingmodal(true));
+                const response = await axios.get('http://127.0.0.1:8000/api/sanpham/sanpham-admin')
+                //setOptions(response.data.data)
+                dispatch(setoption(response.data.data));
+                // dispatch(loadingmodal(false));
+            } catch (error) {
+                if (error.response.status === 429) {
+                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);
+                        getAPI();
+                    }, delay);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
+
         }
         getAPI();
         async function setloaisp() {
-            var response = await fetch(`http://127.0.0.1:8000/api/loaisp/loaisp-admin`);
-            var json = await response.json();
-            setDSLSP(json.data)
+            try {
+                var response = await fetch(`http://127.0.0.1:8000/api/loaisp/loaisp-admin`);
+                var json = await response.json();
+                setDSLSP(json.data)
+            } catch (error) {
+                if (error.response.status === 429) {
+                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);
+                        setloaisp();
+                    }, delay);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
+
         }
         setloaisp();
         async function setmausac() {
-            var response = await fetch(`http://127.0.0.1:8000/api/mausac/mausac-admin`);
-            var json = await response.json();
-            setDSMauSac(json.data)
+            try {
+                var response = await fetch(`http://127.0.0.1:8000/api/mausac/mausac-admin`);
+                var json = await response.json();
+                setDSMauSac(json.data)
+            } catch (error) {
+                if (error.response.status === 429) {
+                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);
+                        setmausac();
+                    }, delay);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
+
         }
         setmausac();
         async function setdungluong() {
-            var response = await fetch(`http://127.0.0.1:8000/api/dungluong/dungluong-admin`);
-            var json = await response.json();
-            setDSDL(json.data)
+            try {
+                var response = await fetch(`http://127.0.0.1:8000/api/dungluong/dungluong-admin`);
+                var json = await response.json();
+                setDSDL(json.data)
+            } catch (error) {
+                if (error.response.status === 429) {
+                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);
+                        setdungluong();
+                    }, delay);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
+
         }
         setdungluong();
         async function settrangthai() {
-            var response = await fetch(`http://127.0.0.1:8000/api/trangthaisanpham/trangthaisanpham`);
-            var json = await response.json();
-            setDstrangthai(json.data)
+            try {
+                var response = await fetch(`http://127.0.0.1:8000/api/trangthaisanpham/trangthaisanpham`);
+                var json = await response.json();
+                setDstrangthai(json.data)
+            } catch (error) {
+                if (error.response.status === 429) {
+                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                    setTimeout(() => {
+                        setRetryCount(retryCount + 1);
+                        settrangthai();
+                    }, delay);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
+
         }
         settrangthai();
     }, []);
@@ -553,9 +634,9 @@ export default function ChiTietSanPhamAdmin(props) {
         }
         getAPI();
     }
-    useEffect(()=>{
-        dispatch(setgiakhuyenmai(((100-phantramgiam)*gia)/100));
-    },[phantramgiam,gia])
+    useEffect(() => {
+        dispatch(setgiakhuyenmai(((100 - phantramgiam) * gia) / 100));
+    }, [phantramgiam, gia])
     return (
         <>
             {/* check={props.check} logoutadmin={props.logoutadmin} */}

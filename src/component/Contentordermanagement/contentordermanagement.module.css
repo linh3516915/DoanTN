@@ -1,0 +1,86 @@
+.don-hang{
+    width: 20%;
+    height: 4rem;
+    padding: 1rem;
+    border-right: 1px solid rgb(204, 204, 204);
+    text-align: center;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.da-dat:hover{
+    opacity: 0.5;
+    width: 20%;
+    height: 4rem;
+    padding: 1rem;
+    border-right: 1px solid rgb(204, 204, 204);
+    text-align: center;
+    font-weight: 700;
+    color: rgb(204, 204, 204);
+    cursor: pointer;
+}
+.dang-giao:hover{
+    opacity: 0.5;
+    width: 20%;
+    height: 4rem;
+    padding: 1rem;
+    border-right: 1px solid rgb(204, 204, 204);
+    text-align: center;
+    font-weight: 700;
+    color: rgb(204, 204, 204);
+    cursor: pointer;
+}
+.da-giao:hover{
+    opacity: 0.5;
+    width: 20%;
+    height: 4rem;
+    padding: 1rem;
+    border-right: 1px solid rgb(204, 204, 204);
+    text-align: center;
+    font-weight: 700;
+    color: rgb(204, 204, 204);
+    cursor: pointer;
+}
+.cho-huy:hover{
+    opacity: 0.5;
+    width: 20%;
+    height: 4rem;
+    padding: 1rem;
+    border-right: 1px solid rgb(204, 204, 204);
+    text-align: center;
+    font-weight: 700;
+    color: rgb(204, 204, 204);
+    cursor: pointer;
+}
+.da-huy:hover{
+    opacity: 0.5;
+    width: 20%;
+    height: 4rem;
+    padding: 1rem;
+    border-right: 1px solid rgb(204, 204, 204);
+    text-align: center;
+    font-weight: 700;
+    color: rgb(204, 204, 204);
+    cursor: pointer;
+}
+.da-datclicked{
+    color: white;
+    background-color: black;
+}
+.dang-giaoclicked{
+    color: white;
+    background-color: black;
+}
+.da-giaoclicked{
+    color: white;
+    background-color: black;
+}
+.cho-huyclicked{
+    color: white;
+    background-color: black;
+}
+.da-huyclicked{
+    color: white;
+    background-color: black;
+}

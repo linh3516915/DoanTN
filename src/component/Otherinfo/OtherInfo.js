@@ -56,11 +56,11 @@ function OtherInfo() {
             return (
                 <>
                     <div className="single-wid-product">
-                        <a href={`productdetail/${item.product.id}`}><img src={img} alt="" className="product-thumb" /></a>
+                        <a href={`productdetail/${item.product.id}`}><img src={item.img} alt="" className="product-thumb" /></a>
                         <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.product.id}`} style={{ color: '#f5f5f5' }}>{item.product.ten}</a></p>
                         <Star so_sao={item.product.so_sao}/>
                         <div className="product-wid-price">
-                            <ins>{item.product.gia.toLocaleString('en-us')} VND</ins> <del>$425.00</del>
+                            <ins>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>$425.00</del>
                         </div>
                     </div>
                 </>

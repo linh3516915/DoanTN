@@ -19,20 +19,23 @@ export const recentlyviewedSlice = createSlice({
     //   state.items.push(action.payload);
     // },
     addRecently: (state, action) => {
-      const newItem = action.payload;
+      const newItem = action.payload.data[0].data;
+      console.log('check add : ',newItem);
       const existingItem = state.items.find(item => item.product.san_pham_id === newItem.san_pham_id && item.product.mau_sac_id === newItem.mau_sac_id &&item.product.dung_luong_id === newItem.dung_luong_id);
-      
+      console.log(existingItem);
       state.totalQuantity++;
       if (!existingItem) {
         state.items.unshift({
           product: newItem,
           //quantity: 1,
+          img : action.payload.data[0].img
         });
       } else {
-        state.items= state.items.filter(item => item.product.san_pham_id !== newItem.san_pham_id && item.product.mau_sac_id !== newItem.mau_sac_id &&item.product.dung_luong_id !== newItem.dung_luong_id);
+        state.items= state.items.filter(item => item.product.san_pham_id !== newItem.san_pham_id || item.product.mau_sac_id !== newItem.mau_sac_id ||item.product.dung_luong_id !== newItem.dung_luong_id);
         state.items.unshift({
           product: newItem,
           //quantity: 1,
+          img : action.payload.data[0].img
         });
       }
     },
