@@ -13,7 +13,7 @@ import { addRecently } from "../../../redux/slice/recentlyviewedSlice";
 import Commentandvote from "../../../component/Productdetail/Commentandvote/commentandvote";
 import Relatedproducts from "../../../component/Productdetail/Relatedproducts/relatedproducts";
 import LoadingSpinnerModal from "../../../component/LoadingSpinnerModal/LoadingSpinnerModal";
-
+import styles from "./productdetailpage.module.css";
 
 export default function ProductDetailPage() {
     const productdetailpageSectionRef = useRef(null);
@@ -77,7 +77,7 @@ export default function ProductDetailPage() {
                     <ImageProductDetail />
                     <ProductDetail />
                 </div>
-                <div style={{ display: "flex", justifyContent: 'center' }}>
+                <div className={`${styles['content-2']}`} style={{  }}>
                     <InfoProductDetail />
                     <Relatedproducts />
                     {/* <InfoTechnical /> */}

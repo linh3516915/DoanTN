@@ -58,7 +58,7 @@ export default function Dagiaoadmin() {
     }
     return (
         <>
-            <div style={{height: '84%',overflow: 'scroll',padding:'1rem'}}>
+            <div style={{padding:'1rem'}}>
                 {!btnctdh && listdonhang!= [] && (
                     listdonhang
                 )}

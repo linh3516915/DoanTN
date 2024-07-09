@@ -27,7 +27,7 @@ export default function Ordermanagement(props) {
 
     return (
         <>
-            {/* <Header /> */}
+            <Header />
 
             {isloadingmodal && (<LoadingSpinnerModal />)}
             <div style={{ display: 'flex' }}>
@@ -41,7 +41,7 @@ export default function Ordermanagement(props) {
 
             </div>
 
-            {/* <Footer /> */}
+            <Footer />
         </>
     );
 }

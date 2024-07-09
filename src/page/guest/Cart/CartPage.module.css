@@ -236,3 +236,66 @@
     height: 39px;
     line-height: 39px;
    }
+
+   .checkout-bill{
+    display: flex; 
+    margin: 0px auto;
+    width: 80%;
+   }
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .order{
+    display: none;
+  }
+  .checkout-bill{
+    display: block; 
+    /* margin: 0px auto; */
+    width: 80%;
+   }
+  .provisional-checkout{
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 3rem 2rem;
+    background-color: #c1c5c936;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px #ccc;
+}
+.provisional-bill {
+    padding: 3rem 2rem;
+    flex: 1;
+    background-color: #c1c5c936;
+    border-radius: 15px;
+    width: 100%;
+    height: max-content;
+    box-shadow: 5px 5px 5px #ccc;
+}
+}
+
+@media only screen and (max-width: 767px) {
+  .order{
+    display: none;
+  }
+  .checkout-bill{
+    display: block; 
+    /* margin: 0px auto; */
+    width: 80%;
+   }
+  .provisional-checkout{
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 3rem 2rem;
+    background-color: #c1c5c936;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px #ccc;
+}
+.provisional-bill {
+    padding: 3rem 2rem;
+    flex: 1;
+    background-color: #c1c5c936;
+    border-radius: 15px;
+    width: 100%;
+    height: max-content;
+    box-shadow: 5px 5px 5px #ccc;
+}
+}

@@ -82,14 +82,14 @@ export default function CardProductDetail(props) {
     }
     return (
         <>
-            <div style={{ marginBottom: '0rem', width: '20%', border: '1px solid rgb(223 223 223)' }} key={props.data.id} className={` ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
+            <div  style={{ }} key={props.data.id} className={`${styles['product-item']} ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
 
                 <div className={`${styles['item']}  `}>
                     {auth && !isadmin && (
                         <button className={`btn btn-primary ${styles['favotrite']}`} style={{ fontSize: '0.75rem', marginBottom: '1rem' }}><FontAwesomeIcon icon={faBookmark} /></button>
                     )}
                     <div onClick={() => { movepageproductdetail(props.data.ten, props.data); }} className={`${styles['item-content']}  `}>
-                        <div className={`${styles['item-img']}`} style={{ position: 'relative', width: '100%', height: "12rem" }}>
+                        <div className={`${styles['item-img']}`} style={{}}>
                             {props.ishottrending && (
                                 <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
                             )}
@@ -105,7 +105,7 @@ export default function CardProductDetail(props) {
                             <img src={props.img} className={`${styles['img-product']}`} />
                         </div>
 
-                        <div style={{ padding: "10px" }}>
+                        <div className={`${styles['info-product']} `} style={{ padding: "10px" }}>
                             <div class="product-wid-rating" style={{ display: 'flex' }}>
                                 {datastar}
                             </div>
@@ -121,7 +121,7 @@ export default function CardProductDetail(props) {
                             {props.data.phan_tram_giam != 0 && (
                                 <>
 
-                                    <div className={`${styles['item-price']}`}> <del style={{ color: 'red', marginRight: '1%', fontSize: '11px' }}>{props.data.gia.toLocaleString('en-US')}</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
+                                    <div className={`${styles['item-price']}`}> <del style={{  }}>{props.data.gia.toLocaleString('en-US')}</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
                                 </>
 
                             )}

@@ -382,12 +382,12 @@ export default function Shop() {
                     <div>
                         <div className="d-flex">
                             <div className={`${styles['product-filter']}`}>
-                                <div className={`${styles['filter']} d-flex justify-content-around`}>
+                                <div className={`${styles['filter']} `}>
                                     <div style={{ lineHeight: '38px' }}>kết quả tìm kiếm : {result}</div>
-                                    <div style={{ width: '20%', lineHeight: '38px' }}>
-                                        <label style={{ marginRight: '2%' }}>All</label>
+                                    <div className={`${styles['filter-radio']} `} style={{  }}>
+                                        <label className={`${styles['label-filter-radio']} `} style={{ marginRight: '2%' }}>All</label>
                                         <input onChange={() => { dispatch(checkedall(!checkedAll)); navigate('/shop'); window.location.reload(); }} name="filter" checked={checkedAll} style={{ marginRight: '8%' }} type="radio" />
-                                        <label style={{ marginRight: '2%' }}>top seller</label>
+                                        <label className={`${styles['label-filter-radio']} `} style={{ marginRight: '1%' }}>top seller</label>
                                         <input onChange={() => {
                                             //window.location.reload();
                                             const getAPI = async () => {
@@ -401,8 +401,8 @@ export default function Shop() {
                                             navigate(`/shop?ext=${encodeURIComponent('topseller')}`)
 
 
-                                        }} checked={checkedTopseller} name="filter" style={{ marginRight: '8%' }} type="radio" />
-                                        <label style={{ marginRight: '2%' }}>new</label>
+                                        }} checked={checkedTopseller} name="filter" style={{ marginRight: '7%' }} type="radio" />
+                                        <label className={`${styles['label-filter-radio']} `} style={{ marginRight: '2%' }}>new</label>
                                         <input onChange={() => {
                                             dispatch(checkednew(!checkedNew));
                                             const getAPI = async () => {

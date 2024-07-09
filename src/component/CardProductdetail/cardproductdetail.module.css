@@ -1,11 +1,12 @@
-
-.favotrite:hover{
+.favotrite:hover {
     background-color: white;
     color: rgb(46, 166, 221);
 }
-.item-img img{
+
+.item-img img {
     z-index: 1;
 }
+
 .item {
     /* width: 20%; */
     font-size: 11px;
@@ -17,17 +18,26 @@
     position: relative;
     transition: box-shadow 0.3s ease;
 }
-.item-content{
+
+.product-item {
+    margin-bottom: 0rem;
+    width: 20%;
+    border: 1px solid rgb(223, 223, 223);
+}
+
+.item-content {
     width: 100%;
 }
-.img-sticker{
+
+.img-sticker {
     margin: 0;
     width: 25%;
     position: absolute;
     z-index: 1;
     bottom: -3px;
 }
-.img-sticker-sale{
+
+.img-sticker-sale {
     margin: 0;
     width: 25%;
     position: absolute;
@@ -35,69 +45,67 @@
     bottom: -3px;
     right: 0;
 }
-.img-product{
+
+.img-product {
     height: 100%;
     width: 100%;
-   
+
 }
-.item-product{
+
+.item-product {
     margin-bottom: 20px;
     width: 100%;
     margin-top: 20px;
 }
-.item-name{
+
+.item-name {
     font-weight: 700;
     text-decoration: none;
     color: #222;
     font-size: 13px;
 }
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .item-name {
-        font-weight: 700;
-        text-decoration: none;
-        color: #222;
-        font-size: 70%;
-    }
-}
 
-@media only screen and (max-width: 767px) {
-.item-name {
-    font-weight: 700;
-    text-decoration: none;
-    color: #222;
-    font-size: 70%;
-    }
-}
-.item-price{
+.item-price {
     color: #1abc9c;
     font-weight: 700;
     font-size: 1rem;
     text-decoration: none;
     font-size: 13px;
 }
-.item-content:hover img{
+.item-price del{
+    color: red;
+    margin-right: 1%;
+    font-size: 11px;
+}
+
+.item-content:hover img {
     /* opacity: 0.5; */
     background-color: white;
     /* margin-bottom: 20px; */
     /* width: 100%; */
     /* margin-top: 20px; */
-  animation: zoom-in-zoom-out 3s ease infinite;
+    animation: zoom-in-zoom-out 3s ease infinite;
 }
+
 .item:hover {
     z-index: 2;
-    box-shadow: 10px 10px  10px #ccc;
+    box-shadow: 10px 10px 10px #ccc;
 }
+
 @keyframes zoom-in-zoom-out {
     0% {
-      transform: scale(1, 1);
+        transform: scale(1, 1);
     }
+
     50% {
-      transform: scale(1.05, 1.05);
+        transform: scale(1.05, 1.05);
     }
+
     100% {
-      transform: scale(1, 1);
+        transform: scale(1, 1);
     }
-  }
+}
+
 .list-item {
     animation: fadeInFromLeft 1.5s ease;
     margin-bottom: 5rem;
@@ -111,14 +119,17 @@
     height: 250px;
     border: solid;
 }
+
 .product-content:hover {
     opacity: .5;
 }
-.image-warrper img{
+
+.image-warrper img {
     height: 200px;
     margin-bottom: 20px;
     width: 100%;
 }
+
 /* .product:hover {
     opacity: .5;
 } */
@@ -158,4 +169,78 @@
 
 .view-detail-btn {
     color: #dcd9d9;
+}
+.item-img{
+    position: relative;
+    width: 100%;
+    height: 12rem;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .item-price del{
+        color: red;
+        margin-right: 1%;
+        font-size: 15px;
+    }
+    .info-product {
+        font-size: 33px;
+    }
+    .item-price {
+        color: #1abc9c;
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        font-size: 25px;
+    }
+    .item-img{
+        position: relative;
+        width: 100%;
+        height: 25rem;
+    }
+    .product-item {
+        margin-bottom: 0rem;
+        width: 100%;
+        border: 1px solid rgb(223, 223, 223);
+    }
+
+    .item-name {
+        font-weight: 700;
+        text-decoration: none;
+        color: #222;
+        font-size: 70%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .item-price del{
+        color: red;
+        margin-right: 1%;
+        font-size: 15px;
+    }
+    .info-product {
+        font-size: 33px;
+    }
+    .item-price {
+        color: #1abc9c;
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        font-size: 25px;
+    }
+    .item-img{
+        position: relative;
+        width: 100%;
+        height: 18rem;
+    }
+    .product-item {
+        margin-bottom: 0rem;
+        width: 100%;
+        border: 1px solid rgb(223, 223, 223);
+    }
+
+    .item-name {
+        font-weight: 700;
+        text-decoration: none;
+        color: #222;
+        font-size: 70%;
+    }
 }

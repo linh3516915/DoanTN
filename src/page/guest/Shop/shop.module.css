@@ -18,6 +18,8 @@
 .filter{
     padding: 0.5rem;
     border-bottom:solid #ccc 1px ;
+    justify-content: space-around ;
+    display: flex 
 }
 .product-filter {
     flex: 4;
@@ -74,8 +76,24 @@
 .active {
     color: rgb(224, 177, 90);
 }
-
+.filter-radio{
+    width: 20%;
+    line-height: 38px;
+}
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+    .label-filter-radio{
+        font-size: 20px;
+    }
+    .filter-radio{
+        width: 100%;
+        line-height: 38px;
+    }
+    .filter{
+        padding: 0.5rem;
+        border-bottom:solid #ccc 1px ;
+        /* justify-content: space-around ; */
+        display: block 
+    }
     .search{
         width: 100%; 
         margin: 0px auto;
@@ -84,6 +102,19 @@
 }
 
 @media only screen and (max-width: 767px) {
+    .label-filter-radio{
+        font-size: 20px;
+    }
+    .filter-radio{
+        width: 100%;
+        line-height: 38px;
+    }
+    .filter{
+        padding: 0.5rem;
+        border-bottom:solid #ccc 1px ;
+        /* justify-content: space-around ; */
+        display: block 
+    }
     .search{
         width: 100%; 
         margin: 0px auto;

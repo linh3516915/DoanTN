@@ -24,7 +24,7 @@ export default function Profile(props) {
 
     return (
         <>
-            {/* <Header /> */}
+            <Header />
             <div style={{display : 'flex'}}>
                 <div style={{width:'20%'}}>
                 <Sidebar />
@@ -36,7 +36,7 @@ export default function Profile(props) {
                 
             </div>
 
-            {/* <Footer /> */}
+            <Footer />
         </>
     );
 }

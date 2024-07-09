@@ -12,12 +12,12 @@
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
     .popup-chilren {
-        margin-top: 10rem;
+        /* margin-top: 10rem; */
     }
 }
 
 @media only screen and (max-width: 767px) {
     .popup-chilren {
-        margin-top: 10rem;
+        /* margin-top: 10rem; */
     }
 }

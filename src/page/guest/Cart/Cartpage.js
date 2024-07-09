@@ -51,9 +51,10 @@ export default function CartPage() {
         else { alert('phải có ít nhất 1 sản phẩm để Đặt hàng ') }
     }
     const renderItems = items.map((item) => {
-        return <div key={item.id} className="d-flex align-items-center">
+        
+        return <div key={item.id} style={{borderBottom:'1px solid #ccc'}} className="d-flex align-items-center">
             <div className="flex-1">
-                <img className="" style={{ height: "100px", marginBottom: '20px', width: "100px" }} alt={''} src={item.img} />
+                <img className="" style={{  marginBottom: '20px', width: "100px" }} alt={''} src={item.img} />
             </div>
             <h5 className="flex-2 text-center font-italic " style={{ fontSize: '1rem', marginBottom: '0px' }}>{item.product.ten}</h5>
             <span className={`flex-1 text-center mx-1 ${styles['price']} user-select-none`}>{item.product.gia}VND</span>
@@ -206,38 +207,43 @@ export default function CartPage() {
                         <div className={`${styles['list-item']} me-4`}> */}
                 <form onSubmit={(e) => {
                     e.preventDefault();
-                    if(renderItems.length != 0){
+                    if (renderItems.length != 0) {
                         dispatch(getemail(datacheckout.email));
                         const getAPI = async () => {
                             // if(emailcheck !== '' && otpcheck ==null ){
-                              const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                            const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
                                 email: datacheckout.email
-                              })
-                              dispatch(setOTP(response.data.otptocheck));
+                            })
+                            dispatch(setOTP(response.data.otptocheck));
                             // }
-                          }
-                          getAPI();
+                        }
+                        getAPI();
                         dispatch(openpopupotp(datacheckout))
                         // dispatch(openpopuppay());
                         console.log(datacheckout);
                     }
-                    else{
+                    else {
                         alert('phải có ít nhất 1 sản phẩm trong giỏ')
                     }
-                    
+
                 }} style={{ width: '100%', maxWidth: '100%' }}>
-                    <div style={{ width: '80%', margin: '0 auto' }} className={`${styles['title']} d-flex text-center text-uppercase font-italic py-2`}>
+                    {/* <div style={{ width: '80%', margin: '0 auto' }} className={`${styles['title']} d-flex text-center text-uppercase font-italic py-2`}>
                         <span className="flex-1">image</span>
                         <span className="flex-2 mx-1"  >tên</span>
                         <span className="flex-1 mx-1" >giá</span>
                         <span className="flex-1 mx-1" >số lượng mua</span>
                         <span className="flex-1 mx-1" >thành tiền</span>
                         <span className="flex-1" >remove</span>
-                    </div>
+                    </div> */}
                     <div style={{ width: '80%', margin: '0 auto' }} className="d-flex flex-column row-gap-3 mb-3">
+                        {items == [] &&(
+                            <>
+                                <p>Chuưa có sản phẩm nào </p>
+                            </>
+                        )}
                         {renderItems}
                     </div>
-                    <div style={{ display: 'flex', marginBottom: '10px', width: '80%', margin: '0 auto' }}>
+                    <div className={`${styles['checkout-bill']}`} style={{}}>
 
                         <div className={`${styles['provisional-checkout']} h-fit-content`}>
                             {/* <h2>nội dung check out</h2> */}
@@ -251,16 +257,16 @@ export default function CartPage() {
                             </div>
                             <div className={`d-flex font-italic justify-content-between pb-2 ${styles['sub-total']}`}>
                                 <h6 className="text-uppercase mb-0">giảm giá</h6>
-                                <span className={`${styles['provisional-bill__sub-price']}`}>{(totalprice-totalcoupon).toLocaleString('en-us')}VNĐ</span>
+                                <span className={`${styles['provisional-bill__sub-price']}`}>{(totalprice - totalcoupon).toLocaleString('en-us')}VNĐ</span>
                             </div>
                             <div className={`d-flex font-italic justify-content-between mt-2 ${styles['total']}`}>
-                                <h6 className="text-uppercase mb-0" style={{lineHeight: '31px'}}>thành tiền</h6>
+                                <h6 className="text-uppercase mb-0" style={{ lineHeight: '31px' }}>thành tiền</h6>
                                 <span className={`${styles['provisional-bill__total-price']}`}>{totalcoupon.toLocaleString('en-us')} VNĐ</span>
                             </div>
                             <div className={`${styles['coupon']} mt-3`}>
                                 <input className="w-100 p-2 " placeholder="Enter your coupon" />
-                                <div className="bg-dark text-light text-center py-2 " style={{marginTop:'2%'}}>
-                                    <FontAwesomeIcon icon={faGift} style={{marginBottom:'2%' }}/>
+                                <div className="bg-dark text-light text-center py-2 " style={{ marginTop: '2%' }}>
+                                    <FontAwesomeIcon icon={faGift} style={{ marginBottom: '2%' }} />
                                     nhập mã khuyến mãi
                                 </div>
                                 <div style={{ display: 'flex', marginTop: '10px' }}>
@@ -309,7 +315,7 @@ export default function CartPage() {
                     </div>
 
                 </div> */}
-                    <div className={`${!inView ? styles['order'] : ''}`}>
+                    <div className={`${styles['order']} ${!inView ? styles['order'] : ''}`}>
                         <div style={{ padding: '0.5rem', backgroundColor: 'white', border: '1px #ccc solid' }}>
                             <div className="container ">
                                 <div className="d-flex" style={{ display: 'flex' }}>
@@ -323,7 +329,7 @@ export default function CartPage() {
                         <div style={{ padding: '0.5rem', backgroundColor: 'white', border: '1px #ccc solid' }}>
                             <div className="container ">
                                 <div className="d-flex">
-                                    {/* <div className={`${styles['list-item']} me-4`}> */} 
+                                    {/* <div className={`${styles['list-item']} me-4`}> */}
                                     <input checked={checkbox} onChange={() => {
                                         // 
                                         dispatch(setcheckbox(!checkbox));
@@ -355,7 +361,7 @@ export default function CartPage() {
                                             </div>
                                             <div>
                                                 <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>{totalprice.toLocaleString('en-us')} </p>
-                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>{(totalprice-totalcoupon).toLocaleString('en-us')}</p>
+                                                <p style={{ fontWeight: '400', fontSize: '1.5rem' }}>{(totalprice - totalcoupon).toLocaleString('en-us')}</p>
                                             </div>
 
                                         </div>

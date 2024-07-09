@@ -226,7 +226,7 @@ function InfoProductDetail(props) {
     console.log(formdata);
     return (
         <>
-            <div ref={SectionRef} style={{ width: '70%' }}>
+            <div ref={SectionRef} className={`${styles['info-productdetail']}`} style={{ }}>
                 <div >
                     <h4 className={`${styles['']}`} style={{ fontWeight: '700', marginBottom: '2rem' }}>thông tin sản phẩm</h4>
                     <div className={` ${seemore ? styles['main'] : styles['seemore']}`} >
