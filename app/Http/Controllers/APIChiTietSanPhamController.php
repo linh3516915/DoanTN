@@ -12,6 +12,9 @@ use App\Models\MauSac;
 use App\Models\BinhLuanDanhGia;
 use App\Models\NoiDungSanPham;
 use App\Models\HinhAnhNoiDungSanPham;
+use App\Models\HinhAnhSanPham;
+
+use App\Providers\HelperServiceProvider;
 use App\Models\HinhAnh;
 class APIChiTietSanPhamController extends Controller
 {
@@ -51,7 +54,19 @@ class APIChiTietSanPhamController extends Controller
         ]);
     }
     public function productdetail(Request $rq){
-         $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
+        $datactsp = [];
+        $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
+        $imgctsp = HinhAnh::where('san_pham_id',$productdetail->san_pham_id)->where('mau_sac_id',$productdetail->mau_sac_id)
+        ->where('isAvatarimage',1)->first();
+        array_push($datactsp , [
+            'data' => $productdetail,
+            'img' => 'http://127.0.0.1:8000/'.$imgctsp->ten_hinh_anh
+        ]);
+        $imgsp = HinhAnhSanPham::where('san_pham_id',$productdetail->san_pham_id)->get();
+        $dataimg = [];
+        foreach ($imgsp as $img) {
+            array_push($dataimg,'http://127.0.0.1:8000/'.$img->URL_anh);
+        }
         $ncc = SanPham::find($productdetail->san_pham_id);
         $mau_sac =   ChiTietSanPham::where('san_pham_id',$productdetail->san_pham_id)->groupBy('mau_sac_id')->select('mau_sac_id')->get();
         $datamausac =[];
@@ -99,14 +114,29 @@ class APIChiTietSanPhamController extends Controller
             ]);
         }
         $sp = SanPham::where('nha_cung_cap_id', $ncc->nha_cung_cap_id)->get();
+        // return response()->json([
+        //     'data' => $sp, 
+        // ]);
         $datarelated=[];
             foreach($sp as $item){
                 $ctsp = ChiTietSanPham::where('san_pham_id', $item->id)->first();
+                
                 if(!empty($ctsp)){
-                    if( $ctsp->dung_luong_id != $productdetail->dung_luong_id && $ctsp->mau_sac_id != $productdetail->mau_sac_id){
+                    if( $ctsp->dung_luong_id == $productdetail->dung_luong_id && $ctsp->mau_sac_id == $productdetail->mau_sac_id){
+                        
+                    }
+                    else{
                         array_push($datarelated,$ctsp);
                     }
                 }
+            }
+            $datarelatedwithimg = [];
+            foreach ($datarelated as $ctsp) {
+                $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
+                array_push($datarelatedwithimg,[
+                    'data' => $ctsp,
+                    'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                ]);
             }
             // return response() -> json([
             //     'data_relatedproduct' => $datarelated,   
@@ -114,7 +144,9 @@ class APIChiTietSanPhamController extends Controller
         
         if(!empty($votetest)){
             return response()->json([
-                'data' => $productdetail,
+                'data' => $datactsp,
+                'img' => 'http://127.0.0.1:8000/' . $imgctsp->ten_hinh_anh,
+                'imgsp' => $dataimg,
                 'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
                 'mau_sac' => $datamausac,
                 'dung_luong' => $datadungluong ,
@@ -123,12 +155,14 @@ class APIChiTietSanPhamController extends Controller
                  'tong_phan_tram_sao' =>number_format(round(($tong/count($votes)),1),1),
                  'data_comment' => $comment,
                  'data_noi_dung' => $datanoidung,
-                 'data_relatedproduct' => $datarelated, 
+                 'data_relatedproduct' => $datarelatedwithimg, 
             ]);
         }
         else{
             return response()->json([
-                'data' => $productdetail,
+                'data' => $datactsp,
+                'img' => 'http://127.0.0.1:8000/' . $imgctsp->ten_hinh_anh,
+                'imgsp' => $dataimg,
                 'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
                 'mau_sac' => $datamausac,
                 'dung_luong' => $datadungluong ,
@@ -137,7 +171,7 @@ class APIChiTietSanPhamController extends Controller
                 'tong_phan_tram_sao' =>$tong,
                 'data_comment' => null,
                 'data_noi_dung' => $datanoidung,
-                'data_relatedproduct' => $datarelated, 
+                'data_relatedproduct' => $datarelatedwithimg, 
             ]);
         }
         // return response()->json([
@@ -328,9 +362,9 @@ class APIChiTietSanPhamController extends Controller
         ]);
     }
     public function search(Request $rq){
-        if($rq->ten !='')
-        {
-            $ctsps = ChiTietSanPham::where('ten','like','%'.$rq->ten.'%')->get();
+        if($rq->ten !=''){
+        // {HelperServiceProvider::ucfirstString($rq->ten)
+            $ctsps = ChiTietSanPham::where('ten','like','%'.HelperServiceProvider::ucfirstString($rq->ten).'%')->get();
             // $data = [];
             // for($i=0; $i<count($ctsp);$i++){
             //     $productdetail = ChiTietSanPham::where('san_pham_id',$ctsp[$i]->id)->first();
@@ -339,6 +373,7 @@ class APIChiTietSanPhamController extends Controller
             //     }
                 
             // }
+            
             $data= [];
                 foreach ($ctsps as $ctsp) {
                     $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();

@@ -99,7 +99,12 @@ Route::group([
 ], function ($router) {
 
     Route::post('addnew', [APIDonHangController::class,'DatHang']);
-    Route::get('showLists', [APIChiTietSanPhamController::class,'Listproductdetails']);
+    Route::get('donhang/{id}', [APIDonHangController::class,'donhang']);
+    Route::get('donhangadmin', [APIDonHangController::class,'donhangadmin']);
+    Route::get('duyetdon/{id}', [APIDonHangController::class,'duyetdon']);
+    Route::get('xacnhangiao/{id}', [APIDonHangController::class,'xacnhangiao']);
+    Route::get('chohuy/{id}', [APIDonHangController::class,'chohuy']);
+    Route::get('duyethuy/{id}', [APIDonHangController::class,'duyethuy']);
     Route::get('showList', [APIChiTietSanPhamController::class,'Listproductdetail']);
     
 });

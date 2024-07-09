@@ -17,6 +17,14 @@ class APITrangThaiSanPhamController extends Controller
                     'data'    => $dstenshop
             ]);
     } 
+    // public function trangthaisanpham($id){
+        
+    //     $dstenshop = TrangThaiSanPham::where('san_pham');
+    //         return response()-> json([
+    //                 'success' => true,
+    //                 'data'    => $dstenshop
+    //         ]);
+    // } 
     public function themmoi(Request $request){
         $tenshop = new TrangThaiSanPham();
         $count =TrangThaiSanPham::where('ten_trang_thai',$request->tentrangthai)->count();

@@ -8,6 +8,8 @@ use App\Models\DonHang;
 use App\Models\ChiTietDonHang;
 use App\Models\ChiTietSanPham;
 use App\Models\User;
+use App\Models\HinhAnh;
+
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 class APIDonHangController extends Controller
@@ -99,6 +101,115 @@ class APIDonHangController extends Controller
                 'success' => true,
             ]);
         }
-        
+    }
+    public function donhang($id){
+        $dh = DonHang::where('users_id', $id)->get();
+        $datadh = [];
+        $datactdh = [];
+        $datactsp= [];
+        // return response() -> json([
+        //     'data' => count($dh),
+        // ]);
+        for($i=0 ; $i<count($dh); $i++){
+            $ctdh = ChiTietDonHang::where('don_hang_id',$dh[$i]->id)->get();
+            
+            
+            for($j = 0 ; $j< count($ctdh);$j++){
+                $ctsp = ChiTietSanPham::where('san_pham_id',$ctdh[$j]->san_pham_id)->where('mau_sac_id',$ctdh[$j]->mau_sac_id)
+                ->where('dung_luong_id',$ctdh[$j]->dung_luong_id)->first();
+                $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)
+                ->where('isAvatarimage',1)->first();
+                array_push($datactdh,[
+                    'datactdh' =>$ctdh[$j],
+                    'data' => $ctsp,
+                    'img' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                ]);
+                
+            }
+           
+            // array_push($datadh,[
+            //     'datadh' =>$dh[$i],
+            //     'data' => $datactsp,
+            // ]);
+            // return response() -> json([
+            //     'data' => $datadh,
+            // ]);
+        }
+        return response() -> json([
+            'data' => $dh,
+            'datactdh'=> $datactdh
+        ]);
+  
+    }
+    public function donhangadmin(){
+        $dh = DonHang::all();
+        $datadh = [];
+        $datactdh = [];
+        $datactsp= [];
+        // return response() -> json([
+        //     'data' => count($dh),
+        // ]);
+        for($i=0 ; $i<count($dh); $i++){
+            $ctdh = ChiTietDonHang::where('don_hang_id',$dh[$i]->id)->get();
+            
+            
+            for($j = 0 ; $j< count($ctdh);$j++){
+                $ctsp = ChiTietSanPham::where('san_pham_id',$ctdh[$j]->san_pham_id)->where('mau_sac_id',$ctdh[$j]->mau_sac_id)
+                ->where('dung_luong_id',$ctdh[$j]->dung_luong_id)->first();
+                $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)
+                ->where('isAvatarimage',1)->first();
+                array_push($datactdh,[
+                    'datactdh' =>$ctdh[$j],
+                    'data' => $ctsp,
+                    'img' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                ]);
+                
+            }
+           
+            // array_push($datadh,[
+            //     'datadh' =>$dh[$i],
+            //     'data' => $datactsp,
+            // ]);
+            // return response() -> json([
+            //     'data' => $datadh,
+            // ]);
+        }
+        return response() -> json([
+            'data' => $dh,
+            'datactdh'=> $datactdh
+        ]);
+    }
+    public function duyetdon($id){
+        $dh = DonHang::find($id);
+        $dh->trang_thai = 2;
+        $dh->save();
+        return response() -> json([
+            'success' => true,
+        ]);
+    }
+    public function xacnhangiao($id){
+        $dh = DonHang::find($id);
+        $dh->trang_thai = 3;
+        $dh ->payment_methods = 1;
+        $dh->save();
+        return response() -> json([
+            'success' => true,
+        ]);
+    }
+    public function chohuy($id){
+        $dh = DonHang::find($id);
+        $dh->trang_thai = 4;
+        $dh->save();
+        return response() -> json([
+            'success' => true,
+        ]);
+    }
+    public function duyethuy($id){
+        $dh = DonHang::find($id);
+        $dh->trang_thai = 5;
+        $dh->save();
+        return response() -> json([
+            'success' => true,
+        ]);
     }
 }
