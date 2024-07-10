@@ -29,6 +29,8 @@ use App\Http\Controllers\APISlideshowController_Admin;
 use App\Http\Controllers\APITenshopController_Admin;
 use App\Http\Controllers\APINhapHangController;
 use App\Http\Controllers\APITrangThaiSanPhamController;
+use App\Http\Controllers\APIUserAdminController_Admin;
+use App\Http\Controllers\APIDonHangController_Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -160,6 +162,7 @@ Route::group([
 ], function ($router) {
 
     Route::get('chinhanh-admin', [APIChiNhanhController_Admin::class, 'danhSach']);
+    Route::post('themmoi-chinhanh', [APIChiNhanhController_Admin::class,'themMoi']);
     
 });
 Route::group([
@@ -172,7 +175,7 @@ Route::group([
 Route::group([
     'prefix' => 'sanpham'
 ], function ($router) {
-
+    Route::get('sanpham-soluong', [APISanPhamController_Admin::class, 'soluongSP']);    
     Route::get('sanpham-admin', [APISanPhamController_Admin::class, 'danhSach']);
     Route::post('themmoi-sanpham', [APISanPhamController_Admin::class, 'themSanPham']);
     Route::post('capnhat-sanpham/{id}', [APISanPhamController_Admin::class, 'capNhat']);
@@ -301,4 +304,20 @@ Route::group([
     Route::post('nhaphang', [APINhapHangController::class, 'nhaphang']);
     Route::post('capnhatproduct', [APINhapHangController::class, 'capnhatproduct']);
     Route::post('capnhatproductdetail', [APINhapHangController::class, 'capnhatproductdetail']);
+});
+Route::group([
+    'prefix' => 'khachhang'
+], function ($router) {
+
+    Route::get('khachhang-soluong', [APIUserAdminController_Admin::class, 'SoLuongKH']);
+    
+});
+Route::group([
+    'prefix' => 'donhangadmin'
+], function ($router) {
+
+    Route::get('donduyet-soluong', [APIDonHangController_Admin::class, 'SoLuongDonDuyet']);
+    Route::get('donduyet-doanhthu', [APIDonHangController_Admin::class, 'doanhThuHangThang']);
+    Route::get('donduyet-doanhthungay', [APIDonHangController_Admin::class, 'doanhThuHangNgay']);
+    
 });

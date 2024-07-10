@@ -67,6 +67,8 @@ class APIChiTietSanPhamController extends Controller
         foreach ($imgsp as $img) {
             array_push($dataimg,'http://127.0.0.1:8000/'.$img->URL_anh);
         }
+//          $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
+// >>>>>>> bd82b8a55dd9cbe83500afc7cfcf8f4ef40753aa
         $ncc = SanPham::find($productdetail->san_pham_id);
         $mau_sac =   ChiTietSanPham::where('san_pham_id',$productdetail->san_pham_id)->groupBy('mau_sac_id')->select('mau_sac_id')->get();
         $datamausac =[];
@@ -156,6 +158,7 @@ class APIChiTietSanPhamController extends Controller
                  'data_comment' => $comment,
                  'data_noi_dung' => $datanoidung,
                  'data_relatedproduct' => $datarelatedwithimg, 
+
             ]);
         }
         else{
@@ -373,7 +376,6 @@ class APIChiTietSanPhamController extends Controller
             //     }
                 
             // }
-            
             $data= [];
                 foreach ($ctsps as $ctsp) {
                     $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();

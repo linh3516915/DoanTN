@@ -9,6 +9,15 @@ use App\Models\LoaiSanPham_Admin;
 use App\Models\ChiTietSanPham_Admin;
 class APISanPhamController_Admin extends Controller
 {
+    public function soluongSP(){
+        try {
+            // Đếm số lượng sản phẩm
+            $sanpham = SanPham_Admin::count();
+            return response()->json(['count' => $sanpham], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
     //laydanhsach
     public function danhSach(){
         $dsSanPham = SanPham_Admin::all();

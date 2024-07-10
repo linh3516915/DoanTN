@@ -8,7 +8,6 @@ use App\Mail\OtpMail;
 use App\Models\User;
 use App\Models\OTP;
 use Illuminate\Support\Facades\Mail;
-require 'D:\twilio\twilio-php-main\src\Twilio\autoload.php';
 class APIOTPController extends Controller
 {
      public function sendOTP(Request $request)

@@ -9,7 +9,6 @@ use App\Models\ChiTietDonHang;
 use App\Models\ChiTietSanPham;
 use App\Models\User;
 use App\Models\HinhAnh;
-
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 class APIDonHangController extends Controller
@@ -104,6 +103,7 @@ class APIDonHangController extends Controller
     }
     public function donhang($id){
         $dh = DonHang::where('users_id', $id)->get();
+        
         $datadh = [];
         $datactdh = [];
         $datactsp= [];
@@ -205,9 +205,19 @@ class APIDonHangController extends Controller
         ]);
     }
     public function duyethuy($id){
+        $dt = Carbon::now('Asia/Ho_Chi_Minh');
         $dh = DonHang::find($id);
         $dh->trang_thai = 5;
         $dh->save();
+        $ctdh = ChiTietDonHang::where('don_hang_id' , $dh->id) ->get();
+        foreach ($ctdh as $ct) {
+           $ctsp = ChiTietSanPham::where('san_pham_id',$ct->san_pham_id)->where('mau_sac_id', $ct->mau_sac_id)
+           ->where('dung_luong_id',$ct->dung_luong_id)
+           ->update([
+               'so_luong' => ChiTietSanPham::raw('so_luong + ' . intval($ct->so_luong_mua)),
+                'updated_at' => $dt,
+           ]);
+        }
         return response() -> json([
             'success' => true,
         ]);

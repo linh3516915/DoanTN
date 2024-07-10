@@ -8,6 +8,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 use App\Models\GioHang;
 use App\Models\ChiTietSanPham;
+use App\Models\HinhAnh;
+
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 class AuthController extends Controller
@@ -24,6 +26,7 @@ class AuthController extends Controller
         $user->password = Hash::make($rq->password);
         $user->so_dien_thoai = $rq->phone;
         $user->dia_chi = $rq->address;
+        $user->isAdmin = 0;
         $user->save();
         // $token = auth()->attempt($rq->only('email', 'password'));
         // $refreshToken = $this->createRefreshToken();
@@ -58,8 +61,10 @@ class AuthController extends Controller
                     for($i = 0 ;$i< count($giohang);$i++){
                         $ctsp = ChiTietSanPham::where('san_pham_id', $giohang[$i]->san_pham_id)
                         ->where('mau_sac_id', $giohang[$i]->mau_sac_id)->where('dung_luong_id', $giohang[$i]->dung_luong_id)->first();
+                        $img = HinhAnh::where('san_pham_id',$giohang[$i]->san_pham_id)->where('mau_sac_id',$giohang[$i]->mau_sac_id)->where('isAvatarimage',1)->first();
                         array_push($data,[
                             'ctsp' => $ctsp,
+                            'img' => 'http://127.0.0.1:8000/'.$img->ten_hinh_anh,
                             'so_luong' => $giohang[$i]->so_luong
                         ]);
                     }
