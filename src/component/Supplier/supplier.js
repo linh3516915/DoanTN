@@ -34,7 +34,7 @@ export default function Supplier() {
     if (show4hottrends !== null) {
         show = show4hottrends.map((item, index) => {
             return (
-                <CardProductDetail data={item} animation={btnanimation} />
+                <CardProductDetail data={item.data} animation={btnanimation} />
 
             )
         })

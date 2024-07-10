@@ -23,7 +23,7 @@ export default function Dahuyadmin() {
                                 <div class="row">
                                     <div class="col-md-2">
                                         {/* <img src={imgsale} class="img-fluid" alt="Phone"/> */}
-                                        <h4 style={{ marginBottom: '0px' }}>Đơn hàng ngày</h4>
+                                        <h5 style={{ marginBottom: '0px' }}>Đơn hàng ngày</h5>
                                         <p>{item.ngay_dat}</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">

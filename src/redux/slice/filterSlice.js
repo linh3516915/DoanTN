@@ -4,7 +4,7 @@ const initialState = {
     filterproduct: null,
     filterproductinheader: null,
     result: 0,
-    trangdau: 16,
+    trangdau: 20,
     trangcuoi: 1,
     loading: false,
     loadingcomponent : false,

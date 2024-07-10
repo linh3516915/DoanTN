@@ -130,10 +130,10 @@ export default function Banner() {
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="slide-content">
-                                                        <h2>We are awesome</h2>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, dolorem, excepturi. Dolore aliquam quibusdam ut quae iure vero exercitationem ratione!</p>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi ab molestiae minus reiciendis! Pariatur ab rerum, sapiente ex nostrum laudantium.</p>
-                                                        <a href="#" className="readmore">Learn more</a>
+                                                        <h2>About us</h2>
+                                                        <p>Discover the excitement of cutting-edge technology with this premium smartphone! Featuring a sleek design, powerful performance, and versatile features, this phone is the perfect companion for every aspect of your life. </p>
+                                                        <p>  Enjoy its crisp display, high-quality camera for stunning photos and videos, and smooth multitasking capabilities. Don't miss out on owning this exceptional product – place your order now to take advantage of special offers!</p>
+                                                        {/* <a href="#" className="readmore">Learn more</a> */}
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,9 +152,10 @@ export default function Banner() {
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="slide-content">
-                                                        <h2>We are great</h2>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe aspernatur, dolorum harum molestias tempora deserunt voluptas possimus quos eveniet, vitae voluptatem accusantium atque deleniti inventore. Enim quam placeat expedita! Quibusdam!</p>
-                                                        <a href="#" className="readmore">Learn more</a>
+                                                        <h2>Reliable and Convenient Delivery Service at Our Store</h2>
+                                                        <p> Welcome to our store! We take pride in offering fast and reliable delivery service right to our customers' doorstep. With an extensive shipping network, we are committed to providing a convenient and enjoyable shopping experience.</p>
+                                                        <p> You can rest assured when placing an order with us, as customer satisfaction is our top priority. Explore our products today and let us deliver the best experience to you!</p>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,10 +173,9 @@ export default function Banner() {
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="slide-content">
-                                                        <h2>We are superb</h2>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, eius?</p>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptates necessitatibus dicta recusandae quae amet nobis sapiente explicabo voluptatibus rerum nihil quas saepe, tempore error odio quam obcaecati suscipit sequi.</p>
-                                                        <a href="#" className="readmore">Learn more</a>
+                                                        <h2>And Now</h2>
+                                                        <p>Step into our store, FUTURE SKY, where quality meets variety! We warmly welcome you to explore a diverse selection of high-quality products and excellent customer service. We are committed to meeting all your shopping needs with professionalism and enthusiasm. Don't hesitate to visit our store today for a delightful and exceptional shopping experience!</p>
+                                                        <a href="./shop" className="readmore">Click here now</a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -16,7 +16,7 @@ import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, set
 import ChiTietSanPham from '../../../component/Admin/ChiTietSanPham/Chitietsanpham';
 import EditorComponent from '../../../component/CKeditor/ckeditor';
 import PopupAddtrangthai from '../../../component/Admin/AddTHvaLSP/Addtrangthai';
-import { openpopupeditproductdetail } from '../../../redux/slice/popupSlice';
+import { openpopupeditproductdetail, setsuccess } from '../../../redux/slice/popupSlice';
 export default function ChiTietSanPhamAdmin(props) {
 
     const { id } = useParams();
@@ -380,11 +380,12 @@ export default function ChiTietSanPhamAdmin(props) {
 
                 if (response.data.success) {
                     console.log('testdataaaa', response.data.data.san_pham_id);
-                    alert('done');
+                    
                     dispatch(setproductdetails(response.data));
 
                     dispatch(loadingmodal(false));
-
+                    dispatch(setsuccess(true));
+                    
                 }
                 else {
                     console.log('check : 3 file', response.data.message);
@@ -642,9 +643,9 @@ export default function ChiTietSanPhamAdmin(props) {
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
             <HeaderAdmin />
             <div className="container-fluid">
-                <div className="row">
+                <div style={{height: '38rem'}} className="row">
                     <TaskbarAdmin />
-                    <main style={{ width: '80%', height: '45rem', overflow: 'scroll' }} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <main style={{ width: '84%', overflow: 'scroll' }} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 className="h2">cập nhật Sản Phẩm</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
@@ -894,7 +895,7 @@ export default function ChiTietSanPhamAdmin(props) {
                                                         </div>
                                                         <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
                                                             {/* <div class="col-md-3"> */}
-                                                            <label for="Ten" className=""> nhập phần trăm giảm </label>
+                                                            <label for="Ten" className="">giảm giá(%)</label>
                                                             <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem', width: '85%' }} type="number" min={0} max={100} value={phantramgiam} onChange={(e) => { dispatch(setphantramgiam(e.target.value)) }} required />
                                                             {/* </div> */}
                                                         </div>

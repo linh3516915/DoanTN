@@ -6,28 +6,28 @@ function Footer() {
     const [error, setError] = useState(null);
 
     const [retryCount, setRetryCount] = useState(0);
-    useEffect(() => {
-        async function setchinhanh() {
-            try {
-                var response = await fetch(`http://127.0.0.1:8000/api/diachi/chinhanh-admin`);
-                var json = await response.json();
-                setDSChiNhanh(json.data)
-            } catch (error) {
-                if (error.response === 429) {
-                    setError('chờ 1 chút. Please try again later.');
-                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
-                    setTimeout(() => {
-                        setRetryCount(retryCount + 1);
-                        setchinhanh();
-                    }, delay);
-                } else {
-                    setError('An error occurred. Please try again later.');
-                }
-            }
+    // useEffect(() => {
+    //     async function setchinhanh() {
+    //         try {
+    //             var response = await fetch(`http://127.0.0.1:8000/api/diachi/chinhanh-admin`);
+    //             var json = await response.json();
+    //             setDSChiNhanh(json.data)
+    //         } catch (error) {
+    //             if (error.response === 429) {
+    //                 setError('chờ 1 chút. Please try again later.');
+    //                 const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+    //                 setTimeout(() => {
+    //                     setRetryCount(retryCount + 1);
+    //                     setchinhanh();
+    //                 }, delay);
+    //             } else {
+    //                 setError('An error occurred. Please try again later.');
+    //             }
+    //         }
 
-        }
-        setchinhanh();
-    }, [retryCount])
+    //     }
+    //     setchinhanh();
+    // }, [retryCount])
 
     const [dstongdai, SetDSTD] = useState([]);
     useEffect(() => {

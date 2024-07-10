@@ -3,7 +3,7 @@ import OtpInput from 'react-otp-input';
 import styles from './otp.module.css'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { closepopupotp, openpopuplogin } from '../../redux/slice/popupSlice';
+import { closepopupotp, openpopuplogin, setsuccess } from '../../redux/slice/popupSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from 'react-intersection-observer';
@@ -85,7 +85,6 @@ export default function OTP(props) {
         otp,
         'otpcheck': otpcheck
       })
-      alert(response.data.success);
       if (response.data.success) {
         const getAPI = async () => {
           const response = await axios.post('http://127.0.0.1:8000/api/auth/signup', {
@@ -102,7 +101,7 @@ export default function OTP(props) {
 
           if (response.data.success === true) {
 
-            alert('đăng ký thành công');
+            dispatch(setsuccess(true));
             // dispatch(setCart());
             dispatch(getemail(''));
             dispatch(closepopupotp());

@@ -30,9 +30,9 @@ export default function UpdateLoaiSanPham(){
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
             <HeaderAdmin />
             <div className="container-fluid">
-                <div className="row">
+                <div style={{height: '38rem'}} className="row">
                     <TaskbarAdmin />
-                    <main style={{width:'80%',height: '45rem' , overflow : 'scroll'}} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <main style={{width:'84%' , overflow : 'scroll'}} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 className="h2">CẬP NHẬT LOẠI SẢN PHẨM </h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
@@ -40,7 +40,7 @@ export default function UpdateLoaiSanPham(){
                                 </div>
                             </div>
                         </div>
-                        <form onSubmit={handleSubmit} className="row g-3" >
+                        <form onSubmit={handleSubmit} style={{margin:'0',maxWidth:'45%',marginLeft:'25%'}} >
                             <div className="col-12">
                                 <div className="add_sp-ctsp">
                                     <div className="add_sp">

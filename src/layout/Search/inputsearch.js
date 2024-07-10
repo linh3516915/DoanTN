@@ -58,7 +58,7 @@ export default function InputSearch() {
             if (index > 0 && index <= 3) {
                 return (
                     <>
-                        <div className={`${styles['item']}`} onClick={() => { navigate(`/productdetail/${item.id}`) }} style={{ border: 'solid 1px #ccc', padding: '0.5rem', marginBottom: '3%', cursor: 'pointer' }}>
+                        <div className={`${styles['item']}`} onClick={() => { navigate(`/productdetail/?name=${encodeURIComponent(item.data.ten)}`); }} style={{ border: 'solid 1px #ccc', padding: '0.5rem', marginBottom: '3%', cursor: 'pointer' }}>
                             <img src={item.image} alt="" class="product-thumb" height='60px' />
                             <p style={{ height: "10%", textDecoration: 'none' }}><p style={{ color: 'black' }}>{item.data.ten}</p></p>
                             <Star so_sao={item.so_sao}/>
@@ -133,7 +133,7 @@ export default function InputSearch() {
                         <button type="submit" onClick={() => { }} className="btn btn-secondary" style={{ borderRadius: '22px', marginRight: '3%' }}>
                             <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
-                        <input name="query" style={{ width: '100%', margin: '0', border: 'solid 1px' }} placeholder="Enter Search Here!"
+                        <input name="query" style={{ width: '100%', margin: '0', border: 'solid 1px #ccc' }} placeholder="Enter Search Here!"
                             className={` px-3 py-2`} onChange={(e) => {
                                  setTimeout(() => {
                                      setSearch(e.target.value);

@@ -66,11 +66,11 @@ export default function Contentmanagement() {
         <>
             <BannerOfPage bigTitle='Quản lý đơn hàng' />
             <div style={{ display: 'flex', borderBottom: "1px solid #ccc" }}>
-                <div onClick={() => { dadat();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-dat']} ${btndadat ? styles['da-datclicked'] : ''}`}>Đơn Hàng Đã Đặt</div>
-                <div onClick={() => { danggiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['dang-giao']} ${btndanggiao ? styles['dang-giaoclicked'] : ''}`}>Đơn Hàng Đang Giao</div>
-                <div onClick={() => { dagiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-giao']} ${btndagiao ? styles['da-giaoclicked'] : ''}`}>Đơn Hàng Đã Giao</div>
-                <div onClick={() => { chohuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['cho-huy']} ${btnchohuy ? styles['cho-huyclicked'] : ''}`}>Đơn Hàng Chờ Hủy</div>
-                <div onClick={() => { dahuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-huy']} ${btndahuy ? styles['da-huyclicked'] : ''}`}>Đơn Hàng Đã Hủy</div>
+                <div onClick={() => { dadat();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-dat']} ${btndadat ? styles['da-datclicked'] : ''}`}> Đã Đặt</div>
+                <div onClick={() => { danggiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['dang-giao']} ${btndanggiao ? styles['dang-giaoclicked'] : ''}`}> Đang Giao</div>
+                <div onClick={() => { dagiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-giao']} ${btndagiao ? styles['da-giaoclicked'] : ''}`}> Đã Giao</div>
+                <div onClick={() => { chohuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['cho-huy']} ${btnchohuy ? styles['cho-huyclicked'] : ''}`}> Chờ Hủy</div>
+                <div onClick={() => { dahuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-huy']} ${btndahuy ? styles['da-huyclicked'] : ''}`}> Đã Hủy</div>
             </div>
             {btndadat && (
                 <Dadat/>

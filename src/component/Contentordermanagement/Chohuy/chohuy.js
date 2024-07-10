@@ -13,6 +13,7 @@ export default function Chohuy() {
     const dispatch = useDispatch();
     const chitietdonhang = useSelector(state => state.ordermanagement.chitietdonhang);
     const [ctdh, setCtdh] = useState(0);
+    const [dh, setdh] = useState([]);
     if (donhang != null) {
         listdonhang = donhang.map((item) => {
             if (item.trang_thai == 4) {
@@ -23,7 +24,7 @@ export default function Chohuy() {
                                 <div class="row">
                                     <div class="col-md-2">
                                         {/* <img src={imgsale} class="img-fluid" alt="Phone"/> */}
-                                        <h4 style={{ marginBottom: '0px' }}>Đơn hàng ngày</h4>
+                                        <h5 style={{ marginBottom: '0px' }}>Đơn hàng ngày</h5>
                                         <p>{item.ngay_dat}</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
@@ -45,7 +46,19 @@ export default function Chohuy() {
 
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
+                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh));setdh({
+                                            'email' :item.email,
+                                            'so_dien_thoai' : item.so_dien_thoai,
+                                            'ho_ten' : item.ho_ten,
+                                            'adress': item.dia_chi,
+                                            'thoi_gian_giao' : item.thoi_gian_giao,
+                                            'ngay_dat' : item.ngay_dat,
+                                            'payment_methods' : item.payment_methods,
+                                            'giam_gia' : item.giam_gia,
+                                            'gia_khuyen_mai' :  item.gia_khuyen_mai,
+                                            'tong_tien': item.tong_tien,
+                                            'trang_thai' : item.trang_thai
+                                        }) ; setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +70,7 @@ export default function Chohuy() {
     }
     return (
         <>
-            <div style={{ height: '69%', overflow: 'scroll', padding: '1rem' }}>
+            <div style={{ height: '71%', overflow: 'scroll', padding: '1rem' }}>
                 {!btnctdh && listdonhang != [] && (
                     listdonhang
                 )}
@@ -66,7 +79,7 @@ export default function Chohuy() {
                 )}
                 {btnctdh && (
 
-                    <Chitietdonhang id={ctdh} />
+                    <Chitietdonhang id={ctdh} donhang={dh}/>
                 )}
                 {listdonhang == [] && (
                     <>

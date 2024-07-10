@@ -33,7 +33,6 @@ export default function FormPay(props) {
         }
     }
     console.log(btnconfirmcash,btnconfirmmomo);
-
     return (
         <div ref={refPopupOTP} className={`${styles['otp-input']}  ${inViewPopupOTP ? 'animation-from-top' : ''}`} >
             <button className='btn btn-outline-danger' style={{ position: 'absolute', right: '1px', top: '1px' }} onClick={() => {
@@ -56,6 +55,7 @@ export default function FormPay(props) {
             </div>
             <button onClick={() => {
                 confirm(btnconfirmcash,btnconfirmmomo);
+
             }} disabled={(btnconfirmcash== false && btnconfirmmomo ==false)||(btnconfirmcash== true && btnconfirmmomo ==true)} style={{ backgroundColor: '#1abc9c', color: 'white', width: '100%', height: '48%', borderRadius: '12px', fontSize: '1.5rem' }} className='btn '>Xác Nhận</button>
 
             {/* <div style={{ display: 'flex', justifyContent: 'space-around' }}>

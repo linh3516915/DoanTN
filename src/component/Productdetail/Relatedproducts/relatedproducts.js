@@ -28,8 +28,8 @@ function Relatedproducts() {
             if (index >= 0 && index < 3) {
                 return (
                     <>
-                        <div class="single-wid-product" style={{borderBottom:'1px solid #ccc'}}>
-                            <a  href={`/productdetail/${item.id}`}><img src={item.image} alt="" class="product-thumb" /></a>
+                        <div  class="single-wid-product" style={{marginBottom:'18px',borderBottom:'1px solid #ccc'}}>
+                            <a  href={`/productdetail/?name=${encodeURIComponent(item.data.ten)}`}><img src={item.image} alt="" class="product-thumb" /></a>
                             <p style={{ height: "4%", textDecoration: 'none' }}><a href={`/productdetail/${item.id}`} style={{ color: 'black' }}>{item.data.ten}</a></p>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -52,6 +52,7 @@ function Relatedproducts() {
     return (
         <>
             <div className={`${styles['main']}`}>
+                <p style={{marginBottom:'1.1rem'}}> Sản phẩm liên quan</p>
                 {itemtopseller}
             </div>
         </>

@@ -8,7 +8,8 @@ const initialState = {
     user : {},
     email : '',
     tokenToRun : '',
-    OTP : null
+    OTP : null,
+    nameshop : [],
 }
 
 export const authSlice = createSlice({
@@ -42,10 +43,14 @@ export const authSlice = createSlice({
     setOTP : (state, action) =>{
       state.OTP = action.payload;
     } ,
+    setnameshop : (state, action) =>{
+       console.log('ten',action.payload);
+      state.nameshop = action.payload;
+    } ,
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { gettoken,Logout,getuser,gettokentorun,isadmin,getemail,setOTP } = authSlice.actions
+export const { gettoken,Logout,getuser,gettokentorun,isadmin,getemail,setOTP,setnameshop } = authSlice.actions
 
 export default authSlice.reducer

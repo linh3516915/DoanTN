@@ -54,6 +54,7 @@ export const cartSlice = createSlice({
           if (!existingItem) {
             state.items.push({
               product: newItem.ctsp,
+              img : newItem.img,
               quantity: newItem.so_luong,
             });
           } else {

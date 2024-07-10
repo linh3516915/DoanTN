@@ -13,6 +13,7 @@ import imgsoldout from "../../assets/ảnh/sold out.png";
 import axios from 'axios';
 import { getproductdetail } from '../../redux/slice/itemproductdetail';
 import { addRecently } from '../../redux/slice/recentlyviewedSlice';
+import { setsuccess } from '../../redux/slice/popupSlice';
 export default function CardProductDetail(props) {
     const [idpddetail, setIdpddetail] = useState(0);
     const productdetail = useSelector(state => state.itemproductdetail.itemproductdetail);
@@ -29,7 +30,7 @@ export default function CardProductDetail(props) {
     const navigate = useNavigate();
     const addcart = (item) => {
         dispatch(addCart(item));
-        alert('add cart successfully');
+        dispatch(setsuccess(true));
     }
     const movepageproductdetail = (id, item) => {
 
@@ -82,17 +83,33 @@ export default function CardProductDetail(props) {
     }
     return (
         <>
-            <div  style={{ }} key={props.data.id} className={`${styles['product-item']} ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
+            <div style={{}} key={props.data.id} className={`${styles['product-item']} ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
 
                 <div className={`${styles['item']}  `}>
-                    {auth && !isadmin && (
+                    {/* {auth && !isadmin && (
                         <button className={`btn btn-primary ${styles['favotrite']}`} style={{ fontSize: '0.75rem', marginBottom: '1rem' }}><FontAwesomeIcon icon={faBookmark} /></button>
-                    )}
+                    )} */}
+                    <div style={{ display: 'flex' }}>
+                        {auth && !isadmin && (
+                            <button className={`btn btn-primary ${styles['favotrite']}`} style={{ fontSize: '0.75rem', marginBottom: '1rem' }}><FontAwesomeIcon icon={faBookmark} /></button>
+                        )}
+                        {props.data.phan_tram_giam == 0 && (
+                            <>
+                             <div style={{height:'46px', width: '100%',fontStyle:'italic', textAlign: 'end', color: 'red', fontWeight: '700', fontSize: '20px' }}><p></p> </div>
+                            </>
+
+                        )}
+                        {props.data.phan_tram_giam != 0 && (
+                            <>
+                                <div style={{ width: '100%',fontStyle:'italic', textAlign: 'end', color: 'red', fontWeight: '700', fontSize: '20px' }}><p>-{props.data.phan_tram_giam}%</p> </div>
+                            </>
+
+                        )}
+
+                    </div>
+
                     <div onClick={() => { movepageproductdetail(props.data.ten, props.data); }} className={`${styles['item-content']}  `}>
                         <div className={`${styles['item-img']}`} style={{}}>
-                            {props.ishottrending && (
-                                <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
-                            )}
                             {props.ishottrending && (
                                 <img className={`${styles['img-sticker']}`} src={imghotrenđing} />
                             )}
@@ -121,7 +138,7 @@ export default function CardProductDetail(props) {
                             {props.data.phan_tram_giam != 0 && (
                                 <>
 
-                                    <div className={`${styles['item-price']}`}> <del style={{  }}>{props.data.gia.toLocaleString('en-US')}</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
+                                    <div className={`${styles['item-price']}`}> <del style={{}}>{props.data.gia.toLocaleString('en-US')}</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
                                 </>
 
                             )}
@@ -133,13 +150,13 @@ export default function CardProductDetail(props) {
                     {isadmin == false && (
                         <>
                             {props.data.so_luong == 0 && (
-                                <><img src={imgsoldout} style={{width:'100%',height:'5rem'}}/></>
+                                <><img src={imgsoldout} style={{ width: '100%', height: '5rem' }} /></>
                             )}
-                            
+
                             {props.data.so_luong != 0 && (
                                 <>  <button onClick={() => { addcart(props) }} style={{ width: '100%', marginTop: '10px', marginBottom: '10px', backgroundColor: '#1abc9c' }} className="btn btn-success">Add to cart</button></>
                             )}
-                           
+
                         </>
                     )}
                 </div>

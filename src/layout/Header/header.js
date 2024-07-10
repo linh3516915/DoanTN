@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
 import './Navbar.css';
-import { Logout, gettokentorun, isadmin } from "../../redux/slice/authSlice";
+import { Logout, gettokentorun, isadmin, setnameshop } from "../../redux/slice/authSlice";
 import { useEffect, useRef, useState } from 'react';
 import styles from './NavBar.module.css';
 import PopupLogin from '../PopupLogin/popuplogin';
-import { openpopup, openpopuplogin, openpopupsignup } from '../../redux/slice/popupSlice';
+import { openpopup, openpopuplogin, openpopupsignup, seterror, setsuccess, setwarn } from '../../redux/slice/popupSlice';
 import { useNavigate } from 'react-router-dom';
 import img from '../../assets/ảnh/tải xuống (1).jpg';
 import PopupOTP from '../PopupOTP/popupOTP';
 import Search from '../../component/SearchProduct/search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartArrowDown, faEdit, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faCartArrowDown, faCheck, faEdit, faMagnifyingGlass, faTriangleExclamation, faXmark } from '@fortawesome/free-solid-svg-icons';
 import InputSearch from '../Search/inputsearch';
 import LoadingSpinnerModal from '../../component/LoadingSpinnerModal/LoadingSpinnerModal';
 import PopupComment from '../../component/Productdetail/Commentandvote/popupcomment/popupcomment';
@@ -32,8 +32,29 @@ export default function Header(props) {
     const items = useSelector(state => state.cart.items);
     const token = useSelector(state => state.auth.token);
     const totalQuantity = useSelector(state => state.cart.totalQuantity);
+    const nameshop = useSelector(state => state.auth.nameshop);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const success = useSelector(state => state.popup.success);
+    const errors = useSelector(state => state.popup.error);
+    const warn = useSelector(state => state.popup.warn);
+    useEffect(() => {
+        if (success == true) {
+            setTimeout(() => {
+                dispatch(setsuccess(false));
+            }, 5000);
+        }
+        if (errors == true) {
+            setTimeout(() => {
+                dispatch(seterror(false));
+            }, 5000);
+        }
+        if (warn == true) {
+            setTimeout(() => {
+                dispatch(setwarn(false));
+            }, 5000);
+        }
+    }, [success, errors, warn])
     const logout = () => {
         console.log('checkcart', items);
 
@@ -93,7 +114,8 @@ export default function Header(props) {
             try {
                 var response = await fetch(`http://127.0.0.1:8000/api/tenshop/tenshop-admin`);
                 var json = await response.json();
-                setDSTenShop(json.data)
+                setDSTenShop(json.data);
+                dispatch(setnameshop(json.data));
             } catch (error) {
                 if (error.response.status === 429) {
                     const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
@@ -121,9 +143,11 @@ export default function Header(props) {
                     <div className="row">
                         <div className="col-sm-6">
                             <div className="logo">
-                                <h1>{dstenshop.map(tenshop => (
-                                    <a href="/" key={tenshop.id}>{tenshop.ten_shop} </a>
-                                ))} </h1>
+                                <h1>
+                                    {nameshop != '' && (
+                                        <a href="/" >{nameshop[0].ten_shop} </a>
+                                    )}
+                                </h1>
                             </div>
                         </div>
 
@@ -155,7 +179,7 @@ export default function Header(props) {
                                             <li className="nav-item">
                                                 <a className="nav-link" href="/cart">Cart</a>
                                             </li>
-                                            <li className="nav-item">
+                                            {/* <li className="nav-item">
                                                 <a className="nav-link" href="#">Category</a>
                                             </li>
                                             <li className="nav-item">
@@ -163,7 +187,7 @@ export default function Header(props) {
                                             </li>
                                             <li className="nav-item">
                                                 <a className="nav-link" href="#">Contact</a>
-                                            </li>
+                                            </li> */}
                                             {!props.ishowsearch && (
                                                 <li className="nav-item">
                                                     <div>
@@ -185,7 +209,7 @@ export default function Header(props) {
                                                                 <img src={img} alt="mdo" width="32" height="32" className="rounded-circle" />
                                                             </a>
                                                             <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                                                                <li><a className="dropdown-item" href="#">Settings</a></li>
+                                                                {/* <li><a className="dropdown-item" href="#">Settings</a></li> */}
                                                                 <li><a className="dropdown-item" href="/profile">Profile</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
@@ -211,7 +235,7 @@ export default function Header(props) {
                                                                 <img src={img} alt="mdo" width="32" height="32" className="rounded-circle" />
                                                             </a>
                                                             <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                                                                <li><a className="dropdown-item" href="#">Settings</a></li>
+                                                                {/* <li><a className="dropdown-item" href="#">Settings</a></li> */}
                                                                 <li><a className="dropdown-item" href="/admin">Admin Sanager</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
@@ -230,6 +254,26 @@ export default function Header(props) {
                 </div>
             </div>
 
+            {success && (
+                <div className={`alert alert-success ${success ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+                    <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faCheck} style={{ marginRight: '3%' }} />Successfully</div>
+                    <button onClick={() => { dispatch(setsuccess(false)) }} className="btn ">x</button>
+                </div>
+
+
+            )}
+            {errors && (
+                <div className={`alert alert-danger ${errors ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+                    <div style={{ width: '50%', lineHeight: '38px' }}> <FontAwesomeIcon icon={faXmark} style={{ marginRight: '3%' }} /> Error</div>
+                    <button onClick={() => { dispatch(seterror(false)) }} className="btn btn-danger">x</button>
+                </div>
+            )}
+            {warn && (
+                <div className={`alert alert-warning ${warn ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+                    <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faTriangleExclamation} style={{ marginRight: '3%' }} />something went wrong</div>
+                    <button onClick={() => { dispatch(setwarn(false)) }} className="btn btn-danger">x</button>
+                </div>
+            )}
             {/* <header className="p-3 text-white" style={{backgroundColor : '#1abc9c'}}>
                 <div className="container">
                     <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">

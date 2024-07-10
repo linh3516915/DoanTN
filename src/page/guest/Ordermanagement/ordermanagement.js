@@ -17,6 +17,7 @@ import Sidebar from "../../../component/Sidebarguest/sidebar";
 import Contentprofile from "../../../component/ContentProfile/contentprofile";
 import Contentmanagement from "../../../component/Contentordermanagement/Contentordermanagement";
 import LoadingSpinnerModal from "../../../component/LoadingSpinnerModal/LoadingSpinnerModal";
+import styles from './ordermanagement.module.css'
 export default function Ordermanagement(props) {
     console.log("check auth:", props.data);
     const dispatch = useDispatch();
@@ -30,12 +31,12 @@ export default function Ordermanagement(props) {
             <Header />
 
             {isloadingmodal && (<LoadingSpinnerModal />)}
-            <div style={{ display: 'flex' }}>
-                <div style={{ width: '20%' }}>
+            <div className={`${styles['content']}`}>
+                <div className={`${styles['sidebar']}`} >
                     <Sidebar />
                 </div>
 
-                <div style={{ width: '80%' }}>
+                <div  className={`${styles['main-content']}`} >
                     <Contentmanagement />
                 </div>
 

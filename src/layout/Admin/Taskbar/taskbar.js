@@ -1,7 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { Logout, isadmin } from "../../../redux/slice/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 export default function TaskbarAdmin() {
+    const nameshop = useSelector(state=>state.auth.nameshop);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const logout = () => {
@@ -9,8 +10,9 @@ export default function TaskbarAdmin() {
         dispatch(isadmin(false));
         alert('hahah');
         navigate('/');
-        
+
     }
+
     return (
         <>
             {/* <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
@@ -26,10 +28,13 @@ export default function TaskbarAdmin() {
                     </ul>
                 </div>
             </nav> */}
-            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{ width: '20%', height: '45rem' }} >
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{ width: '16%', minHeight: '38rem' }} >
+                <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <svg class="bi me-2" width="40" height="32"></svg>
-                    <span class="fs-4">Sidebar</span>
+                    {nameshop != '' && (
+                        <span style={{ paddingBottom: '10px', textAlign: 'center' }} class="fs-4">{nameshop[0].ten_shop}</span>
+                    )}
+                    
                 </a>
                 {/* <hr> */}
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -41,12 +46,19 @@ export default function TaskbarAdmin() {
                     <li>  <NavLink to="/chinhanh-admin" className="nav-link  text-white" >Chi Nhánh</NavLink></li>
                     <li>  <NavLink to="/tongdai-admin" className="nav-link  text-white" >Tổng Đài</NavLink></li>
                     <li>  <NavLink to="/quanlydonhangadmin" className="nav-link  text-white" >Quản lý đơn hàng </NavLink></li>
+                    {/* =======
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/sanpham-admin" className="nav-link  text-white" >Sản Phẩm</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/nhacungcap-admin" className="nav-link  text-white" >Nhà cung cấp</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/loaisanpham-admin" className="nav-link  text-white" >Loại sản phẩm</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/chinhanh-admin" className="nav-link  text-white" >Chi Nhánh</NavLink></li>
+                    <li style={{ fontSize:'20px'}}>  <NavLink to="/tongdai-admin" className="nav-link  text-white" >Tổng Đài</NavLink></li>
+>>>>>>> 1e59523a5a8973ed7b0b7994e81957a28188772c */}
                 </ul>
                 {/* <hr> */}
                 <div class="dropdown">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2" />
-                        <strong>mdo</strong>
+                        <img src="" alt="" width="32" height="32" class="rounded-circle me-2" />
+                        <strong>Admin</strong>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                         <li><a class="dropdown-item" href="/">Back to home</a></li>

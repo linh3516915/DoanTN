@@ -22,6 +22,7 @@ export default function FormCheckout() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const auth = useSelector(state => state.auth.authentication);
     const isAdmin = useSelector(state => state.auth.isAdmin);
+
     const items = useSelector(state => state.cart.items);
     const user = useSelector(state => state.auth.user);
     const address = useSelector(state => state.address.Address);
@@ -71,7 +72,6 @@ export default function FormCheckout() {
                 btncheckout: true
             }));
         }
-
     }, [inputFullName, inputPhoneNumber, inputEmail, inputPassword, inputRePassword, pro, wa, dic, street, currentTime, gio])
     // useEffect(() => {
     //         setCurrentTime(new Date());
@@ -82,7 +82,6 @@ export default function FormCheckout() {
                 <div style={{ border: '1px solid #ccc', padding: '0.5rem', marginBottom: '2%' }}>
                     <h5 style={{ textAlign: 'start', fontStyle: 'italic' }}> giao Lần thứ {index + 1}</h5>
                     <div style={{ display: 'flex' }}>
-
                         <img className={`${styles['img-ship']}`} style={{ }} src={item.img} />
                         <div>
                             <p style={{ fontSize: '84%' }}>{item.product.ten}</p>
@@ -211,6 +210,7 @@ export default function FormCheckout() {
                     />
                 </>
             )}
+
 
             {/* {isShowWarning(isValidPassword, isTouchPassword) ? alertMessage("Please enter password at least 8 character!") : <></>} */}
             <input style={{ marginBottom: '2%' }} type='number' placeholder='Số điện thoại' required

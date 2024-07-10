@@ -38,16 +38,14 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
                                 <div class="row">
                                     <div class="col-md-2">
                                         {/* <img src={imgsale} class="img-fluid" alt="Phone"/> */}
-                                        <h4 style={{ marginBottom: '0px' }}>Đơn hàng ngày</h4>
+                                        <h5 style={{ marginBottom: '0px' }}>Đơn hàng ngày</h5>
                                         <p>{item.ngay_dat}</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <p class="text-muted mb-0"></p>
                                     </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small"></p>
-                                    </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    
+                                    <div style={{width:'25%'}} class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <p class="text-muted mb-0 small">Tổng Tiền: {item.gia_khuyen_mai.toLocaleString()} VNĐ</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
@@ -59,7 +57,7 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
                                         )}
 
                                     </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    <div style={{width:'25%'}} class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
                                         <button onClick={() => { duyethuy(item.id) }} className="btn btn-primary"><FontAwesomeIcon icon={faCheck} /></button>
                                    

@@ -67,7 +67,9 @@ export default function Shop() {
         // Sử dụng map để tạo danh sách sản phẩm để hiển thị
         showlistproduct = hientaiTrang.map((item, index) => {
             // Kiểm tra xem item có trong danh sách top16hottrending không
-            const isHotTrending = top16hottrending.some(element => element.id === item.data.id);
+            const isHotTrending = top16hottrending.some(element => element.data.san_pham_id === item.data.san_pham_id 
+                && element.data.mau_sac_id === item.data.mau_sac_id&&element.data.dung_luong_id === item.data.dung_luong_id
+            );
 
             // Render CardProductDetail dựa trên kết quả kiểm tra isHotTrending
             return (

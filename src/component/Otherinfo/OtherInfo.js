@@ -31,7 +31,7 @@ function OtherInfo() {
             return (
                 <>
                     <div className="single-wid-product">
-                        <a href={`productdetail/${item.id}`}><img src={item.image} alt="" className="product-thumb" /></a>
+                        <a href={`/productdetail/?name=${encodeURIComponent(item.data.ten)}`}><img src={item.image} alt="" className="product-thumb" /></a>
                         <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.data.ten}</a></p>
                         {/* <div className="product-wid-rating">
                             <i className="fa fa-star"></i>
@@ -40,9 +40,21 @@ function OtherInfo() {
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
                         </div> */}
-                        <Star so_sao={item.data.so_sao}/>
+                        <Star so_sao={item.data.so_sao} />
                         <div className="product-wid-price">
-                            <ins>{item.data.gia.toLocaleString('en-us')} VNĐ</ins> <del>$425.00</del>
+                            {item.data.phan_tram_giam == 0 && (
+                                <>
+                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
+                                </>
+
+                            )}
+                            {item.data.phan_tram_giam != 0 && (
+                                <>
+
+                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del >{item.data.gia.toLocaleString('en-us')} VND</del>
+                                </>
+
+                            )}
                         </div>
                     </div>
                 </>
@@ -51,16 +63,29 @@ function OtherInfo() {
 
     })
     //recently view 
-    const listrecentlyviewed = recentlyviewed.map((item,index) => {
+    const listrecentlyviewed = recentlyviewed.map((item, index) => {
         if (index >= 0 && index < 3) {
             return (
                 <>
                     <div className="single-wid-product">
-                        <a href={`productdetail/${item.product.id}`}><img src={item.img} alt="" className="product-thumb" /></a>
+                        <a href={`/productdetail/?name=${encodeURIComponent(item.product.ten)}`}><img src={item.img} alt="" className="product-thumb" /></a>
                         <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.product.id}`} style={{ color: '#f5f5f5' }}>{item.product.ten}</a></p>
-                        <Star so_sao={item.product.so_sao}/>
+                        <Star so_sao={item.product.so_sao} />
                         <div className="product-wid-price">
-                            <ins>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>$425.00</del>
+                            {item.product.phan_tram_giam == 0 && (
+                                <>
+                                    <ins>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
+                                </>
+
+                            )}
+                            {item.product.phan_tram_giam != 0 && (
+                                <>
+
+                                    <ins>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>{item.product.gia.toLocaleString('en-us')} VND</del>
+                                </>
+
+                            )}
+
                         </div>
                     </div>
                 </>
@@ -82,11 +107,23 @@ function OtherInfo() {
             return (
                 <>
                     <div className="single-wid-product">
-                        <a href={`productdetail/${item.id}`}><img src={item.image} alt="" className="product-thumb" /></a>
+                        <a href={`/productdetail/?name=${encodeURIComponent(item.data.ten)}`}><img src={item.image} alt="" className="product-thumb" /></a>
                         <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.data.ten}</a></p>
-                        <Star so_sao={item.data.so_sao}/>
+                        <Star so_sao={item.data.so_sao} />
                         <div className="product-wid-price">
-                            <ins>{item.data.gia.toLocaleString('en-us')} VND</ins> <del>$425.00</del>
+                        {item.data.phan_tram_giam == 0 && (
+                                <>
+                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
+                                </>
+
+                            )}
+                            {item.data.phan_tram_giam != 0 && (
+                                <>
+
+                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>{item.data.gia.toLocaleString('en-us')} VND</del>
+                                </>
+
+                            )}
                         </div>
                     </div>
                 </>
@@ -101,12 +138,12 @@ function OtherInfo() {
                 <div className="zigzag-bottom"></div>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-4" style={{borderRight : '1px solid #ccc'}}>
+                        <div className="col-md-4" style={{}}>
                             <div className="single-product-widget">
                                 <h2 className="product-wid-title">Top Seller</h2>
                                 {/* <a href="/shop?ext=topseller" className="wid-view-more"></a> */}
-                                <button className="wid-view-more" onClick={()=>{
-                                     const getAPI = async () => {
+                                <button style={{ border: '0px' }} className="wid-view-more" onClick={() => {
+                                    const getAPI = async () => {
                                         dispatch(loadingmodal(true));
                                         const response = await axios.get('http://127.0.0.1:8000/api/productdetail/topseller');
                                         dispatch(settrang(1));
@@ -123,21 +160,21 @@ function OtherInfo() {
                                 {itemtopseller}
                             </div>
                         </div>
-                        <div className="col-md-4"  style={{borderRight : '1px solid #ccc'}}>
+                        <div className="col-md-4" style={{}}>
                             <div className="single-product-widget">
                                 <h2 className="product-wid-title">Đã Xem</h2>
-                                <button className="wid-view-more" onClick={()=>{
-                                     
+                                <button style={{ border: '0px' }} className="wid-view-more" onClick={() => {
 
-                                    }}>View All</button>
+
+                                }}>View All</button>
                                 {listrecentlyviewed}
                             </div>
                         </div>
                         <div className="col-md-4">
                             <div className="single-product-widget">
                                 <h2 className="product-wid-title">Top New</h2>
-                                <button className="wid-view-more" onClick={()=>{
-                                     
+                                <button style={{ border: '0px' }} className="wid-view-more" onClick={() => {
+
 
                                 }}>View All</button>
                                 {itemtopnew}

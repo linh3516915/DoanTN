@@ -3,11 +3,12 @@ import styles from './formsignup.module.css'
 import { useEffect, useState } from "react";
 import Address from "../Address/address";
 import { useDispatch, useSelector } from "react-redux";
-import { openpopuplogin, openpopupotp } from "../../redux/slice/popupSlice";
+import { openpopuplogin, openpopupotp, seterror, setwarn } from "../../redux/slice/popupSlice";
 import OTP from "../OTP/otp";
 import { match } from "../../redux/slice/addressSlice";
 import axios from "axios";
 import { getemail, setOTP } from "../../redux/slice/authSlice";
+import PopupPay from "../../layout/PopupPay/popuppay";
 export default function FormSignUp() {
     const [inputFullName, setInputFullName] = useState('');
     const [inputPhoneNumber, setInputPhoneNumber] = useState('');
@@ -23,28 +24,34 @@ export default function FormSignUp() {
     const SignIn = (event) => {
         event.preventDefault();
         
-        const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/account/checkemail', {
-               email : inputEmail
-            })
-            if (response.data.success === true) {
-                dispatch(getemail(inputEmail));
-                const getAPI = async () => {
-                    // if(emailcheck !== '' && otpcheck ==null ){
-                      const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
-                        email: inputEmail
-                      })
-                      dispatch(setOTP(response.data.otptocheck));
-                    // }
-                  }
-                  getAPI();
-                dispatch(openpopupotp(formdata));
+        if(inputPassword === inputRePassword){
+            const getAPI = async () => {
+                const response = await axios.post('http://127.0.0.1:8000/api/account/checkemail', {
+                   email : inputEmail
+                })
+                if (response.data.success === true) {
+                    dispatch(getemail(inputEmail));
+                    const getAPI = async () => {
+                        // if(emailcheck !== '' && otpcheck ==null ){
+                          const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                            email: inputEmail
+                          })
+                          dispatch(setOTP(response.data.otptocheck));
+                        // }
+                      }
+                      getAPI();
+                    dispatch(openpopupotp(formdata));
+                }
+                else {
+                    alert('email đã tồn tại');
+                }
             }
-            else {
-                alert('email đã tồn tại');
-            }
+            getAPI();
         }
-        getAPI();
+        else{
+            dispatch(setwarn(true));
+        }
+       
     }
     useEffect(() => {
         if(popupsignup == false){                                                 
@@ -115,15 +122,19 @@ export default function FormSignUp() {
                                     }} required style={{ cursor: 'pointer', width: '22px', marginTop: '0' }} /><label style={{ fontSize: '10px' }}>tôi đồng ý đến các thông tin này đều chính xác</label>
                                 </div>
                                 <button onClick={() => {
-                                    dispatch(match());
-                                    setFormdata({
-                                        name: inputFullName,
-                                        phone: inputPhoneNumber,
-                                        email: inputEmail,
-                                        address: address,
-                                        password: inputPassword,
-                                        btnsignup: checkbox
-                                    });
+                                    
+                                        dispatch(match());
+                                        setFormdata({
+                                            name: inputFullName,
+                                            phone: inputPhoneNumber,
+                                            email: inputEmail,
+                                            address: address,
+                                            password: inputPassword,
+                                            btnsignup: checkbox
+                                        });
+                                    
+                                    
+                                   
                                 }} disabled={!checkbox} className={`${checkbox ? styles['sign-up_btn'] : styles['sign-up_disible']} h-100`}>Sign Up</button>
                             </form>
                             <div className={`${styles['sign-in-link']} text-center mt-5 opacity-75  font-italic`}>

@@ -8,7 +8,10 @@ const initialState = {
     btnPopupPay : false,
     datacheckotp : null,
     datacheckout : null,
-    checkbox : false
+    checkbox : false,
+    success : false,
+    error : false,
+    warn : false,
 }
 
 export const popupSlice = createSlice({
@@ -57,6 +60,15 @@ export const popupSlice = createSlice({
         setdatacheckout :(state,action) =>{
             state.datacheckout = action.payload;
         },
+        setsuccess :(state,action) =>{
+            state.success = action.payload;
+        },
+        seterror :(state,action) =>{
+            state.error = action.payload;
+        },
+        setwarn :(state,action) =>{
+            state.warn = action.payload;
+        },
     },
 })
 
@@ -64,6 +76,7 @@ export const popupSlice = createSlice({
 export const {openpopuplogin, closepopuplogin,openpopupotp
     , closepopupotp,openpopupcomment,closepopupcomment,
     openpopuppay,closepopuppay,setcheckbox,setdatacheckout,
-    openpopupeditproductdetail,closepopupeditproductdetail} = popupSlice.actions
+    openpopupeditproductdetail,closepopupeditproductdetail,setsuccess,
+    seterror,setwarn} = popupSlice.actions
 
 export default popupSlice.reducer

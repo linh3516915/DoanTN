@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { gettoken, getuser, isadmin } from "../../redux/slice/authSlice";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { closepopupeditproductdetail, closepopuplogin } from "../../redux/slice/popupSlice";
+import { closepopupeditproductdetail, closepopuplogin, setsuccess, setwarn } from "../../redux/slice/popupSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from "react-intersection-observer";
@@ -106,11 +106,13 @@ export default function FormEditproductdetail() {
                                 })
                             if (response.data.success) {
                                 
-                                alert('done');
+                                // alert('done');
                                 // dispatch(setproductdetails(response.data.data));
+                                dispatch(setsuccess(true));
                                 window.location.reload();
                             }
                             else {
+                                dispatch(setwarn(true));
                                 console.log('mesage', response.data.message);
                             }
                         }
@@ -162,7 +164,7 @@ export default function FormEditproductdetail() {
                                 {/* </div> */}
                             </div>
 
-                            <div className="" style={{ marginBottom: '1rem', height: '20px' }}>
+                            <div className="" style={{ marginBottom: '1rem',width:'22%', height: '20px' }}>
                                 {/* <div class="col-md-3"> */}
                                 <label for="Ten" className=""> Giá Tiền </label>
                                 <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem' }} type="number" min={0} value={gia} onChange={(e) => { dispatch(setgiatien(e.target.value)) }} required />

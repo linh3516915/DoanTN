@@ -26,14 +26,14 @@ export default function Tongdai_Admin(props){
         <>
             <Header_Admin/>
             <div className="container-fluid">
-                <div  className="row">
+                <div style={{height: '38rem'}}  className="row">
                     <TaskbarAdmin/>
-                    <main style={{width:'80%',height: '45rem' , overflow : 'scroll'}} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <main style={{width:'84%' , overflow : 'scroll'}} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 className="h2">DANH SÁCH TỔNG ĐÀI</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
                                 <div className="btn-group me-2">
-                                <a href="" class="btn btn-sm btn-outline-secondary">Thêm Mới</a>
+                                <a href="/themmoi-tongdai" class="btn btn-sm btn-outline-secondary">Thêm Mới</a>
                                 </div>
                             
                             </div>
