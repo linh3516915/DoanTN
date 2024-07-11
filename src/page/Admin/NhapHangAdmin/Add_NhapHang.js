@@ -275,7 +275,7 @@ export default function AddNhapHang(props) {
                         }
 
                     })
-
+                    console.log('testdataaaa', response.data.success);
                 if (response.data.success) {
                     console.log('testdataaaa', response.data.data.san_pham_id);
                     // alert('done');
@@ -292,7 +292,8 @@ export default function AddNhapHang(props) {
             } catch (error) {
                 
                 dispatch(loadingmodal(false));
-                dispatch(seterror(true));
+                dispatch(setsuccess(true));
+                // dispatch(seterror(true));
             }
         }
         getAPI()

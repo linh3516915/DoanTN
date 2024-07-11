@@ -9,6 +9,7 @@ import Img3 from '../../assets/images/product_3.png'
 import Img4 from '../../assets/images/product_4.png'
 import Img5 from '../../assets/images/product_5.png'
 import bannertest1 from '../../assets/bannertest1.png'
+import bannertest2 from '../../assets/ảnh/bannergreen.jfif'
 import { useState,useEffect } from "react";
 export default function Banner() {
     // const categoryy =
@@ -123,7 +124,7 @@ export default function Banner() {
                     <div className="carousel-inner">
                         <div className="carousel-item active">
                             <div className="single-slide">
-                                <div className="slide-bg slide-one"></div>
+                                <div className="slide-bg slide-two" ></div>
                                 <div className="slide-text-wrapper">
                                     <div className="slide-text">
                                         <div className="container">
@@ -144,7 +145,7 @@ export default function Banner() {
                         </div>
                         <div className="carousel-item">
                             <div className="single-slide">
-                                <div className="slide-bg slide-two" style={{backgroundImage: `url(${bannertest1})`}}></div>
+                                <div className="slide-bg slide-two" style={{backgroundImage: `url(${bannertest2})`}}></div>
 
                                 <div className="slide-text-wrapper">
                                     <div className="slide-text">

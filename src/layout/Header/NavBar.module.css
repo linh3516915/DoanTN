@@ -79,3 +79,18 @@
     background: #d6d3d3;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+.success{
+     width: 34%;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .success{
+        width: 50%;
+   }
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .success{
+        width: 100%;
+   }
+  }

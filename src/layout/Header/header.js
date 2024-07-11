@@ -255,7 +255,7 @@ export default function Header(props) {
             </div>
 
             {success && (
-                <div className={`alert alert-success ${success ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+                <div className={`${styles['success']} alert alert-success ${success ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0' }} role="alert">
                     <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faCheck} style={{ marginRight: '3%' }} />Successfully</div>
                     <button onClick={() => { dispatch(setsuccess(false)) }} className="btn ">x</button>
                 </div>

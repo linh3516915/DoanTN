@@ -231,7 +231,7 @@ export default function FormCheckout() {
                 {chooseTime && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <select onChange={handlesetday} class="form-select form-select-sm mb-3" style={{ width: '47%' }} id="district" aria-label=".form-select-sm" >
-                            <option value={0} >hôm nay</option>
+                            {/* <option value={0} >hôm nay</option> */}
                             <option value={1} >ngày mai</option>
                             <option value={2} >ngày mốt</option>
                         </select>

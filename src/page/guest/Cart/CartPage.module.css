@@ -169,6 +169,14 @@
   .animation-from-top{
     /* animation: moveFromTop 1s ease-in-out; */
   }
+  .list-item-cart{
+   
+    width: 80%;
+    margin: 0 auto;
+  }
+  .item-gio{
+ display: flex;
+  }
   @keyframes moveFromTop {
     0% {
       transform: translateY(0);
@@ -243,6 +251,9 @@
     width: 80%;
    }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+  /* .item-gio{
+    display: block;
+     } */
   .order{
     display: none;
   }
@@ -272,13 +283,21 @@
 }
 
 @media only screen and (max-width: 767px) {
+  .list-item-cart{
+   
+    width: 100%;
+    margin: 0 auto;
+  }
+  .item-gio{
+    display: block;
+     }
   .order{
     display: none;
   }
   .checkout-bill{
     display: block; 
     /* margin: 0px auto; */
-    width: 80%;
+    width: 95%;
    }
   .provisional-checkout{
     width: 100%;

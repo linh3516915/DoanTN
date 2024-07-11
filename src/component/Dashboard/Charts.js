@@ -55,7 +55,7 @@ const LineChartComponent = () => {
       },
       title: {
         display: true,
-        text: 'Doanh thu Năm 2024',
+        text: 'Doanh thu tháng 7',
       },
     },
   };

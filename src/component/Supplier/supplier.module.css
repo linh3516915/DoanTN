@@ -29,6 +29,10 @@
 .list-item {
     animation: fadeInFromLeft 1.5s ease;
     margin-bottom: 5rem;
+    margin-top: 35px;
+    display: flex;
+    justify-content: space-around;
+    overflow: hidden;
 }
 .top-trending{
     background-image: url('/src/img/images.jfif');
@@ -52,4 +56,41 @@
 .move-left:hover{
     background-color: #ccc;
     opacity: 0.5;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .list-item {
+        animation: fadeInFromLeft 1.5s ease;
+        margin-bottom: 5rem;
+        margin-top: 35px;
+        display: block;
+        overflow: hidden;
+    }
+    .top-trending {
+        background-image: url('');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        padding-bottom: 0;
+        border-radius: 36px;
+        padding: 0;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .list-item {
+        animation: fadeInFromLeft 1.5s ease;
+        margin-bottom: 5rem;
+        margin-top: 35px;
+        display: block;
+        overflow: hidden;
+    }
+    .top-trending {
+        background-image: url('');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        padding-bottom: 0;
+        border-radius: 36px;
+        padding: 0;
+    }
 }

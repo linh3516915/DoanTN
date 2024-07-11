@@ -34,7 +34,7 @@ export default function Supplier() {
     if (show4hottrends !== null) {
         show = show4hottrends.map((item, index) => {
             return (
-                <CardProductDetail data={item.data} animation={btnanimation} />
+                <CardProductDetail data={item.data} img = {item.image} animation={btnanimation} />
 
             )
         })
@@ -56,7 +56,7 @@ export default function Supplier() {
                                 <h2 class="section-title">Thương Hiệu Nổi Tiếng</h2>
                                 <div className={`${styles['top-trending']}`} style={{ paddingBottom: '15px' }}>
 
-                                    <div style={{ marginTop: '35px', display: 'flex', justifyContent: 'space-around', overflow: 'hidden' }} className={`${styles['list-item']} ${inView ? 'animation-from-right' : ''}`}>
+                                    <div style={{ }} className={`${styles['list-item']} ${inView ? 'animation-from-right' : ''}`}>
                                         <button className={`btn ${styles['move-left']}`} onClick={() => { dispatch(moveleft()) }}><p style={{ opacity: 0.25 }}><FontAwesomeIcon icon={faAngleLeft} /></p> </button>
                                         {/* <div style={{overflow: 'hidden'}}> */}
                                         {show}

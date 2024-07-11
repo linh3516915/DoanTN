@@ -51,13 +51,13 @@ export default function CartPage() {
         else { alert('phải có ít nhất 1 sản phẩm để Đặt hàng ') }
     }
     const renderItems = items.map((item) => {
-        
-        return <div key={item.id} style={{borderBottom:'1px solid #ccc'}} className="d-flex align-items-center">
+
+        return <div key={item.id} style={{ borderBottom: '1px solid #ccc',marginBottom:'3%' }} className={` align-items-center ${styles['item-gio']}`}>
             <div className="flex-1">
-                <img className="" style={{  marginBottom: '20px', width: "100px" }} alt={''} src={item.img} />
+                <img className="" style={{ marginBottom: '20px', width: "100px" }} alt={''} src={item.img} />
             </div>
             <h5 className="flex-2 text-center font-italic " style={{ fontSize: '1rem', marginBottom: '0px' }}>{item.product.ten}</h5>
-            <span className={`flex-1 text-center mx-1 ${styles['price']} user-select-none`}>{item.product.gia}VND</span>
+            <span className={`flex-1 text-center mx-1 ${styles['price']} user-select-none`}>{item.product.gia.toLocaleString('en-us')}VND</span>
             <div className="d-flex flex-1 mx-1 justify-content-center">
                 <button className="px-2 border-0 bg-white" type='button'
                     onClick={() => {
@@ -76,7 +76,7 @@ export default function CartPage() {
                     <FontAwesomeIcon icon={faCaretRight} className={`${styles['caret-right-icon']}`} />
                 </button>
             </div>
-            <span className={`flex-1 mx-1 text-center ${styles['total-price']} user-select-none`}> {(item.product.gia * item.quantity)}VND</span>
+            <span className={`flex-1 mx-1 text-center ${styles['total-price']} user-select-none`}> {(item.product.gia * item.quantity).toLocaleString('en-us')}VND</span>
             <div className={`${styles['remove-item']} flex-1 text-center`}
                 onClick={() => {
                     dispatch(deleteItemInCart(item.product));
@@ -235,13 +235,14 @@ export default function CartPage() {
                         <span className="flex-1 mx-1" >thành tiền</span>
                         <span className="flex-1" >remove</span>
                     </div> */}
-                    <div style={{ width: '80%', margin: '0 auto' }} className="d-flex flex-column row-gap-3 mb-3">
-                        {items == [] &&(
+                    <div style={{}} className={`${styles['list-item-cart']}  flex-column row-gap-3 mb-3`}>
+                        {items == [] && (
                             <>
                                 <p>Chuưa có sản phẩm nào </p>
                             </>
                         )}
                         {renderItems}
+                        
                     </div>
                     <div className={`${styles['checkout-bill']}`} style={{}}>
 
