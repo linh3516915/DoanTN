@@ -12,6 +12,7 @@ import { faBagShopping } from "@fortawesome/free-solid-svg-icons/faBagShopping";
 import { addRecently } from "../../redux/slice/recentlyviewedSlice";
 import Star from "../Star/star";
 import { addCart } from "../../redux/slice/cartSlice";
+import { setsuccess } from "../../redux/slice/popupSlice";
 export default function ProductDetail(props) {
     const [mausac, setMauSac] = useState([]);
     const productSectionRef = useRef(null);
@@ -35,7 +36,7 @@ export default function ProductDetail(props) {
     const addcart= (item) =>{
         console.log(item);
         dispatch(addCart(item))
-        alert('add cart successfully');
+        dispatch(setsuccess(true));
 
     }
     

@@ -1,4 +1,4 @@
-import { faBackspace, faBackward, faCheck, faLeftLong, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBackspace, faBackward, faCheck, faFaceKissWinkHeart, faLeftLong, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import imgsale from "../../../assets/images/banner1.jpg";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import Chitietdonhang from "../chitietdonhang/chitietdonhang";
 import { setbtnctdh, setduyethuy } from "../../../redux/slice/ordermanagement";
 import { loadingmodal } from "../../../redux/slice/filterSlice";
 import axios from "axios";
+import { setsuccess } from "../../../redux/slice/popupSlice";
 export default function Chohuyadmin() {
 const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -14,6 +15,7 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
     const dispatch = useDispatch();
     const chitietdonhang = useSelector(state => state.ordermanagement.chitietdonhang);
     const [ctdh, setCtdh] = useState(0);
+    const [dh, setdh] = useState([]);
     const duyethuy = (id) => {
 
         const getAPI = async () => {
@@ -22,15 +24,17 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
             const response = await axios.get(`http://127.0.0.1:8000/api/donhang/duyethuy/${id}`);
             if (response.data.success) {
                 dispatch(setduyethuy(id));
-                alert('done')
+                dispatch(setsuccess(true));
             }
             dispatch(loadingmodal(false));
         }
         getAPI();
     }
+    // const [check, setCheck] = useState(0);
     if (donhang != null) {
         listdonhang = donhang.map((item) => {
             if (item.trang_thai == 4) {
+                // setCheck(check+1);
                 return (
                     <>
                         <div class="card shadow-0 border mb-4">
@@ -58,7 +62,19 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
 
                                     </div>
                                     <div style={{width:'25%'}} class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
+                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id);setdh({
+                                            'email' :item.email,
+                                            'so_dien_thoai' : item.so_dien_thoai,
+                                            'ho_ten' : item.ho_ten,
+                                            'adress': item.dia_chi,
+                                            'thoi_gian_giao' : item.thoi_gian_giao,
+                                            'ngay_dat' : item.ngay_dat,
+                                            'payment_methods' : item.payment_methods,
+                                            'giam_gia' : item.giam_gia,
+                                            'gia_khuyen_mai' :  item.gia_khuyen_mai,
+                                            'tong_tien': item.tong_tien,
+                                            'trang_thai' : item.trang_thai
+                                        }) }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
                                         <button onClick={() => { duyethuy(item.id) }} className="btn btn-primary"><FontAwesomeIcon icon={faCheck} /></button>
                                    
                                     </div>
@@ -81,13 +97,17 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
                 )}
                 {btnctdh && (
 
-                    <Chitietdonhang id={ctdh} />
+                    <Chitietdonhang id={ctdh} donhang={dh}/>
                 )}
-                {listdonhang == [] && (
-                    <>
-                        không có đơn hàng nào đang giao
-                    </>
-                )}
+                
+                {/* {check == 0 && (
+                    <p style={{textAlign: 'center',
+                        fontSize: '40px',
+                        opacity: '0.1',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '48%'}}> <FontAwesomeIcon icon={faFaceKissWinkHeart} /> không có đơn</p>
+                )} */}
             </div>
         </>
     )

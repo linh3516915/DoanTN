@@ -47,6 +47,7 @@ import { Helmet } from 'react-helmet';
 import Profile from './page/guest/Profile/profile';
 import Ordermanagement from './page/guest/Ordermanagement/ordermanagement';
 import Quanlydonhang from './page/admin/quanlydonhang/quanlydonhang';
+// import Pagetest from './page/admin/pageadmintest/pagetest';
 // =======
 
 // import TongdaiAdmin from './page/Admin/Tongdai/Tongdai_Admin';
@@ -147,6 +148,7 @@ function App() {
         <Route path='/capnhat-slideshow/:id' element={(isadmin && auth) ? <UpdateSlideshow /> : <Navigate to='/' />}></Route>
         <Route path='/nhaphang' element={(isadmin && auth) ? <AddNhapHang /> : <Navigate to='/' />}></Route>
         <Route path='/quanlydonhangadmin' element={(isadmin && auth) ? <Quanlydonhang /> : <Navigate to='/' />}></Route>
+        {/* <Route path='/pagetest' element={(isadmin && auth) ? <Pagetest /> : <Navigate to='/' />}></Route> */}
         {/* =======
         <Route path='/admin' element={<TrangchuAdmin/>} />
         <Route path='/chinhanh-admin' element={(isadmin && auth) ? <ChiNhanhAdmin/> : <Navigate to='/'/>}></Route>

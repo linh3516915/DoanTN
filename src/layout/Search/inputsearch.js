@@ -130,9 +130,6 @@ export default function InputSearch() {
             <div className={`${styles['search-input']} px-3 py-2`}>
                 <form style={{ margin: '0' }} onSubmit={timkiem}>
                     <div style={{ display: 'flex' }}>
-                        <button type="submit" onClick={() => { }} className="btn btn-secondary" style={{ borderRadius: '22px', marginRight: '3%' }}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
                         <input name="query" style={{ width: '100%', margin: '0', border: 'solid 1px #ccc' }} placeholder="Enter Search Here!"
                             className={` px-3 py-2`} onChange={(e) => {
                                  setTimeout(() => {
@@ -141,6 +138,9 @@ export default function InputSearch() {
                             }}
 
                         />
+                        <button type="submit" onClick={() => { }} className="btn btn-secondary" style={{ borderRadius: '22px', marginRight: '3%' }}>
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        </button>
                     </div>
                 </form>
                 <div style={{ width: '100%', position: 'relative' }}>

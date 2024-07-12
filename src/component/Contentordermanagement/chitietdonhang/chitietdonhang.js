@@ -22,15 +22,15 @@ export default function Chitietdonhang(props) {
                                     <div style={{ textAlign: 'center' }} class="col-md-2">
                                         <img width='60' height='60' src={item.img} class="img-fluid" alt="Phone" />
                                     </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    <div  class={`${styles['name-ctdh']} col-md-2 text-center d-flex justify-content-center align-items-center`}>
                                         <p class="text-muted mb-0">{item.data.ten}</p>
                                     </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    {/* <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <p class="text-muted mb-0 small"></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <p class="text-muted mb-0 small"></p>
-                                    </div>
+                                    </div> */}
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <p class="text-muted mb-0 small">số lượng: {item.datactdh.so_luong_mua}</p>
                                     </div>

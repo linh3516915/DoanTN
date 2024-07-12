@@ -140,6 +140,7 @@ export default function Shop() {
                 }
             }
             getAPI();
+            setIsloading(false);
         }
 
     }, [giatu, giaden])

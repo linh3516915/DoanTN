@@ -1,5 +1,5 @@
 
-import { faBackspace, faBackward, faLeftLong, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBackspace, faBackward, faFaceKissWinkHeart, faLeftLong, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import imgsale from "../../../assets/images/banner1.jpg";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +13,12 @@ export default function Dahuyadmin() {
     const dispatch = useDispatch();
     const chitietdonhang = useSelector(state => state.ordermanagement.chitietdonhang);
     const [ctdh, setCtdh] = useState(0);
+    const [dh, setdh] = useState([]);
+    //  const [check, setCheck] = useState(false);
     if (donhang != null) {
         listdonhang = donhang.map((item) => {
             if (item.trang_thai == 5) {
+                // setCheck(true);
                 return (
                     <>
                         <div style={{opacity:'0.75'}} class="card shadow-0 border mb-4">
@@ -45,7 +48,19 @@ export default function Dahuyadmin() {
 
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
+                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id);setdh({
+                                            'email' :item.email,
+                                            'so_dien_thoai' : item.so_dien_thoai,
+                                            'ho_ten' : item.ho_ten,
+                                            'adress': item.dia_chi,
+                                            'thoi_gian_giao' : item.thoi_gian_giao,
+                                            'ngay_dat' : item.ngay_dat,
+                                            'payment_methods' : item.payment_methods,
+                                            'giam_gia' : item.giam_gia,
+                                            'gia_khuyen_mai' :  item.gia_khuyen_mai,
+                                            'tong_tien': item.tong_tien,
+                                            'trang_thai' : item.trang_thai
+                                        }) }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
                                     </div>
                                 </div>
                             </div>
@@ -66,13 +81,17 @@ export default function Dahuyadmin() {
                 )}
                 {btnctdh && (
 
-                    <Chitietdonhang id={ctdh} />
+                    <Chitietdonhang id={ctdh} donhang={dh}/>
                 )}
-                {listdonhang == [] && (
-                    <>
-                        không có đơn hàng nào đang giao
-                    </>
-                )}
+                
+                {/* {!check && (
+                    <p style={{textAlign: 'center',
+                        fontSize: '40px',
+                        opacity: '0.1',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '48%'}}> <FontAwesomeIcon icon={faFaceKissWinkHeart} /> không có đơn</p>
+                )} */}
             </div>
         </>
     )

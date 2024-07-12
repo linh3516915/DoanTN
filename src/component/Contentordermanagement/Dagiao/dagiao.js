@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Chitietdonhang from "../chitietdonhang/chitietdonhang";
 import { setbtnctdh } from "../../../redux/slice/ordermanagement";
+import styles from './dagiao.module.css'
 export default function Dagiao() {
     const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -57,7 +58,7 @@ export default function Dagiao() {
                                             'gia_khuyen_mai' :  item.gia_khuyen_mai,
                                             'tong_tien': item.tong_tien,
                                             'trang_thai' : item.trang_thai
-                                        }) ; setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
+                                        }) ; setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>chi tiết</button>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +70,7 @@ export default function Dagiao() {
     }
     return (
         <>
-            <div style={{ height: '71%', overflow: 'scroll', padding: '1rem' }}>
+            <div className={`${styles['content']}`} style={{overflow: 'scroll', padding: '1rem' }}>
                 {!btnctdh && listdonhang != [] && (
                     listdonhang
                 )}

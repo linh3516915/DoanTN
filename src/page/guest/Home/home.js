@@ -26,7 +26,7 @@ export default function Home(props) {
             <Banner />
             <Category />
             <Supplier />
-            <TopTrendingProduct />
+            {/* <TopTrendingProduct /> */}
             <ProductHomePage />
             <OtherInfo />
             <Footer />

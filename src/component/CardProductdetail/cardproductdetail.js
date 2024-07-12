@@ -29,6 +29,7 @@ export default function CardProductDetail(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const addcart = (item) => {
+        dispatch(setsuccess(false));
         dispatch(addCart(item));
         dispatch(setsuccess(true));
     }
@@ -83,7 +84,7 @@ export default function CardProductDetail(props) {
     }
     return (
         <>
-            <div style={{}} key={props.data.id} className={`${styles['product-item']} ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
+            <div style={{}} className={`${styles['product-item']} ${props.animation ? 'animation-from-right' : 'animation-from-left'} `}>
 
                 <div className={`${styles['item']}  `}>
                     {/* {auth && !isadmin && (

@@ -1,12 +1,13 @@
-import { faBackspace, faBackward, faCheck, faLeftLong, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBackspace, faBackward, faCheck, faFaceKissWinkHeart, faLeftLong, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import imgsale from "../../../assets/images/banner1.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { setbtnctdh, setduyetdon } from "../../../redux/slice/ordermanagement";
+import { setbtnctdh, setduyetdon, setduyethuy } from "../../../redux/slice/ordermanagement";
 import Chitietdonhangadmin from "../chitietdonhang/chitietdonhang";
 import axios from "axios";
 import { loadingmodal } from "../../../redux/slice/filterSlice";
+import { setsuccess } from "../../../redux/slice/popupSlice";
 export default function Dadatadmin() {
     const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -14,6 +15,21 @@ export default function Dadatadmin() {
     const dispatch = useDispatch();
     const chitietdonhang = useSelector(state => state.ordermanagement.chitietdonhang);
     const [ctdh, setCtdh] = useState(0);
+    const [dh, setdh] = useState([]);
+      const duyethuy = (id) => {
+
+        const getAPI = async () => {
+            console.log(id);
+            dispatch(loadingmodal(true));
+            const response = await axios.get(`http://127.0.0.1:8000/api/donhang/duyethuy/${id}`);
+            if (response.data.success) {
+                dispatch(setduyethuy(id));
+                dispatch(setsuccess(true));
+            }
+            dispatch(loadingmodal(false));
+        }
+        getAPI();
+    }
     const duyetdon = (id) => {
 
         const getAPI = async () => {
@@ -22,7 +38,7 @@ export default function Dadatadmin() {
             const response = await axios.get(`http://127.0.0.1:8000/api/donhang/duyetdon/${id}`);
             if (response.data.success) {
                 dispatch(setduyetdon(id));
-                alert('done')
+                dispatch(setsuccess(true));
             }
             dispatch(loadingmodal(false));
         }
@@ -60,8 +76,23 @@ export default function Dadatadmin() {
 
                                     </div>
                                     <div style={{width:'25%'}} class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
+                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh)); setCtdh(item.id);setdh({
+                                            'email' :item.email,
+                                            'so_dien_thoai' : item.so_dien_thoai,
+                                            'ho_ten' : item.ho_ten,
+                                            'adress': item.dia_chi,
+                                            'thoi_gian_giao' : item.thoi_gian_giao,
+                                            'ngay_dat' : item.ngay_dat,
+                                            'payment_methods' : item.payment_methods,
+                                            'giam_gia' : item.giam_gia,
+                                            'gia_khuyen_mai' :  item.gia_khuyen_mai,
+                                            'tong_tien': item.tong_tien,
+                                            'trang_thai' : item.trang_thai
+                                        }) }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
+                                       
                                         <button onClick={() => { duyetdon(item.id) }} className="btn btn-primary"><FontAwesomeIcon icon={faCheck} /></button>
+                                        
+                                           <button onClick={() => { duyethuy(item.id) }} className="btn btn-primary"><FontAwesomeIcon icon={faCheck} /></button>
                                     </div>
                                 </div>
                             </div>
@@ -80,11 +111,17 @@ export default function Dadatadmin() {
                 )}
                 {btnctdh && (
 
-                    <Chitietdonhangadmin id={ctdh} />
+                    <Chitietdonhangadmin id={ctdh} donhang={dh}/>
                 )}
-                {listdonhang == [] && (
-                    <p>không có đơn</p>
-                )}
+                
+                {/* {!check && (
+                    <p style={{textAlign: 'center',
+                        fontSize: '40px',
+                        opacity: '0.1',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '48%'}}> <FontAwesomeIcon icon={faFaceKissWinkHeart} /> không có đơn</p>
+                )} */}
             </div>
         </>
     )

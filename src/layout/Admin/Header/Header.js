@@ -31,7 +31,13 @@ export default function HeaderAdmin() {
         dispatch(setwarn(false));
       }, 5000);
     }
-  }, [success,error,warn])
+  }, [success, error, warn])
+  const logout = () => {
+    dispatch(Logout());
+    dispatch(isadmin(false));
+    navigate('/');
+
+  }
   return (
 
     <>
@@ -51,26 +57,36 @@ export default function HeaderAdmin() {
         </button>
         {/* <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search" /> */}
 
+        <div style={{marginRight:'10%'}} class="dropdown">
+          <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            
+            <strong>Admin</strong>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" href="/">Back to home</a></li>
 
+            <li className="dropdown-item"><button className="nav-link link-white px-2" onClick={() => { logout() }}>logout</button></li>
+          </ul>
+        </div>
       </header>
       {success && (
-        <div className={`alert alert-success ${success ? 'animation-from-right' : ''}`}style={{zIndex:'1', position: 'fixed',display:'flex',justifyContent:'space-between',alignContent:'center', right: '0', width: '34%' }} role="alert">
-          <div style={{width:'50%',lineHeight:'38px'}}><FontAwesomeIcon icon={faCheck} style={{ marginRight: '3%' }} />Successfully</div>
-          <button onClick={()=>{dispatch(setsuccess(false))}} className="btn ">x</button>
+        <div className={`alert alert-success ${success ? 'animation-from-right' : ''}`} style={{ zIndex: '1', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+          <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faCheck} style={{ marginRight: '3%' }} />Successfully</div>
+          <button onClick={() => { dispatch(setsuccess(false)) }} className="btn ">x</button>
         </div>
 
 
       )}
       {error && (
-        <div className={`alert alert-danger ${error ? 'animation-from-right' : ''}`} style={{zIndex:'1', position: 'fixed',display:'flex',justifyContent:'space-between',alignContent:'center', right: '0', width: '34%' }} role="alert">
-         <div  style={{width:'50%',lineHeight:'38px'}}> <FontAwesomeIcon icon={faXmark} style={{ marginRight: '3%' }} /> Error</div>
-         <button onClick={()=>{dispatch(seterror(false))}} className="btn btn-danger">x</button>
+        <div className={`alert alert-danger ${error ? 'animation-from-right' : ''}`} style={{ zIndex: '1', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+          <div style={{ width: '50%', lineHeight: '38px' }}> <FontAwesomeIcon icon={faXmark} style={{ marginRight: '3%' }} /> Error</div>
+          <button onClick={() => { dispatch(seterror(false)) }} className="btn btn-danger">x</button>
         </div>
       )}
       {warn && (
-        <div className={`alert alert-warning${warn ? 'animation-from-right' : ''}`} style={{zIndex:'1', position: 'fixed',display:'flex',justifyContent:'space-between',alignContent:'center', right: '0', width: '34%' }} role="alert">
-          <div  style={{width:'50%',lineHeight:'38px'}}><FontAwesomeIcon icon={faTriangleExclamation} style={{ marginRight: '3%' }} />something went wrong</div>
-          <button onClick={()=>{dispatch(setwarn(false))}} className="btn btn-danger">x</button>
+        <div className={`alert alert-warning${warn ? 'animation-from-right' : ''}`} style={{ zIndex: '1', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+          <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faTriangleExclamation} style={{ marginRight: '3%' }} />something went wrong</div>
+          <button onClick={() => { dispatch(setwarn(false)) }} className="btn btn-danger">x</button>
         </div>
       )}
 

@@ -86,7 +86,7 @@ export default function FormComment(props) {
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <img src={img} style={{height :'9rem'}}/>
                     </div>
-                    <h5>Tên Sản Phâmr</h5>
+                    <h5>{productdetail.data.ten}</h5>
                     {!disabled && (
                         <p>hãy chọn sao</p>
                     )}

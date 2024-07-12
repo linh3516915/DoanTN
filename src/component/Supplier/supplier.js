@@ -53,7 +53,7 @@ export default function Supplier() {
                     <div class="row">
                         <div class="col-md-12">
                             <div class="latest-product">
-                                <h2 class="section-title">Thương Hiệu Nổi Tiếng</h2>
+                                <h2 class="section-title">Hot Trending</h2>
                                 <div className={`${styles['top-trending']}`} style={{ paddingBottom: '15px' }}>
 
                                     <div style={{ }} className={`${styles['list-item']} ${inView ? 'animation-from-right' : ''}`}>

@@ -18,7 +18,7 @@ import PhoneInput from 'react-phone-number-input/input';
 import img from "../../../assets/ảnh/12tim.jpg";
 import FormCheckout from '../../../component/Formcheckout/formcheckout';
 import { Button } from 'bootstrap';
-import { openpopupotp, openpopuppay, setcheckbox } from '../../../redux/slice/popupSlice';
+import { openpopupotp, openpopuppay, setcheckbox, setsuccess } from '../../../redux/slice/popupSlice';
 import { getemail, setOTP } from '../../../redux/slice/authSlice';
 export default function CartPage() {
     const [name, setName] = useState('');
@@ -52,11 +52,11 @@ export default function CartPage() {
     }
     const renderItems = items.map((item) => {
 
-        return <div key={item.id} style={{ borderBottom: '1px solid #ccc',marginBottom:'3%' }} className={` align-items-center ${styles['item-gio']}`}>
+        return <div key={item.id} style={{ borderBottom: '1px solid #ccc', marginBottom: '3%' }} className={` align-items-center ${styles['item-gio']}`}>
             <div className="flex-1">
-                <img className="" style={{ marginBottom: '20px', width: "100px" }} alt={''} src={item.img} />
+                <img className={`${styles['img-item']}`} style={{ marginBottom: '20px' }} alt={''} src={item.img} />
             </div>
-            <h5 className="flex-2 text-center font-italic " style={{ fontSize: '1rem', marginBottom: '0px' }}>{item.product.ten}</h5>
+            <h5 className="flex-2 text-center font-italic " style={{  marginBottom: '0px' }}>{item.product.ten}</h5>
             <span className={`flex-1 text-center mx-1 ${styles['price']} user-select-none`}>{item.product.gia.toLocaleString('en-us')}VND</span>
             <div className="d-flex flex-1 mx-1 justify-content-center">
                 <button className="px-2 border-0 bg-white" type='button'
@@ -77,13 +77,28 @@ export default function CartPage() {
                 </button>
             </div>
             <span className={`flex-1 mx-1 text-center ${styles['total-price']} user-select-none`}> {(item.product.gia * item.quantity).toLocaleString('en-us')}VND</span>
-            <div className={`${styles['remove-item']} flex-1 text-center`}
+            {/* <div style={{ color: '#e74c3c' }} className={`${styles['remove-item']} flex-1 text-center`}
                 onClick={() => {
                     dispatch(deleteItemInCart(item.product));
-                    alert('thành công');
+                    dispatch(setsuccess(true));
                 }}
             >
-                <FontAwesomeIcon icon={faTrash} className={`${styles['trash-icon']}`} />
+
+            </div> */}
+            <div className={` ${styles['action']} flex-1 text-center`}
+            >
+                <button type='button' onClick={() => {
+                    dispatch(deleteItemInCart(item.product));
+                    dispatch(setsuccess(true));
+                }} className='btn btn-success' style={{marginRight:'2%'}}>
+                    chi tiết
+                </button>
+                <button type='button' onClick={() => {
+                    dispatch(deleteItemInCart(item.product));
+                    dispatch(setsuccess(true));
+                }} className='btn btn-danger'>
+                    <FontAwesomeIcon icon={faTrash} className={`${styles['trash-icon']}`} />
+                </button>
             </div>
         </div>
     })
@@ -242,7 +257,7 @@ export default function CartPage() {
                             </>
                         )}
                         {renderItems}
-                        
+
                     </div>
                     <div className={`${styles['checkout-bill']}`} style={{}}>
 
@@ -316,7 +331,7 @@ export default function CartPage() {
                     </div>
 
                 </div> */}
-                    <div className={`${styles['order']} ${!inView ? styles['order'] : ''}`}>
+                    <div className={` ${!inView ? styles['order'] : ''}`}>
                         <div style={{ padding: '0.5rem', backgroundColor: 'white', border: '1px #ccc solid' }}>
                             <div className="container ">
                                 <div className="d-flex" style={{ display: 'flex' }}>

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getstreet, getdistrict, getprovince, getward, match } from "../../redux/slice/addressSlice";
+import { apiUrl } from "../../api/api";
 
 export default function Address() {
     const [province, setProvince] = useState([]);
@@ -16,7 +17,7 @@ export default function Address() {
     const dispatch = useDispatch();
     useEffect(() => {
         const getAPI = async () => {
-            const response = await axios.get('http://127.0.0.1:8000/api/address/province', {
+            const response = await axios.get(`${apiUrl}/address/province`, {
                 headers: {
                     Accept: 'application/json',
                 }
@@ -28,7 +29,7 @@ export default function Address() {
     }, [])
     useEffect(() => {
         const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/address/district', {
+            const response = await axios.post(`${apiUrl}/address/district`, {
                 province_id
             });
             setDistrict(response.data.data);
@@ -38,7 +39,7 @@ export default function Address() {
     }, [province_id])
     useEffect(() => {
         const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/address/ward', {
+            const response = await axios.post(`${apiUrl}/address/ward`, {
                 district_id
             });
             setWard(response.data.data);

@@ -1,0 +1,26 @@
+
+.content{
+    height: 71%;
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .content{
+        height: 64%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .content{
+        height: 64%;
+    }
+    .main-content{
+        display: block;
+        height: max-content;
+    }
+    .info-guestandctdh{
+        width: 100%;
+        margin-right: 0%;
+    }
+    .info-bill-giaohang{
+        width: 100%;
+    }
+}

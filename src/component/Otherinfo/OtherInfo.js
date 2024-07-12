@@ -32,7 +32,7 @@ function OtherInfo() {
                 <>
                     <div className="single-wid-product">
                         <a href={`/productdetail/?name=${encodeURIComponent(item.data.ten)}`}><img src={item.image} alt="" className="product-thumb" /></a>
-                        <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.data.ten}</a></p>
+                        <p style={{ height: "", textDecoration: 'none',color:'black' }}><a href={`productdetail/${item.id}`} >{item.data.ten}</a></p>
                         {/* <div className="product-wid-rating">
                             <i className="fa fa-star"></i>
                             <i className="fa fa-star"></i>
@@ -44,14 +44,14 @@ function OtherInfo() {
                         <div className="product-wid-price">
                             {item.data.phan_tram_giam == 0 && (
                                 <>
-                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
+                                    <ins style={{ color: 'black' }}>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
                                 </>
 
                             )}
                             {item.data.phan_tram_giam != 0 && (
                                 <>
 
-                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del >{item.data.gia.toLocaleString('en-us')} VND</del>
+                                    <ins style={{ color: 'black' }}>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del >{item.data.gia.toLocaleString('en-us')} VND</del>
                                 </>
 
                             )}
@@ -69,19 +69,19 @@ function OtherInfo() {
                 <>
                     <div className="single-wid-product">
                         <a href={`/productdetail/?name=${encodeURIComponent(item.product.ten)}`}><img src={item.img} alt="" className="product-thumb" /></a>
-                        <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.product.id}`} style={{ color: '#f5f5f5' }}>{item.product.ten}</a></p>
+                        <p style={{ height: "", textDecoration: 'none',color:'black' }}><a href={`productdetail/${item.product.id}`} >{item.product.ten}</a></p>
                         <Star so_sao={item.product.so_sao} />
                         <div className="product-wid-price">
                             {item.product.phan_tram_giam == 0 && (
                                 <>
-                                    <ins>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
+                                    <ins style={{ color: 'black' }}>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
                                 </>
 
                             )}
                             {item.product.phan_tram_giam != 0 && (
                                 <>
 
-                                    <ins>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>{item.product.gia.toLocaleString('en-us')} VND</del>
+                                    <ins style={{ color: 'black' }}>{item.product.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>{item.product.gia.toLocaleString('en-us')} VND</del>
                                 </>
 
                             )}
@@ -108,19 +108,19 @@ function OtherInfo() {
                 <>
                     <div className="single-wid-product">
                         <a href={`/productdetail/?name=${encodeURIComponent(item.data.ten)}`}><img src={item.image} alt="" className="product-thumb" /></a>
-                        <p style={{ height: "4rem", textDecoration: 'none' }}><a href={`productdetail/${item.id}`} style={{ color: '#f5f5f5' }}>{item.data.ten}</a></p>
+                        <p style={{ height: "", textDecoration: 'none',color:'black' }}><a href={`productdetail/${item.id}`} >{item.data.ten}</a></p>
                         <Star so_sao={item.data.so_sao} />
                         <div className="product-wid-price">
                         {item.data.phan_tram_giam == 0 && (
                                 <>
-                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
+                                    <ins style={{ color: 'black' }}>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins>
                                 </>
 
                             )}
                             {item.data.phan_tram_giam != 0 && (
                                 <>
 
-                                    <ins>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>{item.data.gia.toLocaleString('en-us')} VND</del>
+                                    <ins style={{ color: 'black' }}>{item.data.gia_khuyen_mai.toLocaleString('en-us')} VND</ins> <del>{item.data.gia.toLocaleString('en-us')} VND</del>
                                 </>
 
                             )}
@@ -134,13 +134,13 @@ function OtherInfo() {
     return (
         <>
             {/*  */}
-            <div ref={ref} className="product-widget-area">
-                <div className="zigzag-bottom"></div>
+            <div style={{paddingBottom:'50px'}} ref={ref} class="maincontent-area">
+                {/* <div class="zigzag-bottom"></div> */}
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4" style={{}}>
                             <div className="single-product-widget">
-                                <h2 className="product-wid-title">Top Seller</h2>
+                                <h2 style={{color:'black'}} className="product-wid-title">Top Seller</h2>
                                 {/* <a href="/shop?ext=topseller" className="wid-view-more"></a> */}
                                 <button style={{ border: '0px' }} className="wid-view-more" onClick={() => {
                                     const getAPI = async () => {
@@ -162,7 +162,7 @@ function OtherInfo() {
                         </div>
                         <div className="col-md-4" style={{}}>
                             <div className="single-product-widget">
-                                <h2 className="product-wid-title">Đã Xem</h2>
+                                <h2 style={{color:'black'}}  className="product-wid-title">Đã Xem</h2>
                                 <button style={{ border: '0px' }} className="wid-view-more" onClick={() => {
 
 
@@ -172,7 +172,7 @@ function OtherInfo() {
                         </div>
                         <div className="col-md-4">
                             <div className="single-product-widget">
-                                <h2 className="product-wid-title">Top New</h2>
+                                <h2 style={{color:'black'}}  className="product-wid-title">Top New</h2>
                                 <button style={{ border: '0px' }} className="wid-view-more" onClick={() => {
 
 

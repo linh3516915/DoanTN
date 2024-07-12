@@ -56,7 +56,7 @@ function Footer() {
         <>
             {error && <p>{error}</p>}
             <div className="footer-top-area" >
-                <div className="zigzag-bottom"></div>
+            <div class="zigzag-bottom"></div>
                 <div className="container">
                     <div className="row">
                         <div className="col-sm py-5">
@@ -64,7 +64,9 @@ function Footer() {
                             <ul>
                                 {dschinhanh.map(chinhanh => (
                                     <li className={`${styles['chinhanh']}`} key={chinhanh.id}> <a href="#">Chi nhánh: {chinhanh.ten_chi_nhanh} - {chinhanh.dia_chi}</a>  </li>
+                                    
                                 ))}
+                                 <li className={`${styles['chinhanh']}`} > <a href="#">159 HƯNG PHÚ, PHƯỜNG 8, QUẬN 8, THÀNH PHỐ HỒ CHÍ MINH</a>  </li>
                             </ul>
                         </div>
                         <div className="col-sm py-5">
@@ -73,6 +75,7 @@ function Footer() {
                                 {dstongdai.map(tongdai => (
                                     <li className={`${styles['tongdai']}`} style={{ fontSize: '20px' }} key={tongdai.id}> {tongdai.ten_so} : {tongdai.so_dien_thoai}  ({tongdai.gio_bat_dau_hoat_dong} - {tongdai.gio_ket_thuc_hoat_dong}) </li>
                                 ))}
+                                <li className={`${styles['tongdai']}`} style={{ fontSize: '20px' }} > CSKH : 0335405877  (9:00 - 17:00) </li>
                             </ul>
                         </div>
                         <div className="col-sm py-5">

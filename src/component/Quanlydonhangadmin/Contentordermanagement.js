@@ -15,7 +15,7 @@ import Danggiaoadmin from "./Danggiao/danggiao";
 import Dagiaoadmin from "./Dagiao/dagiao";
 import Chohuyadmin from "./Chohuy/chohuy";
 import Dahuyadmin from "./Dahuy/dahuy";
-import { faBox, faBoxOpen, faTruck } from "@fortawesome/free-solid-svg-icons";
+import { faBox, faBoxOpen, faTrashAlt, faTrashArrowUp, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Contentmanagementadmin() {
     const [btndadat, setBtndadat] = useState(true);
@@ -72,11 +72,11 @@ export default function Contentmanagementadmin() {
     return (
         <>
             <div style={{ display: 'flex', borderBottom: "1px solid #ccc" }}>
-                <div onClick={() => { dadat();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-dat']} ${btndadat ? styles['da-datclicked'] : ''}`}><FontAwesomeIcon icon={faBox} /> Duyệt Đơn Đã Đặt</div>
-                <div onClick={() => { danggiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['dang-giao']} ${btndanggiao ? styles['dang-giaoclicked'] : ''}`}><FontAwesomeIcon icon={faTruck} /> Đơn Hàng Đang Giao</div>
-                <div onClick={() => { dagiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-giao']} ${btndagiao ? styles['da-giaoclicked'] : ''}`}><FontAwesomeIcon icon={faBoxOpen} /> Đơn Hàng Đã Giao</div>
-                <div onClick={() => { chohuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['cho-huy']} ${btnchohuy ? styles['cho-huyclicked'] : ''}`}>Xác Nhận Hủy Đơn</div>
-                <div onClick={() => { dahuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-huy']} ${btndahuy ? styles['da-huyclicked'] : ''}`}>Đơn Hàng Đã Hủy</div>
+                <div onClick={() => { dadat();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-dat']} ${btndadat ? styles['da-datclicked'] : ''}`}><FontAwesomeIcon icon={faBox} /> Duyệt Đơn </div>
+                <div onClick={() => { danggiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['dang-giao']} ${btndanggiao ? styles['dang-giaoclicked'] : ''}`}><FontAwesomeIcon icon={faTruck} /> Đang Giao</div>
+                <div onClick={() => { dagiao();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-giao']} ${btndagiao ? styles['da-giaoclicked'] : ''}`}><FontAwesomeIcon icon={faBoxOpen} /> Đã Giao</div>
+                <div onClick={() => { chohuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['cho-huy']} ${btnchohuy ? styles['cho-huyclicked'] : ''}`}><FontAwesomeIcon icon={faTrashArrowUp} /> Xác Nhận Hủy</div>
+                <div onClick={() => { dahuy();dispatch(setbtnctdh(false)) }} className={`${styles['don-hang']} ${styles['da-huy']} ${btndahuy ? styles['da-huyclicked'] : ''}`}><FontAwesomeIcon icon={faTrashAlt} /> Đã Hủy</div>
             </div>
             {btndadat && (
                 <Dadatadmin/>

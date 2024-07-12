@@ -14,13 +14,17 @@ import { faCartArrowDown, faCheck, faEdit, faMagnifyingGlass, faTriangleExclamat
 import InputSearch from '../Search/inputsearch';
 import LoadingSpinnerModal from '../../component/LoadingSpinnerModal/LoadingSpinnerModal';
 import PopupComment from '../../component/Productdetail/Commentandvote/popupcomment/popupcomment';
-
+// Initialization for ES Users
 import { NavLink } from "react-router-dom";
 import axios from 'axios';
 import { setCart } from '../../redux/slice/cartSlice';
 import Modal from 'react-modal';
 import PopupPay from '../PopupPay/popuppay';
 import PopupEditproductdetail from '../Popupeditproductdetail/popupeditproductdetail';
+import { Collapse, initMDB } from "mdb-ui-kit";
+
+initMDB({ Collapse });
+
 export default function Header(props) {
     const auth = useSelector(state => state.auth.authentication);
     const isAdmin = useSelector(state => state.auth.isAdmin);
@@ -131,12 +135,35 @@ export default function Header(props) {
         }
         setdstenshop();
     }, [retryCount])
+
+    const [isshow, setIsshow] = useState(false);
+    console.log(isshow);
     return (
         <>
             <PopupComment chi_tiet_san_pham_id={props.id} />
             <PopupOTP />
             <PopupLogin />
             <PopupPay />
+            {success && (
+                <div className={`${styles['success']} alert alert-success ${success ? 'animation-from-right' : ''}`} style={{ zIndex: '1000', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0' }} role="alert">
+                    <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faCheck} style={{ marginRight: '3%' }} />Successfully</div>
+                    <button onClick={() => { dispatch(setsuccess(false)) }} className="btn ">x</button>
+                </div>
+
+
+            )}
+            {errors && (
+                <div className={`alert alert-danger ${errors ? 'animation-from-right' : ''}`} style={{ zIndex: '1000', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+                    <div style={{ width: '50%', lineHeight: '38px' }}> <FontAwesomeIcon icon={faXmark} style={{ marginRight: '3%' }} /> Error</div>
+                    <button onClick={() => { dispatch(seterror(false)) }} className="btn btn-danger">x</button>
+                </div>
+            )}
+            {warn && (
+                <div className={`alert alert-warning ${warn ? 'animation-from-right' : ''}`} style={{ zIndex: '1000', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
+                    <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faTriangleExclamation} style={{ marginRight: '3%' }} />something went wrong</div>
+                    <button onClick={() => { dispatch(setwarn(false)) }} className="btn btn-danger">x</button>
+                </div>
+            )}
             {isloadingmodal && (<LoadingSpinnerModal />)}
             <div className="site-branding-area">
                 <div className="container">
@@ -165,13 +192,27 @@ export default function Header(props) {
                         <div className="col">
                             <nav className="navbar navbar-expand-lg navbar-light">
                                 <div className="container-fluid">
-                                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                    {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarNav" aria-expanded='false' aria-label="Toggle navigation">
                                         <span className="navbar-toggler-icon"></span>
                                     </button>
-                                    <div className="collapse navbar-collapse" id="navbarNav" style={{ justifyContent: 'space-between' }}>
+
+                                    <div className={`collapse navbar-collapse `} id="navbarNav" style={{ justifyContent: 'space-between' }}> */}
+                                    <button
+                                        onClick={() => { setIsshow(!isshow) }}
+                                        data-mdb-collapse-init
+                                        class="navbar-toggler"
+                                        type="button"
+                                        data-mdb-target="#navbarNav"
+                                        aria-controls="navbarNav"
+                                        aria-expanded="false"
+                                        aria-label="Toggle navigation"
+                                    >
+                                         <span className="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class={`collapse navbar-collapse ${isshow ? 'show' : ''}`} id="navbarNav"  style={{ justifyContent: 'space-between' }}>
                                         <ul className="navbar-nav">
                                             <li className="nav-item">
-                                                <a className="nav-link active" href="/">Home</a>
+                                                <a className="nav-link" href="/">Home</a>
                                             </li>
                                             <li className={`nav-item`}>
                                                 <a className={`nav-link`} href="/shop">Shop page</a>
@@ -214,6 +255,7 @@ export default function Header(props) {
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li className="dropdown-item"><button className="nav-link link-dark px-2" onClick={() => { logout() }}>logout</button></li>
                                                             </ul>
+                                                        
                                                         </div>
 
                                                     </ul>
@@ -254,26 +296,7 @@ export default function Header(props) {
                 </div>
             </div>
 
-            {success && (
-                <div className={`${styles['success']} alert alert-success ${success ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0' }} role="alert">
-                    <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faCheck} style={{ marginRight: '3%' }} />Successfully</div>
-                    <button onClick={() => { dispatch(setsuccess(false)) }} className="btn ">x</button>
-                </div>
 
-
-            )}
-            {errors && (
-                <div className={`alert alert-danger ${errors ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
-                    <div style={{ width: '50%', lineHeight: '38px' }}> <FontAwesomeIcon icon={faXmark} style={{ marginRight: '3%' }} /> Error</div>
-                    <button onClick={() => { dispatch(seterror(false)) }} className="btn btn-danger">x</button>
-                </div>
-            )}
-            {warn && (
-                <div className={`alert alert-warning ${warn ? 'animation-from-right' : ''}`} style={{ zIndex: '3', position: 'fixed', display: 'flex', justifyContent: 'space-between', alignContent: 'center', right: '0', width: '34%' }} role="alert">
-                    <div style={{ width: '50%', lineHeight: '38px' }}><FontAwesomeIcon icon={faTriangleExclamation} style={{ marginRight: '3%' }} />something went wrong</div>
-                    <button onClick={() => { dispatch(setwarn(false)) }} className="btn btn-danger">x</button>
-                </div>
-            )}
             {/* <header className="p-3 text-white" style={{backgroundColor : '#1abc9c'}}>
                 <div className="container">
                     <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -315,7 +338,41 @@ export default function Header(props) {
                     </div>
                 </div>
             </header> */}
-
+            {/* <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <button
+                        onClick={() => { setIsshow(!isshow) }}
+                        data-mdb-collapse-init
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class={`collapse navbar-collapse ${isshow ? 'show' : ''}`} id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Features</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled"
+                                >Disabled</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav> */}
         </>
     );
 }

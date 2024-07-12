@@ -20,7 +20,6 @@ export default function TopTrendingProduct() {
     const [error, setError] = useState(null);
     const [retryCount, setRetryCount] = useState(0);
     useEffect(() => {
-        try {
             const getAPI = async () => {
                 try {
                     const data = await axios.get('http://127.0.0.1:8000/api/productdetail/top8hottrending',
@@ -43,9 +42,7 @@ export default function TopTrendingProduct() {
                 // dispatch(listshow4hottrend(data.data));
             }
             getAPI();
-        } catch (error) {
-           
-        }
+
     }, [dispatch,retryCount])
     console.log('top16hottrends', top16hottrends);
     console.log('show:', show4hottrends);

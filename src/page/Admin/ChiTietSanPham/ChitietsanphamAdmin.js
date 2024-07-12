@@ -814,7 +814,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
                                                                                 selectedFiles.map((file, index) => (
                                                                                     <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                                                                        <img src={file} alt={`Ảnh đãss chọn ${index}`} style={{ width: '200px', marginBottom: '10px' }} />
+                                                                                        <img src={file} alt={`Ảnh đãss chọn ${index}`} style={{ width: '200px',height:'200px', marginBottom: '10px' }} />
                                                                                     </div>
                                                                                 ))
 
@@ -949,7 +949,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
                                             {selectedFile && (
                                                 <div style={{ margin: '3%' }}>
-                                                    <img src={selectedFile} alt="Ảnh đã chọn" style={{ width: '200px' }} />
+                                                    <img src={selectedFile} alt="Ảnh đã chọn" style={{ width: '200px',height:'200px' }} />
                                                 </div>
                                             )}
                                             {/* {!selectedFile && (

@@ -42,7 +42,7 @@ function InfoProductDetail(props) {
     useEffect(() => {
         if (productdetail !== null) {
             setFormdata({
-                'san_pham_id': productdetail.san_pham_id,
+                'san_pham_id': productdetail.data.san_pham_id,
                 'tieu_de': tieude,
                 'noi_dung': noidung,
                 'image': imgnoidung,
@@ -256,7 +256,7 @@ function InfoProductDetail(props) {
                                         <input className="col-6" value={tieude} placeholder='Nhập Tiêu Đề' type="text" onChange={(e) => { setTieude(e.target.value) }} />
                                         <textarea style={{ border: 'solid 1px #ccc' }} value={noidung} placeholder='Nhập Tiêu Đề' onChange={(e) => { setNoidung(e.target.value) }} rows="4" cols="50" />
                                         <input class="form-control" type="file" style={{ marginBottom: '1rem' }} id="formFileMultiple" multiple onChange={(e) => { setImgnoidung(e.target.files[0]); }} />
-                                        <button onClick={() => { themmoi(tieude, noidung, imgnoidung, productdetail.san_pham_id, formdata) }} className={`btn btn-outline-success`}>thêm mới</button>
+                                        <button onClick={() => { themmoi(tieude, noidung, imgnoidung, productdetail.data.san_pham_id, formdata) }} className={`btn btn-outline-success`}>thêm mới</button>
                                     </form>
                                 )}
 

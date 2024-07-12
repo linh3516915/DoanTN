@@ -32,7 +32,7 @@ export default function ProductHomePage() {
             if (index > 0 && index <= 8) {
                 return (
                     <CardProductDetail data={item.data}
-                    img = {item.image}/>
+                        img={item.image} />
                 );
             }
         })
@@ -43,7 +43,7 @@ export default function ProductHomePage() {
     return (
         <>
 
-            <div class="maincontent-area">
+            <div class="brands-area">
                 <div class="zigzag-bottom"></div>
                 <div class="container">
                     <div class="row">
@@ -52,14 +52,14 @@ export default function ProductHomePage() {
                                 <h2 class="section-title">Latest Product</h2>
                                 <div className={`${style['product-list']}`}>
                                     {producthomepage}
-                                   
+
                                 </div>
-                                <div style={{width:'max-content',margin:'0 auto'}}>
-                                <button style={{marginTop : '1rem'}} onClick={() => { movePage() }} className="btn btn-primary" >Xem Thêm sản phẩm </button>
+                                <div style={{ width: 'max-content', margin: '0 auto' }}>
+                                    <button style={{ marginTop: '1rem' }} onClick={() => { movePage() }} className="btn btn-primary" >Xem Thêm sản phẩm </button>
                                 </div>
-                               
+
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>

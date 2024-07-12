@@ -19,6 +19,7 @@ function Commentandvote() {
     const listcomment = useSelector(state => state.itemproductdetail.listcomment);
     const socommentnow = useSelector(state => state.itemproductdetail.socommentnow);
     const isadmin = useSelector(state => state.auth.isAdmin);
+    const auth = useSelector(state => state.auth.authentication);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     // useEffect(() => {

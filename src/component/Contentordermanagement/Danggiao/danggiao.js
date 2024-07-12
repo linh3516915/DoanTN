@@ -7,6 +7,8 @@ import Chitietdonhang from "../chitietdonhang/chitietdonhang";
 import { setbtnctdh, sethuydon } from "../../../redux/slice/ordermanagement";
 import axios from "axios";
 import { loadingmodal } from "../../../redux/slice/filterSlice";
+import styles from './dagiao.module.css';
+import { setsuccess } from "../../../redux/slice/popupSlice";
 export default function Danggiao() {
     const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -22,7 +24,7 @@ export default function Danggiao() {
             const response = await axios.get(`http://127.0.0.1:8000/api/donhang/chohuy/${id}`);
             if (response.data.success) {
                 dispatch(sethuydon(id));
-                alert('done')
+                dispatch(setsuccess(true));
             }
             dispatch(loadingmodal(false));
         }
@@ -72,7 +74,7 @@ export default function Danggiao() {
                                             'gia_khuyen_mai' :  item.gia_khuyen_mai,
                                             'tong_tien': item.tong_tien,
                                             'trang_thai' : item.trang_thai
-                                        }) ; setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>xem chi tiết</button>
+                                        }) ; setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>chi tiết</button>
                                         <button  onClick={()=>{huydon(item.id)}} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></button>
                                     </div>
                                 </div>
@@ -85,7 +87,7 @@ export default function Danggiao() {
     }
     return (
         <>
-            <div style={{ height: '71%', overflow: 'scroll', padding: '1rem' }}>
+            <div className={`${styles['content']}`}  style={{ overflow: 'scroll', padding: '1rem' }}>
                 {!btnctdh && listdonhang!= [] && (
                     listdonhang
                 )}
