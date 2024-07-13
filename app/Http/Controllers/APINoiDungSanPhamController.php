@@ -26,10 +26,18 @@ class APINoiDungSanPhamController extends Controller
             }
         }
         else{
-            $info->san_pham_id = $rq->san_pham_id;
-            $info->tieu_de =$rq->tieu_de;
-            $info->noi_dung =  $rq->noi_dung;
-            $info->save(); 
+            if( $rq->noi_dung == ''){
+                $info->san_pham_id = $rq->san_pham_id;
+                $info->tieu_de =$rq->tieu_de;
+                $info->noi_dung = '';
+                $info->save(); 
+            }
+            else {
+                $info->san_pham_id = $rq->san_pham_id;
+                $info->tieu_de =$rq->tieu_de;
+                $info->noi_dung = $rq->noi_dung;
+                $info->save(); 
+            }
         }
 
         

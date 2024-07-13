@@ -13,7 +13,7 @@ use App\Models\BinhLuanDanhGia;
 use App\Models\NoiDungSanPham;
 use App\Models\HinhAnhNoiDungSanPham;
 use App\Models\HinhAnhSanPham;
-
+use App\Constants;
 use App\Providers\HelperServiceProvider;
 use App\Models\HinhAnh;
 class APIChiTietSanPhamController extends Controller
@@ -32,7 +32,7 @@ class APIChiTietSanPhamController extends Controller
             $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
             array_push($data2,[
                 'data' => $ctsp,
-                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                'image' => Constants::APP_NAME.$anh->ten_hinh_anh
             ]);
         }
         return response()->json([
@@ -46,7 +46,7 @@ class APIChiTietSanPhamController extends Controller
             $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
             array_push($data,[
                 'data' => $ctsp,
-                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                'image' => Constants::APP_NAME.$anh->ten_hinh_anh
             ]);
         }
         return response()->json([
@@ -60,12 +60,12 @@ class APIChiTietSanPhamController extends Controller
         ->where('isAvatarimage',1)->first();
         array_push($datactsp , [
             'data' => $productdetail,
-            'img' => 'http://127.0.0.1:8000/'.$imgctsp->ten_hinh_anh
+            'img' => Constants::APP_NAME.$imgctsp->ten_hinh_anh
         ]);
         $imgsp = HinhAnhSanPham::where('san_pham_id',$productdetail->san_pham_id)->get();
         $dataimg = [];
         foreach ($imgsp as $img) {
-            array_push($dataimg,'http://127.0.0.1:8000/'.$img->URL_anh);
+            array_push($dataimg,Constants::APP_NAME.$img->URL_anh);
         }
 //          $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
 // >>>>>>> bd82b8a55dd9cbe83500afc7cfcf8f4ef40753aa
@@ -137,7 +137,7 @@ class APIChiTietSanPhamController extends Controller
                 $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
                 array_push($datarelatedwithimg,[
                     'data' => $ctsp,
-                    'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                    'image' => Constants::APP_NAME.$anh->ten_hinh_anh
                 ]);
             }
             // return response() -> json([
@@ -147,7 +147,7 @@ class APIChiTietSanPhamController extends Controller
         if(!empty($votetest)){
             return response()->json([
                 'data' => $datactsp,
-                'img' => 'http://127.0.0.1:8000/' . $imgctsp->ten_hinh_anh,
+                'img' => Constants::APP_NAME . $imgctsp->ten_hinh_anh,
                 'imgsp' => $dataimg,
                 'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
                 'mau_sac' => $datamausac,
@@ -164,7 +164,7 @@ class APIChiTietSanPhamController extends Controller
         else{
             return response()->json([
                 'data' => $datactsp,
-                'img' => 'http://127.0.0.1:8000/' . $imgctsp->ten_hinh_anh,
+                'img' => Constants::APP_NAME . $imgctsp->ten_hinh_anh,
                 'imgsp' => $dataimg,
                 'nha_cung_cap_id' => $ncc->nha_cung_cap_id,
                 'mau_sac' => $datamausac,
@@ -271,7 +271,7 @@ class APIChiTietSanPhamController extends Controller
         $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
         array_push($data,[
             'data' => $ctsp,
-            'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+            'image' => Constants::APP_NAME.$anh->ten_hinh_anh
         ]);
         return response()->json([
             'data' => $data,
@@ -292,7 +292,7 @@ class APIChiTietSanPhamController extends Controller
             $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
             array_push($data2,[
                 'data' => $ctsp,
-                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                'image' => Constants::APP_NAME.$anh->ten_hinh_anh
             ]);
         }
         return response()->json([
@@ -317,7 +317,7 @@ class APIChiTietSanPhamController extends Controller
             $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
             array_push($data2,[
                 'data' => $ctsp,
-                'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                'image' => Constants::APP_NAME.$anh->ten_hinh_anh
             ]);
         }
         return response()->json([
@@ -352,7 +352,7 @@ class APIChiTietSanPhamController extends Controller
                     $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
                     array_push($data2,[
                         'data' => $ctsp,
-                        'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                        'image' => Constants::APP_NAME.$anh->ten_hinh_anh
                     ]);
                 }
                 return response()->json([
@@ -381,7 +381,7 @@ class APIChiTietSanPhamController extends Controller
                     $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
                     array_push($data,[
                         'data' => $ctsp,
-                        'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                        'image' => Constants::APP_NAME.$anh->ten_hinh_anh
                     ]);
                 }
             return response()->json([
@@ -416,7 +416,7 @@ class APIChiTietSanPhamController extends Controller
                     $anh = HinhAnh::where('san_pham_id',$ctsp->san_pham_id)->where('mau_sac_id',$ctsp->mau_sac_id)->first();
                     array_push($data,[
                         'data' => $ctsp,
-                        'image' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                        'image' => Constants::APP_NAME.$anh->ten_hinh_anh
                     ]);
                 }
                 return response()->json([

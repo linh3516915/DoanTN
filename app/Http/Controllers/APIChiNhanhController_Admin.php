@@ -45,19 +45,19 @@ class APIChiNhanhController_Admin extends Controller
         ]);
     }
     public function capNhat(Request $request,$id){
-        $chinhanh = ChiNhanh_Admin::find($id){
+        $chinhanh = ChiNhanh_Admin::find($id);
             if(empty($chinhanh)){
                 return response()->json([
-                    'success' => -1;
-                    'message'=>"Chi nhanh ID = {$id} không tồn tại!! ";
+                    'success' => -1,
+                    'message'=>"Chi nhanh ID = {$id} không tồn tại!! "
                 ]);
             }
-        }
+        
         $count = ChiNhanh_Admin::where('id','<>',$id)->where('ten_chi_nhanh',$request->tenchinhanh)->count();
         if($count>0){
             return response()->json([
-                'success' => 0;
-                'message' => "Chi nhánh $reqest->tenchinhanh đã tồn tại !! ";
+                'success' => 0,
+                'message' => "Chi nhánh $reqest->tenchinhanh đã tồn tại !! ",
             ]);
         }
             $chinhanh->ten_chi_nhanh      = $request->tenchinhanh;

@@ -9,6 +9,7 @@ use App\Models\ChiTietDonHang;
 use App\Models\ChiTietSanPham;
 use App\Models\User;
 use App\Models\HinhAnh;
+use App\Constants;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 class APIDonHangController extends Controller
@@ -122,7 +123,7 @@ class APIDonHangController extends Controller
                 array_push($datactdh,[
                     'datactdh' =>$ctdh[$j],
                     'data' => $ctsp,
-                    'img' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                    'img' => Constants::APP_NAME.$anh->ten_hinh_anh
                 ]);
                 
             }
@@ -161,7 +162,7 @@ class APIDonHangController extends Controller
                 array_push($datactdh,[
                     'datactdh' =>$ctdh[$j],
                     'data' => $ctsp,
-                    'img' => 'http://127.0.0.1:8000/'.$anh->ten_hinh_anh
+                    'img' => Constants::APP_NAME.$anh->ten_hinh_anh
                 ]);
                 
             }

@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\GioHang;
 use App\Models\ChiTietSanPham;
 use App\Models\HinhAnh;
-
+use App\Constants;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 class AuthController extends Controller
@@ -64,7 +64,7 @@ class AuthController extends Controller
                         $img = HinhAnh::where('san_pham_id',$giohang[$i]->san_pham_id)->where('mau_sac_id',$giohang[$i]->mau_sac_id)->where('isAvatarimage',1)->first();
                         array_push($data,[
                             'ctsp' => $ctsp,
-                            'img' => 'http://127.0.0.1:8000/'.$img->ten_hinh_anh,
+                            'img' => Constants::APP_NAME.$img->ten_hinh_anh,
                             'so_luong' => $giohang[$i]->so_luong
                         ]);
                     }

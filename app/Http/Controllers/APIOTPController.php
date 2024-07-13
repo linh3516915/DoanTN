@@ -33,11 +33,11 @@ class APIOTPController extends Controller
     }
     public function delOTP(Request $request)
     {
-        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->first();
-        if(!empty($checkemail)){
-            $checkemail->delete();
+        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->delete();
+        // if(!empty($checkemail)){
+            // $checkemail->delete();
             return response()->json(['success' => true, 'message' => 'delete successfully']);
-        }
+        // }
     }
     public function sendOTPAgain(Request $request)
     {
@@ -66,10 +66,9 @@ class APIOTPController extends Controller
     public function checkOTP(Request $request)
     {
         $otp = $request->otp;
-        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->first();
-        if($otp == $checkemail->OTP_verify)
+        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->delete();
+        if( $checkemail > 0)
         {
-            $checkemail->delete();
             return response()->json(['success' => true, 'message' => 'check OTP successfully']);
             
         }
