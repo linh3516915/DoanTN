@@ -10,6 +10,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from "react-intersection-observer";
 import { loadingmodal } from "../../redux/slice/filterSlice";
 import { addCartUser, setCart } from "../../redux/slice/cartSlice";
+import { apiUrl } from "../../api/api";
 export default function FormLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,7 +28,7 @@ export default function FormLogin() {
         try {
             // đăng nhập 
             dispatch(loadingmodal(true));
-            const response = await axios.post('http://127.0.0.1:8000/api/auth/login', {
+            const response = await axios.post(`${apiUrl}/auth/login`, {
                 email,
                 password
             });
@@ -35,7 +36,7 @@ export default function FormLogin() {
             if (response.data.success === true) {
                 dispatch(gettoken(response.data));
                 const getAPI = async () => {
-                    const user = await axios.get('http://127.0.0.1:8000/api/auth/profile', {
+                    const user = await axios.get(`${apiUrl}/auth/profile`, {
                         headers: {
                             Accept: 'application/json',
                             Authorization: `bearer ${response.data.access_token}`

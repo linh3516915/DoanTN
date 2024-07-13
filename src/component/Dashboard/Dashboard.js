@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
+import { apiUrl } from "../../api/api";
 export default function Dashboard() {
         const [soluong, setSoLuong] = useState(0);
         const [count , setCount] = useState(0);
@@ -13,7 +14,7 @@ export default function Dashboard() {
         useEffect(()=>{
             const fetchSLKH = async () => {
                 try {
-                  const response = await axios.get('http://127.0.0.1:8000/api/khachhang/khachhang-soluong');
+                  const response = await axios.get(`${apiUrl}/khachhang/khachhang-soluong`);
                   setSoLuong(response.data.soluong);
                 } catch (error) {
                   console.error('Lỗi!!:', error);
@@ -25,7 +26,7 @@ export default function Dashboard() {
         useEffect(()=>{
             const fetchSLSP = async () => {
                 try {
-                  const response = await axios.get('http://127.0.0.1:8000/api/sanpham/sanpham-soluong');
+                  const response = await axios.get(`${apiUrl}/sanpham/sanpham-soluong`);
                   setCount(response.data.count);
                 } catch (error) {
                   console.error('Lỗi!!:', error);
@@ -36,7 +37,7 @@ export default function Dashboard() {
         useEffect(()=>{
             const fetchSoluongdonduyet = async () => {
                 try{
-                    const response = await axios.get('http://127.0.0.1:8000/api/donhangadmin/donduyet-soluong');
+                    const response = await axios.get(`${apiUrl}/donhangadmin/donduyet-soluong`);
                     setSLDon(response.data.soluongdon);
                 }catch(error){
                     console.error('Lỗi!!:', error);

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { apiUrl } from '../../../../api/api';
 export default function FormComment(props) {
     const dispatch = useDispatch();
     const [hoverIndex, setHoverIndex] = useState(null);
@@ -35,7 +36,7 @@ export default function FormComment(props) {
     const buttonSubmit = (sodienthoai, ten, noidung,san_pham_id,mau_sac_id,dung_luong_id, so_sao, user_id) => {
         if (user_id === undefined) {
             const getAPI = async () => {
-                const response = await axios.post('http://127.0.0.1:8000/api/binhluandanhgia/writecomment', {
+                const response = await axios.post(`${apiUrl}/binhluandanhgia/writecomment`, {
                     ten: ten,
                     so_dien_thoai: sodienthoai,
                     noi_dung_binh_luan: noidung,
@@ -54,7 +55,7 @@ export default function FormComment(props) {
         }
         else {
             const getAPI = async () => {
-                const response = await axios.post('http://127.0.0.1:8000/api/binhluandanhgia/writecomment', {
+                const response = await axios.post(`${apiUrl}/binhluandanhgia/writecomment`, {
                     
                     noi_dung_binh_luan: noidung,
                     san_pham_id : san_pham_id,

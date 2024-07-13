@@ -9,6 +9,7 @@ import { match } from "../../redux/slice/addressSlice";
 import axios from "axios";
 import { getemail, setOTP } from "../../redux/slice/authSlice";
 import PopupPay from "../../layout/PopupPay/popuppay";
+import { apiUrl } from "../../api/api";
 export default function FormSignUp() {
     const [inputFullName, setInputFullName] = useState('');
     const [inputPhoneNumber, setInputPhoneNumber] = useState('');
@@ -26,14 +27,14 @@ export default function FormSignUp() {
         
         if(inputPassword === inputRePassword){
             const getAPI = async () => {
-                const response = await axios.post('http://127.0.0.1:8000/api/account/checkemail', {
+                const response = await axios.post(`${apiUrl}/account/checkemail`, {
                    email : inputEmail
                 })
                 if (response.data.success === true) {
                     dispatch(getemail(inputEmail));
                     const getAPI = async () => {
                         // if(emailcheck !== '' && otpcheck ==null ){
-                          const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                          const response = await axios.post(`${apiUrl}/otp/sendotp`, {
                             email: inputEmail
                           })
                           dispatch(setOTP(response.data.otptocheck));
@@ -56,7 +57,7 @@ export default function FormSignUp() {
     useEffect(() => {
         if(popupsignup == false){                                                 
           const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+            const response = await axios.post(`${apiUrl}/otp/delotp`, {
               email: emailpersit
             })
             dispatch(getemail(''));

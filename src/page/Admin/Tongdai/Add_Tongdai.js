@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 
 export default function AddTongDai() {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function AddTongDai() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/tongdai/themmoi-tongdai', {
+            const response = await axios.post(`${apiUrl}/tongdai/themmoi-tongdai`, {
                 tenso,
                 sodienthoai,
                 giobatdau,

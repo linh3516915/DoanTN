@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 export default function AddDungLuong() {
     const navigate = useNavigate();
     const [kich_thuoc, setKichThuoc] = useState('');
@@ -11,7 +12,7 @@ export default function AddDungLuong() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/dungluong/themmoi-dungluong', {
+            const response = await axios.post(`${apiUrl}/dungluong/themmoi-dungluong`, {
                 kich_thuoc
             });
             if (response.data.success == -1) {

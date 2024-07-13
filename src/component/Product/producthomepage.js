@@ -5,6 +5,7 @@ import axios from "axios";
 import style from "./producthomepage.module.css"
 import CardProductDetail from "../CardProductdetail/cardproductdetail";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from "../../api/api";
 
 export default function ProductHomePage() {
     const [slicectsp, setSlicectsp] = useState({});
@@ -16,7 +17,7 @@ export default function ProductHomePage() {
         const getAPI = async () => {
             try {
 
-                const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                const data = await axios.get(`${apiUrl}/productdetail/showLists`,
                 );
                 dispatch(listProductdetail(data));
 

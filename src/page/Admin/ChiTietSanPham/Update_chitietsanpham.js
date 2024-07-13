@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 export default function UpdateChiTietSanPham(props) {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function UpdateChiTietSanPham(props) {
     const [gia, setGia] = useState('');
     useEffect(() => {
         async function setdl() {
-            var response = await fetch(`http://127.0.0.1:8000/api/dungluong/dungluong-admin`);
+            var response = await fetch(`${apiUrl}/dungluong/dungluong-admin`);
             var json = await response.json();
             setDSDungLuong(json.data)
 
@@ -28,7 +29,7 @@ export default function UpdateChiTietSanPham(props) {
     }, []);
     useEffect(() => {
         async function setms() {
-            var response = await fetch(`http://127.0.0.1:8000/api/mausac/mausac-admin`);
+            var response = await fetch(`${apiUrl}/mausac/mausac-admin`);
             var json = await response.json();
             setDSMauSac(json.data)
 
@@ -37,7 +38,7 @@ export default function UpdateChiTietSanPham(props) {
     }, []);
     useEffect(() => {
         async function setram() {
-            var response = await fetch(`http://127.0.0.1:8000/api/ram/ram-admin`);
+            var response = await fetch(`${apiUrl}/ram/ram-admin`);
             var json = await response.json();
             setDSRam(json.data)
 
@@ -47,7 +48,7 @@ export default function UpdateChiTietSanPham(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/ctsp/capnhat-ctsp/${id}`, {
+            const response = await axios.post(`${apiUrl}/ctsp/capnhat-ctsp/${id}`, {
                 tenctsp,
                 dungluong,
                 mausac,

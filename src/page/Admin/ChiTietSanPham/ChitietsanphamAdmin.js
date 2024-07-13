@@ -17,6 +17,7 @@ import ChiTietSanPham from '../../../component/Admin/ChiTietSanPham/Chitietsanph
 import EditorComponent from '../../../component/CKeditor/ckeditor';
 import PopupAddtrangthai from '../../../component/Admin/AddTHvaLSP/Addtrangthai';
 import { openpopupeditproductdetail, setsuccess } from '../../../redux/slice/popupSlice';
+import { apiUrl, apiUrl_anh } from '../../../api/api';
 export default function ChiTietSanPhamAdmin(props) {
 
     const { id } = useParams();
@@ -25,7 +26,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
     useEffect(() => {
         async function setctsp() {
-            var response = await fetch(`http://127.0.0.1:8000/api/ctsp/ctsp-admin/${id}`);
+            var response = await fetch(`${apiUrl}/ctsp/ctsp-admin/${id}`);
             var json = await response.json();
             SetDSCTSP(json.data)
 
@@ -110,7 +111,7 @@ export default function ChiTietSanPhamAdmin(props) {
     useEffect(() => {
         async function setncc() {
             try {
-                var response = await fetch(`http://127.0.0.1:8000/api/nhacungcap/nhacungcap-admin`);
+                var response = await fetch(`${apiUrl}/nhacungcap/nhacungcap-admin`);
                 var json = await response.json();
                 SetDSNCC(json.data)
             } catch (error) {
@@ -132,7 +133,7 @@ export default function ChiTietSanPhamAdmin(props) {
         const getAPI = async () => {
             try {
                 // dispatch(loadingmodal(true));
-                const response = await axios.get('http://127.0.0.1:8000/api/sanpham/sanpham-admin')
+                const response = await axios.get(`${apiUrl}/sanpham/sanpham-admin`)
                 //setOptions(response.data.data)
                 dispatch(setoption(response.data.data));
                 // dispatch(loadingmodal(false));
@@ -152,7 +153,7 @@ export default function ChiTietSanPhamAdmin(props) {
         getAPI();
         async function setloaisp() {
             try {
-                var response = await fetch(`http://127.0.0.1:8000/api/loaisp/loaisp-admin`);
+                var response = await fetch(`${apiUrl}/loaisp/loaisp-admin`);
                 var json = await response.json();
                 setDSLSP(json.data)
             } catch (error) {
@@ -171,7 +172,7 @@ export default function ChiTietSanPhamAdmin(props) {
         setloaisp();
         async function setmausac() {
             try {
-                var response = await fetch(`http://127.0.0.1:8000/api/mausac/mausac-admin`);
+                var response = await fetch(`${apiUrl}/mausac/mausac-admin`);
                 var json = await response.json();
                 setDSMauSac(json.data)
             } catch (error) {
@@ -190,7 +191,7 @@ export default function ChiTietSanPhamAdmin(props) {
         setmausac();
         async function setdungluong() {
             try {
-                var response = await fetch(`http://127.0.0.1:8000/api/dungluong/dungluong-admin`);
+                var response = await fetch(`${apiUrl}/dungluong/dungluong-admin`);
                 var json = await response.json();
                 setDSDL(json.data)
             } catch (error) {
@@ -209,7 +210,7 @@ export default function ChiTietSanPhamAdmin(props) {
         setdungluong();
         async function settrangthai() {
             try {
-                var response = await fetch(`http://127.0.0.1:8000/api/trangthaisanpham/trangthaisanpham`);
+                var response = await fetch(`${apiUrl}/trangthaisanpham/trangthaisanpham`);
                 var json = await response.json();
                 setDstrangthai(json.data)
             } catch (error) {
@@ -281,7 +282,7 @@ export default function ChiTietSanPhamAdmin(props) {
     const themmoiLSP = async (loaisp) => {
         try {
 
-            const response = await axios.post('http://127.0.0.1:8000/api/loaisp/themmoi-loaisp', {
+            const response = await axios.post(`${apiUrl}/loaisp/themmoi-loaisp`, {
                 loaisp
             });
             setDSLSP(dsLoaiSP => [...dsLoaiSP, response.data.data]);
@@ -295,7 +296,7 @@ export default function ChiTietSanPhamAdmin(props) {
     const themmoiDL = async (kich_thuoc) => {
         try {
 
-            const response = await axios.post('http://127.0.0.1:8000/api/dungluong/themmoi-dungluong', {
+            const response = await axios.post(`${apiUrl}/dungluong/themmoi-dungluong`, {
                 kich_thuoc
             });
             setDSDL(dsdungluong => [...dsdungluong, response.data.data]);
@@ -310,7 +311,7 @@ export default function ChiTietSanPhamAdmin(props) {
     const themmoiNCC = async (tenncc) => {
         try {
 
-            const response = await axios.post('http://127.0.0.1:8000/api/nhacungcap/themmoi-nhacungcap', {
+            const response = await axios.post(`${apiUrl}/nhacungcap/themmoi-nhacungcap`, {
                 tenncc
             });
             SetDSNCC(dsNCC => [...dsNCC, response.data.data]);
@@ -324,7 +325,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
     const themmoiMauSac = async (ten_mau_sac) => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/mausac/themmoi-mausac', {
+            const response = await axios.post(`${apiUrl}/mausac/themmoi-mausac`, {
                 ten_mau_sac
             });
             setDSMauSac(dsmausac => [...dsmausac, response.data.data]);
@@ -337,7 +338,7 @@ export default function ChiTietSanPhamAdmin(props) {
     }
     const themmoitrangthai = async (tentrangthai) => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/trangthaisanpham/themmoi', {
+            const response = await axios.post(`${apiUrl}/trangthaisanpham/themmoi`, {
                 tentrangthai
             });
             setDstrangthai(dstrangthai => [...dstrangthai, response.data.data]);
@@ -354,7 +355,7 @@ export default function ChiTietSanPhamAdmin(props) {
         const getAPI = async () => {
             try {
                 dispatch(loadingmodal(true));
-                const response = await axios.post('http://127.0.0.1:8000/api/nhaphang/nhaphang', {
+                const response = await axios.post(`${apiUrl}/nhaphang/nhaphang`, {
                     'ten_san_pham': formdata.ten_san_pham,
                     'mau_sac_id': parseInt(formdata.mau_sac_id),
                     'dung_luong_id': parseInt(formdata.dung_luong_id),
@@ -425,12 +426,12 @@ export default function ChiTietSanPhamAdmin(props) {
                             dispatch(setgiakhuyenmai(item.gia_khuyen_mai));
                             const getAPI = async () => {
                                 try {
-                                    const response = await axios.post(`http://127.0.0.1:8000/api/hinhanh/laydanhsach`, {
+                                    const response = await axios.post(`${apiUrl}/hinhanh/laydanhsach`, {
                                         san_pham_id: item.san_pham_id,
                                         mau_sac_id: item.mau_sac_id
                                     });
                                     dispatch(setanhctsp(response.data.ten));
-                                    setSelectedFile('http://127.0.0.1:8000/' + response.data.ten)
+                                    setSelectedFile(`${apiUrl_anh}/` + response.data.ten)
                                     setshowSelectedOption(true);
                                 } catch (error) {
                                     console.error('Error fetching data:', error);
@@ -450,12 +451,12 @@ export default function ChiTietSanPhamAdmin(props) {
                             setShowprice(false);
                             const getAPI = async () => {
                                 try {
-                                    const response = await axios.post(`http://127.0.0.1:8000/api/hinhanh/laydanhsach`, {
+                                    const response = await axios.post(`${apiUrl}/hinhanh/laydanhsach`, {
                                         san_pham_id: item.san_pham_id,
                                         mau_sac_id: item.mau_sac_id
                                     });
                                     dispatch(setanhctsp(response.data.ten));
-                                    setSelectedFile('http://127.0.0.1:8000/' + response.data.ten)
+                                    setSelectedFile(`${apiUrl_anh}/` + response.data.ten)
                                     setshowSelectedOption(true);
                                 } catch (error) {
                                     console.error('Error fetching data:', error);
@@ -466,7 +467,7 @@ export default function ChiTietSanPhamAdmin(props) {
                         }} type='button' className='btn btn-success' style={{ marginRight: '2%' }}><FontAwesomeIcon icon={faPlus} /></button>
                         <button className="btn btn-danger" onClick={() => {
                             const Delete = async (id) => {
-                                var response = await fetch(`http://127.0.0.1:8000/api/ctsp/xoa-ctsp/${id}`);
+                                var response = await fetch(`${apiUrl}/ctsp/xoa-ctsp/${id}`);
                                 var json = await response.json();
                                 alert('Xóa thành công');
                             };
@@ -483,8 +484,8 @@ export default function ChiTietSanPhamAdmin(props) {
         const getAPI = async () => {
             dispatch(loadingmodal(true));
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/ctsp/ctsp-admin/${id}`);
-                const product = await axios.get(`http://127.0.0.1:8000/api/product/product/${id}`);
+                const response = await axios.get(`${apiUrl}/ctsp/ctsp-admin/${id}`);
+                const product = await axios.get(`${apiUrl}/product/product/${id}`);
                 setInputValue(product.data.data.ten);
                 setTrangthaiid(product.data.data.trang_thai_id);
                 setTenNCC(product.data.data.nha_cung_cap_id);
@@ -511,12 +512,12 @@ export default function ChiTietSanPhamAdmin(props) {
     //     console.log('check data edit', formedit);
     //     const getAPI = async () => {
     //         try {
-    //             const response = await axios.post(`http://127.0.0.1:8000/api/hinhanh/laydanhsach`, {
+    //             const response = await axios.post(`${apiUrl}/hinhanh/laydanhsach`, {
     //                 san_pham_id: item.san_pham_id,
     //                 mau_sac_id: item.mau_sac_id
     //             });
     //             dispatch(setanhctsp(response.data.ten));
-    //             setSelectedFile('http://127.0.0.1:8000/' + response.data.ten)
+    //             setSelectedFile('${apiUrl_anh}/' + response.data.ten)
     //             setshowSelectedOption(true);
     //         } catch (error) {
     //             console.error('Error fetching data:', error);
@@ -558,7 +559,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
         const getAPI = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/ctsp/ctsp-admin/${id}`);
+                const response = await axios.get(`${apiUrl}/ctsp/ctsp-admin/${id}`);
                 dispatch(setproductdetail(response.data.data));
                 setshowSelectedOption(true);
             } catch (error) {
@@ -608,7 +609,7 @@ export default function ChiTietSanPhamAdmin(props) {
         const getAPI = async () => {
             try {
                 dispatch(loadingmodal(true));
-                const response = await axios.post(`http://127.0.0.1:8000/api/nhaphang/capnhatproduct`,
+                const response = await axios.post(`${apiUrl}/nhaphang/capnhatproduct`,
                     formData
                     , {
                         headers: {
@@ -626,7 +627,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
                 }
                 // dispatch(setanhctsp(response.data.ten));
-                // setSelectedFile('http://127.0.0.1:8000/' + response.data.ten)
+                // setSelectedFile('${apiUrl_anh}/' + response.data.ten)
                 // setshowSelectedOption(true);
                 dispatch(loadingmodal(false));
             } catch {
@@ -775,7 +776,7 @@ export default function ChiTietSanPhamAdmin(props) {
                                                                 {
                                                                     anh.map((file, index) => (
                                                                         <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                                                            <img src={'http://127.0.0.1:8000/' + file.URL_anh} alt={`Ảnh đã chọn ${index}`} style={{ width: '200px', marginBottom: '10px' }} />
+                                                                            <img src={`${apiUrl_anh}/` + file.URL_anh} alt={`Ảnh đã chọn ${index}`} style={{ width: '200px', marginBottom: '10px' }} />
                                                                         </div>
                                                                     ))
 

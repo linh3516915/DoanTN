@@ -5,6 +5,7 @@ import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 import HeaderAdmin from "../../../layout/Admin/Header/Header";
 import ChiTietCauHinh from "../../../component/Admin/Chitietcauhinh/Chitietcauhinh";
 import { NavLink } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function ChiTietCauHinhAdmin(props) {
 
     const {id} = useParams();
@@ -13,7 +14,7 @@ export default function ChiTietCauHinhAdmin(props) {
 
     useEffect(() => {
         async function setctch() {
-            var response = await fetch(`http://127.0.0.1:8000/api/ctch/ctch-admin/${id}`);
+            var response = await fetch(`${apiUrl}/ctch/ctch-admin/${id}`);
             var json = await response.json();
             SetDSCH(json.data)
 

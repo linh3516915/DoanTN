@@ -218,6 +218,7 @@ export default function FormCheckout() {
                 onChange={(e) => {
                     setInputPhoneNumber(e.target.value)
                 }}
+                
             />
 
             {/* {isShowWarning(isValidPhoneNumber, isTouchPhoneNumber) ? alertMessage("Please enter your phone number!") : <></>} */}

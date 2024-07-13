@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 
 export default function Tongdai(props) {
     const { id } = useParams();
     const DeleteTongDai = async(id) => {
-            var response = await fetch(`http://127.0.0.1:8000/api/tongdai/xoa-tongdai/${id}`);
+            var response = await fetch(`${apiUrl}/tongdai/xoa-tongdai/${id}`);
             var json = await response.json();
             alert('Xóa tổng đài thành công');
             window.location.reload('/tongdai-admin');

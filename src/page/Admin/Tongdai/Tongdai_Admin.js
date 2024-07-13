@@ -2,13 +2,14 @@ import Tongdai from "../../../component/Admin/Tongdai/Tongdai";
 import { useEffect, useState } from "react";
 import Header_Admin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
+import { apiUrl } from "../../../api/api";
 
 export default function Tongdai_Admin(props){
     const [dstongdai, SetDSTD] = useState([]);
     
     useEffect (()=>{
         async function settongdai(){
-            var response = await fetch (`http://127.0.0.1:8000/api/tongdai/tongdai-admin`);
+            var response = await fetch (`${apiUrl}/tongdai/tongdai-admin`);
             var json = await response.json();
             SetDSTD(json.data)
         }

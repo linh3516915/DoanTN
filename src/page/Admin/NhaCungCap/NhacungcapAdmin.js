@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import NhaCungCap from "../../../component/Admin/NhaCungCap/Nhacungcap";
 import HeaderAdmin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
+import { apiUrl } from "../../../api/api";
 export default function NhaCungCapAdmin(){
     const [dsnhacungcap, setDSNCC] = useState([]);
     useEffect(() => {
         async function setncc() {
-            var response = await fetch(`http://127.0.0.1:8000/api/nhacungcap/nhacungcap-admin`);
+            var response = await fetch(`${apiUrl}/nhacungcap/nhacungcap-admin`);
             var json = await response.json();
             setDSNCC(json.data)
         }

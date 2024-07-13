@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function DungLuong(props){
     const { id } = useParams();
     const DeleteLoai = async(id) => {
-            var response = await fetch(`http://127.0.0.1:8000/api/dungluong/xoa-dungluong/${id}`);
+            var response = await fetch(`${apiUrl}/dungluong/xoa-dungluong/${id}`);
             var json = await response.json();
             alert('Xóa dung lượng sản phẩm thành công');
             window.location.reload('/dungluong-admin');

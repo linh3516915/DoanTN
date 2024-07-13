@@ -9,6 +9,7 @@ import { loadingmodal } from "../../../redux/slice/filterSlice";
 import styles from './dadat.module.css'
 import axios from "axios";
 import { setsuccess } from "../../../redux/slice/popupSlice";
+import { apiUrl } from "../../../api/api";
 export default function Dadat() {
     const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -21,7 +22,7 @@ export default function Dadat() {
         const getAPI = async () => {
             console.log(id);
             dispatch(loadingmodal(true));
-            const response = await axios.get(`http://127.0.0.1:8000/api/donhang/chohuy/${id}`);
+            const response = await axios.get(`${apiUrl}/donhang/chohuy/${id}`);
             if (response.data.success) {
                 dispatch(sethuydon(id));
                 dispatch(setsuccess(true));

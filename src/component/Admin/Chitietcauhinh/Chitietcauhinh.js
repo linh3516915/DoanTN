@@ -1,9 +1,10 @@
 import { NavLink} from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function ChiTietCauHinh(props) {
     const { id } = useParams();
     const Delete = async(id) => {
-            var response = await fetch(`http://127.0.0.1:8000/api/ctch/xoa-ctch/${id}`);
+            var response = await fetch(`${apiUrl}/ctch/xoa-ctch/${id}`);
             var json = await response.json();
             alert('Xóa thành công');
             window.location.reload(`/chitietcauhinh-admin/${id}`);

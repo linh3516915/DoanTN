@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function LoaiSanPham(props){
     const { id } = useParams();
     const DeleteLoai = async(id) => {
-            var response = await fetch(`http://127.0.0.1:8000/api/loaisp/xoa-loaisp/${id}`);
+            var response = await fetch(`${apiUrl}/loaisp/xoa-loaisp/${id}`);
             var json = await response.json();
             alert('Xóa loại sản phẩm thành công');
             window.location.reload('/loaisanpham-admin');

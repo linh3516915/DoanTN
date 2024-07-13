@@ -10,6 +10,7 @@ import axios from "axios";
 import { getinfoproductdetail, getproductdetail } from "../../../redux/slice/itemproductdetail";
 import { addRecently } from "../../../redux/slice/recentlyviewedSlice";
 import LoadingSpinner from "../../loading/loadingspinner";
+import { apiUrl, apiUrl_anh } from "../../../api/api";
 function InfoProductDetail(props) {
     const [seemore, setSeemore] = useState(false);
     const [formAdd, setFormadd] = useState(false);
@@ -30,7 +31,7 @@ function InfoProductDetail(props) {
     // useEffect(() => {
     //     if (productdetail !== null && infoproductdetail === null) {
     //         const getAPI = async () => {
-    //             const response = await axios.post('http://127.0.0.1:8000/api/noidungsanpham/listinfoproductdetail', {
+    //             const response = await axios.post('${apiUrl}/noidungsanpham/listinfoproductdetail', {
     //                 san_pham_id: productdetail.san_pham_id
     //             })
     //             dispatch(getinfoproductdetail(response.data.data));
@@ -66,21 +67,21 @@ function InfoProductDetail(props) {
     let imginfoproducdetail = [];
     const delimg = (id) => {
         const getAPI = async () => {
-            const response = await axios.delete(`http://127.0.0.1:8000/api/noidungsanpham/delimginfoproduct/${id}`)
+            const response = await axios.delete(`${apiUrl}/noidungsanpham/delimginfoproduct/${id}`)
             window.location.reload();
         }
         getAPI();
     }
     const delinfoproduct = (id) =>{
         const getAPI = async () => {
-            const response = await axios.get(`http://127.0.0.1:8000/api/noidungsanpham/delinfoproduct/${id}`)
+            const response = await axios.get(`${apiUrl}/noidungsanpham/delinfoproduct/${id}`)
             window.location.reload();
         }
         getAPI();
     }
     const delall =(id)=>{
         const getAPI = async () => {
-            const response = await axios.get(`http://127.0.0.1:8000/api/noidungsanpham/del/${id}`)
+            const response = await axios.get(`${apiUrl}/noidungsanpham/del/${id}`)
             window.location.reload();
         }
         getAPI();
@@ -95,7 +96,7 @@ function InfoProductDetail(props) {
                                 <button onClick={() => { delimg(item.id) }} className={`btn btn-outline-success`}> <FontAwesomeIcon icon={faTrash} /> xóa ảnh</button>
                             )}
 
-                            <img src={'http://127.0.0.1:8000/' + item.URL_anh} />
+                            <img src={`${apiUrl_anh}/` + item.URL_anh} />
                         </div>
                     </>
                 )
@@ -186,7 +187,7 @@ function InfoProductDetail(props) {
             if (productdetail !== null) {
                 console.log('them moi', formdata);
                 const getAPI = async () => {
-                    const response = await axios.post('http://127.0.0.1:8000/api/noidungsanpham/addinfoproductdetail', formdata,
+                    const response = await axios.post(`${apiUrl}/noidungsanpham/addinfoproductdetail`, formdata,
                         {
                             headers: {
                                 'Content-Type': 'multipart/form-data',
@@ -209,7 +210,7 @@ function InfoProductDetail(props) {
             if (productdetail !== null) {
                 console.log(formdata);
                 const getAPI = async () => {
-                    const response = await axios.post('http://127.0.0.1:8000/api/noidungsanpham/editinfoproductdetail', formdata,
+                    const response = await axios.post(`${apiUrl}/noidungsanpham/editinfoproductdetail`, formdata,
                         {
                             headers: {
                                 'Content-Type': 'multipart/form-data',

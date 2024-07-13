@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
 import { useParams } from 'react-router-dom';
+import { apiUrl } from '../../../api/api';
 export default function UpdateLoaiSanPham(){
     const {id}=useParams();
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function UpdateLoaiSanPham(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/loaisp/capnhat-loaisp/${id}`, {
+            const response = await axios.post(`${apiUrl}/loaisp/capnhat-loaisp/${id}`, {
                 loaisp
             });
        

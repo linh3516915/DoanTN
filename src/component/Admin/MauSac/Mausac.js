@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function MauSac(props){
     const { id } = useParams();
     const DeleteMauSac = async(id) => {
-            var response = await fetch(`http://127.0.0.1:8000/api/mausac/xoa-mausac/${id}`);
+            var response = await fetch(`${apiUrl}/mausac/xoa-mausac/${id}`);
             var json = await response.json();
             alert('Xóa màu sắc sản phẩm thành công');
             window.location.reload('/mausac-admin');

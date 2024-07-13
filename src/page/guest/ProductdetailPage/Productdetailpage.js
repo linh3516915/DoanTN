@@ -14,6 +14,7 @@ import Commentandvote from "../../../component/Productdetail/Commentandvote/comm
 import Relatedproducts from "../../../component/Productdetail/Relatedproducts/relatedproducts";
 import LoadingSpinnerModal from "../../../component/LoadingSpinnerModal/LoadingSpinnerModal";
 import styles from "./productdetailpage.module.css";
+import { apiUrl } from "../../../api/api";
 
 export default function ProductDetailPage() {
     const productdetailpageSectionRef = useRef(null);
@@ -38,7 +39,7 @@ export default function ProductDetailPage() {
             if (nameproduct != '') {
                 setIsloading(true);
                 try {
-                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/productdetail', {
+                    const response = await axios.post(`${apiUrl}/productdetail/productdetail`, {
                         ten: nameproduct // Assuming props.id is used to fetch product detail
                     });
                     console.log('API Response:', response.data);

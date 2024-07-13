@@ -1,3 +1,4 @@
+import { apiUrl } from '../../api/api';
 import styles from './Footer.module.css'
 import React, { useEffect, useState } from 'react';
 
@@ -9,7 +10,7 @@ function Footer() {
     // useEffect(() => {
     //     async function setchinhanh() {
     //         try {
-    //             var response = await fetch(`http://127.0.0.1:8000/api/diachi/chinhanh-admin`);
+    //             var response = await fetch(`${apiUrl}/diachi/chinhanh-admin`);
     //             var json = await response.json();
     //             setDSChiNhanh(json.data)
     //         } catch (error) {
@@ -34,7 +35,7 @@ function Footer() {
         async function settongdai() {
 
             try {
-                var response = await fetch(`http://127.0.0.1:8000/api/tongdai/tongdai-admin`);
+                var response = await fetch(`${apiUrl}/tongdai/tongdai-admin`);
                 var json = await response.json();
                 SetDSTD(json.data)
             } catch (error) {

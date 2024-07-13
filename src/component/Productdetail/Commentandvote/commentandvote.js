@@ -10,6 +10,7 @@ import { getlistvote, getsocommentnow } from "../../../redux/slice/itemproductde
 import LoadingSpinner from "../../loading/loadingspinner";
 import { loadingComponent } from "../../../redux/slice/filterSlice";
 import { openpopupcomment } from "../../../redux/slice/popupSlice";
+import { apiUrl } from "../../../api/api";
 function Commentandvote() {
     const loadingcomponent = useSelector(state => state.filter.loadingcomponent);
     const productdetail = useSelector(state => state.itemproductdetail.productdetail);
@@ -26,7 +27,7 @@ function Commentandvote() {
     //     const getAPI = async () => {
     //         if (productdetail != null && listvote == null) {
     //             dispatch(loadingComponent(true))
-    //             const response = await axios.post(`http://127.0.0.1:8000/api/binhluandanhgia/ListVote`,{
+    //             const response = await axios.post(`${apiUrl}/binhluandanhgia/ListVote`,{
     //                 san_pham_id : productdetail.san_pham_id,
     //                 mau_sac_id : productdetail.mau_sac_id,
     //                 dung_luong_id : productdetail.dung_luong_id
@@ -43,7 +44,7 @@ function Commentandvote() {
     let comment = [];
     const likebinhluan = (id) =>{
         const getAPI = async () => {
-                const response = await axios.get(`http://127.0.0.1:8000/api/binhluandanhgia/likecomment/${id}`)
+                const response = await axios.get(`${apiUrl}/binhluandanhgia/likecomment/${id}`)
                 window.location.reload();
             }
 

@@ -9,6 +9,7 @@ import axios from "axios";
 import { loadingmodal } from "../../../redux/slice/filterSlice";
 import styles from './dagiao.module.css';
 import { setsuccess } from "../../../redux/slice/popupSlice";
+import { apiUrl } from "../../../api/api";
 export default function Danggiao() {
     const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -21,7 +22,7 @@ export default function Danggiao() {
         const getAPI = async () => {
             console.log(id);
             dispatch(loadingmodal(true));
-            const response = await axios.get(`http://127.0.0.1:8000/api/donhang/chohuy/${id}`);
+            const response = await axios.get(`${apiUrl}/donhang/chohuy/${id}`);
             if (response.data.success) {
                 dispatch(sethuydon(id));
                 dispatch(setsuccess(true));

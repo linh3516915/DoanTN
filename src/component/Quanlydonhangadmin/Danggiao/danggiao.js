@@ -9,6 +9,7 @@ import Chitietdonhangadmin from "../chitietdonhang/chitietdonhang";
 import { loadingmodal } from "../../../redux/slice/filterSlice";
 import axios from "axios";
 import { setsuccess } from "../../../redux/slice/popupSlice";
+import { apiUrl } from "../../../api/api";
 export default function Danggiaoadmin() {
     const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -21,7 +22,7 @@ export default function Danggiaoadmin() {
         const getAPI = async () => {
             console.log(id);
             dispatch(loadingmodal(true));
-            const response = await axios.get(`http://127.0.0.1:8000/api/donhang/xacnhangiao/${id}`);
+            const response = await axios.get(`${apiUrl}/donhang/xacnhangiao/${id}`);
             if (response.data.success) {
                 dispatch(setxacnhandon(id));
                 dispatch((setsuccess(true)));
@@ -87,7 +88,7 @@ export default function Danggiaoadmin() {
     }
     return (
         <>
-            <div style={{ height: '84%', overflow: 'scroll', padding: '1rem' }}>
+            <div style={{ height: '84%', padding: '1rem' }}>
                 {!btnctdh && listdonhang!= [] && (
                     listdonhang
                 )}

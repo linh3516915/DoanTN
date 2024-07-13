@@ -6,6 +6,7 @@ import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
 import Address from '../../../component/Address/address';
 import { useDispatch, useSelector } from "react-redux";
 import { match } from '../../../redux/slice/addressSlice';
+import { apiUrl } from '../../../api/api';
 export default function AddChiNhanh() {
     const navigate = useNavigate();
     const [tenchinhanh, setTenChiNhanh] = useState('');
@@ -23,7 +24,7 @@ export default function AddChiNhanh() {
         dispatch(match());
         console.log("Address being sent:", address,pro,dic,wa);  // Kiểm tra giá trị của address
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/diachi/themmoi-chinhanh', {
+            const response = await axios.post(`${apiUrl}/diachi/themmoi-chinhanh`, {
                 tenchinhanh,
                 address,
                 sdttongdai,

@@ -11,6 +11,7 @@ import { useInView } from "react-intersection-observer";
 import { loadingmodal } from "../../redux/slice/filterSlice";
 import { addCartUser } from "../../redux/slice/cartSlice";
 import { setanhctsp, setgiakhuyenmai, setgiatien, setiddungluong, setidmausac, setphantramgiam, setproductdetails, setsoluong } from "../../redux/slice/productSlice";
+import { apiUrl } from "../../api/api";
 export default function FormEditproductdetail() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [showselectedfile, setShowselectedfile] = useState(true);
@@ -31,13 +32,13 @@ export default function FormEditproductdetail() {
     });
     useEffect(() => {
         async function setmausac() {
-            var response = await fetch(`http://127.0.0.1:8000/api/mausac/mausac-admin`);
+            var response = await fetch(`${apiUrl}/mausac/mausac-admin`);
             var json = await response.json();
             setDSMauSac(json.data)
         }
         setmausac();
         async function setdungluong() {
-            var response = await fetch(`http://127.0.0.1:8000/api/dungluong/dungluong-admin`);
+            var response = await fetch(`${apiUrl}/dungluong/dungluong-admin`);
             var json = await response.json();
             setDSDL(json.data)
         }
@@ -89,7 +90,7 @@ export default function FormEditproductdetail() {
                         formData.append('requestSelectedFile', requestSelectedFile);
                         const getAPI = async () => {
                             dispatch(loadingmodal(true));
-                            const response = await axios.post('http://127.0.0.1:8000/api/nhaphang/capnhatproductdetail',
+                            const response = await axios.post(`${apiUrl}/nhaphang/capnhatproductdetail`,
                                 //      {
                                 //     // 'ten': nameproduct,
                                 //     // 'so_luong': parseInt(soluong),

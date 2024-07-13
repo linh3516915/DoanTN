@@ -13,6 +13,7 @@ import { addRecently } from "../../redux/slice/recentlyviewedSlice";
 import Star from "../Star/star";
 import { addCart } from "../../redux/slice/cartSlice";
 import { setsuccess } from "../../redux/slice/popupSlice";
+import { apiUrl } from "../../api/api";
 export default function ProductDetail(props) {
     const [mausac, setMauSac] = useState([]);
     const productSectionRef = useRef(null);
@@ -42,7 +43,7 @@ export default function ProductDetail(props) {
     
     const movepagecolor = (mau_sac_id) => {
         const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/productdetail/findproductdetail', {
+            const response = await axios.post(`${apiUrl}/productdetail/findproductdetail`, {
                 mau_sac_id: mau_sac_id,
                 dung_luong_id: productdetail.data.dung_luong_id,
                 san_pham_id: productdetail.data.san_pham_id,
@@ -56,7 +57,7 @@ export default function ProductDetail(props) {
     const movepagedungluong = (dung_luong_id) => {
         // console.log('check 3 cái :',productdetail.mau_sac_id,dung_luong_id,productdetail.san_pham_id);
         const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/productdetail/findproductdetail', {
+            const response = await axios.post(`${apiUrl}/productdetail/findproductdetail`, {
                 mau_sac_id: productdetail.data.mau_sac_id,
                 dung_luong_id: dung_luong_id,
                 san_pham_id: productdetail.data.san_pham_id,

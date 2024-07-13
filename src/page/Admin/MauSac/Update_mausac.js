@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
 import { useParams } from "react-router-dom";
+import { apiUrl } from '../../../api/api';
 export default function UpdateMauSac() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function UpdateMauSac() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/mausac/capnhat-mausac/${id}`, {
+            const response = await axios.post(`${apiUrl}/mausac/capnhat-mausac/${id}`, {
                 ten_mau_sac
             });
             if (response.data.success == -1) {

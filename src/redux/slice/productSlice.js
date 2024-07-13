@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { apiUrl_anh } from '../../api/api'
 
 const initialState = {
   items: [],
@@ -94,7 +95,7 @@ export const productSlice = createSlice({
       state.giakhuyenmai = action.payload
     },
     setanhctsp: (state, action) => {
-      state.anhctsp = 'http://127.0.0.1:8000/'+ action.payload;
+      state.anhctsp = `${apiUrl_anh}/`+ action.payload;
     },
   },
 })

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 
 export default function UpdateHinhAnh() {
     const { id } = useParams();
@@ -15,7 +16,7 @@ export default function UpdateHinhAnh() {
     useEffect(() => {
         async function fetchChiTietSanPham() {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/ctsp/ctsp-admin`);
+                const response = await fetch(`${apiUrl}/ctsp/ctsp-admin`);
                 const json = await response.json();
                 setDSCTSP(json.data);
             } catch (error) {
@@ -37,7 +38,7 @@ export default function UpdateHinhAnh() {
         formData.append('isAvatarimage', isAvatarimage);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/hinhanh/capnhat-hinhanh', formData, {
+            const response = await axios.post(`${apiUrl}/hinhanh/capnhat-hinhanh`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

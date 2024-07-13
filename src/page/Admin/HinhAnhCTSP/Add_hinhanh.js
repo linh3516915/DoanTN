@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 
 export default function AddHinhAnh() {
     const { id } = useParams();
@@ -16,7 +17,7 @@ export default function AddHinhAnh() {
     useEffect(() => {
         async function fetchChiTietSanPham() {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/ctsp/ctsp-admin`);
+                const response = await fetch(`${apiUrl}/ctsp/ctsp-admin`);
                 const json = await response.json();
                 setDSCTSP(json.data);
             } catch (error) {
@@ -34,7 +35,7 @@ export default function AddHinhAnh() {
     const themmoi = async (ten_hinh_anh,chi_tiet_san_pham_id,isAvatarimage) => {
         console.log(parseInt(isAvatarimage));
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/hinhanh/themmoi-hinhanh', {
+            const response = await axios.post(`${apiUrl}/hinhanh/themmoi-hinhanh`, {
                 'ten_hinh_anh' : ten_hinh_anh,
                 'chi_tiet_san_pham_id' : chi_tiet_san_pham_id,
                 'isAvatarimage' : parseInt(isAvatarimage)

@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import Header_Admin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 import DungLuong from "../../../component/Admin/Dungluong/Dungluong";
+import { apiUrl } from "../../../api/api";
 
 export default function DungLuongAdmin(){
     const [dsdungluong, setDSDL] = useState([]);
     
     useEffect(()=> {
         async function setdungluong() {
-        var response = await fetch(`http://127.0.0.1:8000/api/dungluong/dungluong-admin`);
+        var response = await fetch(`${apiUrl}/dungluong/dungluong-admin`);
         var json = await response.json();
         setDSDL(json.data)
         }

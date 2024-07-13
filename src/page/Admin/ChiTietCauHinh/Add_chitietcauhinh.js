@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 export default function AddChitietcauhinh(props) {
     const {id} = useParams();
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function AddChitietcauhinh(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/ctch/themmoi-ctch/${id}`, {
+            const response = await axios.post(`${apiUrl}/ctch/themmoi-ctch/${id}`, {
                tenctch,
                cpu,
                kichthuocmanhinh,

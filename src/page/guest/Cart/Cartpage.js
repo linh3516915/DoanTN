@@ -20,6 +20,7 @@ import FormCheckout from '../../../component/Formcheckout/formcheckout';
 import { Button } from 'bootstrap';
 import { openpopupotp, openpopuppay, setcheckbox, setsuccess } from '../../../redux/slice/popupSlice';
 import { getemail, setOTP } from '../../../redux/slice/authSlice';
+import { apiUrl } from '../../../api/api';
 export default function CartPage() {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -127,7 +128,7 @@ export default function CartPage() {
                             name, phone, email, address
                         }
                     );
-                    const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                    const response = await axios.post(`${apiUrl}/otp/sendotp`, {
                         email
                     })
 
@@ -147,7 +148,7 @@ export default function CartPage() {
         setButtonformBuycart(false);
         setButtonVerifyOTP(true);
         const getAPI = async () => {
-            const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+            const response = await axios.post(`${apiUrl}/otp/delotp`, {
                 email
             })
         }
@@ -157,7 +158,7 @@ export default function CartPage() {
         setButtonVerifyOTP(false);
         try {
             console.log('check email:', email);
-            const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+            const response = await axios.post(`${apiUrl}/otp/sendotp`, {
                 email
             })
 
@@ -189,7 +190,7 @@ export default function CartPage() {
                                 <div onClick={() => {
                                     setButtonVerifyOTP(true);
                                     const getAPI = async () => {
-                                        const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+                                        const response = await axios.post('${apiUrl}/otp/delotp', {
                                             email: user.email
                                         })
                                     }
@@ -226,7 +227,7 @@ export default function CartPage() {
                         dispatch(getemail(datacheckout.email));
                         const getAPI = async () => {
                             // if(emailcheck !== '' && otpcheck ==null ){
-                            const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+                            const response = await axios.post(`${apiUrl}/otp/sendotp`, {
                                 email: datacheckout.email
                             })
                             dispatch(setOTP(response.data.otptocheck));

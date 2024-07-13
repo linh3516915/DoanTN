@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function Sanpham(props){
     const { id } = useParams();
     const DeleteSP = async(id) => {
-            var response = await fetch(`http://127.0.0.1:8000/api/sanpham/xoa-sanpham/${id}`);
+            var response = await fetch(`${apiUrl}/sanpham/xoa-sanpham/${id}`);
             var json = await response.json();
             alert('Xóa thành công');
             window.location.reload('/sanpham-admin');

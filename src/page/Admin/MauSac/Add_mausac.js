@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 export default function AddMauSac() {
     const navigate = useNavigate();
     const [ten_mau_sac, setTenMauSac] = useState('');
@@ -11,7 +12,7 @@ export default function AddMauSac() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/mausac/themmoi-mausac', {
+            const response = await axios.post(`${apiUrl}/mausac/themmoi-mausac`, {
                 ten_mau_sac
             });
             if (response.data.success == -1) {

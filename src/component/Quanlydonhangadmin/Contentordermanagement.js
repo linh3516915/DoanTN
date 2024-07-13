@@ -17,6 +17,7 @@ import Chohuyadmin from "./Chohuy/chohuy";
 import Dahuyadmin from "./Dahuy/dahuy";
 import { faBox, faBoxOpen, faTrashAlt, faTrashArrowUp, faTruck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { apiUrl } from "../../api/api";
 export default function Contentmanagementadmin() {
     const [btndadat, setBtndadat] = useState(true);
     const [btndanggiao, setBtndanggiao] = useState(false);
@@ -63,7 +64,7 @@ export default function Contentmanagementadmin() {
     }
     useEffect(()=>{
         const getAPI = async() =>{
-            const respones = await axios.get(`http://127.0.0.1:8000/api/donhang/donhangadmin`);
+            const respones = await axios.get(`${apiUrl}/donhang/donhangadmin`);
             dispatch(setdonhang(respones.data.data));
             dispatch(setchitietdonhang(respones.data.datactdh));
         }

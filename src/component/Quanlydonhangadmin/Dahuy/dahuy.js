@@ -72,7 +72,7 @@ export default function Dahuyadmin() {
     }
     return (
         <>
-            <div style={{height: '84%',overflow: 'scroll',padding:'1rem'}}>
+            <div style={{height: '84%',padding:'1rem'}}>
                {!btnctdh && listdonhang != [] && (
                     listdonhang
                 )}

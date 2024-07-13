@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
 import { useParams } from "react-router-dom";
+import { apiUrl } from '../../../api/api';
 export default function UpdateDungLuong() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function UpdateDungLuong() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/dungluong/capnhat-dungluong/${id}`, {
+            const response = await axios.post(`${apiUrl}/dungluong/capnhat-dungluong/${id}`, {
                 kich_thuoc
             });
             if (response.data.success == -1) {

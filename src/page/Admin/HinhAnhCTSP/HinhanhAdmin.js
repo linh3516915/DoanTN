@@ -4,13 +4,14 @@ import Header_Admin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 import HinhAnh from "../../../component/Admin/Hinhanhctsp/Hinhanh";
 import { useParams } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function HinhAnhAdmin() {
     const { id } = useParams();
     const [dshinhanh, setDSHinhAnh] = useState([]);
 
     useEffect(() => {
         async function sethinhanh() {
-            var response = await fetch(`http://127.0.0.1:8000/api/hinhanh/hinhanh-admin/${id}`);
+            var response = await fetch(`${apiUrl}/hinhanh/hinhanh-admin/${id}`);
             var json = await response.json();
             setDSHinhAnh(json.data)
         }

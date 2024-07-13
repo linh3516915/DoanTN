@@ -8,6 +8,7 @@ import Star from '../Star/star';
 import { checkedtopseller, filterpriceProductdetail, loadingComponent, loadingmodal, settrang } from '../../redux/slice/filterSlice';
 import { listProductdetail } from '../../redux/slice/productdetail';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from '../../api/api';
 
 function OtherInfo() {
     const { ref, inView } = useInView();
@@ -19,7 +20,7 @@ function OtherInfo() {
     const navigate = useNavigate();
     useEffect(() => {
         const getAPI = async () => {
-            const response = await axios.get('http://127.0.0.1:8000/api/productdetail/topseller');
+            const response = await axios.get(`${apiUrl}/productdetail/topseller`);
             setTopseller(response.data.data);
             console.log(response.data.data)
         }
@@ -96,7 +97,7 @@ function OtherInfo() {
     // top new
     useEffect(() => {
         const getAPI = async () => {
-            const response = await axios.get('http://127.0.0.1:8000/api/productdetail/latesproduct');
+            const response = await axios.get(`${apiUrl}/productdetail/latesproduct`);
             setTopnew(response.data.data);
         }
         getAPI()
@@ -145,7 +146,7 @@ function OtherInfo() {
                                 <button style={{ border: '0px' }} className="wid-view-more" onClick={() => {
                                     const getAPI = async () => {
                                         dispatch(loadingmodal(true));
-                                        const response = await axios.get('http://127.0.0.1:8000/api/productdetail/topseller');
+                                        const response = await axios.get(`${apiUrl}/productdetail/topseller`);
                                         dispatch(settrang(1));
                                         dispatch(listProductdetail(response));
                                         dispatch(filterpriceProductdetail(response.data.result));

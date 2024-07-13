@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 export default function AddSanPham(props) {
     const navigate = useNavigate();
     const [addtensp, setTenSP] = useState('');
@@ -13,7 +14,7 @@ export default function AddSanPham(props) {
     const [dsNCC, SetDSNCC] = useState([]);
     useEffect(() => {
         async function setncc() {
-            var response = await fetch(`http://127.0.0.1:8000/api/nhacungcap/nhacungcap-admin`);
+            var response = await fetch(`${apiUrl}/nhacungcap/nhacungcap-admin`);
             var json = await response.json();
             SetDSNCC(json.data)
 
@@ -22,7 +23,7 @@ export default function AddSanPham(props) {
     }, []);
     useEffect(() => {
         async function setloaisp() {
-            var response = await fetch(`http://127.0.0.1:8000/api/loaisp/loaisp-admin`);
+            var response = await fetch(`${apiUrl}/loaisp/loaisp-admin`);
             var json = await response.json();
             setDSLSP(json.data)
 
@@ -32,7 +33,7 @@ export default function AddSanPham(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/sanpham/themmoi-sanpham', {
+            const response = await axios.post(`${apiUrl}/sanpham/themmoi-sanpham`, {
                 addtensp,
                 addncc,
                 addloaisp

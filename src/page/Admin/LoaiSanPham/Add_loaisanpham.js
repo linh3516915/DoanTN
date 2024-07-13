@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from '../../../layout/Admin/Header/Header';
 import TaskbarAdmin from '../../../layout/Admin/Taskbar/taskbar';
+import { apiUrl } from '../../../api/api';
 export default function AddLoaiSanPham() {
     const navigate = useNavigate();
    const [loaisp, setLoaiSP] = useState('');
@@ -11,7 +12,7 @@ export default function AddLoaiSanPham() {
     const  handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/loaisp/themmoi-loaisp', {
+            const response = await axios.post(`${apiUrl}/loaisp/themmoi-loaisp`, {
                 loaisp
             });
             if (response.data.success == -1) {

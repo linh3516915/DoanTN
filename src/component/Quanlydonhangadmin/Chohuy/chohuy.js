@@ -8,6 +8,7 @@ import { setbtnctdh, setduyethuy } from "../../../redux/slice/ordermanagement";
 import { loadingmodal } from "../../../redux/slice/filterSlice";
 import axios from "axios";
 import { setsuccess } from "../../../redux/slice/popupSlice";
+import { apiUrl } from "../../../api/api";
 export default function Chohuyadmin() {
 const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -21,7 +22,7 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
         const getAPI = async () => {
             console.log(id);
             dispatch(loadingmodal(true));
-            const response = await axios.get(`http://127.0.0.1:8000/api/donhang/duyethuy/${id}`);
+            const response = await axios.get(`${apiUrl}/donhang/duyethuy/${id}`);
             if (response.data.success) {
                 dispatch(setduyethuy(id));
                 dispatch(setsuccess(true));
@@ -88,7 +89,7 @@ const donhang = useSelector(state => state.ordermanagement.donhang);
     }
     return (
         <>
-            <div style={{height: '84%',overflow: 'scroll',padding:'1rem'}}>
+            <div style={{height: '84%',padding:'1rem'}}>
                 {!btnctdh && listdonhang != [] && (
                     listdonhang
                 )}

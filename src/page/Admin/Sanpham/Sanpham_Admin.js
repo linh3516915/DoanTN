@@ -5,6 +5,7 @@ import Sanpham from "../../../component/Admin/Sanpham/Sanpham";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { apiUrl } from "../../../api/api";
 
 
 export default function SanPhamAdmin(props){
@@ -12,7 +13,7 @@ export default function SanPhamAdmin(props){
 
     useEffect(() => {
         async function setsp() {
-            var response = await fetch(`http://127.0.0.1:8000/api/sanpham/sanpham-admin`);
+            var response = await fetch(`${apiUrl}/sanpham/sanpham-admin`);
             var json = await response.json();
             SetDSSP(json.data)
         }
@@ -59,7 +60,7 @@ export default function SanPhamAdmin(props){
 
     //     const getAPI = async () => {
     //         try {
-    //             const response = await axios.get(`http://127.0.0.1:8000/api/ctsp/ctsp-admin/${option.id}`);
+    //             const response = await axios.get(`${apiUrl}/ctsp/ctsp-admin/${option.id}`);
     //             dispatch(setproductdetail(response.data.data));
     //             setshowSelectedOption(true);
     //         } catch (error) {

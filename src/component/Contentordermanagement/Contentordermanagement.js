@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setbtnctdh, setchitietdonhang, setdonhang } from "../../redux/slice/ordermanagement";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox, faBoxOpen, faTrashAlt, faTrashArrowUp, faTruck } from "@fortawesome/free-solid-svg-icons";
+import { apiUrl } from "../../api/api";
 export default function Contentmanagement() {
     const [btndadat, setBtndadat] = useState(true);
     const [btndanggiao, setBtndanggiao] = useState(false);
@@ -58,7 +59,7 @@ export default function Contentmanagement() {
     }
     useEffect(()=>{
         const getAPI = async() =>{
-            const respones = await axios.get(`http://127.0.0.1:8000/api/donhang/donhang/${users_id}`);
+            const respones = await axios.get(`${apiUrl}/donhang/donhang/${users_id}`);
             dispatch(setdonhang(respones.data.data));
             dispatch(setchitietdonhang(respones.data.datactdh));
         }

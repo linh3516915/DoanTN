@@ -1,9 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function ChiTietSanPham(props) {
     const { id } = useParams();
     const Delete = async(id) => {
-        var response = await fetch(`http://127.0.0.1:8000/api/ctsp/xoa-ctsp/${id}`);
+        var response = await fetch(`${apiUrl}/ctsp/xoa-ctsp/${id}`);
         var json = await response.json();
         alert('Xóa thành công');
         window.location.reload('/chitietsanpham-admin');

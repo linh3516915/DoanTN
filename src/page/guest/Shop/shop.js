@@ -19,6 +19,7 @@ import LoadingSpinner from "../../../component/loading/loadingspinner";
 import FilterPrice from "../../../component/Filterprice/filterprice";
 import InputSearch from "../../../layout/Search/inputsearch";
 import LoadingSpinnerModal from "../../../component/LoadingSpinnerModal/LoadingSpinnerModal";
+import { apiUrl } from "../../../api/api";
 
 export default function Shop() {
     const listproductdetail = useSelector(state => state.productdetail.productdetails);
@@ -88,7 +89,7 @@ export default function Shop() {
             dispatch(listProductdetail(null));
             setIsloading(true);
             const getAPI = async () => {
-                const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
+                const response = await axios.post(`${apiUrl}/productdetail/filterprice`, {
                     giatu: giatu,
                     giaden: giaden
                 })
@@ -101,11 +102,13 @@ export default function Shop() {
                     dispatch(filterpriceProductdetail(0));
                     alert('giá từ không được nhỏ hơn 1000000');
                     dispatch(checkedall(true));
+                    setIsloading(false);
                 }
                 else if (giatu >= giaden) {
                     dispatch(filterpriceProductdetail(0));
                     alert('giá bắt đầu không được lớn hơn giá kết thúc');
                     dispatch(checkedall(true));
+                    setIsloading(false);
                 }
                 else if (giaden < giatu) {
                     //setGiaden(50000000);
@@ -113,6 +116,7 @@ export default function Shop() {
 
                     alert('giá kết thúc không được nhỏ hơn giá bắt đầu');
                     dispatch(checkedall(true));
+                    setIsloading(false);
                 }
                 else if (giaden > 50000000) {
                     dispatch(filterpriceProductdetail(0));
@@ -122,6 +126,7 @@ export default function Shop() {
                     }
                     alert('giá đến không được lớn hơn 50000000');
                     dispatch(checkedall(true));
+                    setIsloading(false);
                 }
 
                 else {
@@ -136,11 +141,12 @@ export default function Shop() {
                     }
                     else {
                         alert('giá bắt đầu không được lớn hơn giá kết thúc');
+                        setIsloading(false);
                     }
                 }
             }
             getAPI();
-            setIsloading(false);
+            // setIsloading(false);
         }
 
     }, [giatu, giaden])
@@ -150,7 +156,7 @@ export default function Shop() {
     //             if (giatu == null && giaden == null ) {
     //                 if (listproductdetail === null) {
     //                     setIsloading(true);
-    //                     const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+    //                     const data = await axios.get('${apiUrl}/productdetail/showLists',
     //                     );
     //                     dispatch(listProductdetail(data));
     //                     dispatch(settrang(1));
@@ -159,7 +165,7 @@ export default function Shop() {
     //             }
     //             else{
     //                 const getAPI = async () => {
-    //                     const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
+    //                     const response = await axios.post('${apiUrl}/productdetail/filterprice', {
     //                         giatu: giatu,
     //                         giaden: giaden
     //                     })
@@ -214,7 +220,7 @@ export default function Shop() {
                     try {
 
 
-                        const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                        const data = await axios.get(`${apiUrl}/productdetail/showLists`,
                         );
 
                         dispatch(listProductdetail(data));
@@ -231,7 +237,7 @@ export default function Shop() {
         else {
             const getAPI = async () => {
                 setIsloading(true);
-                const response = await axios.post('http://127.0.0.1:8000/api/productdetail/search', {
+                const response = await axios.post(`${apiUrl}/productdetail/search`, {
                     ten: q
                 });
                 setIsloading(false);
@@ -257,7 +263,7 @@ export default function Shop() {
             const getAPI = async () => {
                 try {
                     if (giatu == null && giaden == null) {
-                        const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                        const data = await axios.get(`${apiUrl}/productdetail/showLists`,
                         );
                         dispatch(listProductdetail(data));
                         setIsloading(false);
@@ -271,7 +277,7 @@ export default function Shop() {
         else {
             const getAPI = async () => {
                 setIsloading(true);
-                const response = await axios.post(`http://127.0.0.1:8000/api/productdetail/search`, {
+                const response = await axios.post(`${apiUrl}/productdetail/search`, {
                     ten: search
                 })
                 dispatch(settrang(1));
@@ -287,7 +293,7 @@ export default function Shop() {
 
                         try {
                             if (giatu == null && giaden == 0) {
-                                const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                                const data = await axios.get(`${apiUrl}/productdetail/showLists`,
                                 );
 
                                 dispatch(listProductdetail(data));
@@ -295,7 +301,7 @@ export default function Shop() {
                             }
                             else {
                                 const getAPI = async () => {
-                                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/filterprice', {
+                                    const response = await axios.post(`${apiUrl}/productdetail/filterprice`, {
                                         giatu: giatu,
                                         giaden: giaden
                                     })
@@ -394,7 +400,7 @@ export default function Shop() {
                                         <input onChange={() => {
                                             //window.location.reload();
                                             const getAPI = async () => {
-                                                const response = await axios.get('http://127.0.0.1:8000/api/productdetail/topseller');
+                                                const response = await axios.get(`${apiUrl}/productdetail/topseller`);
                                                 dispatch(settrang(1));
                                                 dispatch(listProductdetail(response));
                                                 dispatch(filterpriceProductdetail(response.data.result));
@@ -409,7 +415,7 @@ export default function Shop() {
                                         <input onChange={() => {
                                             dispatch(checkednew(!checkedNew));
                                             const getAPI = async () => {
-                                                const response = await axios.get('http://127.0.0.1:8000/api/productdetail/latesproduct');
+                                                const response = await axios.get(`${apiUrl}/productdetail/latesproduct`);
                                                 dispatch(settrang(1));
                                                 dispatch(listProductdetail(response));
                                                 dispatch(filterpriceProductdetail(response.data.result));

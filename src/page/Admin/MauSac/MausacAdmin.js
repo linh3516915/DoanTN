@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import HeaderAdmin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 import MauSac from "../../../component/Admin/MauSac/Mausac";
+import { apiUrl } from "../../../api/api";
 export default function MauSacAdmin(){
     const [dsmausac, setDSMauSac] = useState([]);
     useEffect(() => {
         async function setmausac() {
-            var response = await fetch(`http://127.0.0.1:8000/api/mausac/mausac-admin`);
+            var response = await fetch(`${apiUrl}/mausac/mausac-admin`);
             var json = await response.json();
             setDSMauSac(json.data)
         }

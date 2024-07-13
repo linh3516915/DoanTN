@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
+import { apiUrl } from "../../../api/api";
 export default function NhaCungCap(props){
     const { id } = useParams();
     const DeleteNCC = async(id) => {
-            var response = await fetch(`http://127.0.0.1:8000/api/nhacungcap/xoa-nhacungcap/${id}`);
+            var response = await fetch(`${apiUrl}/nhacungcap/xoa-nhacungcap/${id}`);
             var json = await response.json();
             alert('Xóa nhà cung cấp thành công');
             window.location.reload('/sanpham-admin');

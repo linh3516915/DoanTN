@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Header_Admin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 import Slideshow from "../../../component/Admin/Slideshow/Slideshow";
+import { apiUrl } from "../../../api/api";
 
 
 export default function SlideshowAdmin(){
@@ -10,7 +11,7 @@ export default function SlideshowAdmin(){
     
     useEffect(()=> {
         async function setdsslideshow() {
-        var response = await fetch(`http://127.0.0.1:8000/api/slideshow/slideshow-admin`);
+        var response = await fetch(`${apiUrl}/slideshow/slideshow-admin`);
         var json = await response.json();
         setDSSlideShow(json.data)
         }

@@ -22,6 +22,7 @@ import Modal from 'react-modal';
 import PopupPay from '../PopupPay/popuppay';
 import PopupEditproductdetail from '../Popupeditproductdetail/popupeditproductdetail';
 import { Collapse, initMDB } from "mdb-ui-kit";
+import { apiUrl } from '../../api/api';
 
 initMDB({ Collapse });
 
@@ -64,7 +65,7 @@ export default function Header(props) {
 
         const getAPI = async () => {
             if (isAdmin) {
-                const response = await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+                const response = await axios.post(`${apiUrl}/auth/logout`, {
                     'data': [],
                     'user_id': users_id,
                 }, {
@@ -85,7 +86,7 @@ export default function Header(props) {
                 }
             }
             else {
-                const response = await axios.post('http://127.0.0.1:8000/api/auth/logout', {
+                const response = await axios.post(`${apiUrl}/auth/logout`, {
                     'data': items,
                     'user_id': users_id,
                 }, {
@@ -116,7 +117,7 @@ export default function Header(props) {
     useEffect(() => {
         async function setdstenshop() {
             try {
-                var response = await fetch(`http://127.0.0.1:8000/api/tenshop/tenshop-admin`);
+                var response = await fetch(`${apiUrl}/tenshop/tenshop-admin`);
                 var json = await response.json();
                 setDSTenShop(json.data);
                 dispatch(setnameshop(json.data));

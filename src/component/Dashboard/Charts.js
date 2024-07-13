@@ -4,6 +4,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import { apiUrl } from '../../api/api';
 
 // Đăng ký các thành phần của Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -17,7 +18,7 @@ const LineChartComponent = () => {
 
   useEffect(()=> {
     async function setdsdoanhthu() {
-    var response = await fetch(`http://127.0.0.1:8000/api/donhangadmin/donduyet-doanhthu`);
+    var response = await fetch(`${apiUrl}/donhangadmin/donduyet-doanhthu`);
     var json = await response.json();
     setDSDoanhThu(json.data);
     setDSthang(json.datamonth);
@@ -25,7 +26,7 @@ const LineChartComponent = () => {
     }
     setdsdoanhthu();
     async function setdsdoanhthungay() {
-      var response = await fetch(`http://127.0.0.1:8000/api/donhangadmin/donduyet-doanhthungay`);
+      var response = await fetch(`${apiUrl}/donhangadmin/donduyet-doanhthungay`);
       var json = await response.json();
       setDSDoanhThuNgay(json.data);
       setDSNgay(json.dataday);

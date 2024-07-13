@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import Header_Admin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
 import LoaiSanPham from "../../../component/Admin/LoaiSanPham/Loaisanpham";
+import { apiUrl } from "../../../api/api";
 
 export default function LoaisanphamAdmin(){
     const [dsloaisp, setDSLoai] = useState([]);
     
     useEffect(()=> {
         async function setloaisp() {
-        var response = await fetch(`http://127.0.0.1:8000/api/loaisp/loaisp-admin`);
+        var response = await fetch(`${apiUrl}/loaisp/loaisp-admin`);
         var json = await response.json();
         setDSLoai(json.data)
         }

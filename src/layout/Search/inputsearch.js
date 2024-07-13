@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import img from "../../assets/ảnh/14ve.jpg";
 import Star from "../../component/Star/star";
+import { apiUrl } from "../../api/api";
 export default function InputSearch() {
     const popupsignup = useSelector(state => state.popup.btnPopupOTP);
     const [search, setSearch] = useState('');
@@ -29,7 +30,7 @@ export default function InputSearch() {
         const getAPI = async () => {
             if (search !== '') {
 
-                const response = await axios.post(`http://127.0.0.1:8000/api/productdetail/search`, {
+                const response = await axios.post(`${apiUrl}/productdetail/search`, {
                     ten: search
                 })
                 console.log(response.data);
@@ -84,7 +85,7 @@ export default function InputSearch() {
             if (search.trim()) { // Kiểm tra xem có từ khóa tìm kiếm không trống
                 const getAPI = async () => {
                     //setIsloading(true);
-                    const response = await axios.post('http://127.0.0.1:8000/api/productdetail/search', {
+                    const response = await axios.post(`${apiUrl}/productdetail/search`, {
                         ten: search
                     });
                    // setIsloading(false);
@@ -105,7 +106,7 @@ export default function InputSearch() {
                 const getAPI = async () => {
                     try {
 
-                        const data = await axios.get('http://127.0.0.1:8000/api/productdetail/showLists',
+                        const data = await axios.get(`${apiUrl}/productdetail/showLists`,
                         );
 
                         dispatch(listProductdetail(data));

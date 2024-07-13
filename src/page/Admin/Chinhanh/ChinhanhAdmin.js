@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ChiNhanh from "../../../component/Admin/Chinhanh/chinhanh";
 import Header_Admin from "../../../layout/Admin/Header/Header";
 import TaskbarAdmin from "../../../layout/Admin/Taskbar/taskbar";
+import { apiUrl } from "../../../api/api";
 
 
 
@@ -11,7 +12,7 @@ export default function ChinhanhAdmin(){
     
     useEffect(()=> {
         async function setchinhanh() {
-        var response = await fetch(`http://127.0.0.1:8000/api/diachi/chinhanh-admin`);
+        var response = await fetch(`${apiUrl}/diachi/chinhanh-admin`);
         var json = await response.json();
             SetDSCN(json.data)
         }

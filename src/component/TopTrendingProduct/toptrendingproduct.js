@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import CardProductDetail from "../CardProductdetail/cardproductdetail";
+import { apiUrl } from "../../api/api";
 export default function TopTrendingProduct() {
     const top16hottrends = useSelector(state => state.hottrending.top16hottrend);
     const show4hottrends = useSelector(state => state.hottrending.show4hottrend);
@@ -22,7 +23,7 @@ export default function TopTrendingProduct() {
     useEffect(() => {
             const getAPI = async () => {
                 try {
-                    const data = await axios.get('http://127.0.0.1:8000/api/productdetail/top8hottrending',
+                    const data = await axios.get(`${apiUrl}/productdetail/top8hottrending`,
                     );
                     console.log('check data: ', data.data);
                     dispatch(listtop16hottrend(data.data));

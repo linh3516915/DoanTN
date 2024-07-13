@@ -8,6 +8,7 @@ import Chitietdonhangadmin from "../chitietdonhang/chitietdonhang";
 import axios from "axios";
 import { loadingmodal } from "../../../redux/slice/filterSlice";
 import { setsuccess } from "../../../redux/slice/popupSlice";
+import { apiUrl } from "../../../api/api";
 export default function Dadatadmin() {
     const donhang = useSelector(state => state.ordermanagement.donhang);
     let listdonhang = [];
@@ -21,7 +22,7 @@ export default function Dadatadmin() {
         const getAPI = async () => {
             console.log(id);
             dispatch(loadingmodal(true));
-            const response = await axios.get(`http://127.0.0.1:8000/api/donhang/duyethuy/${id}`);
+            const response = await axios.get(`${apiUrl}/donhang/duyethuy/${id}`);
             if (response.data.success) {
                 dispatch(setduyethuy(id));
                 dispatch(setsuccess(true));
@@ -35,7 +36,7 @@ export default function Dadatadmin() {
         const getAPI = async () => {
             console.log(id);
             dispatch(loadingmodal(true));
-            const response = await axios.get(`http://127.0.0.1:8000/api/donhang/duyetdon/${id}`);
+            const response = await axios.get(`${apiUrl}/donhang/duyetdon/${id}`);
             if (response.data.success) {
                 dispatch(setduyetdon(id));
                 dispatch(setsuccess(true));
@@ -92,7 +93,7 @@ export default function Dadatadmin() {
                                        
                                         <button onClick={() => { duyetdon(item.id) }} className="btn btn-primary"><FontAwesomeIcon icon={faCheck} /></button>
                                         
-                                           <button onClick={() => { duyethuy(item.id) }} className="btn btn-primary"><FontAwesomeIcon icon={faCheck} /></button>
+                                           <button onClick={() => { duyethuy(item.id) }} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></button>
                                     </div>
                                 </div>
                             </div>
