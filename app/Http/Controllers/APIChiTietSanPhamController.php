@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ChiTietSanPham;
 use App\Models\ChiTietDonHang;
+use App\Models\DonHang;
 use App\Models\SanPham;
 use App\Models\DungLuong;
 use App\Models\MauSac;
@@ -58,6 +59,19 @@ class APIChiTietSanPhamController extends Controller
         $productdetail = ChiTietSanPham::where('ten',$rq->ten)->first();
         $imgctsp = HinhAnh::where('san_pham_id',$productdetail->san_pham_id)->where('mau_sac_id',$productdetail->mau_sac_id)
         ->where('isAvatarimage',1)->first();
+        $dhs = DonHang::where('users_id',$rq->users_id)->get();
+        $dem = 0;
+        if(!empty($dhs)){
+            foreach ($dhs as $dh) {
+                $ctdhs = ChiTietDonHang::where('don_hang_id',$dh->id)
+                ->where('san_pham_id',$productdetail->san_pham_id)->where('mau_sac_id',$productdetail->mau_sac_id)
+                ->where('dung_luong_id',$productdetail->dung_luong_id)->first();
+                if(!empty($ctdhs)){
+                    $dem = $dem + 1;
+                }
+                
+            }
+        }
         array_push($datactsp , [
             'data' => $productdetail,
             'img' => Constants::APP_NAME.$imgctsp->ten_hinh_anh
@@ -158,7 +172,7 @@ class APIChiTietSanPhamController extends Controller
                  'data_comment' => $comment,
                  'data_noi_dung' => $datanoidung,
                  'data_relatedproduct' => $datarelatedwithimg, 
-
+                'checkcomment' =>$dem
             ]);
         }
         else{
@@ -175,6 +189,7 @@ class APIChiTietSanPhamController extends Controller
                 'data_comment' => null,
                 'data_noi_dung' => $datanoidung,
                 'data_relatedproduct' => $datarelatedwithimg, 
+                'checkcomment' =>$dem
             ]);
         }
         // return response()->json([

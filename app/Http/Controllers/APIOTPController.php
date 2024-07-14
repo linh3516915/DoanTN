@@ -33,7 +33,7 @@ class APIOTPController extends Controller
     }
     public function delOTP(Request $request)
     {
-        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->delete();
+        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->where('email_verify',$request->email)->delete();
         // if(!empty($checkemail)){
             // $checkemail->delete();
             return response()->json(['success' => true, 'message' => 'delete successfully']);
@@ -43,10 +43,7 @@ class APIOTPController extends Controller
     {
 
         $otp = mt_rand(100000, 999999); // Tạo mã OTP gồm 6 số ngẫu nhiên
-        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->first();
-        if(!empty($checkemail)){
-            $checkemail->delete();
-        }
+        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->where('email_verify',$request->email)->delete();
         $otpverify = new OTP();
         $otpverify->OTP_verify = $otp;
         $otpverify->email_verify = $request->input('email');
@@ -60,17 +57,16 @@ class APIOTPController extends Controller
             ['success' => true, 'message' => 'OTP has been sent again successfully',
                 'otptocheck' =>  $otpverify->OTP_verify
             ]
-            
         );
     }
     public function checkOTP(Request $request)
     {
         $otp = $request->otp;
-        $checkemail = OTP::where('OTP_verify',$request->otpcheck)->delete();
+        // $request->otpcheck
+        $checkemail = OTP::where('OTP_verify',$request->otp)->where('email_verify',$request->email)->delete();
         if( $checkemail > 0)
         {
             return response()->json(['success' => true, 'message' => 'check OTP successfully']);
-            
         }
         return response()->json(['success' => false, 'message' => 'Something went wrong']);
     }

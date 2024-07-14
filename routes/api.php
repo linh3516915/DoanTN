@@ -304,6 +304,8 @@ Route::group([
     Route::post('nhaphang', [APINhapHangController::class, 'nhaphang']);
     Route::post('capnhatproduct', [APINhapHangController::class, 'capnhatproduct']);
     Route::post('capnhatproductdetail', [APINhapHangController::class, 'capnhatproductdetail']);
+    Route::post('xoaproductdetail', [APINhapHangController::class, 'xoaproductdetail']);
+    
 });
 Route::group([
     'prefix' => 'khachhang'

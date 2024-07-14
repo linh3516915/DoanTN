@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SanPham;
@@ -129,6 +129,9 @@ if ($files && count($files) > 0) {
         }
         $nhaphang= new NhapHang();
         $nhaphang->users_id = $rq->user_id;
+        $nhaphang->san_pham_id = $sp->id;
+        $nhaphang->dung_luong_id = $rq->dung_luong_id;
+        $nhaphang->mau_sac_id = $rq->mau_sac_id;
         $nhaphang->ten_san_pham = $ten_san_pham . ' ' . $tendungluong->kich_thuoc . ' ' . HelperServiceProvider::ucfirstString($tenmau->ten_mau_sac);
         $nhaphang->so_luong = intval($rq->so_luong);
         $nhaphang->gia = intval($rq->gia);
@@ -192,11 +195,16 @@ if ($files && count($files) > 0) {
             $ctsp->luot_thich= 0;
             $ctsp->so_sao = 0;
             $ctsp->save();
+
             $ctsp->san_pham_ten = $sanpham->ten;
             $ctsp->dung_luong_ten = $dungluong->kich_thuoc;
             $ctsp->mau_sac_ten = $mausac->ten_mau_sac;
+
             $nhaphang= new NhapHang();
             $nhaphang->users_id = $rq->user_id;
+            $nhaphang->san_pham_id = $sanpham->id;
+            $nhaphang->dung_luong_id = $rq->dung_luong_id;
+            $nhaphang->mau_sac_id = $rq->mau_sac_id;
             $nhaphang->ten_san_pham = $ten_san_pham . ' ' . $tendungluong->kich_thuoc . ' ' . HelperServiceProvider::ucfirstString($tenmau->ten_mau_sac);
             $nhaphang->so_luong = intval($rq->so_luong);
             $nhaphang->gia = intval($rq->gia);
@@ -238,6 +246,9 @@ if ($files && count($files) > 0) {
         ]);
         $nhaphang= new NhapHang();
         $nhaphang->users_id = $rq->user_id;
+        $nhaphang->san_pham_id = $sanpham->id;
+        $nhaphang->dung_luong_id = $rq->dung_luong_id;
+        $nhaphang->mau_sac_id = $rq->mau_sac_id;
         $nhaphang->ten_san_pham = $ten_san_pham . ' ' . $tendungluong->kich_thuoc . ' ' . HelperServiceProvider::ucfirstString($tenmau->ten_mau_sac);
         $nhaphang->so_luong = intval($rq->so_luong);
         $nhaphang->gia = intval($rq->gia);
@@ -323,7 +334,9 @@ if ($files && count($files) > 0) {
     ]);
     }
     public function capnhatproductdetail(Request $rq){
-        $ctsp = ChiTietSanPham::where('ten',HelperServiceProvider::ucfirstString($rq->ten))->first();
+        $ctsp = ChiTietSanPham::where('san_pham_id', $rq->san_pham_id)
+        ->where('dung_luong_id', $rq->dung_luong_id)
+        ->where('mau_sac_id', $rq->mau_sac_id)->first();
         // return response()->json([
         //     'success' => false,
         //     'message' => $ctsp
@@ -376,6 +389,35 @@ if ($files && count($files) > 0) {
             // 'data' => ChiTietSanPham::where('san_pham_id', $ctsp->san_pham_id)
             // ->where('dung_luong_id', $ctsp->dung_luong_id)
             // ->where('mau_sac_id', $ctsp->mau_sac_id)
+        ]);
+    }
+    public function xoaproductdetail(Request $rq){
+        $chitietsp = ChiTietSanPham::where('san_pham_id', $rq->san_pham_id)
+        ->where('dung_luong_id', $rq->dung_luong_id)
+        ->where('mau_sac_id', $rq->mau_sac_id);
+        $chitiet = ChiTietSanPham::where('san_pham_id', $rq->san_pham_id)
+        ->where('dung_luong_id', $rq->dung_luong_id)
+        ->where('mau_sac_id', $rq->mau_sac_id)
+        ->delete();
+        $hinhanhdel = HinhAnh::where('san_pham_id', $rq->san_pham_id)
+        ->where('mau_sac_id', $rq->mau_sac_id)->where('isAvatarimage' , 1)->first();
+        if ($hinhanhdel && $hinhanhdel->ten_hinh_anh && Storage::exists('public/' . $hinhanhdel->ten_hinh_anh)) {
+            Storage::delete('public/' . $hinhanhdel->ten_hinh_anh);
+        }
+        $hinhanh = HinhAnh::where('san_pham_id', $rq->san_pham_id)
+        ->where('mau_sac_id', $rq->mau_sac_id)->where('isAvatarimage' , 1)
+        ->delete();
+        
+        if($chitiet>0){
+            return response()->json([
+                'success' => true,
+                'message' => 'thành công',
+                'data' =>$chitietsp 
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'không thành công'
         ]);
     }
 }

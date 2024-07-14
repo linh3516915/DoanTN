@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\BinhLuanDanhGia;
 use App\Models\ChiTietSanPham;
 use App\Models\User;
+use Carbon\Carbon;
 class APIBinhLuanDanhGiaController extends Controller
 {
     public function writecomment(Request $rq){
-       
+        $dt = Carbon::now('Asia/Ho_Chi_Minh');
         $comment = new BinhLuanDanhGia();
         if($rq->user_id != 0){
             $user = User::find($rq->user_id);
@@ -22,7 +23,7 @@ class APIBinhLuanDanhGiaController extends Controller
             $comment->so_dien_thoai = $user->so_dien_thoai ;
             $comment->luot_thich = 0;
             $comment->so_sao = $rq->so_sao;
-            //  $comment->save();
+            $comment->save();
              $votes = BinhLuanDanhGia::where('san_pham_id',$rq->san_pham_id)->where('mau_sac_id',$rq->mau_sac_id)
              ->where('dung_luong_id',$rq->dung_luong_id)->get();
              $test =   BinhLuanDanhGia::where('san_pham_id',$rq->san_pham_id)->where('mau_sac_id',$rq->mau_sac_id)
@@ -36,9 +37,10 @@ class APIBinhLuanDanhGiaController extends Controller
                 $tong = number_format(round(($tong/count($votes)),1),1);
             }
             $ctsp = ChiTietSanPham::where('san_pham_id',$rq->san_pham_id)->where('mau_sac_id',$rq->mau_sac_id)
-            ->where('dung_luong_id',$rq->dung_luong_id)->first();
-            $ctsp->so_sao = $tong;
-            //  $ctsp->save();
+            ->where('dung_luong_id',$rq->dung_luong_id)->update([
+                'so_sao' =>  ChiTietSanPham::raw($tong),
+                'updated_at' => $dt
+            ]);
             return response()->json([
                 'success' => true
             ]);
