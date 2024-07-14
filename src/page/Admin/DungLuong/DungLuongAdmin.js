@@ -27,9 +27,9 @@ export default function DungLuongAdmin(){
         <>
             <Header_Admin/>
             <div className="container-fluid">
-                <div style={{height: '38rem'}} className="row">
+                <div  className="row">
                     <TaskbarAdmin/>
-                    <main style={{width:'84%' , overflow : 'scroll'}} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <main style={{width:'84%' }} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 className="h2">DANH SÁCH DUNG LƯỢNG</h1>
                             <div className="btn-toolbar mb-2 mb-md-0">

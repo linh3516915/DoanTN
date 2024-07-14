@@ -89,7 +89,8 @@
 
 .item:hover {
     z-index: 2;
-    box-shadow: 10px 10px 10px #ccc;
+    /* box-shadow: 10px 10px 10px #ccc; */
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 @keyframes zoom-in-zoom-out {

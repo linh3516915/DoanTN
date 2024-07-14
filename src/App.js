@@ -50,6 +50,9 @@ import Quanlydonhang from './page/admin/quanlydonhang/quanlydonhang';
 import { setnameshop } from './redux/slice/authSlice';
 import { apiUrl } from './api/api';
 import { useEffect, useState } from 'react';
+import AddChiNhanh from './page/admin/Chinhanh/Add_Chinhanh';
+import AddTongDai from './page/admin/Tongdai/Add_Tongdai';
+import UpdateTongDai from './page/admin/Tongdai/Update_Tongdai';
 // import Pagetest from './page/admin/pageadmintest/pagetest';
 // =======
 
@@ -144,6 +147,7 @@ function App() {
 
         {/* Admin */}
         <Route path='/admin' element={<TrangchuAdmin />} />
+        <Route path='/themmoi-chinhanh' element={(isadmin && auth) ? <AddChiNhanh/> : <Navigate to='/'/>}></Route>
         <Route path='/chinhanh-admin' element={(isadmin && auth) ? <ChiNhanhAdmin /> : <Navigate to='/' />}></Route>
         <Route path='/tongdai-admin' element={(isadmin && auth) ? <TongdaiAdmin /> : <Navigate to='/' />}></Route>
         <Route path='/sanpham-admin' element={(isadmin && auth) ? <SanPhamAdmin /> : <Navigate to='/' />}></Route>
@@ -176,11 +180,13 @@ function App() {
         <Route path='/capnhat-slideshow/:id' element={(isadmin && auth) ? <UpdateSlideshow /> : <Navigate to='/' />}></Route>
         <Route path='/nhaphang' element={(isadmin && auth) ? <AddNhapHang /> : <Navigate to='/' />}></Route>
         <Route path='/quanlydonhangadmin' element={(isadmin && auth) ? <Quanlydonhang /> : <Navigate to='/' />}></Route>
+        <Route path='/themmoi-tongdai' element={(isadmin && auth) ?<AddTongDai/>: <Navigate to='/'/>}></Route>
+        <Route path='/capnhat-tongdai/:id' element={(isadmin && auth) ?<UpdateTongDai/>: <Navigate to='/'/>}></Route>
         {/* <Route path='/pagetest' element={(isadmin && auth) ? <Pagetest /> : <Navigate to='/' />}></Route> */}
         {/* =======
         <Route path='/admin' element={<TrangchuAdmin/>} />
         <Route path='/chinhanh-admin' element={(isadmin && auth) ? <ChiNhanhAdmin/> : <Navigate to='/'/>}></Route>
-        <Route path='/themmoi-chinhanh' element={(isadmin && auth) ? <AddChiNhanh/> : <Navigate to='/'/>}></Route>
+         <Route path='/themmoi-chinhanh' element={(isadmin && auth) ? <AddChiNhanh/> : <Navigate to='/'/>}></Route>
         <Route path='/tongdai-admin' element={(isadmin && auth) ?<TongdaiAdmin/>: <Navigate to='/'/>}></Route>
         <Route path='/themmoi-tongdai' element={(isadmin && auth) ?<AddTongDai/>: <Navigate to='/'/>}></Route>
         <Route path='/capnhat-tongdai/:id' element={(isadmin && auth) ?<UpdateTongDai/>: <Navigate to='/'/>}></Route>

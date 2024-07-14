@@ -42,6 +42,7 @@ export default function CartPage() {
     const checkbox = useSelector(state => state.popup.checkbox);
     const { ref, inView } = useInView();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     console.log(items);
     console.log(totalprice);
     console.log(totalQuantity);
@@ -89,8 +90,7 @@ export default function CartPage() {
             <div className={` ${styles['action']} flex-1 text-center`}
             >
                 <button type='button' onClick={() => {
-                    dispatch(deleteItemInCart(item.product));
-                    dispatch(setsuccess(true));
+                    navigate(`/productdetail/?name=${encodeURIComponent(item.product.ten)}`);
                 }} className='btn btn-success' style={{marginRight:'2%'}}>
                     chi tiết
                 </button>
@@ -281,9 +281,9 @@ export default function CartPage() {
                                 <span className={`${styles['provisional-bill__total-price']}`}>{totalcoupon.toLocaleString('en-us')} VNĐ</span>
                             </div>
                             <div className={`${styles['coupon']} mt-3`}>
-                                <input className="w-100 p-2 " placeholder="Enter your coupon" />
+                                <input className="w-100 p-2 " placeholder="nhập khuyến mãi" />
                                 <div className="bg-dark text-light text-center py-2 " style={{ marginTop: '2%' }}>
-                                    <FontAwesomeIcon icon={faGift} style={{ marginBottom: '2%' }} />
+                                    <FontAwesomeIcon icon={faGift} />
                                     nhập mã khuyến mãi
                                 </div>
                                 <div style={{ display: 'flex', marginTop: '10px' }}>
@@ -311,11 +311,11 @@ export default function CartPage() {
                                         // <button onClick={() => {
                                         //     openFormbuycart();
                                         // }} type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary" data-mdb-modal-init data-mdb-target="#staticBackdrop2">Buy</button>
-                                        <button onClick={() => { }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                        <button onClick={() => { }} className='btn btn-secondary w-100 mt-5 h-10'>Đặt Hàng</button>
 
                                     )}
                                     {auth && (
-                                        <button onClick={() => { }} className='btn btn-secondary w-100 mt-5 h-10'>Buy</button>
+                                        <button onClick={() => { }} className='btn btn-secondary w-100 mt-5 h-10'>Đặt Hàng</button>
                                     )}
                                 </div>
                             </div>

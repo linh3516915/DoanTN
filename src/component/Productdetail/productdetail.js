@@ -145,13 +145,13 @@ export default function ProductDetail(props) {
 
                         </div> */}
                         <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
-                            <button className="btn btn-primary text-white" style={{ width: '49%' }}> <FontAwesomeIcon icon={faThumbsUp} />  LIKE </button>
+                            <button className="btn btn-primary text-white" style={{ width: '49%' }}> <FontAwesomeIcon icon={faThumbsUp} />  Thích </button>
 
-                            <button onClick={()=>{addcart(productdetail)}} className="btn btn-success shadow-0" style={{ width: '49%' }}> <FontAwesomeIcon icon={faCartPlus} />  ADD CART</button>
+                            <button onClick={()=>{addcart(productdetail)}} className="btn btn-success shadow-0" style={{ width: '49%' }}> <FontAwesomeIcon icon={faCartPlus} />Thêm Vào Giỏ</button>
 
                         </div>
                         <div style={{ width: '100%' }}>
-                            <button onClick={()=>{addcart(productdetail);navigate('/cart'); }} className="btn btn-danger shadow-0" style={{ width: '100%', margin: '0 auto' }}><FontAwesomeIcon icon={faBagShopping} /> BUY </button>
+                            <button onClick={()=>{addcart(productdetail);navigate('/cart'); }} className="btn btn-danger shadow-0" style={{ width: '100%', margin: '0 auto' }}><FontAwesomeIcon icon={faBagShopping} /> Mua Ngay </button>
                         </div>
                     </div>
                 </main>

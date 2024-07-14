@@ -112,7 +112,7 @@ export default function Address() {
                 </select>
             </div>
             <div data-mdb-input-init class="form-outline mb-4">
-                <select onChange={(e) => { dispatch(getward(e.target.value)) }} id="ward" aria-label=".form-select-sm" required>
+                <select class="form-select form-select-sm mb-3" onChange={(e) => { dispatch(getward(e.target.value)) }} id="ward" aria-label=".form-select-sm" required>
                     <option value="" selected>Chọn phường xã</option>
                     {wards}
                 </select>

@@ -114,28 +114,28 @@ export default function Header(props) {
 
     const [retryCount, setRetryCount] = useState(0);
     const [dstenshop, setDSTenShop] = useState([]);
-    useEffect(() => {
-        async function setdstenshop() {
-            try {
-                var response = await fetch(`${apiUrl}/tenshop/tenshop-admin`);
-                var json = await response.json();
-                setDSTenShop(json.data);
-                dispatch(setnameshop(json.data));
-            } catch (error) {
-                if (error.response.status === 429) {
-                    const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
-                    setTimeout(() => {
-                        setRetryCount(retryCount + 1);
-                        setdstenshop();
-                    }, delay);
-                } else {
-                    setError('An error occurred. Please try again later.');
-                }
-            }
+    // useEffect(() => {
+    //     async function setdstenshop() {
+    //         try {
+    //             var response = await fetch(`${apiUrl}/tenshop/tenshop-admin`);
+    //             var json = await response.json();
+    //             setDSTenShop(json.data);
+    //             dispatch(setnameshop(json.data));
+    //         } catch (error) {
+    //             if (error.response.status === 429) {
+    //                 const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+    //                 setTimeout(() => {
+    //                     setRetryCount(retryCount + 1);
+    //                     setdstenshop();
+    //                 }, delay);
+    //             } else {
+    //                 setError('An error occurred. Please try again later.');
+    //             }
+    //         }
 
-        }
-        setdstenshop();
-    }, [retryCount])
+    //     }
+    //     setdstenshop();
+    // }, [retryCount])
 
     const [isshow, setIsshow] = useState(false);
     console.log(isshow);

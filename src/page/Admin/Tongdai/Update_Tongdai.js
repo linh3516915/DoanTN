@@ -35,9 +35,9 @@ export default function UpdateTongDai() {
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
             <HeaderAdmin />
             <div className="container-fluid">
-                <div style={{height: '38rem'}} className="row">
+                <div style={{}} className="row">
                     <TaskbarAdmin />
-                    <main style={{ width: '84%', overflow: 'scroll' }} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    <main style={{ width: '84%'}} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 className="h2">CẬP NHẬT TỔNG ĐÀI </h1>
                             <div className="btn-toolbar mb-2 mb-md-0">
@@ -45,8 +45,8 @@ export default function UpdateTongDai() {
                                 </div>
                             </div>
                         </div>
-                        <div className="d-flex justify-content-center align-items-center" style={{ height: '60%' }}>
-                            <form onSubmit={handleSubmit} className="row g-3" style={{ width: '50%' }}>
+                        <div className="d-flex justify-content-center align-items-center" style={{  }}>
+                            <form onSubmit={handleSubmit} className="row g-3" style={{ }}>
                                 <div className="col-12">
                                     <div className="add_sp-ctsp">
                                         <div className="add_sp">
