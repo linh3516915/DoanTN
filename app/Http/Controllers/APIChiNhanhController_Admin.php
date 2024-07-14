@@ -71,5 +71,19 @@ class APIChiNhanhController_Admin extends Controller
                 'message' =>'Cập nhật chi nhánh thành công'
             ]);
     }
-
+    public function xoaChiNhanh($id)
+    {
+        $chinhanh =ChiNhanh_Admin::find($id);
+        if(empty($chinhanh)){
+            return response()->json([
+                'success' =>0,
+                'message' =>"Chi nhánh ID={$id} không tồn tại"
+            ]);
+        }
+        $chinhanh->delete();
+        return response()->json([
+            'success' =>1,
+            'message' =>'Xóa Chi nhánh thành công'
+        ]);
+    }
 }

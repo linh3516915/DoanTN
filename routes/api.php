@@ -163,14 +163,17 @@ Route::group([
 
     Route::get('chinhanh-admin', [APIChiNhanhController_Admin::class, 'danhSach']);
     Route::post('themmoi-chinhanh', [APIChiNhanhController_Admin::class,'themMoi']);
-    
+    Route::post('themmoi-chinhanh', [APIChiNhanhController_Admin::class,'themMoi']);
+    Route::get('xoa-chinhanh/{id}', [APIChiNhanhController_Admin::class, 'xoaChiNhanh']);
 });
 Route::group([
     'prefix' => 'tongdai'
 ], function ($router) {
 
     Route::get('tongdai-admin', [APISoTongDaiController_Admin::class, 'danhSach']);
-    
+    Route::post('themmoi-tongdai', [APISoTongDaiController_Admin::class,'themSoTongDai']);
+    Route::post('capnhat-tongdai/{id}', [APISoTongDaiController_Admin::class,'capNhatTongDai']);
+    Route::get('xoa-tongdai/{id}', [APISoTongDaiController_Admin::class, 'xoaTongDai']);
 });
 Route::group([
     'prefix' => 'sanpham'
