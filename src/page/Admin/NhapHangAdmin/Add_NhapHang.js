@@ -16,8 +16,8 @@ import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, set
 import ChiTietSanPham from '../../../component/Admin/ChiTietSanPham/Chitietsanpham';
 import EditorComponent from '../../../component/CKeditor/ckeditor';
 import PopupAddtrangthai from '../../../component/Admin/AddTHvaLSP/Addtrangthai';
-import {  seterror, setsuccess, setwarn } from '../../../redux/slice/popupSlice';
-import { apiUrl } from '../../../api/api';
+import { seterror, setsuccess, setwarn } from '../../../redux/slice/popupSlice';
+import { apiUrl, apiUrl_anh } from '../../../api/api';
 
 
 export default function AddNhapHang(props) {
@@ -276,11 +276,11 @@ export default function AddNhapHang(props) {
                         }
 
                     })
-                    console.log('testdataaaa', response.data.success);
+                console.log('testdataaaa', response.data.success);
                 if (response.data.success) {
                     console.log('testdataaaa', response.data.data.san_pham_id);
                     // alert('done');
-                    
+
                     dispatch(setproductdetails(response.data));
                     dispatch(loadingmodal(false));
                     dispatch(setsuccess(true));
@@ -291,7 +291,7 @@ export default function AddNhapHang(props) {
                 }
                 dispatch(loadingmodal(false));
             } catch (error) {
-                
+
                 dispatch(loadingmodal(false));
                 dispatch(setsuccess(true));
                 // dispatch(seterror(true));
@@ -331,7 +331,7 @@ export default function AddNhapHang(props) {
                                         mau_sac_id: item.mau_sac_id
                                     });
                                     dispatch(setanhctsp(response.data.ten));
-                                    setSelectedFile('http://127.0.0.1:8000/' + response.data.ten)
+                                    setSelectedFile(`${apiUrl_anh}/` + response.data.ten)
                                     setshowSelectedOption(true);
                                 } catch (error) {
                                     console.error('Error fetching data:', error);
@@ -417,16 +417,16 @@ export default function AddNhapHang(props) {
         updatedFiles.splice(index, 1);
         setSelectedFiles(updatedFiles);
     };
-    useEffect(()=>{
-        dispatch(setgiakhuyenmai(((100-phantramgiam)*gia)/100));
-    },[phantramgiam,gia])
-    
+    useEffect(() => {
+        dispatch(setgiakhuyenmai(((100 - phantramgiam) * gia) / 100));
+    }, [phantramgiam, gia])
+
     return (
         <>
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
             <HeaderAdmin />
             <div className="container-fluid">
-                <div  style={{height: '38rem'}}className="row">
+                <div style={{ height: '38rem' }} className="row">
                     <TaskbarAdmin />
 
                     <main style={{ width: '84%', overflow: 'scroll' }} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -514,7 +514,7 @@ export default function AddNhapHang(props) {
                                                             </div>
                                                             {/* <div className="container"> */}
 
-                                                            <button className='btn btn-outline-danger' type='button' style={{}} onClick={openModalNCC}><FontAwesomeIcon icon={faPlus}/></button>
+                                                            <button className='btn btn-outline-danger' type='button' style={{}} onClick={openModalNCC}><FontAwesomeIcon icon={faPlus} /></button>
                                                             {/* </div> */}
                                                         </div>
                                                     </div>
@@ -532,7 +532,7 @@ export default function AddNhapHang(props) {
 
                                                                 </div>
                                                             </div>
-                                                            <button className='btn btn-outline-danger' type='button' onClick={openModalLSP}><FontAwesomeIcon icon={faPlus}/></button>
+                                                            <button className='btn btn-outline-danger' type='button' onClick={openModalLSP}><FontAwesomeIcon icon={faPlus} /></button>
 
                                                         </div>
                                                     </div>
@@ -563,16 +563,30 @@ export default function AddNhapHang(props) {
                                                             //     reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
                                                             // }
                                                             const files = Array.from(e.target.files);
-                                                            // setRequestSelectedFiles(Array.from(e.target.files));
-                                                            setRequestSelectedFiles(Array.from(e.target.files, file => ({ file: file })));
-                                                            // Duyệt qua từng file để đọc và lưu vào state
-                                                            files.forEach(file => {
-                                                                const reader = new FileReader();
-                                                                reader.onloadend = () => {
-                                                                    setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, reader.result]);
-                                                                };
-                                                                reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                            const hasWebpFile = files.some(file => {
+                                                                const extension = file.name.split('.').pop().toLowerCase();
+                                                                return extension === 'webp';
                                                             });
+
+                                                            // Nếu có file có đuôi .webp, cảnh báo người dùng
+                                                            if (hasWebpFile) {
+                                                                alert('Không được chọn file có đuôi .webp');
+                                                                e.target.value = '';
+                                                            }
+                                                            else {
+                                                                setRequestSelectedFiles(Array.from(e.target.files, file => ({ file: file })));
+                                                                // Duyệt qua từng file để đọc và lưu vào state
+                                                                files.forEach(file => {
+                                                                    const reader = new FileReader();
+                                                                    reader.onloadend = () => {
+                                                                        setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, reader.result]);
+                                                                    };
+                                                                    reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                                });
+                                                            }
+
+                                                            // setRequestSelectedFiles(Array.from(e.target.files));
+
                                                         }} />
                                                         {selectedFiles != null && (
 
@@ -633,7 +647,7 @@ export default function AddNhapHang(props) {
                                                 <div className="" style={{ marginBottom: '1rem', width: '20%' }}>
                                                     {/* <div class="col-md-3" > */}
                                                     <label for="Ten" className=" "> Số lượng </label>
-                                                    <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} value={soluong} onChange={(e) => { dispatch(setsoluong(e.target.value)) }} required />
+                                                    <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem', width: '85%' }} type="number" min={0} value={soluong} onChange={(e) => { dispatch(setsoluong(e.target.value)) }} required />
                                                     {/* </div> */}
                                                 </div>
                                                 {showprice && (
@@ -641,19 +655,19 @@ export default function AddNhapHang(props) {
                                                         <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
                                                             {/* <div class="col-md-3"> */}
                                                             <label for="Ten" className=""> Giá Tiền </label>
-                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} value={gia} onChange={(e) => { dispatch(setgiatien(e.target.value)) }} required />
+                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem', width: '85%' }} type="number" min={0} value={gia} onChange={(e) => { dispatch(setgiatien(e.target.value)) }} required />
                                                             {/* </div> */}
                                                         </div>
                                                         <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
                                                             {/* <div class="col-md-3"> */}
                                                             <label for="Ten" className="">giảm giá (%) </label>
-                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} max={100} value={phantramgiam}  onChange={(e) => {dispatch(setphantramgiam(e.target.value))}} required />
+                                                            <input style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem', width: '85%' }} type="number" min={0} max={100} value={phantramgiam} onChange={(e) => { dispatch(setphantramgiam(e.target.value)) }} required />
                                                             {/* </div> */}
                                                         </div>
                                                         <div className="" style={{ marginBottom: '1rem', width: '20%', height: '20px' }}>
                                                             {/* <div class="col-md-3"> */}
                                                             <label for="Ten" className=""> giá khuyến mãi </label>
-                                                            <input disabled style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem',width:'85%' }} type="number" min={0} max={100} value={giakhuyenmai}  required />
+                                                            <input disabled style={{ border: 'solid 1px #ccc', marginTop: '0', height: '2.5rem', width: '85%' }} type="number" min={0} max={100} value={giakhuyenmai} required />
                                                             {/* </div> */}
                                                         </div>
                                                     </>
@@ -684,13 +698,25 @@ export default function AddNhapHang(props) {
                                                     <p style={{ marginTop: '3%' }}>chọn ảnh đại diện sản phẩm</p>
                                                     <input class="form-control" style={{ width: '50%', height: 'max-content', margin: '0 auto' }} type="file" id="formFile" onChange={(e) => {
                                                         const file = e.target.files[0];
-                                                        setRequestSelectedFile(e.target.files[0]);
                                                         if (file) {
-                                                            const reader = new FileReader();
-                                                            reader.onloadend = () => {
-                                                                setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
-                                                            };
-                                                            reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                            const extension = file.name.split('.').pop().toLowerCase();
+                                                            if (extension === 'webp') {
+                                                                alert('Không được chọn file có đuôi .webp');
+                                                                e.target.value = ''; // Xóa lựa chọn file
+                                                                return;
+                                                            }
+                                                            else {
+                                                                setRequestSelectedFile(e.target.files[0]);
+
+                                                                if (file) {
+                                                                    const reader = new FileReader();
+                                                                    reader.onloadend = () => {
+                                                                        setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
+                                                                    };
+                                                                    reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                                }
+                                                            }
+                                                            // Xử lý tiếp khi file hợp lệ
                                                         }
                                                     }} required />
                                                 </>
@@ -716,7 +742,7 @@ export default function AddNhapHang(props) {
                                                     )}
                                                 </div>
                                             </div>
-                                                {/* <table class="table">
+                                            {/* <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Tên chi tiết sản phẩm</th>

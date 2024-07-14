@@ -19,7 +19,9 @@ export default function FormCheckout() {
     const [inputRePassword, setInputRePassword] = useState('');
     const [formdata, setFormdata] = useState([]);
     const [chooseTime, setChoosetime] = useState(false);
-    const [currentTime, setCurrentTime] = useState(new Date());
+    const newday = new Date();
+    newday.setDate(newday.getDate() + 7);
+    const [currentTime, setCurrentTime] = useState(newday);
     const auth = useSelector(state => state.auth.authentication);
     const isAdmin = useSelector(state => state.auth.isAdmin);
 
@@ -35,7 +37,7 @@ export default function FormCheckout() {
     const totalprice = useSelector(state => state.cart.totalPrice);
     const totalcoupon = useSelector(state => state.cart.totalCoupon);
     const street = useSelector(state => state.address.street);
-    const [gio, setGio] = useState(currentTime.getHours() + 7);
+    const [gio, setGio] = useState(currentTime.getHours());
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -99,30 +101,30 @@ export default function FormCheckout() {
 
         if (e.target.value == 0) {
             const newday = new Date();
-            newday.setDate(newday.getDate() + 0);
+            newday.setDate(newday.getDate() + 7);
             const hours = newday.getHours().toString().padStart(2, '0');
             datatest.splice(0, datatest.length);
-            if (parseInt(hours) + 7 < 21) {
-                for (let i = 0; i < 21 - (parseInt(hours) + 7); i++) {
-                    datatest.push({
-                        'hour': parseInt(hours) + 7 + i
-                    });
-                }
-            }
-            else {
+            // if (parseInt(hours) + 7 < 21) {
+            //     for (let i = 0; i < 21 - (parseInt(hours) + 7); i++) {
+            //         datatest.push({
+            //             'hour': parseInt(hours) + 7 + i
+            //         });
+            //     }
+            // }
+            // else {
                 for (let i = 12; i < 21; i++) {
                     datatest.push({
                         'hour': i
                     });
                 }
-            }
+            // }
 
             setGio(datatest[0].hour);
             setCurrentTime(newday);
         }
         else if (e.target.value == 1) {
             const tomorow = new Date();
-            tomorow.setDate(tomorow.getDate() + 1);
+            tomorow.setDate(tomorow.getDate() + 8);
             datatest.splice(0, datatest.length);
             for (let i = 12; i < 21; i++) {
                 datatest.push({
@@ -135,7 +137,7 @@ export default function FormCheckout() {
         }
         else if (e.target.value == 2) {
             const nexttomorow = new Date();
-            nexttomorow.setDate(nexttomorow.getDate() + 2);
+            nexttomorow.setDate(nexttomorow.getDate() + 9);
             datatest.splice(0, datatest.length);
             for (let i = 12; i < 21; i++) {
                 datatest.push({
@@ -232,9 +234,9 @@ export default function FormCheckout() {
                 {chooseTime && (
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <select onChange={handlesetday} class="form-select form-select-sm mb-3" style={{ width: '47%' }} id="district" aria-label=".form-select-sm" >
-                            {/* <option value={0} >hôm nay</option> */}
-                            <option value={1} >ngày mai</option>
-                            <option value={2} >ngày mốt</option>
+                            <option value={0} >7 Ngày tới</option>
+                            <option value={1} >8 Ngày tới</option>
+                            <option value={2} >9 Ngày tới</option>
                         </select>
                         <select class="form-select form-select-sm mb-3" onChange={(e) => { setGio(e.target.value) }} style={{ width: '47%' }} id="district" aria-label=".form-select-sm" >
                             {

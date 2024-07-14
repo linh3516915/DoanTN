@@ -75,7 +75,7 @@ export default function FormComment(props) {
     console.log(id);
     console.log(sodienthoai);
     console.log(noidung);
-    console.log('id san pham:', productdetail.id);
+    console.log('id san pham:', productdetail);
     console.log(ten);
     return (
         <>
@@ -132,7 +132,7 @@ export default function FormComment(props) {
                             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                                 <button onClick={() => {
                                     buttonSubmit(sodienthoai,
-                                        ten, noidung, productdetail.san_pham_id,productdetail.mau_sac,productdetail.dung_luong_id, hoverIndex+1, id)
+                                        ten, noidung, productdetail.data.san_pham_id,productdetail.data.mau_sac_id,productdetail.data.dung_luong_id, hoverIndex+1, id)
                                 }} value="Submit" className={`${styles['input-submit']}`} >confirm</button>
                             </div>
                         </>

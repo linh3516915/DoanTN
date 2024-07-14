@@ -96,13 +96,13 @@ export default function CardProductDetail(props) {
                         )}
                         {props.data.phan_tram_giam == 0 && (
                             <>
-                             <div style={{height:'46px', width: '100%',fontStyle:'italic', textAlign: 'end', color: 'red', fontWeight: '700', fontSize: '20px' }}><p></p> </div>
+                                <div style={{ height: '46px', width: '100%', fontStyle: 'italic', textAlign: 'end', color: 'red', fontWeight: '700', fontSize: '20px' }}><p></p> </div>
                             </>
 
                         )}
                         {props.data.phan_tram_giam != 0 && (
                             <>
-                                <div style={{ width: '100%',fontStyle:'italic', textAlign: 'end', color: 'red', fontWeight: '700', fontSize: '20px' }}><p>-{props.data.phan_tram_giam}%</p> </div>
+                                <div style={{ width: '100%', fontStyle: 'italic', textAlign: 'end', color: 'red', fontWeight: '700', fontSize: '20px' }}><p>-{props.data.phan_tram_giam}%</p> </div>
                             </>
 
                         )}
@@ -132,14 +132,17 @@ export default function CardProductDetail(props) {
                             </div>
                             {props.data.phan_tram_giam == 0 && (
                                 <>
-                                    <div className={`${styles['item-price']}`}>{props.data.gia.toLocaleString('en-US')} VNĐ</div>
+                                 <div className={`${styles['item-price']}`}>{props.data.gia.toLocaleString('en-US')} VNĐ</div>
+                                    <div style={{ height: '22.5px' }}></div>
+                                   
                                 </>
 
                             )}
                             {props.data.phan_tram_giam != 0 && (
                                 <>
+                                    <div className={`${styles['item-price']}`}> <del style={{}}>{props.data.gia.toLocaleString('en-US')}</del></div>
 
-                                    <div className={`${styles['item-price']}`}> <del style={{}}>{props.data.gia.toLocaleString('en-US')}</del> {props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
+                                    <div className={`${styles['item-price']}`}>{props.data.gia_khuyen_mai.toLocaleString('en-US')} VNĐ</div>
                                 </>
 
                             )}
@@ -151,7 +154,12 @@ export default function CardProductDetail(props) {
                     {isadmin == false && (
                         <>
                             {props.data.so_luong == 0 && (
-                                <><img src={imgsoldout} style={{ width: '100%', height: '5rem' }} /></>
+                                <>
+                                    <div className={`${styles['sold-out']}`}>
+                                        <img src={imgsoldout} style={{ width: '100%', height: '3.6rem' }} />
+                                    </div>
+
+                                </>
                             )}
 
                             {props.data.so_luong != 0 && (

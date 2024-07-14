@@ -9,7 +9,7 @@ import SignUp from './page/guest/Signup/signup';
 import Shop from './page/guest/Shop/shop';
 import CartPage from './page/guest/Cart/Cartpage';
 import ProductDetailPage from './page/guest/ProductdetailPage/Productdetailpage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 //admin
 import TrangchuAdmin from './page/admin/TrangChu/Trangchu';
 import TongdaiAdmin from './page/admin/Tongdai/Tongdai_Admin';
@@ -47,6 +47,9 @@ import { Helmet } from 'react-helmet';
 import Profile from './page/guest/Profile/profile';
 import Ordermanagement from './page/guest/Ordermanagement/ordermanagement';
 import Quanlydonhang from './page/admin/quanlydonhang/quanlydonhang';
+import { setnameshop } from './redux/slice/authSlice';
+import { apiUrl } from './api/api';
+import { useEffect, useState } from 'react';
 // import Pagetest from './page/admin/pageadmintest/pagetest';
 // =======
 
@@ -88,6 +91,31 @@ import Quanlydonhang from './page/admin/quanlydonhang/quanlydonhang';
 
 // >>>>>>> 1e59523a5a8973ed7b0b7994e81957a28188772c
 function App() {
+  const [error, setError] = useState(null);
+ const dispatch = useDispatch();
+  const [retryCount, setRetryCount] = useState(0);
+  useEffect(() => {
+    async function setdstenshop() {
+        try {
+            var response = await fetch(`${apiUrl}/tenshop/tenshop-admin`);
+            var json = await response.json();
+            // setDSTenShop(json.data);
+            dispatch(setnameshop(json.data));
+        } catch (error) {
+            if (error.response.status === 429) {
+                const delay = Math.pow(2, retryCount) * 1000; // 1000 milliseconds = 1 second
+                setTimeout(() => {
+                    setRetryCount(retryCount + 1);
+                    setdstenshop();
+                }, delay);
+            } else {
+                setError('An error occurred. Please try again later.');
+            }
+        }
+
+    }
+    setdstenshop();
+}, [retryCount])
   const nameshop= useSelector(state => state.auth.nameshop);
   const auth = useSelector(state => state.auth.authentication);
   const isadmin = useSelector(state => state.auth.isAdmin);

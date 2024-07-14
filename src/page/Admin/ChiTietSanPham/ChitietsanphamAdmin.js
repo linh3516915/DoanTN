@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadingmodal } from '../../../redux/slice/filterSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronDown, faDeleteLeft, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, setgiakhuyenmai, setgiatien, setiddungluong, setidmausac, setmota, setname, setoption, setphantramgiam, setproductdetail, setproductdetails, setsoluong } from '../../../redux/slice/productSlice';
+import { delproductdetail, setId, setIdloaisanpham, setIdsupplier, setIdtrangthai, setanhctsp, setgiakhuyenmai, setgiatien, setiddungluong, setidmausac, setmota, setname, setoption, setphantramgiam, setproductdetail, setproductdetails, setsoluong } from '../../../redux/slice/productSlice';
 import ChiTietSanPham from '../../../component/Admin/ChiTietSanPham/Chitietsanpham';
 import EditorComponent from '../../../component/CKeditor/ckeditor';
 import PopupAddtrangthai from '../../../component/Admin/AddTHvaLSP/Addtrangthai';
@@ -29,10 +29,10 @@ export default function ChiTietSanPhamAdmin(props) {
             var response = await fetch(`${apiUrl}/ctsp/ctsp-admin/${id}`);
             var json = await response.json();
             SetDSCTSP(json.data)
-
+            dispatch(setId(id))
         }
         setctsp();
-    }, []);
+    }, [id]);
     // const listCTSP = dsctsp.map(function (item) {
     //     return (
     //         <ChiTietSanPham data={item} />
@@ -381,12 +381,12 @@ export default function ChiTietSanPhamAdmin(props) {
 
                 if (response.data.success) {
                     console.log('testdataaaa', response.data.data.san_pham_id);
-                    
+
                     dispatch(setproductdetails(response.data));
 
                     dispatch(loadingmodal(false));
                     dispatch(setsuccess(true));
-                    
+
                 }
                 else {
                     console.log('check : 3 file', response.data.message);
@@ -465,11 +465,19 @@ export default function ChiTietSanPhamAdmin(props) {
 
                             getAPI();
                         }} type='button' className='btn btn-success' style={{ marginRight: '2%' }}><FontAwesomeIcon icon={faPlus} /></button>
-                        <button className="btn btn-danger" onClick={() => {
+                        <button type='button' className="btn btn-danger" onClick={() => {
                             const Delete = async (id) => {
-                                var response = await fetch(`${apiUrl}/ctsp/xoa-ctsp/${id}`);
-                                var json = await response.json();
-                                alert('Xóa thành công');
+                                var response = await axios.post(`${apiUrl}/nhaphang/xoaproductdetail`,{
+                                    'san_pham_id' : item.san_pham_id,
+                                    'mau_sac_id' : item.mau_sac_id,
+                                    'dung_luong_id' : item.dung_luong_id
+                                });
+                                if(response.data.success){
+                                    dispatch(delproductdetail(response.data.data));
+                                    dispatch(setsuccess(true));
+
+                                }
+                                
                             };
                             Delete();
                         }}><FontAwesomeIcon icon={faDeleteLeft} /></button>
@@ -644,7 +652,7 @@ export default function ChiTietSanPhamAdmin(props) {
             {/* check={props.check} logoutadmin={props.logoutadmin} */}
             <HeaderAdmin />
             <div className="container-fluid">
-                <div style={{height: '38rem'}} className="row">
+                <div style={{ height: '38rem' }} className="row">
                     <TaskbarAdmin />
                     <main style={{ width: '84%', overflow: 'scroll' }} className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -798,16 +806,28 @@ export default function ChiTietSanPhamAdmin(props) {
                                                                         //     reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
                                                                         // }
                                                                         const files = Array.from(e.target.files);
-                                                                        // setRequestSelectedFiles(Array.from(e.target.files));
-                                                                        setRequestSelectedFiles(Array.from(e.target.files));
-                                                                        // Duyệt qua từng file để đọc và lưu vào state
-                                                                        files.forEach(file => {
-                                                                            const reader = new FileReader();
-                                                                            reader.onloadend = () => {
-                                                                                setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, reader.result]);
-                                                                            };
-                                                                            reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                                        const hasWebpFile = files.some(file => {
+                                                                            const extension = file.name.split('.').pop().toLowerCase();
+                                                                            return extension === 'webp';
                                                                         });
+
+                                                                        // Nếu có file có đuôi .webp, cảnh báo người dùng
+                                                                        if (hasWebpFile) {
+                                                                            alert('Không được chọn file có đuôi .webp');
+                                                                            e.target.value = '';
+                                                                        }
+                                                                        else {
+                                                                            setRequestSelectedFiles(Array.from(e.target.files, file => ({ file: file })));
+                                                                            // Duyệt qua từng file để đọc và lưu vào state
+                                                                            files.forEach(file => {
+                                                                                const reader = new FileReader();
+                                                                                reader.onloadend = () => {
+                                                                                    setSelectedFiles(prevSelectedFiles => [...prevSelectedFiles, reader.result]);
+                                                                                };
+                                                                                reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                                            });
+                                                                        }
+
                                                                     }} />
                                                                     {selectedFiles != null && (
                                                                         <div style={{ marginTop: '3%' }}>
@@ -815,7 +835,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
                                                                                 selectedFiles.map((file, index) => (
                                                                                     <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                                                                        <img src={file} alt={`Ảnh đãss chọn ${index}`} style={{ width: '200px',height:'200px', marginBottom: '10px' }} />
+                                                                                        <img src={file} alt={`Ảnh đãss chọn ${index}`} style={{ width: '200px', height: '200px', marginBottom: '10px' }} />
                                                                                     </div>
                                                                                 ))
 
@@ -935,13 +955,25 @@ export default function ChiTietSanPhamAdmin(props) {
                                                     <p style={{ marginTop: '3%' }}>chọn ảnh đại diện sản phẩm</p>
                                                     <input class="form-control" style={{ width: '50%', height: 'max-content', margin: '0 auto' }} type="file" id="formFile" onChange={(e) => {
                                                         const file = e.target.files[0];
-                                                        setRequestSelectedFile(e.target.files[0]);
                                                         if (file) {
-                                                            const reader = new FileReader();
-                                                            reader.onloadend = () => {
-                                                                setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
-                                                            };
-                                                            reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                            const extension = file.name.split('.').pop().toLowerCase();
+                                                            if (extension === 'webp') {
+                                                                alert('Không được chọn file có đuôi .webp');
+                                                                e.target.value = ''; // Xóa lựa chọn file
+                                                                return;
+                                                            }
+                                                            else {
+                                                                setRequestSelectedFile(e.target.files[0]);
+
+                                                                if (file) {
+                                                                    const reader = new FileReader();
+                                                                    reader.onloadend = () => {
+                                                                        setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
+                                                                    };
+                                                                    reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                                }
+                                                            }
+                                                            // Xử lý tiếp khi file hợp lệ
                                                         }
                                                     }} required />
                                                 </>
@@ -950,7 +982,7 @@ export default function ChiTietSanPhamAdmin(props) {
 
                                             {selectedFile && (
                                                 <div style={{ margin: '3%' }}>
-                                                    <img src={selectedFile} alt="Ảnh đã chọn" style={{ width: '200px',height:'200px' }} />
+                                                    <img src={selectedFile} alt="Ảnh đã chọn" style={{ width: '200px', height: '200px' }} />
                                                 </div>
                                             )}
                                             {/* {!selectedFile && (

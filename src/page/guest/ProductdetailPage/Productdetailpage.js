@@ -8,7 +8,7 @@ import axios from "axios";
 import InfoProductDetail from "../../../component/Productdetail/Infoproductdetail/infoproductdetail";
 import InfoTechnical from "../../../component/Productdetail/Technicalinformation/infotechnical";
 import { useDispatch, useSelector } from "react-redux";
-import { getcolor, getdungluong, getimgproduct, getimgproductdetail, getinfoproductdetail, getlistvote, getproductdetail } from "../../../redux/slice/itemproductdetail";
+import { getcheckcomment, getcolor, getdungluong, getimgproduct, getimgproductdetail, getinfoproductdetail, getlistvote, getproductdetail } from "../../../redux/slice/itemproductdetail";
 import { addRecently } from "../../../redux/slice/recentlyviewedSlice";
 import Commentandvote from "../../../component/Productdetail/Commentandvote/commentandvote";
 import Relatedproducts from "../../../component/Productdetail/Relatedproducts/relatedproducts";
@@ -18,6 +18,7 @@ import { apiUrl } from "../../../api/api";
 
 export default function ProductDetailPage() {
     const productdetailpageSectionRef = useRef(null);
+    const user =  useSelector(state => state.auth.user);
     const productdetail = useSelector(state => state.itemproductdetail.productdetail);
     const [isloading, setIsloading] = useState(false);
     useEffect(() => {
@@ -37,10 +38,12 @@ export default function ProductDetailPage() {
         const getAPI = async () => {
             console.log('check amssssse', nameproduct);
             if (nameproduct != '') {
+                
                 setIsloading(true);
                 try {
                     const response = await axios.post(`${apiUrl}/productdetail/productdetail`, {
-                        ten: nameproduct // Assuming props.id is used to fetch product detail
+                        ten: nameproduct ,
+                        users_id : user.id// Assuming props.id is used to fetch product detail
                     });
                     console.log('API Response:', response.data);
                     dispatch(getimgproductdetail(response.data.img));
@@ -50,6 +53,7 @@ export default function ProductDetailPage() {
                     dispatch(getdungluong(response.data.dung_luong));
                     dispatch(getlistvote(response.data));
                     dispatch(getinfoproductdetail(response.data.data_noi_dung));
+                    dispatch(getcheckcomment(response.data.checkcomment))
                     dispatch(addRecently(response.data));
                     
                 } catch (error) {

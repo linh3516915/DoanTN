@@ -10,6 +10,7 @@ import { useInView } from 'react-intersection-observer';
 import { getemail, setOTP } from '../../redux/slice/authSlice';
 import { loadingmodal } from '../../redux/slice/filterSlice';
 import { setCart } from '../../redux/slice/cartSlice';
+import { apiUrl } from '../../api/api';
 export default function OTP(props) {
   const [otp, setOtp] = useState('');
   const [isloading, setIsloading] = useState(false);
@@ -26,7 +27,7 @@ export default function OTP(props) {
 //   useEffect(() => {
 //     if(popupsignup == false){
 //       const getAPI = async () => {
-//         const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+//         const response = await axios.post('${apiUrl}/otp/delotp', {
 //           email: formdata.email
 //         })
 //         //dispatch(closepopupotp());
@@ -37,7 +38,7 @@ export default function OTP(props) {
   // useEffect(() => {
   //   const getAPI = async () => {
   //     if(emailcheck !== '' && otpcheck ==null ){
-  //       const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotp', {
+  //       const response = await axios.post('${apiUrl}/otp/sendotp', {
   //         email: emailcheck
   //       })
   //       dispatch(setOTP(response.data.otptocheck));
@@ -49,9 +50,11 @@ export default function OTP(props) {
  
   console.log('check formdataOTP', formdata);
   const HandleSubmitOTPCheckout = () =>{
-    dispatch(loadingmodal(true));
+    // dispatch(loadingmodal(true));
     const getAPI = async () => {
-      const response = await axios.post('http://127.0.0.1:8000/api/otp/checkotp', {
+      dispatch(loadingmodal(true));
+      const response = await axios.post(`${apiUrl}/otp/checkotp`, {
+        'email' : emailcheck,
         otp,
         'otpcheck': otpcheck
       })
@@ -59,13 +62,15 @@ export default function OTP(props) {
         dispatch(setOTP(null));
         const getAPI = async () => {
           dispatch(loadingmodal(true));
-          const response = await axios.post('http://127.0.0.1:8000/api/donhang/addnew',datacheckout)
+          const response = await axios.post(`${apiUrl}/donhang/addnew`,datacheckout)
           if(response.data.success){
             alert('done');
             dispatch(setCart());
+            dispatch(loadingmodal(true));
           }
           else{
             alert(response.data.message);
+            dispatch(loadingmodal(true));
           }
         }
         getAPI();
@@ -74,20 +79,23 @@ export default function OTP(props) {
       }
       else{
         alert('sai otp');
+        dispatch(loadingmodal(false));
       }
     }
+    dispatch(loadingmodal(false));
       getAPI()
-      dispatch(loadingmodal(false));
+      
   }
   const HandleSubmitOTPSignup = () => {
     const getAPI = async () => {
-      const response = await axios.post('http://127.0.0.1:8000/api/otp/checkotp', {
+      const response = await axios.post(`${apiUrl}/otp/checkotp`, {
+        'email' : emailcheck,
         otp,
         'otpcheck': otpcheck
       })
       if (response.data.success) {
         const getAPI = async () => {
-          const response = await axios.post('http://127.0.0.1:8000/api/auth/signup', {
+          const response = await axios.post(`${apiUrl}/auth/signup`, {
             name: formdata.name,
             email: formdata.email,
             password: formdata.password,
@@ -118,16 +126,24 @@ export default function OTP(props) {
   }
   const HandleResend = () => {
     const getAPI = async () => {
-      const response = await axios.post('http://127.0.0.1:8000/api/otp/sendotpagain', {
-        'otpcheck' : otpcheck
+      dispatch(loadingmodal(true));
+      const response = await axios.post(`${apiUrl}/otp/sendotpagain`, {
+        'otpcheck' : otpcheck,
+        'email' : emailcheck
       })
-      alert(response.data.success);
+      if(response.data.success){
+        alert(response.data.success);
+        dispatch(setOTP(response.data.otptocheck));
+        dispatch(loadingmodal(false));
+      }
+     
     }
     getAPI();
   }
   const exitOTP = () => {
     const getAPI = async () => {
-      const response = await axios.post('http://127.0.0.1:8000/api/otp/delotp', {
+      const response = await axios.post(`${apiUrl}/otp/delotp`, {
+        'email' : emailcheck,
         'otpcheck' : otpcheck
       })
       dispatch(getemail(''));

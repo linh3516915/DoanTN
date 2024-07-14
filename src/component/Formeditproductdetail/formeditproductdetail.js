@@ -21,6 +21,7 @@ export default function FormEditproductdetail() {
     const soluong = useSelector(state => state.product.soluong);
     const gia = useSelector(state => state.product.giatien);
     const nameproduct = useSelector(state => state.product.name);
+    const san_pham_id = useSelector(state => state.product.id);
     const [dsmausac, setDSMauSac] = useState([]);
     const [dsdungluong, setDSDL] = useState([]);
     const iddungluong = useSelector(state => state.product.iddungluong);
@@ -87,6 +88,9 @@ export default function FormEditproductdetail() {
                         formData.append('gia', parseInt(gia));
                         formData.append('phan_tram_giam', parseInt(phantramgiam));
                         formData.append('gia_khuyen_mai', parseInt(giakhuyenmai));
+                        formData.append('san_pham_id', parseInt(san_pham_id));
+                        formData.append('dung_luong_id', parseInt(iddungluong));
+                        formData.append('mau_sac_id', parseInt(idmausac));
                         formData.append('requestSelectedFile', requestSelectedFile);
                         const getAPI = async () => {
                             dispatch(loadingmodal(true));
@@ -188,15 +192,27 @@ export default function FormEditproductdetail() {
 
                             <p style={{ marginBottom: '0' }}>chọn ảnh đại diện sản phẩm</p>
                             <input class="form-control" style={{ height: 'max-content', padding: '0.5rem', marginTop: '0' }} type="file" id="formFile" onChange={(e) => {
-                                const file = e.target.files[0];
-                                setRequestSelectedFile(e.target.files[0]);
-                                if (file) {
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => {
-                                        setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
-                                    };
-                                    reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
-                                }
+                               const file = e.target.files[0];
+                               if (file) {
+                                   const extension = file.name.split('.').pop().toLowerCase();
+                                   if (extension === 'webp') {
+                                       alert('Không được chọn file có đuôi .webp');
+                                       e.target.value = ''; // Xóa lựa chọn file
+                                       return;
+                                   }
+                                   else {
+                                       setRequestSelectedFile(e.target.files[0]);
+
+                                       if (file) {
+                                           const reader = new FileReader();
+                                           reader.onloadend = () => {
+                                               setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
+                                           };
+                                           reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                       }
+                                   }
+                                   // Xử lý tiếp khi file hợp lệ
+                               }
                             }} />
                             {selectedFile && (
                                 <div style={{ margin: '3%', height: '140px' }}>

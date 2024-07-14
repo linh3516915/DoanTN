@@ -27,6 +27,7 @@ function InfoProductDetail(props) {
     const SectionRef = useRef(null);
     const formSectionRef = useRef(null);
     const formeditSectionRef = useRef(null);
+    const [selectedFile,setSelectedFile] = useState(null)
 
     // useEffect(() => {
     //     if (productdetail !== null && infoproductdetail === null) {
@@ -256,7 +257,36 @@ function InfoProductDetail(props) {
                                     <form onSubmit={(e) => { e.preventDefault(); }} ref={formSectionRef} className={`${formSectionRef != null ? 'animation-from-top' : ''}`}>
                                         <input className="col-6" value={tieude} placeholder='Nhập Tiêu Đề' type="text" onChange={(e) => { setTieude(e.target.value) }} />
                                         <textarea style={{ border: 'solid 1px #ccc' }} value={noidung} placeholder='Nhập Tiêu Đề' onChange={(e) => { setNoidung(e.target.value) }} rows="4" cols="50" />
-                                        <input class="form-control" type="file" style={{ marginBottom: '1rem' }} id="formFileMultiple" multiple onChange={(e) => { setImgnoidung(e.target.files[0]); }} />
+                                        <input class="form-control" type="file" style={{ marginBottom: '1rem' }} id="formFileMultiple" multiple onChange={(e) => {
+                                             
+                                             const file = e.target.files[0];
+                                             if (file) {
+                                                 const extension = file.name.split('.').pop().toLowerCase();
+                                                 if (extension === 'webp') {
+                                                     alert('Không được chọn file có đuôi .webp');
+                                                     e.target.value = ''; // Xóa lựa chọn file
+                                                     return;
+                                                 }
+                                                 else {
+                                                    setImgnoidung(e.target.files[0]); 
+
+                                                     if (file) {
+                                                         const reader = new FileReader();
+                                                         reader.onloadend = () => {
+                                                             setSelectedFile(reader.result); // Lưu đường dẫn của ảnh vào state
+                                                         };
+                                                         reader.readAsDataURL(file); // Đọc và chuyển đổi file thành URL dạng base64
+                                                     }
+                                                 }
+                                                 // Xử lý tiếp khi file hợp lệ
+                                             }
+                                        
+                                        }} />
+                                        {selectedFile && (
+                                                <div style={{ margin: '3%' }}>
+                                                    <img src={selectedFile} alt="Ảnh đã chọn" style={{ width: '100%' }} />
+                                                </div>
+                                            )}
                                         <button onClick={() => { themmoi(tieude, noidung, imgnoidung, productdetail.data.san_pham_id, formdata) }} className={`btn btn-outline-success`}>thêm mới</button>
                                     </form>
                                 )}

@@ -13,6 +13,7 @@ const initialState = {
     tongdanhgia : 0,
     listcomment : null,
     socommentnow : 1,
+    checkcomment : 1,
 }
 
 export const itemproductdetailSlice = createSlice({
@@ -47,11 +48,16 @@ export const itemproductdetailSlice = createSlice({
         },
         getsocommentnow :(state,action) =>{
             state.socommentnow =state.socommentnow + action.payload;
+        },
+        getcheckcomment :(state,action) =>{
+            state.checkcomment = action.payload;
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const {getimgproduct,getimgproductdetail, getproductdetail,getcolor,getdungluong,getinfoproductdetail,getlistvote,getsocommentnow } = itemproductdetailSlice.actions
+export const {getimgproduct,getimgproductdetail, getproductdetail
+    ,getcolor,getdungluong,getinfoproductdetail,
+    getlistvote,getsocommentnow,getcheckcomment } = itemproductdetailSlice.actions
 
 export default itemproductdetailSlice.reducer

@@ -72,7 +72,10 @@ export const productSlice = createSlice({
 
       // state.productdetail = action.payload
     },
-    
+    delproductdetail : (state, action) => {
+      const ctspdel = action.payload;
+      state.productdetail = state.productdetail.filter(item=>item.san_pham_id === ctspdel.san_pham_id&&item.dung_luong_id === ctspdel.dung_luong_id&&item.mau_sac_id === ctspdel.mau_sac_id);
+    },
     setiddungluong: (state, action) => {
       state.iddungluong = action.payload
     },
@@ -103,6 +106,6 @@ export const productSlice = createSlice({
 export const { setoption, setmota, setname, setId, setIdsupplier
   , setIdloaisanpham, setIdtrangthai, setproductdetail,
   setiddungluong, setidmausac, setgiatien, setsoluong, setproductdetails,
-  setanhctsp,setphantramgiam,setgiakhuyenmai} = productSlice.actions
+  setanhctsp,setphantramgiam,setgiakhuyenmai,delproductdetail} = productSlice.actions
 
 export default productSlice.reducer

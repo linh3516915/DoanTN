@@ -332,7 +332,7 @@ export default function CartPage() {
                     </div>
 
                 </div> */}
-                    <div className={` ${!inView ? styles['order'] : ''}`}>
+                    <div className={` ${!inView ? styles['order'] : styles['orders']}`}>
                         <div style={{ padding: '0.5rem', backgroundColor: 'white', border: '1px #ccc solid' }}>
                             <div className="container ">
                                 <div className="d-flex" style={{ display: 'flex' }}>

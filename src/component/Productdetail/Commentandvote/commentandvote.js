@@ -11,6 +11,8 @@ import LoadingSpinner from "../../loading/loadingspinner";
 import { loadingComponent } from "../../../redux/slice/filterSlice";
 import { openpopupcomment } from "../../../redux/slice/popupSlice";
 import { apiUrl } from "../../../api/api";
+import Star from "../../Star/star";
+
 function Commentandvote() {
     const loadingcomponent = useSelector(state => state.filter.loadingcomponent);
     const productdetail = useSelector(state => state.itemproductdetail.productdetail);
@@ -21,6 +23,7 @@ function Commentandvote() {
     const socommentnow = useSelector(state => state.itemproductdetail.socommentnow);
     const isadmin = useSelector(state => state.auth.isAdmin);
     const auth = useSelector(state => state.auth.authentication);
+    const checkcomment = useSelector(state => state.itemproductdetail.checkcomment);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     // useEffect(() => {
@@ -42,14 +45,14 @@ function Commentandvote() {
     console.log();
     let vote = [];
     let comment = [];
-    const likebinhluan = (id) =>{
+    const likebinhluan = (id) => {
         const getAPI = async () => {
-                const response = await axios.get(`${apiUrl}/binhluandanhgia/likecomment/${id}`)
-                window.location.reload();
-            }
+            const response = await axios.get(`${apiUrl}/binhluandanhgia/likecomment/${id}`)
+            window.location.reload();
+        }
 
         getAPI()
-        
+
     }
     if (listcomment != null) {
         comment = listcomment.map((item, index) => {
@@ -60,7 +63,7 @@ function Commentandvote() {
                             <div>
                                 <div className={`${styles['comment-name']}`}>{item.ten}</div>
                                 <div className={`${styles['comment-star']}`}>
-                                    <div class="product-wid-rating" style={{ display: 'flex' }}>
+                                    {/* <div class="product-wid-rating" style={{ display: 'flex' }}>
                                         {[1, 2, 3, 4, 5].map((number, i) => {
                                             return (
                                                 <>
@@ -74,11 +77,12 @@ function Commentandvote() {
                                                 </>
                                             )
                                         })}
-                                    </div>
+                                    </div> */}
+                                    <Star so_sao={item.so_sao}/>
                                 </div>
-                                <div className={`${styles['comment-content']}`}>{item.noi_dung_binh_luan}</div>
+                                <div className={`${styles['comment-content']}`}>- {item.noi_dung_binh_luan}</div>
                                 <div className={`${styles['comment-footer']}`}>
-                                    <button className="btn btn-outline-primary" onClick={()=>{likebinhluan(item.id)}}>
+                                    <button className="btn btn-primary" onClick={() => { likebinhluan(item.id) }}>
 
                                         <FontAwesomeIcon icon={faThumbsUp} style={{ marginRight: '1rem' }} />
                                         {item.luot_thich}
@@ -175,7 +179,7 @@ function Commentandvote() {
             )
         }
     }
-    
+
     return (
         <>
             <div className={`${styles['main']}`}>
@@ -200,9 +204,10 @@ function Commentandvote() {
                     <div className={`${styles['vote-top']}`}>
                         <div style={{ display: 'flex' }}>
                             <h3>{trungbinhsao}</h3>
-                            <div className="product-wid-rating" style={{ display: 'flex',lineHeight:'2.5',marginRight:'10px' }}>
-                                    {datastar}
-                                </div>
+                            <div className="product-wid-rating" style={{ display: 'flex', lineHeight: '2.5', marginRight: '10px' }}>
+                                {/* {datastar} */}
+                                <Star so_sao= {trungbinhsao}/>
+                            </div>
                         </div>
 
                         <p>{tongdanhgia} người đánh giá</p>
@@ -273,7 +278,12 @@ function Commentandvote() {
                     ) : (
                         <button className="btn btn-outline-danger" onClick={() => { seemore(8) }} style={{ width: '48%' }}>xem thêm</button>
                     )}
-                    <button className="btn btn-danger" onClick={() => { dispatch(openpopupcomment()) }} style={{ width: '48%' }}>đánh giá</button>
+                    {checkcomment > 0 ? (
+                        <button className="btn btn-danger" onClick={() => { dispatch(openpopupcomment()) }} style={{ width: '48%' }}>đánh giá</button>
+                    ) : (
+                        <button className="btn btn-outline-danger" disabled onClick={() => { dispatch(openpopupcomment()) }} style={{ width: '48%' }}>Mua hàng rồi đánh giá nhé</button>
+                    )}
+
                 </div>
 
             </div>
