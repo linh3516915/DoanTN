@@ -224,6 +224,7 @@ export default function CartPage() {
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     if (renderItems.length != 0) {
+                        // dispatch(openpopuppay());
                         dispatch(getemail(datacheckout.email));
                         const getAPI = async () => {
                             // if(emailcheck !== '' && otpcheck ==null ){

@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   donhang : null,
   chitietdonhang : null,
-  btnctdh : false
+  btnctdh : false,
+  id_don_hang : null,
 }
 
 export const ordermanagementSlice = createSlice({
@@ -39,10 +40,13 @@ export const ordermanagementSlice = createSlice({
       const check = state.donhang.find(item=>item.id == action.payload);
       check.trang_thai = 5; 
     },
+    setid_don_hang :(state, action) => {
+      state.id_don_hang = action.payload; 
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setdonhang,setchitietdonhang,setbtnctdh,setduyetdon,setxacnhandon,sethuydon,setduyethuy } = ordermanagementSlice.actions
+export const { setdonhang,setchitietdonhang,setbtnctdh,setduyetdon,setxacnhandon,sethuydon,setduyethuy,setid_don_hang } = ordermanagementSlice.actions
 
 export default ordermanagementSlice.reducer

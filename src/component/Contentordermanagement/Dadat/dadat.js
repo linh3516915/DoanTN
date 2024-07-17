@@ -63,20 +63,25 @@ export default function Dadat() {
 
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <button onClick={() => { dispatch(setbtnctdh(!btnctdh));setdh({
-                                            'email' :item.email,
-                                            'so_dien_thoai' : item.so_dien_thoai,
-                                            'ho_ten' : item.ho_ten,
-                                            'adress': item.dia_chi,
-                                            'thoi_gian_giao' : item.thoi_gian_giao,
-                                            'ngay_dat' : item.ngay_dat,
-                                            'payment_methods' : item.payment_methods,
-                                            'giam_gia' : item.giam_gia,
-                                            'gia_khuyen_mai' :  item.gia_khuyen_mai,
-                                            'tong_tien': item.tong_tien,
-                                            'trang_thai' : item.trang_thai
-                                        }) ; setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>chi tiết</button>
-                                        <button onClick={()=>{huydon(item.id)}} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></button>
+                                        <button onClick={() => {
+                                            dispatch(setbtnctdh(!btnctdh)); setdh({
+                                                'email': item.email,
+                                                'so_dien_thoai': item.so_dien_thoai,
+                                                'ho_ten': item.ho_ten,
+                                                'adress': item.dia_chi,
+                                                'thoi_gian_giao': item.thoi_gian_giao,
+                                                'ngay_dat': item.ngay_dat,
+                                                'payment_methods': item.payment_methods,
+                                                'giam_gia': item.giam_gia,
+                                                'gia_khuyen_mai': item.gia_khuyen_mai,
+                                                'tong_tien': item.tong_tien,
+                                                'trang_thai': item.trang_thai
+                                            }); setCtdh(item.id);
+                                        }} className="btn btn-success" style={{ marginRight: '2%' }}>chi tiết</button>
+                                        {item.payment_methods == 0 && (
+                                            <button onClick={() => { huydon(item.id) }} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></button>
+                                        )}
+
                                     </div>
                                 </div>
                             </div>

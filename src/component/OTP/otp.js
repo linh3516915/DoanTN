@@ -3,7 +3,7 @@ import OtpInput from 'react-otp-input';
 import styles from './otp.module.css'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { closepopupotp, openpopuplogin, setsuccess } from '../../redux/slice/popupSlice';
+import { closepopupotp, openpopuplogin, openpopuppay, setsuccess } from '../../redux/slice/popupSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useInView } from 'react-intersection-observer';
@@ -11,6 +11,7 @@ import { getemail, setOTP } from '../../redux/slice/authSlice';
 import { loadingmodal } from '../../redux/slice/filterSlice';
 import { setCart } from '../../redux/slice/cartSlice';
 import { apiUrl } from '../../api/api';
+import { setid_don_hang } from '../../redux/slice/ordermanagement';
 export default function OTP(props) {
   const [otp, setOtp] = useState('');
   const [isloading, setIsloading] = useState(false);
@@ -66,11 +67,13 @@ export default function OTP(props) {
           if(response.data.success){
             alert('done');
             dispatch(setCart());
-            dispatch(loadingmodal(true));
+            dispatch(loadingmodal(false));
+            dispatch(setid_don_hang(response.data.donhang));
+            dispatch(openpopuppay())
           }
           else{
             alert(response.data.message);
-            dispatch(loadingmodal(true));
+            dispatch(loadingmodal(false));
           }
         }
         getAPI();

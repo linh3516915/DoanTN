@@ -76,7 +76,9 @@ export default function Danggiao() {
                                             'tong_tien': item.tong_tien,
                                             'trang_thai' : item.trang_thai
                                         }) ; setCtdh(item.id); }} className="btn btn-success" style={{ marginRight: '2%' }}>chi tiết</button>
+                                        {item.payment_methods == 0 && (
                                         <button  onClick={()=>{huydon(item.id)}} className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></button>
+                                    )}
                                     </div>
                                 </div>
                             </div>
