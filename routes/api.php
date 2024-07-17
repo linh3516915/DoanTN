@@ -107,7 +107,8 @@ Route::group([
     Route::get('xacnhangiao/{id}', [APIDonHangController::class,'xacnhangiao']);
     Route::get('chohuy/{id}', [APIDonHangController::class,'chohuy']);
     Route::get('duyethuy/{id}', [APIDonHangController::class,'duyethuy']);
-    Route::get('showList', [APIChiTietSanPhamController::class,'Listproductdetail']);
+    // Route::get('showList', [APIChiTietSanPhamController::class,'Listproductdetail']);
+    Route::post('thanhtoanvietqr', [APIDonHangController::class,'thanhtoanvietqr']);
     
 });
 
